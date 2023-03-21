@@ -94,17 +94,10 @@ int registrarse() {
 
     do {
         opcionRegistrarse = mostrarRegistrarse();
-        switch (opcionRegistrarse) {
-            case '1': 
-                printf("\n---------------------------------------------------\n");
-                login();
-            break;
-                
-            case '2': 
-                printf("\n---------------------------------------------------\n");
-                login();
-            break;
-        }
+
+        printf("\n---------------------------------------------------\n");
+        login();
+        
 
     } while (opcionRegistrarse != '0');
 
