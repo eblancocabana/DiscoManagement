@@ -2,7 +2,8 @@
 #include "inicio.h"
 
 int main() {
-    char opcion;
 
-    opcion = mostrarLogin();
+    login();
+
+    return 0;
 }
