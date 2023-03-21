@@ -58,31 +58,31 @@ char rellenarCamposRegistro() {
 
     printf("Nombre: ");
     fgets(inputRegis, MAX_NOMBRE, stdin);
-    sscanf(inputRegis, "%d", &nombre);
+    sscanf(inputRegis, "%s", &nombre);
 
     printf("Nombre de Usuario: ");
     fgets(inputRegis, MAX_NOMBRE_USU, stdin);
-    sscanf(inputRegis, "%d", &nombreUsu);
+    sscanf(inputRegis, "%s", &nombreUsu);
 
     printf("Sexo: ");
     fgets(inputRegis, MAX_SEXO, stdin);
-    sscanf(inputRegis, "%d", &sexo);
+    sscanf(inputRegis, "%s", &sexo);
 
     printf("Edad: ");
     fgets(inputRegis, MAX_EDAD, stdin);
-    sscanf(inputRegis, "%d", &edad);
+    sscanf(inputRegis, "%i", &edad);
 
     printf("Correo Electronico: ");
     fgets(inputRegis, MAX_CORREO, stdin);
-    sscanf(inputRegis, "%d", &correo);
+    sscanf(inputRegis, "%s", &correo);
 
     printf("Contrasenya: ");
     fgets(inputRegis, MAX_CONTRASENYA, stdin);
-    sscanf(inputRegis, "%d", &contrasenya);
+    sscanf(inputRegis, "%s", &contrasenya);
 
     printf("Repetir Contrasenya: ");
     fgets(inputRegis, MAX_CONTRASENYA, stdin);
-    sscanf(inputRegis, "%d", &repertirContrasenya);
+    sscanf(inputRegis, "%s", &repertirContrasenya);
 
     return *inputRegis;
 }
