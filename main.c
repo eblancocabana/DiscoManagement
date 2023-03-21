@@ -4,5 +4,5 @@
 int main() {
     char opcion;
 
-    opcion = menu();
+    opcion = mostrarLogin();
 }
