@@ -6,6 +6,7 @@ char mostrarRegistrarse();
 char mostrarMenu();
 int login();
 int registrarse();
+char rellenarCamposRegistro();
 int menu();
 
 #endif
