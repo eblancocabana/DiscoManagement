@@ -54,6 +54,8 @@ Código de la fecha,Fecha,Nombre de la discoteca,Entradas disponibles,Evento esp
 
 027,04/03/23,Stage,371,No
 
+1000,05/03/23,Back,350,Si
+
 028,09/03/23,Stage,389,No
 
 029,10/03/23,Stage,366,No
@@ -92,7 +94,7 @@ Código de la fecha,Fecha,Nombre de la discoteca,Entradas disponibles,Evento esp
 
 046,20/04/23,Back,324,No
 
-047,21/04/23,Back,315,No
+1001,21/04/23,Stage,300,Si
 
 048,22/04/23,Back,307,No
 
@@ -101,6 +103,8 @@ Código de la fecha,Fecha,Nombre de la discoteca,Entradas disponibles,Evento esp
 050,28/04/23,Back,326,No
 
 051,29/04/23,Stage,336,No
+
+1002,01/05/23,Back,300,Si
 
 052,04/05/23,Back,376,No
 
@@ -138,6 +142,8 @@ Código de la fecha,Fecha,Nombre de la discoteca,Entradas disponibles,Evento esp
 
 069,10/06/23,Stage,324,No
 
+1003,14/06/23,Stage,250,Si
+
 070,15/06/23,Stage,327,No
 
 071,16/06/23,Back,315,No
@@ -155,6 +161,8 @@ Código de la fecha,Fecha,Nombre de la discoteca,Entradas disponibles,Evento esp
 077,30/06/23,Stage,326,No
 
 078,01/07/23,Back,375,No
+
+1004,04/08/23,Back,350,Si
 
 079,06/07/23,Back,381,No
 
@@ -198,6 +206,8 @@ Código de la fecha,Fecha,Nombre de la discoteca,Entradas disponibles,Evento esp
 
 099,19/08/23,Back,320,No
 
+1005,20/08/23,Stage,300,Si
+
 100,24/08/23,Back,348,No
 
 101,25/08/23,Back,305,No
@@ -218,7 +228,7 @@ Código de la fecha,Fecha,Nombre de la discoteca,Entradas disponibles,Evento esp
 
 109,14/09/23,Back,399,No
 
-110,15/09/23,Back,365,No
+1006,15/09/23,Back,400,Si
 
 111,16/09/23,Stage,321,No
 
@@ -240,7 +250,7 @@ Código de la fecha,Fecha,Nombre de la discoteca,Entradas disponibles,Evento esp
 
 120,07/10/23,Stage,393,No
 
-121,12/10/23,Stage,366,No
+1007,12/10/23,Back,250,Si
 
 122,13/10/23,Back,300,No
 
@@ -257,6 +267,8 @@ Código de la fecha,Fecha,Nombre de la discoteca,Entradas disponibles,Evento esp
 128,27/10/23,Back,341,No
 
 129,28/10/23,Back,379,No
+
+1008,31/10/23,Back,350,Si
 
 130,02/11/23,Stage,371,No
 
@@ -306,9 +318,12 @@ Código de la fecha,Fecha,Nombre de la discoteca,Entradas disponibles,Evento esp
 
 153,23/12/23,Back,375,No
 
+1009,24/12/23,Back,350,Si
+
 154,28/12/23,Stage,380,No
 
 155,29/12/23,Back,334,No
 
 156,30/12/23,Back,335,No
 
+1010,31/12/23,Stage,400,Si
