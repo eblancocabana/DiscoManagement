@@ -1,0 +1,12 @@
+Día,Descripción,Nombre de la discoteca,Aforo
+1 de mayo de 2023,Noche de música electrónica con DJ invitado,Back,300
+14 de junio de 2023,Fiesta temática de los años 80,Stage,250
+4 de julio de 2023,Fiesta del Día de la Independencia con DJ y barra libre,Back,350
+20 de agosto de 2023,Noche latina con música en vivo y baile,Stage,300
+15 de septiembre de 2023,Fiesta del Día del Grito con mariachis y tequila gratis toda la noche,Back,400
+31 de octubre de 2023,Fiesta de Halloween con concurso de disfraces y premios en efectivo para los ganadores,Back,350
+24 de diciembre de 2023,Nochebuena con cena navideña y música en vivo,Back,350
+31 de diciembre de 2023,Fiesta de Fin de Año con DJ y barra libre toda la noche,Stage,400
+5 de marzo de 2023,Fiesta de Carnaval con concurso de disfraces y premios en efectivo para los ganadores,Back,350
+21 de abril de 2023,Noche de música en vivo con banda local y barra libre toda la noche,Stage,300
+12 de octubre de 2023,Fiesta del Día del Pilar con música española en vivo y tapas gratis toda la noche,Back,250
