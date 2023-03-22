@@ -25,7 +25,7 @@ char mostrarLogin() {
 char mostrarRegistrarse() {
     char inputRegistrarse[MAX_SELECCION];
     int numRegistrarse;
-    printf("\n\t1. Aceptar \n\t2. Atras \n\n Elige una opcion: ");
+    printf("\n\t1. Aceptar \n\t0. Atras \n\n Elige una opcion: ");
 
     fgets(inputRegistrarse, MAX_SELECCION, stdin);
     sscanf(inputRegistrarse, "%d", &numRegistrarse);
@@ -94,11 +94,13 @@ int registrarse() {
 
     do {
         opcionRegistrarse = mostrarRegistrarse();
-
-        printf("\n---------------------------------------------------\n");
-        login();
+        switch (opcionRegistrarse) {
+            case '1': 
+                printf("\n---------------------------------------------------\n");
+                login();
+            break;
+        }
         
-
     } while (opcionRegistrarse != '0');
 
     return 0;
