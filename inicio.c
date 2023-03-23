@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "inicio.h"
+#include "reservar_local.h"
 
 #define MAX_SELECCION 5
 #define MAX_REGISTRO 20
@@ -175,6 +176,7 @@ int menu() {
             case '3': 
                 printf("\n---------------------------------------------------\n");
                 printf("Reservar el local\n\n");
+                reservarLocal();
             break;
 
             case '4':
