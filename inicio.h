@@ -4,9 +4,14 @@
 char mostrarLogin();
 char mostrarRegistrarse();
 char mostrarMenu();
+
+char iniciarSesion();
 int login();
+bool comprobarExistencia();
+
 int registrarse();
 char rellenarCamposRegistro();
+
 int menu();
 
 #endif

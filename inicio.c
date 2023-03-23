@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "inicio.h"
 
 #define MAX_SELECCION 5
 #define MAX_REGISTRO 20
+#define MAX_LOGIN 15
 
 #define MAX_NOMBRE 20
 #define MAX_NOMBRE_USU 20
@@ -25,7 +27,7 @@ char mostrarLogin() {
 char mostrarRegistrarse() {
     char inputRegistrarse[MAX_SELECCION];
     int numRegistrarse;
-    printf("\n\t1. Aceptar \n\t2. Atras \n\n Elige una opcion: ");
+    printf("\n\t1. Aceptar \n\t0. Atras \n\n Elige una opcion: ");
 
     fgets(inputRegistrarse, MAX_SELECCION, stdin);
     sscanf(inputRegistrarse, "%d", &numRegistrarse);
@@ -87,6 +89,33 @@ char rellenarCamposRegistro() {
     return *inputRegis;
 }
 
+char iniciarSesion() {
+    char inputInicio[MAX_REGISTRO];
+    char* usuario;
+    char* contra;
+
+    printf("SOUND STRATEGY PARTNERS:\n\n");
+
+    printf("Usuario: ");
+    fgets(inputInicio, MAX_LOGIN, stdin);
+    sscanf(inputInicio, "%s", &usuario);
+
+    printf("Contrasenya: ");
+    fgets(inputInicio, MAX_LOGIN, stdin);
+    sscanf(inputInicio, "%s", &contra);
+
+    if (comprobarExistencia() == 1) {
+        menu();
+    } else {
+        login();
+    }
+}
+
+bool comprobarExistencia() {
+    //1 == si; 0 == no
+    return true;
+}
+
 int registrarse() {
     char opcionRegistrarse;
 
@@ -94,11 +123,12 @@ int registrarse() {
 
     do {
         opcionRegistrarse = mostrarRegistrarse();
-
-        printf("\n---------------------------------------------------\n");
-        login();
-        
-
+        switch (opcionRegistrarse) {
+            case '1':
+                printf("\n---------------------------------------------------\n");
+                login();
+                break;
+        }
     } while (opcionRegistrarse != '0');
 
     return 0;
@@ -117,7 +147,7 @@ int login() {
                 
             case '2': 
                 printf("\n---------------------------------------------------\n");
-                menu();
+                iniciarSesion();
             break;
         }
 
