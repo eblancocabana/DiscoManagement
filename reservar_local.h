@@ -12,4 +12,8 @@ char* elegirDiscoteca();
 void pagarReserva();
 char mostrarPagarReserva();
 
+char* introducirNumeroTarjeta();
+char* introducirCVVTarjeta();
+char* introducirCaducidadTarjeta();
+
 #endif

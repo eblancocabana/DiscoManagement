@@ -5,6 +5,10 @@
 #define MAX_NOMBRE_DISCOTECA 20
 #define MAX_FECHA 15
 
+#define MAX_NUMERO_TARJETA 20
+#define MAX_CVV 3
+#define MAX_CADUCIDAD 5
+
 char mostrarListado() {
     printf("\nListado de dias disponible: (fecha - nombre discoteca - numero de invitados - precio - DJ)\n");
     cargarLocales();
@@ -65,9 +69,53 @@ void cargarLocales() {
 }
 
 char mostrarPagarReserva() {
+    printf("\nPagar reserva:\n\t1. Confirmar \n\t0. Atras\n\nElige una opcion: ");
+}
 
+char* introducirNumeroTarjeta() {
+    printf("\n\tIntroduce el numero de tarjeta (sin espacios): ");
+
+    char inputNumeroTarjeta[MAX_NUMERO_TARJETA];
+    fgets(inputNumeroTarjeta, MAX_NUMERO_TARJETA, stdin);
+    //return *inputNumeroTarjeta;
+}
+
+char* introducirCVVTarjeta() {
+    printf("\n\tIntroduce el CVV de tarjeta: ");
+
+    char inputCVV[MAX_CVV];
+    fgets(inputCVV, MAX_CVV, stdin);
+    //return *inputCVV;
+}
+
+char* introducirCaducidadTarjeta() {
+    printf("\n\tIntroduce la caducidad de tarjeta (mm/aa): ");
+
+    char inputCaducidad[MAX_CADUCIDAD];
+    fgets(inputCaducidad, MAX_CADUCIDAD, stdin);
+    //return *inputCaducidad;
 }
 
 void pagarReserva() {
+    char opcionPagoReserva;
+    char numeroTarjeta[MAX_NUMERO_TARJETA];
+    char cvvTarjeta[MAX_CVV];
+    char caducidadTarjeta[MAX_CADUCIDAD];
 
+    do {
+        opcionPagoReserva = mostrarPagarReserva();
+        switch (opcionPagoReserva) {
+            case '1': 
+                printf("\n---------------------------------------------------\n");
+                printf("Introducir datos de la tarjeta");
+                introducirNumeroTarjeta();
+                introducirCVVTarjeta();
+                introducirCaducidadTarjeta();
+                // numeroTarjeta[MAX_NUMERO_TARJETA] = introducirNumeroTarjeta();
+                // cvvTarjeta[MAX_CVV] = introducirCVVTarjeta();
+                // caducidadTarjeta[MAX_CADUCIDAD] = introducirCaducidadTarjeta();
+            break;
+        }
+
+    } while (opcionPagoReserva != '0');
 }
