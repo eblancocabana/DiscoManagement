@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include "inicio.h"
 #include "reservar_local.h"
@@ -153,6 +154,10 @@ int login() {
         }
 
     } while (opcionLogin != '0');
+
+    if (opcionLogin == 0) {
+        exit(0);
+    }
 
     return 0;
 }
