@@ -111,9 +111,9 @@ char iniciarSesion() {
     }
 }
 
-bool comprobarExistencia() {
+int comprobarExistencia() {
     //1 == si; 0 == no
-    return true;
+    return 1;
 }
 
 int registrarse() {
