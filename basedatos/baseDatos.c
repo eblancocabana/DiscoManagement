@@ -10,6 +10,7 @@ char* mensajeError = 0;
 
 int dbExiste(char* fichero) {
   FILE* arch = fopen(fichero, "r");
+
   if (arch) {
     fclose(arch);
     return 1;
@@ -35,6 +36,11 @@ int abrirConexion() {
     fprintf(stdout, "La Base De Datos se abrio exitosamente\n");
     return 0;
   }
+}
+
+int gestionarError(sqlite3* baseDatos) {
+  fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(baseDatos));
+  return sqlite3_errcode(baseDatos);
 }
 
 int main(int argc, char * argv[]) {
