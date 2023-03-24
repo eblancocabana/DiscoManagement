@@ -1,10 +1,15 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "sqlite/sqlite3.h"
 
+sqlite3* database;
+int apertura;
+int existeBD;
+char* mensajeError = 0;
 
-int db_existe(char * nombrearch) {
-  FILE * arch = fopen(nombrearch, "r");
+int dbExiste(char* fichero) {
+  FILE* arch = fopen(fichero, "r");
   if (arch) {
     fclose(arch);
     return 1;
@@ -12,31 +17,42 @@ int db_existe(char * nombrearch) {
   return 0;
 }
 
-int main(int argc, char * argv[]) {
-  sqlite3 * db;
-  int db_exists = db_existe("basedatos.db");
-  char * err_msg = 0;
-  int rc = sqlite3_open("basedatos.db", & db);
+void cerrarConexion(sqlite3* baseDatos) {
+  sqlite3_close(baseDatos);
+  fprintf(stdout, "La Base de datos se cerro exitosamente\n");
+}
 
-  if (rc != SQLITE_OK) {
-    fprintf(stderr, "No se puede abrir la base de datos: %s\n", sqlite3_errmsg(db));
-    sqlite3_close(db);
+int abrirConexion() {
+  existeBD = dbExiste("basedatos.db");
+  apertura = sqlite3_open("basedatos.db", &database);
+  
+  if (apertura != SQLITE_OK) {
+    fprintf(stderr, "No se puede abrir la Base De Datos: %s\n", sqlite3_errmsg(database));
+    cerrarConexion(database);
     return 1;
-  }
 
-  printf("La base de datos se ha creado o abierto con éxito.\n");
-  if (!db_exists) {
+  } else {
+    fprintf(stdout, "La Base De Datos se abrio exitosamente\n");
+    return 0;
+  }
+}
+
+int main(int argc, char * argv[]) {
+  
+  abrirConexion();
+
+  if (!existeBD) {
     // Implementacion de importacion de datos CSV
-    char * sql = "CREATE TABLE dias_de_fiesta(Codigo TEXT PRIMARY KEY NOT NULL,Fecha TEXT NOT NULL,Nombre TEXT NOT NULL,Entradas INT NOT NULL,Especial TEXT NOT NULL);";
-    rc = sqlite3_exec(db, sql, 0, 0, & err_msg);
-    if (rc != SQLITE_OK) {
-      fprintf(stderr, "SQL error: %s\n", err_msg);
-      sqlite3_free(err_msg);
-      sqlite3_close(db);
+    char * sql = "CREATE TABLE dias_de_fiesta(Codigo TEXT PRIMARY KEY NOT NULL,Fecha TEXT NOT NULL,Nombre TEXT NOT NULL,Entradas INT NOT NULL,Especial TEXT NOT NULL)";
+    apertura = sqlite3_exec(database, sql, 0, 0, & mensajeError);
+    if (apertura != SQLITE_OK) {
+      fprintf(stderr, "SQL error: %s\n", mensajeError);
+      sqlite3_free(mensajeError);
+      cerrarConexion(database);
       return 1;
     }
 
-    FILE * fp = fopen("dias_de_fiesta.csv", "r");
+    FILE* fp = fopen("dias_de_fiesta.csv", "r");
     if (!fp) {
       printf("No se puede abrir el archivo\n");
       return 1;
@@ -64,11 +80,11 @@ int main(int argc, char * argv[]) {
         entradas,
         especial);
 
-      rc = sqlite3_exec(db, sql_insert, 0, 0, & err_msg);
+      apertura = sqlite3_exec(database, sql_insert, 0, 0, & mensajeError);
 
-      if (rc != SQLITE_OK) {
-        fprintf(stderr, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
+      if (apertura != SQLITE_OK) {
+        fprintf(stderr, "SQL error: %s\n", mensajeError);
+        sqlite3_free(mensajeError);
         break;
 
       }
@@ -77,11 +93,11 @@ int main(int argc, char * argv[]) {
     fclose(fp);
 
     char * sql2 = "CREATE TABLE dj(identificador INT PRIMARY KEY NOT NULL,nombre_comercial TEXT NOT NULL,genero_musical TEXT NOT NULL,fecha_nacimiento TEXT NOT NULL,numero_contacto TEXT NOT NULL);";
-    rc = sqlite3_exec(db, sql2, 0, 0, & err_msg);
-    if (rc != SQLITE_OK) {
-      fprintf(stderr, "SQL error: %s\n", err_msg);
-      sqlite3_free(err_msg);
-      sqlite3_close(db);
+    apertura = sqlite3_exec(database, sql2, 0, 0, & mensajeError);
+    if (apertura != SQLITE_OK) {
+      fprintf(stderr, "SQL error: %s\n", mensajeError);
+      sqlite3_free(mensajeError);
+      cerrarConexion(database);
       return 1;
     }
 
@@ -114,11 +130,11 @@ int main(int argc, char * argv[]) {
         fecha_nacimiento,
         numero_contacto);
 
-      rc = sqlite3_exec(db, sql_insert, 0, 0, & err_msg);
+      apertura = sqlite3_exec(database, sql_insert, 0, 0, & mensajeError);
 
-      if (rc != SQLITE_OK) {
-        fprintf(stderr, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
+      if (apertura != SQLITE_OK) {
+        fprintf(stderr, "SQL error: %s\n", mensajeError);
+        sqlite3_free(mensajeError);
         break;
 
       }
@@ -127,11 +143,11 @@ int main(int argc, char * argv[]) {
     fclose(fp2);
 
     char * sql3 = "CREATE TABLE listaeventos(Dia TEXT NOT NULL,Descripcion TEXT NOT NULL,nombre_discoteca TEXT NOT NULL,Aforo INT NOT NULL);";
-    rc = sqlite3_exec(db, sql3, 0, 0, & err_msg);
-    if (rc != SQLITE_OK) {
-      fprintf(stderr, "SQL error: %s\n", err_msg);
-      sqlite3_free(err_msg);
-      sqlite3_close(db);
+    apertura = sqlite3_exec(database, sql3, 0, 0, & mensajeError);
+    if (apertura != SQLITE_OK) {
+      fprintf(stderr, "SQL error: %s\n", mensajeError);
+      sqlite3_free(mensajeError);
+      cerrarConexion(database);
       return 1;
     }
 
@@ -162,11 +178,11 @@ int main(int argc, char * argv[]) {
         nombre_discoteca,
         Aforo);
 
-      rc = sqlite3_exec(db, sql_insert, 0, 0, & err_msg);
+      apertura = sqlite3_exec(database, sql_insert, 0, 0, & mensajeError);
 
-      if (rc != SQLITE_OK) {
-        fprintf(stderr, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
+      if (apertura != SQLITE_OK) {
+        fprintf(stderr, "SQL error: %s\n", mensajeError);
+        sqlite3_free(mensajeError);
         break;
 
       }
@@ -175,11 +191,11 @@ int main(int argc, char * argv[]) {
     fclose(fp3);
 
     char * sql4 = "CREATE TABLE rrpp(Codigo INT PRIMARY KEY NOT NULL,nombre TEXT NOT NULL,zona_recogida TEXT NOT NULL,hora_recogida TEXT NOT NULL,numero_contacto TEXT NOT NULL);";
-    rc = sqlite3_exec(db, sql4, 0, 0, & err_msg);
-    if (rc != SQLITE_OK) {
-      fprintf(stderr, "SQL error: %s\n", err_msg);
-      sqlite3_free(err_msg);
-      sqlite3_close(db);
+    apertura = sqlite3_exec(database, sql4, 0, 0, & mensajeError);
+    if (apertura != SQLITE_OK) {
+      fprintf(stderr, "SQL error: %s\n", mensajeError);
+      sqlite3_free(mensajeError);
+      cerrarConexion(database);
       return 1;
     }
 
@@ -212,11 +228,11 @@ int main(int argc, char * argv[]) {
         hora_recogida,
         numero_contacto);
 
-      rc = sqlite3_exec(db, sql_insert, 0, 0, & err_msg);
+      apertura = sqlite3_exec(database, sql_insert, 0, 0, & mensajeError);
 
-      if (rc != SQLITE_OK) {
-        fprintf(stderr, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
+      if (apertura != SQLITE_OK) {
+        fprintf(stderr, "SQL error: %s\n", mensajeError);
+        sqlite3_free(mensajeError);
         break;
 
       }
@@ -225,11 +241,11 @@ int main(int argc, char * argv[]) {
     fclose(fp4);
 
     char * sql5 = "CREATE TABLE usuarios(Nombre TEXT NOT NULL,nombre_usuario TEXT NOT NULL,Sexo TEXT NOT NULL,Edad INT NOT NULL,email TEXT NOT NULL,password TEXT NOT NULL);";
-    rc = sqlite3_exec(db, sql5, 0, 0, & err_msg);
-    if (rc != SQLITE_OK) {
-      fprintf(stderr, "SQL error: %s\n", err_msg);
-      sqlite3_free(err_msg);
-      sqlite3_close(db);
+    apertura = sqlite3_exec(database, sql5, 0, 0, & mensajeError);
+    if (apertura != SQLITE_OK) {
+      fprintf(stderr, "SQL error: %s\n", mensajeError);
+      sqlite3_free(mensajeError);
+      cerrarConexion(database);
       return 1;
     }
 
@@ -264,11 +280,11 @@ int main(int argc, char * argv[]) {
         email,
         password);
 
-      rc = sqlite3_exec(db, sql_insert, 0, 0, & err_msg);
+      apertura = sqlite3_exec(database, sql_insert, 0, 0, & mensajeError);
 
-      if (rc != SQLITE_OK) {
-        fprintf(stderr, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
+      if (apertura != SQLITE_OK) {
+        fprintf(stderr, "SQL error: %s\n", mensajeError);
+        sqlite3_free(mensajeError);
         break;
 
       }
@@ -277,6 +293,7 @@ int main(int argc, char * argv[]) {
     fclose(fp5);
 
   }
-  sqlite3_close(db);
+  
+  cerrarConexion(database);
   return 0;
 }
