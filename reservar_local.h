@@ -16,4 +16,7 @@ char* introducirNumeroTarjeta();
 char* introducirCVVTarjeta();
 char* introducirCaducidadTarjeta();
 
+void confirmarReserva();
+char confirmarPagoReserva();
+
 #endif
