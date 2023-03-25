@@ -1,12 +1,26 @@
 #include <stdio.h>
 #include "comprar_entradas.h"
 
+#define MAX_SELECCION 5
+
 #define MAX_ENTRADAS 10
 #define MAX_NOMBRE 40
 #define MAX_GMAIL 30
 
+#define MAX_NUM_TARJETA 20
+#define MAX_CVV 3
+#define MAX_CADUCIDAD 5
+
 char mostrarDatosCompra(){
     printf("\nDatos necesarios:\n\t1. Comprar \n\t0. Atras\n\nElige una opcion: ");
+
+    char inputDatosCompra[MAX_SELECCION];
+    int numDatosCompra;
+
+    fgets(inputDatosCompra, MAX_SELECCION, stdin);
+    sscanf(inputDatosCompra, "%d", &numDatosCompra);
+
+    return *inputDatosCompra;
 }
 
 int* introducirNumEntradas(){
@@ -54,5 +68,64 @@ void datosCompra(){
             break;
         }
     } while(opcionDatosCompra != 0);
+}
+
+char mostrarPagarEntrada(){
+    printf("\nPagar entrada:\n\t1. Confirmar \n\t0. Atras\n\nElige una opcion: ");
+
+    char inputPagarEntrada[MAX_SELECCION];
+    int numPagarEntrada;
+
+    fgets(inputPagarEntrada, MAX_SELECCION, stdin);
+    sscanf(inputPagarEntrada, "%d", &numPagarEntrada);
+
+    return *inputPagarEntrada;
+}
+
+char* introducirNumTarjeta() {
+    printf("\n\tIntroduce el numero de tarjeta (sin espacios): ");
+
+    char inputNumTarjeta[MAX_NUM_TARJETA];
+    fgets(inputNumTarjeta, MAX_NUM_TARJETA, stdin);
+    //return *inputNumeroTarjeta;
+}
+
+char* introducirCaducidadTarjeta() {
+    printf("\tIntroduce la caducidad de tarjeta (mm/aa): ");
+
+    char inputCaducidad[MAX_CADUCIDAD];
+    fgets(inputCaducidad, MAX_CADUCIDAD, stdin);
+    //return *inputCaducidad;
+}
+
+char* introducirCVVTarjeta() {
+    printf("\tIntroduce el CVV de tarjeta: ");
+
+    char inputCVV[MAX_CVV];
+    fgets(inputCVV, MAX_CVV, stdin);
+    //return *inputCVV;
+}
+
+void pagarEntrada(){
+    char opcionPagoEntrada;
+    char numTarjeta[MAX_NUM_TARJETA];
+    char cvvTarjeta[MAX_CVV];
+    char caducidadTarjeta[MAX_CADUCIDAD];
+
+    do{
+        opcionPagoEntrada = mostrarPagarEntrada();
+        switch(opcionPagoEntrada){
+            case '1':
+                printf("\n---------------------------------------------------\n");
+                printf("Introducir datos de la tarjeta");
+                introducirNumTarjeta();
+                introducirCaducidadTarjeta();
+                introducirCVVTarjeta();
+                // numeroTarjeta[MAX_NUMERO_TARJETA] = introducirNumeroTarjeta();
+                // cvvTarjeta[MAX_CVV] = introducirCVVTarjeta();
+                // caducidadTarjeta[MAX_CADUCIDAD] = introducirCaducidadTarjeta();
+            break;
+        }
+    } while(opcionPagoEntrada != 0);
 }
 

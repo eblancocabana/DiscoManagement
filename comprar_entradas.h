@@ -8,4 +8,10 @@ int* introducirNumEntradas();
 char* introducirNombreCompleto();
 char* introducirGmail();
 
+void pagarEntrada();
+char mostrarPagarEntrada();
+
+char* introducirNumTarjeta();
+char* introducirCaducidadTarjeta();
+char* introducirCVVTarjeta();
 #endif
