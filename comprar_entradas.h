@@ -2,7 +2,6 @@
 #define COMPRAR_ENTRADAS_H
 
 void datosCompra();
-char confirmarCompra();
 
 int* introducirNumEntradas();
 char* introducirNombreCompleto();
@@ -14,4 +13,14 @@ char mostrarPagarEntrada();
 char* introducirNumTarjeta();
 char* introducirCaducidadTarjeta();
 char* introducirCVVTarjeta();
+
+void confirmarPago();
+char mostrarConfirmarPago();
+
+char* introducirCodigoRRPP();
+
+void confirmarCompra();
+char confirmarPagoCompra();
+
+
 #endif

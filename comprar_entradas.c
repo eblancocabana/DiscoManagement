@@ -11,6 +11,8 @@
 #define MAX_CVV 3
 #define MAX_CADUCIDAD 5
 
+#define MAX_COD_RRPP 2
+
 char mostrarDatosCompra(){
     printf("\nDatos necesarios:\n\t1. Comprar \n\t0. Atras\n\nElige una opcion: ");
 
@@ -128,4 +130,54 @@ void pagarEntrada(){
         }
     } while(opcionPagoEntrada != 0);
 }
+
+char mostrarConfirmarPago(){
+    printf("\nConfirmar pago:\n\t1. Confirmar pago (RRPP)\n\t2. Confirmar pago (PDF)\n\t0. Atras\n\nElige una opcion: ");
+
+    char inputConfirmarPago[MAX_SELECCION];
+    int numConfirmarPago;
+
+    fgets(inputConfirmarPago, MAX_SELECCION, stdin);
+    sscanf(inputConfirmarPago, "%d", &numConfirmarPago);
+
+    return *inputConfirmarPago;
+}
+
+char confirmarPagoCompra(){
+    printf("\nConfirmar pago:\n\t1. Confirmar \n\t0. Atras\n\nElige una opcion: ");
+
+    char inputConfirmarCompra[MAX_SELECCION];
+    int numConfirmarCompra;
+
+    fgets(inputConfirmarCompra, MAX_SELECCION, stdin);
+    sscanf(inputConfirmarCompra, "%d", &numConfirmarCompra);
+
+    return *inputConfirmarCompra;
+}
+
+char* introducirCodigoRRPP() {
+    printf("\n\tIntroduce el codigo del RRPP: ");
+
+    char inputCodRRPP[MAX_COD_RRPP];
+    fgets(inputCodRRPP, MAX_COD_RRPP, stdin);
+    //return *inputCodRRPP;
+}
+
+
+
+void confirmarCompra(){
+    char opcionConfirmarCompra;
+
+    do {
+        opcionConfirmarCompra = confirmarPagoCompra();
+        switch (opcionConfirmarCompra) {
+            case '1':
+                printf("\nEL PAGO HA SIDO CONFIRMADO");
+            break;
+        }
+    } while (opcionConfirmarCompra != '0');
+    
+}
+
+
 
