@@ -163,7 +163,28 @@ char* introducirCodigoRRPP() {
     //return *inputCodRRPP;
 }
 
+void confirmarPago(){
+    char opcionConfirmarPago;
+    char codigoRRPP[MAX_COD_RRPP];
 
+    do{
+        opcionConfirmarPago = mostrarConfirmarPago();
+        switch(opcionConfirmarPago){
+            case '1':
+                printf("\n---------------------------------------------------\n");
+                printf("Introducir Codigo de RRPP");
+                introducirCodigoRRPP();
+                // codigoRRPP[MAX_COD_RRPP] = introducirCodigoRRPP();
+
+                confirmarCompra();
+            break;
+            case '2':
+                
+        }   
+
+    }while(opcionConfirmarPago != 0);
+
+}
 
 void confirmarCompra(){
     char opcionConfirmarCompra;
