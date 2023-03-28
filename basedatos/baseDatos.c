@@ -59,7 +59,7 @@ int inicializacion() {
       return 1;
     }
 
-    FILE* fp = fopen("../ficheros/dias_de_fiesta.csv", "r");
+    FILE* fp = fopen("ficheros/dias_de_fiesta.csv", "r");
     if (!fp) {
       printf("No se puede abrir el archivo\n");
       return 1;
@@ -107,7 +107,7 @@ int inicializacion() {
       return 1;
     }
 
-    FILE * fp2 = fopen("../ficheros/dj.csv", "r");
+    FILE * fp2 = fopen("ficheros/dj.csv", "r");
     if (!fp2) {
       printf("No se puede abrir el archivo\n");
       return 1;
@@ -157,7 +157,7 @@ int inicializacion() {
       return 1;
     }
 
-    FILE * fp3 = fopen("../ficheros/listaeventos.csv", "r");
+    FILE * fp3 = fopen("ficheros/listaeventos.csv", "r");
     if (!fp3) {
       printf("No se puede abrir el archivo\n");
       return 1;
@@ -205,7 +205,7 @@ int inicializacion() {
       return 1;
     }
 
-    FILE * fp4 = fopen("../ficheros/rrpp.csv", "r");
+    FILE * fp4 = fopen("ficheros/rrpp.csv", "r");
     if (!fp4) {
       printf("No se puede abrir el archivo\n");
       return 1;
@@ -255,7 +255,7 @@ int inicializacion() {
       return 1;
     }
 
-    FILE * fp5 = fopen("../ficheros/usuarios.csv", "r");
+    FILE * fp5 = fopen("ficheros/usuarios.csv", "r");
     if (!fp5) {
       printf("No se puede abrir el archivo\n");
       return 1;
@@ -299,6 +299,7 @@ int inicializacion() {
   }
   
   cerrarConexion(database);
+  printf("\nSe mantendra cerrada hasta cualquier cambio\n");
 
   return 0;
 }
