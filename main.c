@@ -2,7 +2,11 @@
 #include "inicio.h"
 #include "basedatos/baseDatos.h"
 
-int main() {
+//PARA EJECUTAR ESTO:
+
+// gcc main.c inicio.c reservar_local.c basedatos/baseDatos.c basedatos/sqlite/sqlite3.c -o salida.exe
+
+int main() {s
 
     inicializacion();
     login();
