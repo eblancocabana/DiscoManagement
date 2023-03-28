@@ -74,7 +74,8 @@ int inicializacion() {
       char codigo[50], fecha[50], nombre[50], entradas[50], especial[50];
 
       sscanf(line, "%[^','],%[^','],%[^','],%[^','],%s", codigo,
-        fecha, nombre,
+        fecha, 
+        nombre,
         entradas,
         especial);
 
