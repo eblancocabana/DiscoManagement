@@ -30,8 +30,8 @@ void cerrarConexion(sqlite3* baseDatos) {
 }
 
 int abrirConexion() {
-  existeBD = dbExiste("basedatos.db");
-  apertura = sqlite3_open("basedatos.db", &database);
+  existeBD = dbExiste("basedatosSSR.db");
+  apertura = sqlite3_open("basedatosSSR.db", &database);
   
   if (apertura != SQLITE_OK) {
     fprintf(stderr, "No se puede abrir la Base De Datos: %s\n", gestionarError(database));
@@ -59,7 +59,7 @@ int inicializacion() {
       return 1;
     }
 
-    FILE* fp = fopen("dias_de_fiesta.csv", "r");
+    FILE* fp = fopen("../ficheros/dias_de_fiesta.csv", "r");
     if (!fp) {
       printf("No se puede abrir el archivo\n");
       return 1;
@@ -93,7 +93,6 @@ int inicializacion() {
         gestionarError(database);
         sqlite3_free(mensajeError);
         break;
-
       }
     }
 
@@ -108,7 +107,7 @@ int inicializacion() {
       return 1;
     }
 
-    FILE * fp2 = fopen("dj.csv", "r");
+    FILE * fp2 = fopen("../ficheros/dj.csv", "r");
     if (!fp2) {
       printf("No se puede abrir el archivo\n");
       return 1;
@@ -158,7 +157,7 @@ int inicializacion() {
       return 1;
     }
 
-    FILE * fp3 = fopen("listaeventos.csv", "r");
+    FILE * fp3 = fopen("../ficheros/listaeventos.csv", "r");
     if (!fp3) {
       printf("No se puede abrir el archivo\n");
       return 1;
@@ -206,7 +205,7 @@ int inicializacion() {
       return 1;
     }
 
-    FILE * fp4 = fopen("rrpp.csv", "r");
+    FILE * fp4 = fopen("../ficheros/rrpp.csv", "r");
     if (!fp4) {
       printf("No se puede abrir el archivo\n");
       return 1;
@@ -256,7 +255,7 @@ int inicializacion() {
       return 1;
     }
 
-    FILE * fp5 = fopen("usuarios.csv", "r");
+    FILE * fp5 = fopen("../ficheros/usuarios.csv", "r");
     if (!fp5) {
       printf("No se puede abrir el archivo\n");
       return 1;
