@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "sqlite/sqlite3.h"
+#include "baseDatos.h"
 
 sqlite3* database;
 int apertura;
@@ -43,7 +44,7 @@ int abrirConexion() {
   }
 }
 
-int main(int argc, char * argv[]) {
+int inicializacion() {
   
   abrirConexion();
 
@@ -299,5 +300,6 @@ int main(int argc, char * argv[]) {
   }
   
   cerrarConexion(database);
+
   return 0;
 }
