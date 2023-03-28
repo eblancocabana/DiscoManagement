@@ -7,7 +7,8 @@
 sqlite3* database;
 int apertura;
 int existeBD;
-char* mensajeError = 0;
+char* mensajeError = NULL;
+char* errorMessage = NULL;
 
 int dbExiste(char* fichero) {
   FILE* arch = fopen(fichero, "r");
@@ -20,13 +21,13 @@ int dbExiste(char* fichero) {
 }
 
 int gestionarError(sqlite3* baseDatos) {
-  fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(baseDatos));
+  fprintf(stderr, "\nSQL Error: %s\n", sqlite3_errmsg(baseDatos));
   return sqlite3_errcode(baseDatos);
 }
 
 void cerrarConexion(sqlite3* baseDatos) {
   sqlite3_close(baseDatos);
-  fprintf(stdout, "La Base de datos se cerro exitosamente\n");
+  fprintf(stdout, "\nLa Base de datos se cerro exitosamente\n");
 }
 
 int abrirConexion() {
@@ -39,7 +40,7 @@ int abrirConexion() {
     return 1;
 
   } else {
-    fprintf(stdout, "La Base De Datos se abrio exitosamente\n");
+    fprintf(stdout, "\nLa Base De Datos se abrio exitosamente\n");
     return 0;
   }
 }
@@ -88,12 +89,15 @@ int inicializacion() {
         entradas,
         especial);
 
-      apertura = sqlite3_exec(database, sql_insert, 0, 0, & mensajeError);
+      apertura = sqlite3_exec(database, sql, 0, 0, & mensajeError);
 
       if (apertura != SQLITE_OK) {
-        gestionarError(database);
         sqlite3_free(mensajeError);
-        break;
+        gestionarError(database);
+        sqlite3_free(errorMessage);
+
+        cerrarConexion(database);
+        return 1;
       }
     }
 
@@ -137,13 +141,15 @@ int inicializacion() {
         fecha_nacimiento,
         numero_contacto);
 
-      apertura = sqlite3_exec(database, sql_insert, 0, 0, & mensajeError);
-
+      apertura = sqlite3_exec(database, sql, 0, 0, & mensajeError);
+      
       if (apertura != SQLITE_OK) {
-        gestionarError(database);
         sqlite3_free(mensajeError);
-        break;
+        gestionarError(database);
+        sqlite3_free(errorMessage);
 
+        cerrarConexion(database);
+        return 1;
       }
     }
 
@@ -185,13 +191,15 @@ int inicializacion() {
         nombre_discoteca,
         Aforo);
 
-      apertura = sqlite3_exec(database, sql_insert, 0, 0, & mensajeError);
-
+      apertura = sqlite3_exec(database, sql, 0, 0, & mensajeError);
+      
       if (apertura != SQLITE_OK) {
-        gestionarError(database);
         sqlite3_free(mensajeError);
-        break;
+        gestionarError(database);
+        sqlite3_free(errorMessage);
 
+        cerrarConexion(database);
+        return 1;
       }
     }
 
@@ -235,13 +243,15 @@ int inicializacion() {
         hora_recogida,
         numero_contacto);
 
-      apertura = sqlite3_exec(database, sql_insert, 0, 0, & mensajeError);
-
+      apertura = sqlite3_exec(database, sql, 0, 0, & mensajeError);
+      
       if (apertura != SQLITE_OK) {
-        gestionarError(database);
         sqlite3_free(mensajeError);
-        break;
+        gestionarError(database);
+        sqlite3_free(errorMessage);
 
+        cerrarConexion(database);
+        return 1;
       }
     }
 
@@ -287,13 +297,15 @@ int inicializacion() {
         email,
         password);
 
-      apertura = sqlite3_exec(database, sql_insert, 0, 0, & mensajeError);
-
+      apertura = sqlite3_exec(database, sql, 0, 0, & mensajeError);
+      
       if (apertura != SQLITE_OK) {
-        gestionarError(database);
         sqlite3_free(mensajeError);
-        break;
+        gestionarError(database);
+        sqlite3_free(errorMessage);
 
+        cerrarConexion(database);
+        return 1;
       }
     }
     fclose(fp5);
