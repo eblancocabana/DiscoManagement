@@ -118,9 +118,11 @@ int eliminarTablas() {
 int inicializacion() {
   
   abrirConexion();
-  eliminarTablas();
 
   if (!existeBD) {
+    //Se eliminan las tablas para evitar errores
+    eliminarTablas();
+
     // Implementacion de importacion de datos CSV
     char * sql = "CREATE TABLE dias_de_fiesta(Codigo TEXT PRIMARY KEY NOT NULL,Fecha TEXT NOT NULL,Nombre TEXT NOT NULL,Entradas INT NOT NULL,Especial TEXT NOT NULL)";
     apertura = sqlite3_exec(database, sql, 0, 0, &mensajeError);
