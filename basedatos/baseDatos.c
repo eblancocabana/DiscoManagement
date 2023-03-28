@@ -45,14 +45,75 @@ int abrirConexion() {
   }
 }
 
+int eliminarTablas() {
+  char* sentenciaDDF = "DROP TABLE IF EXISTS dias_de_fiesta;";
+
+  int resultadoDDF = sqlite3_exec(database, sentenciaDDF, NULL, NULL, &mensajeError);
+
+  if (resultadoDDF != SQLITE_OK) {
+      // Manejar el error si ocurre
+      gestionarError(database);
+      sqlite3_free(mensajeError);
+      return 1;
+  }
+
+  char* sentenciaDJ = "DROP TABLE IF EXISTS dj;";
+
+  int resultadoDJ = sqlite3_exec(database, sentenciaDJ, NULL, NULL, &mensajeError);
+
+  if (resultadoDJ != SQLITE_OK) {
+      // Manejar el error si ocurre
+      gestionarError(database);
+      sqlite3_free(mensajeError);
+      return 1;
+  }
+
+  char* sentenciaLE = "DROP TABLE IF EXISTS listaEventos;";
+
+  int resultadoLE = sqlite3_exec(database, sentenciaLE, NULL, NULL, &mensajeError);
+
+  if (resultadoLE != SQLITE_OK) {
+      // Manejar el error si ocurre
+      gestionarError(database);
+      sqlite3_free(mensajeError);
+      return 1;
+  }
+
+  char* sentenciaRRPP = "DROP TABLE IF EXISTS rrpp;";
+
+  int resultadoRRPP = sqlite3_exec(database, sentenciaRRPP, NULL, NULL, &mensajeError);
+
+  if (resultadoRRPP != SQLITE_OK) {
+      // Manejar el error si ocurre
+      gestionarError(database);
+      sqlite3_free(mensajeError);
+      return 1;
+  }
+
+  char* sentenciaUsu = "DROP TABLE IF EXISTS usuarios;";
+
+  int resultadoUsu = sqlite3_exec(database, sentenciaUsu, NULL, NULL, &mensajeError);
+
+  if (resultadoUsu != SQLITE_OK) {
+      // Manejar el error si ocurre
+      gestionarError(database);
+      sqlite3_free(mensajeError);
+      return 1;
+  }
+
+  return 0;
+}
+
 int inicializacion() {
   
   abrirConexion();
+  eliminarTablas();
 
   if (!existeBD) {
     // Implementacion de importacion de datos CSV
     char * sql = "CREATE TABLE dias_de_fiesta(Codigo TEXT PRIMARY KEY NOT NULL,Fecha TEXT NOT NULL,Nombre TEXT NOT NULL,Entradas INT NOT NULL,Especial TEXT NOT NULL)";
     apertura = sqlite3_exec(database, sql, 0, 0, & mensajeError);
+
     if (apertura != SQLITE_OK) {
       gestionarError(database);
       sqlite3_free(mensajeError);
@@ -141,7 +202,7 @@ int inicializacion() {
         fecha_nacimiento,
         numero_contacto);
 
-      apertura = sqlite3_exec(database, sql, 0, 0, & mensajeError);
+      apertura = sqlite3_exec(database, sql2, 0, 0, & mensajeError);
       
       if (apertura != SQLITE_OK) {
         sqlite3_free(mensajeError);
@@ -155,7 +216,7 @@ int inicializacion() {
 
     fclose(fp2);
 
-    char * sql3 = "CREATE TABLE listaeventos(Dia TEXT NOT NULL,Descripcion TEXT NOT NULL,nombre_discoteca TEXT NOT NULL,Aforo INT NOT NULL);";
+    char * sql3 = "CREATE TABLE listaEventos(Dia TEXT NOT NULL,Descripcion TEXT NOT NULL,nombre_discoteca TEXT NOT NULL,Aforo INT NOT NULL);";
     apertura = sqlite3_exec(database, sql3, 0, 0, & mensajeError);
     if (apertura != SQLITE_OK) {
       gestionarError(database);
@@ -185,13 +246,13 @@ int inicializacion() {
 
       char sql_insert[1024];
 
-      sprintf(sql_insert, "INSERT INTO listaeventos VALUES('%s','%s','%s',%s);",
+      sprintf(sql_insert, "INSERT INTO listaEventos VALUES('%s','%s','%s',%s);",
         Dia,
         Descripcion,
         nombre_discoteca,
         Aforo);
 
-      apertura = sqlite3_exec(database, sql, 0, 0, & mensajeError);
+      apertura = sqlite3_exec(database, sql3, 0, 0, & mensajeError);
       
       if (apertura != SQLITE_OK) {
         sqlite3_free(mensajeError);
@@ -243,7 +304,7 @@ int inicializacion() {
         hora_recogida,
         numero_contacto);
 
-      apertura = sqlite3_exec(database, sql, 0, 0, & mensajeError);
+      apertura = sqlite3_exec(database, sql4, 0, 0, & mensajeError);
       
       if (apertura != SQLITE_OK) {
         sqlite3_free(mensajeError);
@@ -297,7 +358,7 @@ int inicializacion() {
         email,
         password);
 
-      apertura = sqlite3_exec(database, sql, 0, 0, & mensajeError);
+      apertura = sqlite3_exec(database, sql5, 0, 0, & mensajeError);
       
       if (apertura != SQLITE_OK) {
         sqlite3_free(mensajeError);

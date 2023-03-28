@@ -3,9 +3,12 @@
 #include "sqlite/sqlite3.h"
 
 int dbExiste(char* fichero);
-int gestionarError(sqlite3* baseDatos);
-void cerrarConexion(sqlite3* baseDatos);
 int abrirConexion();
+void cerrarConexion(sqlite3* baseDatos);
+
+int gestionarError(sqlite3* baseDatos);
+int eliminarTablas();
+
 int inicializacion();
 
 #endif
