@@ -57,7 +57,7 @@ void reservarLocal() {
                 //fechaReserva = elegirFecha();
                 //nombreDiscoteca = elegirDiscoteca();
 
-                //pagarReserva();
+                pagarReserva();
             break;
         }
 
@@ -68,8 +68,30 @@ void cargarLocales() {
 
 }
 
+
+
 char mostrarPagarReserva() {
     printf("\nPagar reserva:\n\t1. Confirmar \n\t0. Atras\n\nElige una opcion: ");
+
+    char inputPagarReserva[MAX_SELECCION];
+    int numPagarReserva;
+
+    fgets(inputPagarReserva, MAX_SELECCION, stdin);
+    sscanf(inputPagarReserva, "%d", &numPagarReserva);
+
+    return *inputPagarReserva;
+}
+
+char confirmarPagoReserva() {
+    printf("\nConfirmar pago:\n\t1. Confirmar \n\t0. Atras\n\nElige una opcion: ");
+
+    char inputConfirmarReserva[MAX_SELECCION];
+    int numConfirmarReserva;
+
+    fgets(inputConfirmarReserva, MAX_SELECCION, stdin);
+    sscanf(inputConfirmarReserva, "%d", &numConfirmarReserva);
+
+    return *inputConfirmarReserva;
 }
 
 char* introducirNumeroTarjeta() {
@@ -81,7 +103,7 @@ char* introducirNumeroTarjeta() {
 }
 
 char* introducirCVVTarjeta() {
-    printf("\n\tIntroduce el CVV de tarjeta: ");
+    printf("\tIntroduce el CVV de tarjeta: ");
 
     char inputCVV[MAX_CVV];
     fgets(inputCVV, MAX_CVV, stdin);
@@ -89,7 +111,7 @@ char* introducirCVVTarjeta() {
 }
 
 char* introducirCaducidadTarjeta() {
-    printf("\n\tIntroduce la caducidad de tarjeta (mm/aa): ");
+    printf("\tIntroduce la caducidad de tarjeta (mm/aa): ");
 
     char inputCaducidad[MAX_CADUCIDAD];
     fgets(inputCaducidad, MAX_CADUCIDAD, stdin);
@@ -114,8 +136,25 @@ void pagarReserva() {
                 // numeroTarjeta[MAX_NUMERO_TARJETA] = introducirNumeroTarjeta();
                 // cvvTarjeta[MAX_CVV] = introducirCVVTarjeta();
                 // caducidadTarjeta[MAX_CADUCIDAD] = introducirCaducidadTarjeta();
+
+                confirmarReserva();
             break;
         }
 
     } while (opcionPagoReserva != '0');
+}
+
+
+void confirmarReserva() {
+    char opcionConfirmarReserva;
+
+    do {
+        opcionConfirmarReserva = confirmarPagoReserva();
+        switch (opcionConfirmarReserva) {
+            case '1':
+                printf("\nEL PAGO HA SIDO CONFIRMADO");
+            break;
+        }
+    } while (opcionConfirmarReserva != '0');
+    
 }
