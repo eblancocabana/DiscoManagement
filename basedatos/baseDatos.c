@@ -377,7 +377,7 @@ int inicializacion() {
         password);
 
       aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
-      
+
       if (apertura != SQLITE_OK) {
         sqlite3_free(mensajeError);
         gestionarError(database);
