@@ -110,7 +110,7 @@ char* introducirCVVTarjeta() {
     //return *inputCVV;
 }
 
-char* introducirCaducidadTarjeta() {
+char* introducirCaduTarjeta() {
     printf("\tIntroduce la caducidad de tarjeta (mm/aa): ");
 
     char inputCaducidad[MAX_CADUCIDAD];
@@ -132,10 +132,10 @@ void pagarReserva() {
                 printf("Introducir datos de la tarjeta");
                 introducirNumeroTarjeta();
                 introducirCVVTarjeta();
-                introducirCaducidadTarjeta();
+                introducirCaduTarjeta();
                 // numeroTarjeta[MAX_NUMERO_TARJETA] = introducirNumeroTarjeta();
                 // cvvTarjeta[MAX_CVV] = introducirCVVTarjeta();
-                // caducidadTarjeta[MAX_CADUCIDAD] = introducirCaducidadTarjeta();
+                // caducidadTarjeta[MAX_CADUCIDAD] = introducirCaduTarjeta();
 
                 confirmarReserva();
             break;

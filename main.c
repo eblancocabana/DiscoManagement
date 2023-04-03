@@ -4,7 +4,7 @@
 
 //PARA EJECUTAR ESTO:
 
-// gcc main.c inicio.c reservar_local.c basedatos/baseDatos.c basedatos/sqlite/sqlite3.c -o salida.exe
+// gcc main.c inicio.c reservar_local.c comprar_entradas.c basedatos/baseDatos.c basedatos/sqlite/sqlite3.c -o salida.exe
 
 int main() {
 

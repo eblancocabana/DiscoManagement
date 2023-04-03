@@ -1,4 +1,4 @@
-#include "./pdfgen.h"
+#include "pdfgen.h"
 
 int main(void) {
   struct pdf_info info = {

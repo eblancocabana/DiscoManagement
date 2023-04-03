@@ -26,6 +26,10 @@ int gestionarError(sqlite3* baseDatos) {
   return sqlite3_errcode(baseDatos);
 }
 
+void gestionarFree(char* str) {
+  sqlite3_free(str);
+}
+
 void cerrarConexion(sqlite3* baseDatos) {
   sqlite3_close(baseDatos);
   fprintf(stdout, "\nLa Base De Datos se cerro exitosamente\n");
@@ -54,7 +58,7 @@ int eliminarTablas() {
   if (resultadoDDF != SQLITE_OK) {
       // Manejar el error si ocurre
       gestionarError(database);
-      sqlite3_free(mensajeError);
+      gestionarFree(mensajeError);
 
       cerrarConexion(database);
       return 1;
@@ -67,7 +71,7 @@ int eliminarTablas() {
   if (resultadoDJ != SQLITE_OK) {
       // Manejar el error si ocurre
       gestionarError(database);
-      sqlite3_free(mensajeError);
+      gestionarFree(mensajeError);
 
       cerrarConexion(database);
       return 1;
@@ -80,7 +84,7 @@ int eliminarTablas() {
   if (resultadoLE != SQLITE_OK) {
       // Manejar el error si ocurre
       gestionarError(database);
-      sqlite3_free(mensajeError);
+      gestionarFree(mensajeError);
 
       cerrarConexion(database);
       return 1;
@@ -93,7 +97,7 @@ int eliminarTablas() {
   if (resultadoRRPP != SQLITE_OK) {
       // Manejar el error si ocurre
       gestionarError(database);
-      sqlite3_free(mensajeError);
+      gestionarFree(mensajeError);
 
       cerrarConexion(database);
       return 1;
@@ -106,7 +110,7 @@ int eliminarTablas() {
   if (resultadoUsu != SQLITE_OK) {
       // Manejar el error si ocurre
       gestionarError(database);
-      sqlite3_free(mensajeError);
+      gestionarFree(mensajeError);
       
       cerrarConexion(database);
       return 1;
@@ -129,7 +133,7 @@ int inicializacion() {
 
     if (apertura != SQLITE_OK) {
       gestionarError(database);
-      sqlite3_free(mensajeError);
+      gestionarFree(mensajeError);
 
       cerrarConexion(database);
       return 1;
@@ -167,9 +171,9 @@ int inicializacion() {
       aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
 
       if (apertura != SQLITE_OK) {
-        sqlite3_free(mensajeError);
+        gestionarFree(mensajeError);
         gestionarError(database);
-        sqlite3_free(errorMessage);
+        gestionarFree(errorMessage);
 
         cerrarConexion(database);
         return 1;
@@ -182,7 +186,7 @@ int inicializacion() {
     apertura = sqlite3_exec(database, sql2, 0, 0, &mensajeError);
     if (apertura != SQLITE_OK) {
       gestionarError(database);
-      sqlite3_free(mensajeError);
+      gestionarFree(mensajeError);
 
       cerrarConexion(database);
       return 1;
@@ -220,9 +224,9 @@ int inicializacion() {
       aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
       
       if (apertura != SQLITE_OK) {
-        sqlite3_free(mensajeError);
+        gestionarFree(mensajeError);
         gestionarError(database);
-        sqlite3_free(errorMessage);
+        gestionarFree(errorMessage);
 
         cerrarConexion(database);
         return 1;
@@ -235,7 +239,7 @@ int inicializacion() {
     apertura = sqlite3_exec(database, sql3, 0, 0, &mensajeError);
     if (apertura != SQLITE_OK) {
       gestionarError(database);
-      sqlite3_free(mensajeError);
+      gestionarFree(mensajeError);
 
       cerrarConexion(database);
       return 1;
@@ -271,9 +275,9 @@ int inicializacion() {
       aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
       
       if (apertura != SQLITE_OK) {
-        sqlite3_free(mensajeError);
+        gestionarFree(mensajeError);
         gestionarError(database);
-        sqlite3_free(errorMessage);
+        gestionarFree(errorMessage);
 
         cerrarConexion(database);
         return 1;
@@ -286,7 +290,7 @@ int inicializacion() {
     apertura = sqlite3_exec(database, sql4, 0, 0, &mensajeError);
     if (apertura != SQLITE_OK) {
       gestionarError(database);
-      sqlite3_free(mensajeError);
+      gestionarFree(mensajeError);
 
       cerrarConexion(database);
       return 1;
@@ -324,9 +328,9 @@ int inicializacion() {
       aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
       
       if (apertura != SQLITE_OK) {
-        sqlite3_free(mensajeError);
+        gestionarFree(mensajeError);
         gestionarError(database);
-        sqlite3_free(errorMessage);
+        gestionarFree(errorMessage);
 
         cerrarConexion(database);
         return 1;
@@ -339,7 +343,7 @@ int inicializacion() {
     apertura = sqlite3_exec(database, sql5, 0, 0, &mensajeError);
     if (apertura != SQLITE_OK) {
       gestionarError(database);
-      sqlite3_free(mensajeError);
+      gestionarFree(mensajeError);
 
       cerrarConexion(database);
       return 1;
@@ -379,9 +383,9 @@ int inicializacion() {
       aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
 
       if (apertura != SQLITE_OK) {
-        sqlite3_free(mensajeError);
+        gestionarFree(mensajeError);
         gestionarError(database);
-        sqlite3_free(errorMessage);
+        gestionarFree(errorMessage);
 
         cerrarConexion(database);
         return 1;

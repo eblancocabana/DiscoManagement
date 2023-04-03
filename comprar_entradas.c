@@ -28,7 +28,7 @@ char mostrarDatosCompra(){
 int* introducirNumEntradas(){
     printf("\n\tIntroduce el numero de entradas: ");
 
-    int inputNumEntradas[MAX_ENTRADAS];
+    char inputNumEntradas[MAX_ENTRADAS];
     fgets(inputNumEntradas, MAX_ENTRADAS, stdin);
     //return *inputNumEntradas;
 }
@@ -100,7 +100,7 @@ char* introducirCaducidadTarjeta() {
     //return *inputCaducidad;
 }
 
-char* introducirCVVTarjeta() {
+char* introducirCVVTar() {
     printf("\tIntroduce el CVV de tarjeta: ");
 
     char inputCVV[MAX_CVV];
@@ -122,9 +122,9 @@ void pagarEntrada(){
                 printf("Introducir datos de la tarjeta");
                 introducirNumTarjeta();
                 introducirCaducidadTarjeta();
-                introducirCVVTarjeta();
+                introducirCVVTar();
                 // numeroTarjeta[MAX_NUMERO_TARJETA] = introducirNumeroTarjeta();
-                // cvvTarjeta[MAX_CVV] = introducirCVVTarjeta();
+                // cvvTarjeta[MAX_CVV] = introducirCVVTar();
                 // caducidadTarjeta[MAX_CADUCIDAD] = introducirCaducidadTarjeta();
             break;
         }
@@ -178,7 +178,7 @@ void confirmarPago(){
 
                 confirmarCompra();
             break;
-            case '2':
+            //case '2':
                 
         }   
 

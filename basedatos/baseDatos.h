@@ -7,6 +7,7 @@ int abrirConexion();
 void cerrarConexion(sqlite3* baseDatos);
 
 int gestionarError(sqlite3* baseDatos);
+void gestionarFree(char* str);
 int eliminarTablas();
 
 int inicializacion();

@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include "inicio.h"
 #include "reservar_local.h"
+#include "basedatos/sqlite/sqlite3.h"
+#include "basedatos/baseDatos.h"
 
 #define MAX_SELECCION 5
 #define MAX_REGISTRO 20
@@ -92,30 +94,81 @@ char rellenarCamposRegistro() {
 }
 
 char iniciarSesion() {
-    char inputInicio[MAX_REGISTRO];
-    char* usuario;
-    char* contra;
+    int existe = 0;
+    existe = comprobarExistencia();
 
-    printf("SOUND STRATEGY PARTNERS:\n\n");
-
-    printf("Usuario: ");
-    fgets(inputInicio, MAX_LOGIN, stdin);
-    sscanf(inputInicio, "%s", &usuario);
-
-    printf("Contrasenya: ");
-    fgets(inputInicio, MAX_LOGIN, stdin);
-    sscanf(inputInicio, "%s", &contra);
-
-    if (comprobarExistencia() == 1) {
+    if (existe == 1) {
         menu();
     } else {
         login();
     }
 }
 
+static int callback(void *data, int argc, char **argv, char **azColName) {
+    int i;
+    fprintf(stderr, "%s: ", (const char*)data);
+
+    for(i = 0; i < argc; i++) {
+        printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+    }
+
+    printf("\n");
+    return 0;
+}
+
 int comprobarExistencia() {
-    //1 == si; 0 == no
-    return 1;
+
+    sqlite3 *database;
+    char* mensajeError = 0;
+    int apertura;
+    int busqueda;
+
+    apertura = abrirConexion();
+
+    if (apertura != SQLITE_OK) {
+        fprintf(stderr, "No se puede abrir la base de datos: %s\n", gestionarError(database));
+        cerrarConexion(database);
+        return 0;
+    }
+
+    char inputInicio[MAX_REGISTRO];
+    char* username;
+    char* password;
+
+    printf("Usuario: ");
+    fgets(inputInicio, MAX_LOGIN, stdin);
+    sscanf(inputInicio, "%s", &username);
+
+    printf("Contrasenya: ");
+    fgets(inputInicio, MAX_LOGIN, stdin);
+    sscanf(inputInicio, "%s", &password);
+
+    char query[100];
+    sprintf("SELECT username, password FROM usuarios WHERE Usuario = '%s' AND Contraseña = '%s'", username, password);
+
+    busqueda = sqlite3_exec(database, query, callback, 0, &mensajeError);
+
+    if (mensajeError != NULL) {
+        fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
+        gestionarFree(mensajeError);
+        cerrarConexion(database);
+        return 0;
+    }
+
+    if (busqueda != SQLITE_OK) {
+        fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
+        printf("No se ha encontrado el usuario\n");
+        gestionarFree(mensajeError);
+        cerrarConexion(database);
+        return 0;
+
+    } else {
+        printf("\nAccediendo al menu...\n");
+        return 1;
+    }
+
+    cerrarConexion(database);
+    return 0;
 }
 
 int registrarse() {
