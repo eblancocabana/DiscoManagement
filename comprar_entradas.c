@@ -27,12 +27,16 @@ char mostrarDatosCompra(){
     return *inputDatosCompra;
 }
 
-int* introducirNumEntradas(){
+int introducirNumEntradas(){
     printf("\n\tIntroduce el numero de entradas: ");
 
     char inputNumEntradas[MAX_ENTRADAS];
+    int numEntradas;
+
     fgets(inputNumEntradas, MAX_ENTRADAS, stdin);
-    return inputNumEntradas;
+    
+    sscanf(inputNumEntradas, "%d", &numEntradas);
+    return numEntradas;
 }
 
 char* introducirNombreCompleto(){
@@ -53,7 +57,7 @@ char* introducirGmail(){
 
 void datosCompra(){
     char opcionDatosCompra;
-    int* numEntradas;
+    int numEntradas;
     char* nombreCompleto;
     char* gmail;
 
@@ -63,12 +67,17 @@ void datosCompra(){
             case '1':
                 printf("\n---------------------------------------------------\n");
                 printf("Introducir datos de la compra");
-                introducirNumEntradas();
-                introducirNombreCompleto();
-                introducirGmail();
-                // numEntradas[MAX_ENTRADAS] = introducirNumEntradas();
-                // nombreCompleto[MAX_NOMBRE] = introducirNombreCompleto();
-                // gmail[MAX_GMAIL] = introducirGmail();
+                numEntradas = introducirNumEntradas();
+                nombreCompleto = introducirNombreCompleto();
+                gmail = introducirGmail();
+
+                int len = strcspn(nombreCompleto, "\n");
+                nombreCompleto[len] = '\0';
+
+                len = strcspn(gmail, "\n");
+                gmail[len] = '\0';
+
+                printf("\n%s %s", nombreCompleto, gmail);
             break;
         }
     } while(opcionDatosCompra != 0);
