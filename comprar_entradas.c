@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "comprar_entradas.h"
+#include "basedatos/sqlite/sqlite3.h"
+#include "basedatos/baseDatos.h"
 
 #define MAX_SELECCION 5
 
@@ -25,12 +27,16 @@ char mostrarDatosCompra(){
     return *inputDatosCompra;
 }
 
-int* introducirNumEntradas(){
+int introducirNumEntradas(){
     printf("\n\tIntroduce el numero de entradas: ");
 
     char inputNumEntradas[MAX_ENTRADAS];
+    int numEntradas;
+
     fgets(inputNumEntradas, MAX_ENTRADAS, stdin);
-    //return *inputNumEntradas;
+    
+    sscanf(inputNumEntradas, "%d", &numEntradas);
+    return numEntradas;
 }
 
 char* introducirNombreCompleto(){
@@ -38,7 +44,7 @@ char* introducirNombreCompleto(){
 
     char inputNombreCompleto[MAX_NOMBRE];
     fgets(inputNombreCompleto, MAX_ENTRADAS, stdin);
-    //return *inputNombreCompleto;
+    return inputNombreCompleto;
 }
 
 char* introducirGmail(){
@@ -46,14 +52,14 @@ char* introducirGmail(){
 
     char inputGmail[MAX_GMAIL];
     fgets(inputGmail, MAX_GMAIL, stdin);
-    //return *inputGmail;
+    return inputGmail;
 }
 
 void datosCompra(){
     char opcionDatosCompra;
-    int numEntradas[MAX_ENTRADAS];
-    char nombreCompleto[MAX_NOMBRE];
-    char gmail[MAX_GMAIL];
+    int numEntradas;
+    char* nombreCompleto;
+    char* gmail;
 
     do{
         opcionDatosCompra = mostrarDatosCompra();
@@ -61,12 +67,17 @@ void datosCompra(){
             case '1':
                 printf("\n---------------------------------------------------\n");
                 printf("Introducir datos de la compra");
-                introducirNumEntradas();
-                introducirNombreCompleto();
-                introducirGmail();
-                // numEntradas[MAX_ENTRADAS] = introducirNumEntradas();
-                // nombreCompleto[MAX_NOMBRE] = introducirNombreCompleto();
-                // gmail[MAX_GMAIL] = introducirGmail();
+                numEntradas = introducirNumEntradas();
+                nombreCompleto = introducirNombreCompleto();
+                gmail = introducirGmail();
+
+                int len = strcspn(nombreCompleto, "\n");
+                nombreCompleto[len] = '\0';
+
+                len = strcspn(gmail, "\n");
+                gmail[len] = '\0';
+
+                printf("\n%s %s", nombreCompleto, gmail);
             break;
         }
     } while(opcionDatosCompra != 0);
@@ -89,7 +100,7 @@ char* introducirNumTarjeta() {
 
     char inputNumTarjeta[MAX_NUM_TARJETA];
     fgets(inputNumTarjeta, MAX_NUM_TARJETA, stdin);
-    //return *inputNumeroTarjeta;
+    return inputNumTarjeta;
 }
 
 char* introducirCaducidadTarjeta() {
@@ -97,7 +108,7 @@ char* introducirCaducidadTarjeta() {
 
     char inputCaducidad[MAX_CADUCIDAD];
     fgets(inputCaducidad, MAX_CADUCIDAD, stdin);
-    //return *inputCaducidad;
+    return inputCaducidad;
 }
 
 char* introducirCVVTar() {
@@ -105,14 +116,14 @@ char* introducirCVVTar() {
 
     char inputCVV[MAX_CVV];
     fgets(inputCVV, MAX_CVV, stdin);
-    //return *inputCVV;
+    return inputCVV;
 }
 
 void pagarEntrada(){
     char opcionPagoEntrada;
-    char numTarjeta[MAX_NUM_TARJETA];
-    char cvvTarjeta[MAX_CVV];
-    char caducidadTarjeta[MAX_CADUCIDAD];
+    char* numTarjeta;
+    char* cvvTarjeta;
+    char* caducidadTarjeta;
 
     do{
         opcionPagoEntrada = mostrarPagarEntrada();
@@ -160,12 +171,12 @@ char* introducirCodigoRRPP() {
 
     char inputCodRRPP[MAX_COD_RRPP];
     fgets(inputCodRRPP, MAX_COD_RRPP, stdin);
-    //return *inputCodRRPP;
+    return inputCodRRPP;
 }
 
 void confirmarPago(){
     char opcionConfirmarPago;
-    char codigoRRPP[MAX_COD_RRPP];
+    char* codigoRRPP;
 
     do{
         opcionConfirmarPago = mostrarConfirmarPago();

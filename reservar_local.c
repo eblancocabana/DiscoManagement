@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "reservar_local.h"
 
 #define MAX_SELECCION 5
@@ -9,10 +11,11 @@
 #define MAX_CVV 3
 #define MAX_CADUCIDAD 5
 
+
 char mostrarListado() {
     printf("\nListado de dias disponible: (fecha - nombre discoteca - numero de invitados - precio - DJ)\n");
-    cargarLocales();
-    printf("\n---------------------------------------------------\n");
+    cargarLocales(); // Se van a mostrar aquellos dias en los que todavia no se hayan comprado entradas
+    printf("\n--------------------------------------------------------------------------------------------\n");
     printf("\nListado de dias disponible:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ");
 
     char inputReservaLocal[MAX_SELECCION];
@@ -25,25 +28,25 @@ char mostrarListado() {
 }
 
 char* elegirFecha() {
-    printf("\n\tIntroduce la fecha: ");
+    printf("\n\tIntroduce la fecha (dd-mm): ");
 
-    char inputFecha[MAX_FECHA];
-    fgets(inputFecha, MAX_SELECCION, stdin);
-    //return *inputFecha;
+    char* inputFecha = (char*) malloc(MAX_FECHA * sizeof(char));
+    fgets(inputFecha, MAX_FECHA, stdin);
+    return inputFecha;
 }
 
 char* elegirDiscoteca() {
     printf("\tIntroduce el nombre de la discoteca: ");
 
-    char inputDiscoteca[MAX_FECHA];
-    fgets(inputDiscoteca, MAX_SELECCION, stdin);
-    //return *inputDiscoteca;
+    char* inputDiscoteca = (char*) malloc(MAX_NOMBRE_DISCOTECA * sizeof(char));
+    fgets(inputDiscoteca, MAX_NOMBRE_DISCOTECA, stdin);
+    return inputDiscoteca;
 }
 
 void reservarLocal() {
     char opcionReserva;
-    char nombreDiscoteca[MAX_NOMBRE_DISCOTECA];
-    char fechaReserva[MAX_FECHA];
+    char* nombreDiscoteca;
+    char* fechaReserva;
 
     do {
         opcionReserva = mostrarListado();
@@ -52,10 +55,16 @@ void reservarLocal() {
                 printf("\n---------------------------------------------------\n");
                 printf("Introducir fecha y nombre de discoteca");
 
-                elegirFecha();
-                elegirDiscoteca();
-                //fechaReserva = elegirFecha();
-                //nombreDiscoteca = elegirDiscoteca();
+                fechaReserva = elegirFecha();
+                nombreDiscoteca = elegirDiscoteca();
+
+                int len = strcspn(fechaReserva, "\n");
+                fechaReserva[len] = '\0';
+
+                len = strcspn(nombreDiscoteca, "\n");
+                nombreDiscoteca[len] = '\0';
+
+                printf("\n%s, %s", fechaReserva, nombreDiscoteca);
 
                 pagarReserva();
             break;
@@ -65,7 +74,7 @@ void reservarLocal() {
 }
 
 void cargarLocales() {
-
+    
 }
 
 

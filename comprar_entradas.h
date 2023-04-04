@@ -3,7 +3,7 @@
 
 void datosCompra();
 
-int* introducirNumEntradas();
+int introducirNumEntradas();
 char* introducirNombreCompleto();
 char* introducirGmail();
 
