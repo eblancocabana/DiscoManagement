@@ -1,10 +1,17 @@
 #include <stdio.h>
+
 #include <stdlib.h>
+
 #include <string.h>
+
 #include <stdbool.h>
+
 #include "inicio.h"
+
 #include "reservar_local.h"
+
 #include "basedatos/sqlite/sqlite3.h"
+
 #include "basedatos/baseDatos.h"
 
 #define MAX_SELECCION 5
@@ -19,119 +26,128 @@
 #define MAX_CONTRASENYA 20
 
 char mostrarLogin() {
-    char inputLogin[MAX_SELECCION];
-    int numLogin;
-    printf("\nInicio Sesion: \n\t1. Registrarse \n\t2. Login \n\t0. Salir \n\n Elige una opcion: ");
+  char inputLogin[MAX_SELECCION];
+  int numLogin;
+  printf("\nInicio Sesion: \n\t1. Registrarse \n\t2. Login \n\t0. Salir \n\n Elige una opcion: ");
 
-    fgets(inputLogin, MAX_SELECCION, stdin);
-    sscanf(inputLogin, "%d", &numLogin);
+  fgets(inputLogin, MAX_SELECCION, stdin);
+  sscanf(inputLogin, "%d", & numLogin);
 
-    return *inputLogin;
+  return * inputLogin;
 }
 
 char mostrarRegistrarse() {
-    char inputRegistrarse[MAX_SELECCION];
-    int numRegistrarse;
-    printf("\n\t1. Aceptar \n\t0. Atras \n\n Elige una opcion: ");
+  char inputRegistrarse[MAX_SELECCION];
+  int numRegistrarse;
+  printf("\n\t1. Aceptar \n\t0. Atras \n\n Elige una opcion: ");
 
-    fgets(inputRegistrarse, MAX_SELECCION, stdin);
-    sscanf(inputRegistrarse, "%d", &numRegistrarse);
+  fgets(inputRegistrarse, MAX_SELECCION, stdin);
+  sscanf(inputRegistrarse, "%d", & numRegistrarse);
 
-    return *inputRegistrarse;
+  return * inputRegistrarse;
 }
 
 char mostrarMenu() {
-    char inputMenu[MAX_SELECCION];
-    int numMenu;
-    printf("\nMenu Principal: \n\t1. Informacion de eventos \n\t2. Comprar entradas \n\t3. Reservar local \n\t4. Mis reservas / compras \n\t0. Cerrar Sesion \n\n Elige una opcion: ");
+  char inputMenu[MAX_SELECCION];
+  int numMenu;
+  printf("\nMenu Principal: \n\t1. Informacion de eventos \n\t2. Comprar entradas \n\t3. Reservar local \n\t4. Mis reservas / compras \n\t0. Cerrar Sesion \n\n Elige una opcion: ");
 
-    fgets(inputMenu, MAX_SELECCION, stdin);
-    sscanf(inputMenu, "%d", &numMenu);
+  fgets(inputMenu, MAX_SELECCION, stdin);
+  sscanf(inputMenu, "%d", & numMenu);
 
-    return *inputMenu;
+  return * inputMenu;
 }
 
 char rellenarCamposRegistro() {
-    char inputRegis[MAX_REGISTRO];
-    char* nombre;
-    char* nombreUsu;
-    char* sexo;
-    int edad;
-    char* correo;
-    char* contrasenya;
-    char* repertirContrasenya;
+  char inputRegis[MAX_REGISTRO];
+  char * nombre;
+  char * nombreUsu;
+  char * sexo;
+  int edad;
+  char * correo;
+  char * contrasenya;
+  char * repertirContrasenya;
 
-    printf("Menu Registro:\n\n");
+  printf("Menu Registro:\n\n");
 
-    printf("Nombre: ");
-    fgets(inputRegis, MAX_NOMBRE, stdin);
-    sscanf(inputRegis, "%s", &nombre);
+  printf("Nombre: ");
+  fgets(inputRegis, MAX_NOMBRE, stdin);
+  sscanf(inputRegis, "%s", & nombre);
 
-    printf("Nombre de Usuario: ");
-    fgets(inputRegis, MAX_NOMBRE_USU, stdin);
-    sscanf(inputRegis, "%s", &nombreUsu);
+  printf("Nombre de Usuario: ");
+  fgets(inputRegis, MAX_NOMBRE_USU, stdin);
+  sscanf(inputRegis, "%s", & nombreUsu);
 
-    printf("Sexo: ");
-    fgets(inputRegis, MAX_SEXO, stdin);
-    sscanf(inputRegis, "%s", &sexo);
+  printf("Sexo: ");
+  fgets(inputRegis, MAX_SEXO, stdin);
+  sscanf(inputRegis, "%s", & sexo);
 
-    printf("Edad: ");
-    fgets(inputRegis, MAX_EDAD, stdin);
-    sscanf(inputRegis, "%i", &edad);
+  printf("Edad: ");
+  fgets(inputRegis, MAX_EDAD, stdin);
+  sscanf(inputRegis, "%i", & edad);
 
-    printf("Correo Electronico: ");
-    fgets(inputRegis, MAX_CORREO, stdin);
-    sscanf(inputRegis, "%s", &correo);
+  printf("Correo Electronico: ");
+  fgets(inputRegis, MAX_CORREO, stdin);
+  sscanf(inputRegis, "%s", & correo);
 
-    printf("Contrasenya: ");
-    fgets(inputRegis, MAX_CONTRASENYA, stdin);
-    sscanf(inputRegis, "%s", &contrasenya);
+  printf("Contrasenya: ");
+  fgets(inputRegis, MAX_CONTRASENYA, stdin);
+  sscanf(inputRegis, "%s", & contrasenya);
 
-    printf("Repetir Contrasenya: ");
-    fgets(inputRegis, MAX_CONTRASENYA, stdin);
-    sscanf(inputRegis, "%s", &repertirContrasenya);
+  printf("Repetir Contrasenya: ");
+  fgets(inputRegis, MAX_CONTRASENYA, stdin);
+  sscanf(inputRegis, "%s", & repertirContrasenya);
 
-    return *inputRegis;
+  return * inputRegis;
 }
 
 char iniciarSesion() {
-    int existe = 0;
-    existe = comprobarExistencia();
+  int existe = 0;
+  existe = comprobarExistencia();
 
-    if (existe == 1) {
-        menu();
-    } else {
-        login();
-    }
+  if (existe == 1) {
+    menu();
+  } else {
+    login();
+  }
 }
 
-void clearIfNeeded(char *str, int max_line) {
-	// Limpia los caracteres de más introducidos
-	if ((strlen(str) == max_line - 1 ) && (str[max_line - 2] != '\n'))
-		while (getchar() != '\n');
+void clearIfNeeded(char * str, int max_line) {
+  // Limpia los caracteres de más introducidos
+  if ((strlen(str) == max_line - 1) && (str[max_line - 2] != '\n'))
+    while (getchar() != '\n');
 }
 
 int comprobarExistencia() {
-    sqlite3* database;
-    sqlite3_stmt* statement;
-    char* mensajeError = 0;
-    int apertura = 0;
-    int busqueda = 0;
+  sqlite3 * database;
+  sqlite3_stmt * statement;
+  char * mensajeError = 0;
+  int apertura = 0;
+  int busqueda = 0;
 
-    apertura = abrirConexion();
+  apertura = sqlite3_open("basedatosSSR.db", &database);
+  if (apertura != SQLITE_OK) {
+    fprintf(stderr, "No se puede abrir la Base De Datos: \n");
+    
+    
 
-    if (apertura == 0) {
-        fprintf(stderr, "No se puede abrir la base de datos: %s\n", gestionarError(database));
-        cerrarConexion(database);
-        return 0;
-    }
+  } else {
+    fprintf(stdout, "\nLa Base De Datos se abrio exitosamente\n");
+    
+  }
+
+  if (apertura == 0) {
+    fprintf(stderr, "No se puede abrir la base de datos: \n");
+
+    
+  }
 
   char input[MAX_REGISTRO];
 
   printf("Usuario: ");
   fgets(input, MAX_NOMBRE_USU, stdin);
-    
-  char* username = malloc((MAX_NOMBRE_USU) * sizeof(char));
+
+  char * username = malloc((MAX_NOMBRE_USU) * sizeof(char));
   sscanf(input, "%s", username); //le quita el 'n' (si lo hay)
 
   clearIfNeeded(input, MAX_NOMBRE_USU); //le quita el 'n' (si lo hay)
@@ -141,7 +157,7 @@ int comprobarExistencia() {
   printf("Contrasenya: ");
   fgets(input, MAX_CONTRASENYA, stdin);
 
-  char* password = malloc((MAX_CONTRASENYA) * sizeof(char));
+  char * password = malloc((MAX_CONTRASENYA) * sizeof(char));
   sscanf(input, "%s", password); //le quita el 'n' (si lo hay)
 
   clearIfNeeded(input, MAX_CONTRASENYA); //le quita el 'n' (si lo hay)
@@ -149,10 +165,14 @@ int comprobarExistencia() {
   fflush(stdin);
 
   printf("%s, %s", username, password);
-    
-  char* sentencia = "SELECT usuario, contrasenya FROM usuarios WHERE usuario = ? AND contrasenya = ?;";
-    
-  busqueda = sqlite3_prepare_v2(database, sentencia, -1, &statement, 0);
+
+  char * sentencia = "SELECT usuario, contrasenya FROM usuarios WHERE usuario = ? AND contrasenya = ?;";
+  if (sqlite3_errcode(database) != SQLITE_OK) {
+    printf("Error en la conexión a la base de datos.:::%s\n",sqlite3_errmsg(database));
+    // Aquí puedes agregar el código para manejar el error.
+  }
+
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
   printf("\n%i\n", busqueda);
 
   sqlite3_bind_text(statement, 1, username, strlen(username), SQLITE_STATIC);
@@ -160,6 +180,7 @@ int comprobarExistencia() {
 
   if (busqueda != SQLITE_OK) {
     printf("AQUI");
+    printf("Error preparing SQL statement: %s\n", sqlite3_errmsg(database));
     gestionarFree(mensajeError);
     fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
     sqlite3_finalize(statement);
@@ -174,7 +195,7 @@ int comprobarExistencia() {
   if (mensajeError != NULL) {
     gestionarFree(mensajeError);
     fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
-    
+
     cerrarConexion(database);
     return 0;
   }
@@ -197,84 +218,84 @@ int comprobarExistencia() {
     sqlite3_finalize(statement);
     cerrarConexion(database);
   }
-  
+
   cerrarConexion(database);
   return 0;
 }
 
 int registrarse() {
-    char opcionRegistrarse;
+  char opcionRegistrarse;
 
-    rellenarCamposRegistro();
+  rellenarCamposRegistro();
 
-    do {
-        opcionRegistrarse = mostrarRegistrarse();
-        switch (opcionRegistrarse) {
-            case '1':
-                printf("\n---------------------------------------------------\n");
-                login();
-                break;
-        }
-    } while (opcionRegistrarse != '0');
+  do {
+    opcionRegistrarse = mostrarRegistrarse();
+    switch (opcionRegistrarse) {
+    case '1':
+      printf("\n---------------------------------------------------\n");
+      login();
+      break;
+    }
+  } while (opcionRegistrarse != '0');
 
-    return 0;
+  return 0;
 }
 
 int login() {
-    char opcionLogin;
+  char opcionLogin;
 
-    do {
-        opcionLogin = mostrarLogin();
-        switch (opcionLogin) {
-            case '1': 
-                printf("\n---------------------------------------------------\n");
-                registrarse();
-            break;
-                
-            case '2': 
-                printf("\n---------------------------------------------------\n");
-                iniciarSesion();
-            break;
-        }
+  do {
+    opcionLogin = mostrarLogin();
+    switch (opcionLogin) {
+    case '1':
+      printf("\n---------------------------------------------------\n");
+      registrarse();
+      break;
 
-    } while (opcionLogin != '0');
-
-    if (opcionLogin == 0) {
-        exit(0);
+    case '2':
+      printf("\n---------------------------------------------------\n");
+      iniciarSesion();
+      break;
     }
 
-    return 0;
+  } while (opcionLogin != '0');
+
+  if (opcionLogin == 0) {
+    exit(0);
+  }
+
+  return 0;
 }
 
 int menu() {
-    char opcionMenu;
+  char opcionMenu;
 
-    do {
-        opcionMenu = mostrarMenu();
-        switch (opcionMenu) {
-            case '1': 
-                printf("\n---------------------------------------------------\n");
-                printf("Listado de eventos\n\n");
-            break;
-                
-            case '2': 
-                printf("\n---------------------------------------------------\n");
-                printf("Menu de compra de entrada\n\n");
-            break;
+  do {
+    opcionMenu = mostrarMenu();
+    switch (opcionMenu) {
+    case '1':
+      printf("\n---------------------------------------------------\n");
+      printf("Listado de eventos\n\n");
+      break;
 
-            case '3': 
-                printf("\n---------------------------------------------------\n");
-                printf("Reservar el local\n\n");
-                reservarLocal();
-            break;
+    case '2':
+      printf("\n---------------------------------------------------\n");
+      printf("Menu de compra de entrada\n\n");
+      break;
 
-            case '4':
-                printf("\n---------------------------------------------------\n"); 
-                printf("Listado de mis reservas\n\n");
-            break;
-        }
+    case '3':
+      printf("\n---------------------------------------------------\n");
+      printf("Reservar el local\n\n");
+      reservarLocal();
+      break;
 
-    } while (opcionMenu != '0');
+    case '4':
+      printf("\n---------------------------------------------------\n");
+      printf("Listado de mis reservas\n\n");
+      break;
+    }
 
-    return 0;
+  } while (opcionMenu != '0');
+
+  return 0;
 }
