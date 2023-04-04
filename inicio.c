@@ -132,9 +132,9 @@ int comprobarExistencia() {
   fgets(input, MAX_NOMBRE_USU, stdin);
     
   char* username = malloc((MAX_NOMBRE_USU) * sizeof(char));
-	sscanf(input, "%s", username); //le quita el 'n' (si lo hay)
+  sscanf(input, "%s", username); //le quita el 'n' (si lo hay)
 
-	clearIfNeeded(input, MAX_NOMBRE_USU); //le quita el 'n' (si lo hay)
+  clearIfNeeded(input, MAX_NOMBRE_USU); //le quita el 'n' (si lo hay)
   fflush(stdout);
   fflush(stdin);
 
@@ -142,9 +142,9 @@ int comprobarExistencia() {
   fgets(input, MAX_CONTRASENYA, stdin);
 
   char* password = malloc((MAX_CONTRASENYA) * sizeof(char));
-	sscanf(input, "%s", password); //le quita el 'n' (si lo hay)
+  sscanf(input, "%s", password); //le quita el 'n' (si lo hay)
 
-	clearIfNeeded(input, MAX_CONTRASENYA); //le quita el 'n' (si lo hay)
+  clearIfNeeded(input, MAX_CONTRASENYA); //le quita el 'n' (si lo hay)
   fflush(stdout);
   fflush(stdin);
 
