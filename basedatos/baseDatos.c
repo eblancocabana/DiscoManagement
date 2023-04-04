@@ -509,8 +509,8 @@ void selectRRPP(char codRRPP){
 static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
   int i;
 
-  for (i = 0; i < argc; i++) {
-    if (i > 0) {
+  for (i = 1; i < argc; i++) {
+    if (i > 1) {
       printf(" - ");
     }
     printf("%s", argv[i] ? argv[i] : "NULL");
