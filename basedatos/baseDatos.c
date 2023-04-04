@@ -399,3 +399,7 @@ int inicializacion() {
 
   return 0;
 }
+
+void selectRRPP(char codRRPP){
+    
+}
