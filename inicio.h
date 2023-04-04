@@ -7,7 +7,6 @@ char mostrarMenu();
 
 char iniciarSesion();
 int login();
-int comprobarExistencia();
 
 int registrarse();
 char rellenarCamposRegistro();

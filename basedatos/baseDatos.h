@@ -10,6 +10,7 @@ int gestionarError(sqlite3* baseDatos);
 void gestionarFree(char* str);
 int eliminarTablas();
 void selectRRPP(char codRRPP);
+int comprobarExistencia();
 
 int inicializacion();
 
