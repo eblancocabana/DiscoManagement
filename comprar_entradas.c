@@ -24,7 +24,7 @@ char mostrarDatosCompra(){
     fgets(inputDatosCompra, MAX_SELECCION, stdin);
     sscanf(inputDatosCompra, "%d", &numDatosCompra);
 
-    return inputDatosCompra;
+    return *inputDatosCompra;
 }
 
 int* introducirNumEntradas(){
@@ -83,7 +83,7 @@ char mostrarPagarEntrada(){
     fgets(inputPagarEntrada, MAX_SELECCION, stdin);
     sscanf(inputPagarEntrada, "%d", &numPagarEntrada);
 
-    return inputPagarEntrada;
+    return *inputPagarEntrada;
 }
 
 char* introducirNumTarjeta() {
@@ -142,7 +142,7 @@ char mostrarConfirmarPago(){
     fgets(inputConfirmarPago, MAX_SELECCION, stdin);
     sscanf(inputConfirmarPago, "%d", &numConfirmarPago);
 
-    return inputConfirmarPago;
+    return *inputConfirmarPago;
 }
 
 char confirmarPagoCompra(){
@@ -154,7 +154,7 @@ char confirmarPagoCompra(){
     fgets(inputConfirmarCompra, MAX_SELECCION, stdin);
     sscanf(inputConfirmarCompra, "%d", &numConfirmarCompra);
 
-    return inputConfirmarCompra;
+    return *inputConfirmarCompra;
 }
 
 char* introducirCodigoRRPP() {
