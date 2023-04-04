@@ -16,5 +16,6 @@ void mostrarlistadoeventos();
 int inicializacion();
 
 void cargarLocales();
+int comprobarCodigoLocal(int cod);
 
 #endif

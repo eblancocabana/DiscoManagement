@@ -7,10 +7,11 @@
 #define MAX_SELECCION 5
 #define MAX_NOMBRE_DISCOTECA 20
 #define MAX_FECHA 15
+#define MAX_CODIGO 10
 
-#define MAX_NUMERO_TARJETA 20
-#define MAX_CVV 3
-#define MAX_CADUCIDAD 5
+#define MAX_NUMERO_TARJETA 25
+#define MAX_CVV 5
+#define MAX_CADUCIDAD 10
 
 
 char mostrarListado() {
@@ -20,34 +21,28 @@ char mostrarListado() {
     printf("\nListado de dias disponible:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ");
 
     char inputReservaLocal[MAX_SELECCION];
-    int numReservaLocal;
+    //int numReservaLocal;
 
     fgets(inputReservaLocal, MAX_SELECCION, stdin);
-    sscanf(inputReservaLocal, "%d", &numReservaLocal);
+    //sscanf(inputReservaLocal, "%d", &numReservaLocal);
 
     return *inputReservaLocal;
 }
 
-char* elegirFecha() {
-    printf("\n\tIntroduce la fecha (dd-mm): ");
+int elegirCodigo() {
+    printf("\n\tIntroduce el codigo del local: ");
+    char inputCodigo[MAX_CODIGO];
+    int numCodigo;
 
-    char* inputFecha = (char*) malloc(MAX_FECHA * sizeof(char));
-    fgets(inputFecha, MAX_FECHA, stdin);
-    return inputFecha;
-}
-
-char* elegirDiscoteca() {
-    printf("\tIntroduce el nombre de la discoteca: ");
-
-    char* inputDiscoteca = (char*) malloc(MAX_NOMBRE_DISCOTECA * sizeof(char));
-    fgets(inputDiscoteca, MAX_NOMBRE_DISCOTECA, stdin);
-    return inputDiscoteca;
+    fgets(inputCodigo, MAX_CODIGO, stdin);
+    sscanf(inputCodigo, "%d", &numCodigo);
+    return numCodigo;
 }
 
 void reservarLocal() {
     char opcionReserva;
-    char* nombreDiscoteca;
-    char* fechaReserva;
+    int codLocal;
+    int existe = 0;
 
     do {
         opcionReserva = mostrarListado();
@@ -56,16 +51,8 @@ void reservarLocal() {
                 printf("\n---------------------------------------------------\n");
                 printf("Introducir fecha y nombre de discoteca");
 
-                fechaReserva = elegirFecha();
-                nombreDiscoteca = elegirDiscoteca();
-
-                int len = strcspn(fechaReserva, "\n");
-                fechaReserva[len] = '\0';
-
-                len = strcspn(nombreDiscoteca, "\n");
-                nombreDiscoteca[len] = '\0';
-
-                printf("\n%s, %s", fechaReserva, nombreDiscoteca);
+                codLocal = elegirCodigo();
+                existe = comprobarCodigoLocal(codLocal);
 
                 pagarReserva();
             break;
@@ -102,32 +89,32 @@ char confirmarPagoReserva() {
 char* introducirNumeroTarjeta() {
     printf("\n\tIntroduce el numero de tarjeta (sin espacios): ");
 
-    char inputNumeroTarjeta[MAX_NUMERO_TARJETA];
+    char* inputNumeroTarjeta = (char*) malloc(MAX_NUMERO_TARJETA * sizeof(char));
     fgets(inputNumeroTarjeta, MAX_NUMERO_TARJETA, stdin);
-    //return *inputNumeroTarjeta;
+    return inputNumeroTarjeta;
 }
 
 char* introducirCVVTarjeta() {
     printf("\tIntroduce el CVV de tarjeta: ");
 
-    char inputCVV[MAX_CVV];
+    char* inputCVV = (char*) malloc(MAX_CVV * sizeof(char));
     fgets(inputCVV, MAX_CVV, stdin);
-    //return *inputCVV;
+    return inputCVV;
 }
 
 char* introducirCaduTarjeta() {
     printf("\tIntroduce la caducidad de tarjeta (mm/aa): ");
 
-    char inputCaducidad[MAX_CADUCIDAD];
+    char* inputCaducidad = (char*) malloc(MAX_CADUCIDAD * sizeof(char));
     fgets(inputCaducidad, MAX_CADUCIDAD, stdin);
-    //return *inputCaducidad;
+    return inputCaducidad;
 }
 
 void pagarReserva() {
     char opcionPagoReserva;
-    char numeroTarjeta[MAX_NUMERO_TARJETA];
-    char cvvTarjeta[MAX_CVV];
-    char caducidadTarjeta[MAX_CADUCIDAD];
+    char* numeroTarjeta;
+    char* cvvTarjeta;
+    char* caducidadTarjeta;
 
     do {
         opcionPagoReserva = mostrarPagarReserva();
@@ -135,12 +122,21 @@ void pagarReserva() {
             case '1': 
                 printf("\n---------------------------------------------------\n");
                 printf("Introducir datos de la tarjeta");
-                introducirNumeroTarjeta();
-                introducirCVVTarjeta();
-                introducirCaduTarjeta();
-                // numeroTarjeta[MAX_NUMERO_TARJETA] = introducirNumeroTarjeta();
-                // cvvTarjeta[MAX_CVV] = introducirCVVTarjeta();
-                // caducidadTarjeta[MAX_CADUCIDAD] = introducirCaduTarjeta();
+                
+                numeroTarjeta = introducirNumeroTarjeta();
+                cvvTarjeta = introducirCVVTarjeta();
+                caducidadTarjeta = introducirCaduTarjeta();
+
+                int len = strcspn(numeroTarjeta, "\n");
+                numeroTarjeta[len] = '\0';
+
+                len = strcspn(cvvTarjeta, "\n");
+                cvvTarjeta[len] = '\0';
+
+                len = strcspn(caducidadTarjeta, "\n");
+                caducidadTarjeta[len] = '\0';
+
+                printf("\n%s, %s, %s", numeroTarjeta, cvvTarjeta, caducidadTarjeta);
 
                 confirmarReserva();
             break;

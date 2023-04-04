@@ -5,8 +5,7 @@ void reservarLocal();
 
 char mostrarListado();
 
-char* elegirFecha();
-char* elegirDiscoteca();
+int elegirCodigo();
 
 void pagarReserva();
 char mostrarPagarReserva();
