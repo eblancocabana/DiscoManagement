@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "comprar_entradas.h"
 #include "basedatos/sqlite/sqlite3.h"
 #include "basedatos/baseDatos.h"
@@ -42,7 +44,8 @@ int introducirNumEntradas(){
 char* introducirNombreCompleto(){
     printf("\n\tIntroduce tu nombre completo: ");
 
-    char inputNombreCompleto[MAX_NOMBRE];
+    //char inputNombreCompleto[MAX_NOMBRE];
+    char* inputNombreCompleto = (char*) malloc(MAX_NOMBRE * sizeof(char));
     fgets(inputNombreCompleto, MAX_ENTRADAS, stdin);
     return inputNombreCompleto;
 }
@@ -50,7 +53,8 @@ char* introducirNombreCompleto(){
 char* introducirGmail(){
     printf("\n\tIntroduce tu cuenta de gmail: ");
 
-    char inputGmail[MAX_GMAIL];
+    //char inputGmail[MAX_GMAIL];
+    char* inputGmail = (char*) malloc(MAX_GMAIL * sizeof(char));
     fgets(inputGmail, MAX_GMAIL, stdin);
     return inputGmail;
 }
@@ -98,7 +102,8 @@ char mostrarPagarEntrada(){
 char* introducirNumTarjeta() {
     printf("\n\tIntroduce el numero de tarjeta (sin espacios): ");
 
-    char inputNumTarjeta[MAX_NUM_TARJETA];
+    //char inputNumTarjeta[MAX_NUM_TARJETA];
+    char* inputNumTarjeta = (char*) malloc(MAX_NUM_TARJETA * sizeof(char));
     fgets(inputNumTarjeta, MAX_NUM_TARJETA, stdin);
     return inputNumTarjeta;
 }
@@ -106,7 +111,8 @@ char* introducirNumTarjeta() {
 char* introducirCaducidadTarjeta() {
     printf("\tIntroduce la caducidad de tarjeta (mm/aa): ");
 
-    char inputCaducidad[MAX_CADUCIDAD];
+    //char inputCaducidad[MAX_CADUCIDAD];
+    char* inputCaducidad = (char*) malloc(MAX_CADUCIDAD * sizeof(char));
     fgets(inputCaducidad, MAX_CADUCIDAD, stdin);
     return inputCaducidad;
 }
@@ -114,7 +120,8 @@ char* introducirCaducidadTarjeta() {
 char* introducirCVVTar() {
     printf("\tIntroduce el CVV de tarjeta: ");
 
-    char inputCVV[MAX_CVV];
+    //char inputCVV[MAX_CVV];
+    char* inputCVV = (char*) malloc(MAX_CVV * sizeof(char));
     fgets(inputCVV, MAX_CVV, stdin);
     return inputCVV;
 }
@@ -169,7 +176,8 @@ char confirmarPagoCompra(){
 char* introducirCodigoRRPP() {
     printf("\n\tIntroduce el codigo del RRPP: ");
 
-    char inputCodRRPP[MAX_COD_RRPP];
+    //char inputCodRRPP[MAX_COD_RRPP];
+    char* inputCodRRPP = (char*) malloc(MAX_COD_RRPP * sizeof(char));
     fgets(inputCodRRPP, MAX_COD_RRPP, stdin);
     return inputCodRRPP;
 }
