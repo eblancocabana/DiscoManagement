@@ -13,5 +13,6 @@ int registrarse();
 char rellenarCamposRegistro();
 
 int menu();
+void clearIfNeeded(char *str, int max_line);
 
 #endif

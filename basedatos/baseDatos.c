@@ -3,6 +3,12 @@
 #include <string.h>
 #include "sqlite/sqlite3.h"
 #include "baseDatos.h"
+#include "../inicio.h"
+
+#define MAX_REGISTRO 20
+#define MAX_LOGIN 15
+#define MAX_NOMBRE_USU 20
+#define MAX_CONTRASENYA 20
 
 sqlite3* database;
 int apertura;

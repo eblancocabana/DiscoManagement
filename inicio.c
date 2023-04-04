@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 #include "inicio.h"
 #include "reservar_local.h"
@@ -104,24 +105,18 @@ char iniciarSesion() {
     }
 }
 
-static int callback(void *data, int argc, char **argv, char **azColName) {
-    int i;
-    fprintf(stderr, "%s: ", (const char*)data);
-
-    for (i = 0; i < argc; i++) {
-        printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-    }
-
-    printf("\n");
-    return 0;
+void clearIfNeeded(char *str, int max_line) {
+	// Limpia los caracteres de más introducidos
+	if ((strlen(str) == max_line - 1 ) && (str[max_line - 2] != '\n'))
+		while (getchar() != '\n');
 }
 
 int comprobarExistencia() {
-
-    sqlite3 *database;
+    sqlite3* database;
+    sqlite3_stmt* statement;
     char* mensajeError = 0;
-    int apertura;
-    int busqueda;
+    int apertura = 0;
+    int busqueda = 0;
 
     apertura = abrirConexion();
 
@@ -131,46 +126,80 @@ int comprobarExistencia() {
         return 0;
     }
 
-    char input[MAX_REGISTRO];
-    char* username;
-    char* password;
+  char input[MAX_REGISTRO];
+
+  printf("Usuario: ");
+  fgets(input, MAX_NOMBRE_USU, stdin);
     
+  char* username = malloc((MAX_NOMBRE_USU) * sizeof(char));
+	sscanf(input, "%s", username); //le quita el 'n' (si lo hay)
+
+	clearIfNeeded(input, MAX_NOMBRE_USU); //le quita el 'n' (si lo hay)
+  fflush(stdout);
+  fflush(stdin);
+
+  printf("Contrasenya: ");
+  fgets(input, MAX_CONTRASENYA, stdin);
+
+  char* password = malloc((MAX_CONTRASENYA) * sizeof(char));
+	sscanf(input, "%s", password); //le quita el 'n' (si lo hay)
+
+	clearIfNeeded(input, MAX_CONTRASENYA); //le quita el 'n' (si lo hay)
+  fflush(stdout);
+  fflush(stdin);
+
+  printf("%s, %s", username, password);
     
-    printf("Usuario: ");
-    fgets(input, MAX_LOGIN, stdin);
-    sscanf(input, "%s", &username);
-
-    printf("Contrasenya: ");
-    fgets(input, MAX_LOGIN, stdin);
-    sscanf(input, "%s", &password);
+  char* sentencia = "SELECT usuario, contrasenya FROM usuarios WHERE usuario = ? AND contrasenya = ?;";
     
-    char query[100];
-    sprintf("SELECT usuario, contrasenya FROM usuarios WHERE usuario = '%s' AND contrasenya = '%s'", username, password);
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, &statement, 0);
+  printf("\n%i\n", busqueda);
 
-    //printf("%s, %s", username, password);
-    busqueda = sqlite3_exec(database, query, callback, 0, &mensajeError);
+  sqlite3_bind_text(statement, 1, username, strlen(username), SQLITE_STATIC);
+  sqlite3_bind_text(statement, 2, password, strlen(password), SQLITE_STATIC);
 
-    if (mensajeError != NULL) {
-        fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
-        gestionarFree(mensajeError);
-        cerrarConexion(database);
-        return 0;
-    }
+  if (busqueda != SQLITE_OK) {
+    printf("AQUI");
+    gestionarFree(mensajeError);
+    fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 0;
+  }
 
-    if (busqueda != SQLITE_OK) {
-        fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
-        printf("No se ha encontrado el usuario\n");
-        gestionarFree(mensajeError);
-        cerrarConexion(database);
-        return 0;
+  printf("BIEN");
 
-    } else {
-        printf("\nAccediendo al menu...\n");
-        return 1;
-    }
+  busqueda = sqlite3_step(statement);
+
+  if (mensajeError != NULL) {
+    gestionarFree(mensajeError);
+    fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
     
     cerrarConexion(database);
     return 0;
+  }
+
+  if (busqueda == SQLITE_ROW) {
+    printf("\nUSUARIO ENCONTRADO, accediendo al menu\n");
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 1;
+
+  } else if (busqueda != SQLITE_OK) {
+    fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
+    gestionarFree(mensajeError);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 0;
+
+  } else {
+    printf("No se ha encontrado el usuario\n");
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+  }
+  
+  cerrarConexion(database);
+  return 0;
 }
 
 int registrarse() {
