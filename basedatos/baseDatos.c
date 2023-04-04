@@ -518,7 +518,8 @@ void cargarLocales() {
   char date_str[8];
   strftime(date_str, sizeof(date_str, "%Y-%m-%d", local_time));
   */
-
+ 
+  abrirConexion();
   char* st = "SELECT * FROM dias_de_fiesta";
   sqlite3_stmt* sql_st;
   apertura = sqlite3_prepare_v2(database, st, -1, &sql_st, 0);
@@ -528,18 +529,18 @@ void cargarLocales() {
     fprintf(stderr, "Error en la consulta: %s\n", sqlite3_errmsg(database));
     sqlite3_finalize(sql_st);
     cerrarConexion(database);
-    return 0;
+    return;
   }
 
   apertura = sqlite3_step(sql_st);
 
   while (apertura != SQLITE_DONE) {
     if (apertura == SQLITE_ROW) {
-      char* codigo = sqlite3_column_int(sql_st, 0);
-      char* fecha = sqlite3_column_int(sql_st, 1);
-      char* nombre = sqlite3_column_int(sql_st, 2);
-      char* entradas = sqlite3_column_int(sql_st, 3);
-      char* especial = sqlite3_column_int(sql_st, 4);
+      char* codigo = (char*) sqlite3_column_int(sql_st, 0);
+      char* fecha = (char*) sqlite3_column_int(sql_st, 1);
+      char* nombre = (char*) sqlite3_column_int(sql_st, 2);
+      char* entradas = (char*) sqlite3_column_int(sql_st, 3);
+      char* especial = (char*) sqlite3_column_int(sql_st, 4);
 
       // crear un listado de los datos
       printf("%s - %s - %s\n", codigo, fecha, nombre);
@@ -549,5 +550,5 @@ void cargarLocales() {
   }
 
   sqlite3_finalize(sql_st);
-
+  cerrarConexion(database);
 }

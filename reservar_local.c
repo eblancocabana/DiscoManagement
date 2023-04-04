@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "reservar_local.h"
+#include "basedatos/baseDatos.h"
 
 #define MAX_SELECCION 5
 #define MAX_NOMBRE_DISCOTECA 20
@@ -14,7 +15,7 @@
 
 char mostrarListado() {
     printf("\nListado de dias disponible: (fecha - nombre discoteca - numero de invitados - precio - DJ)\n");
-    cargarLocales2(); // Se van a mostrar aquellos dias en los que todavia no se hayan comprado entradas
+    cargarLocales(); // Se van a mostrar aquellos dias en los que todavia no se hayan comprado entradas
     printf("\n--------------------------------------------------------------------------------------------\n");
     printf("\nListado de dias disponible:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ");
 
