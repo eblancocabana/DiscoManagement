@@ -254,7 +254,8 @@ int inicializacion() {
 
       char codigo[50], fecha[50], nombre[50], entradas[50], especial[50];
 
-      sscanf(line, "%[^','],%[^','],%[^','],%[^','],%s", codigo,
+      sscanf(line, "%[^','],%[^','],%[^','],%[^','],%s",
+        codigo,
         fecha, 
         nombre,
         entradas,
@@ -505,54 +506,6 @@ void selectRRPP(char codRRPP){
     
 }
 
-
-void cargarLocales() {
-  /*
-  char* st = "SELECT * FROM dias_de_fiesta WHERE fecha > ?";
-
-  time_t current_time;
-  time(&current_time);
-
-  struct tm* local_time = localtime(&current_time);
-
-  char date_str[8];
-  strftime(date_str, sizeof(date_str, "%Y-%m-%d", local_time));
-  */
- 
-  abrirConexion();
-  char* st = "SELECT * FROM dias_de_fiesta";
-  sqlite3_stmt* sql_st;
-  apertura = sqlite3_prepare_v2(database, st, -1, &sql_st, 0);
-
-
-  if (apertura != SQLITE_OK) {
-    fprintf(stderr, "Error en la consulta: %s\n", sqlite3_errmsg(database));
-    sqlite3_finalize(sql_st);
-    cerrarConexion(database);
-    return;
-  }
-
-  apertura = sqlite3_step(sql_st);
-
-  while (apertura != SQLITE_DONE) {
-    if (apertura == SQLITE_ROW) {
-      char* codigo = (char*) sqlite3_column_int(sql_st, 0);
-      char* fecha = (char*) sqlite3_column_int(sql_st, 1);
-      char* nombre = (char*) sqlite3_column_int(sql_st, 2);
-      char* entradas = (char*) sqlite3_column_int(sql_st, 3);
-      char* especial = (char*) sqlite3_column_int(sql_st, 4);
-
-      // crear un listado de los datos
-      printf("%s - %s - %s\n", codigo, fecha, nombre);
-    }
-
-    apertura = sqlite3_step(sql_st);
-  }
-
-  sqlite3_finalize(sql_st);
-  cerrarConexion(database);
-}
-
 static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
   int i;
 
@@ -568,16 +521,44 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
 }
 
 
+void cargarLocales() {
+  /*
+  char* st = "SELECT * FROM dias_de_fiesta WHERE fecha > ?";
+
+  time_t current_time;
+  time(&current_time);
+
+  struct tm* local_time = localtime(&current_time);
+
+  char date_str[8];
+  strftime(date_str, sizeof(date_str, "%Y-%m-%d", local_time));
+  */
+
+  abrirConexion();
+
+  char* error = 0;
+  int st;
+  char* sql = "SELECT * FROM dias_de_fiesta WHERE date(fecha, 'start of day') >= date('now', 'localtime')";
+    st = sqlite3_exec(database, sql, callback, 0, &error);
+    if (st != SQLITE_OK) {
+        fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+        sqlite3_free(error);
+    }
+    
+  cerrarConexion(database);
+}
+
 
 void mostrarlistadoeventos(){
 	abrirConexion();
-  char *zErrMsg = 0;
-  int rc;
-  char *sql = "SELECT * FROM listaeventos";
-    rc = sqlite3_exec(database, sql, callback, 0, &zErrMsg);
-    if (rc != SQLITE_OK) {
-        fprintf(stderr, "Error en la consulta SQL: %s\n", zErrMsg);
-        sqlite3_free(zErrMsg);
+
+  char* error = 0;
+  int st;
+  char* sql = "SELECT * FROM listaeventos";
+    st = sqlite3_exec(database, sql, callback, 0, &error);
+    if (st != SQLITE_OK) {
+        fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+        sqlite3_free(error);
     }
 
 	cerrarConexion(database);
