@@ -42,11 +42,11 @@ int abrirConexion() {
   if (apertura != SQLITE_OK) {
     fprintf(stderr, "No se puede abrir la Base De Datos: %s\n", gestionarError(database));
     cerrarConexion(database);
-    return 1;
+    return 0;
 
   } else {
     fprintf(stdout, "\nLa Base De Datos se abrio exitosamente\n");
-    return 0;
+    return 1;
   }
 }
 
@@ -128,7 +128,7 @@ int inicializacion() {
     eliminarTablas();
 
     // Implementacion de importacion de datos CSV
-    char * sql = "CREATE TABLE dias_de_fiesta(Codigo TEXT PRIMARY KEY NOT NULL,Fecha TEXT NOT NULL,Nombre TEXT NOT NULL,Entradas INT NOT NULL,Especial TEXT NOT NULL)";
+    char * sql = "CREATE TABLE dias_de_fiesta(codigo TEXT PRIMARY KEY NOT NULL, fecha TEXT NOT NULL, nombre TEXT NOT NULL, entradas INT NOT NULL, especial TEXT NOT NULL)";
     apertura = sqlite3_exec(database, sql, 0, 0, &mensajeError);
 
     if (apertura != SQLITE_OK) {
@@ -182,7 +182,7 @@ int inicializacion() {
 
     fclose(fp);
 
-    char * sql2 = "CREATE TABLE dj(identificador INT PRIMARY KEY NOT NULL,nombre_comercial TEXT NOT NULL,genero_musical TEXT NOT NULL,fecha_nacimiento TEXT NOT NULL,numero_contacto TEXT NOT NULL);";
+    char * sql2 = "CREATE TABLE dj(identificador INT PRIMARY KEY NOT NULL, nombre_comercial TEXT NOT NULL, genero_musical TEXT NOT NULL, fecha_nacimiento TEXT NOT NULL, numero_contacto TEXT NOT NULL);";
     apertura = sqlite3_exec(database, sql2, 0, 0, &mensajeError);
     if (apertura != SQLITE_OK) {
       gestionarError(database);
@@ -235,7 +235,7 @@ int inicializacion() {
 
     fclose(fp2);
 
-    char * sql3 = "CREATE TABLE listaEventos(Dia TEXT NOT NULL,Descripcion TEXT NOT NULL,nombre_discoteca TEXT NOT NULL,Aforo INT NOT NULL);";
+    char * sql3 = "CREATE TABLE listaEventos(dia TEXT NOT NULL, descripcion TEXT NOT NULL, nombre_discoteca TEXT NOT NULL, aforo INT NOT NULL);";
     apertura = sqlite3_exec(database, sql3, 0, 0, &mensajeError);
     if (apertura != SQLITE_OK) {
       gestionarError(database);
@@ -286,7 +286,7 @@ int inicializacion() {
 
     fclose(fp3);
 
-    char * sql4 = "CREATE TABLE rrpp(Codigo INT PRIMARY KEY NOT NULL,nombre TEXT NOT NULL,zona_recogida TEXT NOT NULL,hora_recogida TEXT NOT NULL,numero_contacto TEXT NOT NULL);";
+    char * sql4 = "CREATE TABLE rrpp(codigo INT PRIMARY KEY NOT NULL, nombre TEXT NOT NULL, zona_recogida TEXT NOT NULL, hora_recogida TEXT NOT NULL, numero_contacto TEXT NOT NULL);";
     apertura = sqlite3_exec(database, sql4, 0, 0, &mensajeError);
     if (apertura != SQLITE_OK) {
       gestionarError(database);
@@ -339,7 +339,7 @@ int inicializacion() {
 
     fclose(fp4);
 
-    char * sql5 = "CREATE TABLE usuarios(Nombre TEXT NOT NULL,nombre_usuario TEXT NOT NULL,Sexo TEXT NOT NULL,Edad INT NOT NULL,email TEXT NOT NULL,password TEXT NOT NULL);";
+    char * sql5 = "CREATE TABLE usuarios(nombre TEXT NOT NULL, usuario TEXT NOT NULL, sexo TEXT NOT NULL, edad INT NOT NULL, email TEXT NOT NULL, contrasenya TEXT NOT NULL);";
     apertura = sqlite3_exec(database, sql5, 0, 0, &mensajeError);
     if (apertura != SQLITE_OK) {
       gestionarError(database);

@@ -108,7 +108,7 @@ static int callback(void *data, int argc, char **argv, char **azColName) {
     int i;
     fprintf(stderr, "%s: ", (const char*)data);
 
-    for(i = 0; i < argc; i++) {
+    for (i = 0; i < argc; i++) {
         printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
     }
 
@@ -125,27 +125,29 @@ int comprobarExistencia() {
 
     apertura = abrirConexion();
 
-    if (apertura != SQLITE_OK) {
+    if (apertura == 0) {
         fprintf(stderr, "No se puede abrir la base de datos: %s\n", gestionarError(database));
         cerrarConexion(database);
         return 0;
     }
 
-    char inputInicio[MAX_REGISTRO];
+    char input[MAX_REGISTRO];
     char* username;
     char* password;
-
+    
+    
     printf("Usuario: ");
-    fgets(inputInicio, MAX_LOGIN, stdin);
-    sscanf(inputInicio, "%s", &username);
+    fgets(input, MAX_LOGIN, stdin);
+    sscanf(input, "%s", &username);
 
     printf("Contrasenya: ");
-    fgets(inputInicio, MAX_LOGIN, stdin);
-    sscanf(inputInicio, "%s", &password);
-
+    fgets(input, MAX_LOGIN, stdin);
+    sscanf(input, "%s", &password);
+    
     char query[100];
-    sprintf("SELECT username, password FROM usuarios WHERE Usuario = '%s' AND Contraseña = '%s'", username, password);
+    sprintf("SELECT usuario, contrasenya FROM usuarios WHERE usuario = '%s' AND contrasenya = '%s'", username, password);
 
+    //printf("%s, %s", username, password);
     busqueda = sqlite3_exec(database, query, callback, 0, &mensajeError);
 
     if (mensajeError != NULL) {
@@ -166,7 +168,7 @@ int comprobarExistencia() {
         printf("\nAccediendo al menu...\n");
         return 1;
     }
-
+    
     cerrarConexion(database);
     return 0;
 }
