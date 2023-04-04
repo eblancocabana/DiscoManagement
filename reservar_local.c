@@ -14,7 +14,7 @@
 
 char mostrarListado() {
     printf("\nListado de dias disponible: (fecha - nombre discoteca - numero de invitados - precio - DJ)\n");
-    cargarLocales(); // Se van a mostrar aquellos dias en los que todavia no se hayan comprado entradas
+    cargarLocales2(); // Se van a mostrar aquellos dias en los que todavia no se hayan comprado entradas
     printf("\n--------------------------------------------------------------------------------------------\n");
     printf("\nListado de dias disponible:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ");
 
@@ -72,11 +72,6 @@ void reservarLocal() {
 
     } while (opcionReserva != '0');
 }
-
-void cargarLocales() {
-    
-}
-
 
 
 char mostrarPagarReserva() {

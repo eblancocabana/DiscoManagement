@@ -4,7 +4,6 @@
 void reservarLocal();
 
 char mostrarListado();
-void cargarLocales();
 
 char* elegirFecha();
 char* elegirDiscoteca();

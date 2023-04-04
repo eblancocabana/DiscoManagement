@@ -14,5 +14,6 @@ int comprobarExistencia();
 
 int inicializacion();
 
+void cargarLocales();
 
 #endif

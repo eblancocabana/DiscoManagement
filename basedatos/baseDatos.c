@@ -506,7 +506,7 @@ void selectRRPP(char codRRPP){
 }
 
 
-void cargarLocales2() {
+void cargarLocales() {
   /*
   char* st = "SELECT * FROM dias_de_fiesta WHERE fecha > ?";
 
