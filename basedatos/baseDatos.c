@@ -509,8 +509,8 @@ void selectRRPP(char codRRPP){
 static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
   int i;
 
-  for (i = 1; i < argc; i++) {
-    if (i > 1) {
+  for (i = 0; i < argc; i++) {
+    if (i > 0) {
       printf(" - ");
     }
     printf("%s", argv[i] ? argv[i] : "NULL");
@@ -538,8 +538,8 @@ void cargarLocales() {
 
   char* error = 0;
   int st;
-  char* sql = "SELECT * FROM dias_de_fiesta WHERE date(fecha, 'start of day') >= date('now', 'localtime')";
-    st = sqlite3_exec(database, sql, callback, 0, &error);
+  char* sql = "SELECT * FROM dias_de_fiesta WHERE entradas = 400";
+  st = sqlite3_exec(database, sql, callback, 0, &error);
     if (st != SQLITE_OK) {
         fprintf(stderr, "Error en la consulta SQL: %s\n", error);
         sqlite3_free(error);
