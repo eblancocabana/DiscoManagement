@@ -11,7 +11,8 @@ void gestionarFree(char* str);
 int eliminarTablas();
 void selectRRPP(char codRRPP);
 int comprobarExistencia();
-
+static int callback(void *NotUsed, int argc, char **argv, char **azColName);
+void mostrarlistadoeventos();
 int inicializacion();
 
 void cargarLocales();

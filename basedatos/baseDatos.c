@@ -552,3 +552,34 @@ void cargarLocales() {
   sqlite3_finalize(sql_st);
   cerrarConexion(database);
 }
+
+static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
+  int i;
+
+  for (i = 0; i < argc; i++) {
+    if (i > 0) {
+      printf(" - ");
+    }
+    printf("%s", argv[i] ? argv[i] : "NULL");
+  }
+  printf("\n");
+
+  return 0;
+}
+
+
+
+void mostrarlistadoeventos(){
+	abrirConexion();
+  char *zErrMsg = 0;
+  int rc;
+  char *sql = "SELECT * FROM listaeventos";
+    rc = sqlite3_exec(database, sql, callback, 0, &zErrMsg);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Error en la consulta SQL: %s\n", zErrMsg);
+        sqlite3_free(zErrMsg);
+    }
+
+	cerrarConexion(database);
+
+}

@@ -172,6 +172,7 @@ int menu() {
     case '1':
       printf("\n---------------------------------------------------\n");
       printf("Listado de eventos\n\n");
+      mostrarlistadoeventos();
       break;
 
     case '2':
