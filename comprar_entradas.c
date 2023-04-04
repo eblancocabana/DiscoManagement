@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "comprar_entradas.h"
+#include "basedatos/sqlite/sqlite3.h"
+#include "basedatos/baseDatos.h"
 
 #define MAX_SELECCION 5
 
