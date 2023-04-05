@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "../basedatos/baseDatos.h"
 #include "inicio_servidor.h"
@@ -121,7 +122,14 @@ int menuServidor() {
 
         evento = "No";
 
-        insertarDiaFiesta(fecha, nomDiscoteca, evento);
+        for (int i = 0; nomDiscoteca[i] != '\0'; i++) {
+            nomDiscoteca[i] = toupper(nomDiscoteca[i]);
+        }
+
+        if ((strcmp(nomDiscoteca, "BACK") == 0) || (strcmp(nomDiscoteca, "STAGE") == 0)) {
+            printf("Las cadenas son iguales\n");
+            //insertarDiaFiesta(fecha, nomDiscoteca, evento);
+        }
 
     break;
 
@@ -143,20 +151,24 @@ int menuServidor() {
 
         evento = "Si";
 
-        //insertarDiaFiesta(fecha, nomDiscoteca, evento);
-        //insertarEvento(fecha, nomDiscoteca, descripcionEvento);
-      
+        if ((strcmp(nomDiscoteca, "BACK") == 0) || (strcmp(nomDiscoteca, "STAGE") == 0)) {
+            printf("Las cadenas son iguales\n");
+            //insertarDiaFiesta(fecha, nomDiscoteca, evento);
+            //insertarEvento(fecha, nomDiscoteca, descripcionEvento);
+        }
+
     break;
 
     case '4':
         printf("\n---------------------------------------------------\n");
         printf("Importar RRPPs\n\n");
+        inicializarRRPP();
     break;
     
     case '5':
         printf("\n---------------------------------------------------\n");
         printf("Importar DJs\n\n");
-
+        inicializarDJ();
     break;
     }
 
