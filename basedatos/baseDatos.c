@@ -56,9 +56,8 @@ int abrirConexion() {
   }
 }
 
-
-
 int comprobarExistencia() {
+
   sqlite3_stmt * statement;
   char * mensajeError = 0;
   int apertura = 0;
@@ -539,7 +538,7 @@ void mostrarRRPP(char* codRRPP){
     }
 
     busqueda = sqlite3_prepare_v2(database, sql, -1, &statement, 0);
-    sqlite3_bind_int(statement, 1, codRRPP);
+    sqlite3_bind_text(statement, 1, codRRPP, strlen(codRRPP), SQLITE_STATIC);
 
     cerrarConexion(database);
 }

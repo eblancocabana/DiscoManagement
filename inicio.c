@@ -119,6 +119,7 @@ int registrarse() {
       login();
       break;
     }
+    
   } while (opcionRegistrarse != '0');
 
   return 0;
