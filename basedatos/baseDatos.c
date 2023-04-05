@@ -290,7 +290,7 @@ int inicializarDJ() {
 
 int inicializarListaEventos() {
   //Eliminar tabla si existe
-  char* sentenciaLE = "DROP TABLE IF EXISTS listaEventos;";
+  char* sentenciaLE = "DROP TABLE IF EXISTS eventos;";
 
   int resultadoLE = sqlite3_exec(database, sentenciaLE, NULL, NULL, &mensajeError);
 
@@ -304,7 +304,7 @@ int inicializarListaEventos() {
   }
 
   // Implementacion de importacion de datos CSV
-  char * sql3 = "CREATE TABLE listaEventos(dia TEXT NOT NULL, descripcion TEXT NOT NULL, nombre_discoteca TEXT NOT NULL, aforo INT NOT NULL);";
+  char * sql3 = "CREATE TABLE eventos(dia TEXT NOT NULL, descripcion TEXT NOT NULL, nombre_discoteca TEXT NOT NULL, aforo INT NOT NULL);";
     apertura = sqlite3_exec(database, sql3, 0, 0, &mensajeError);
     if (apertura != SQLITE_OK) {
       gestionarError(database);
@@ -335,7 +335,7 @@ int inicializarListaEventos() {
 
       char sql_insert[1024];
 
-      sprintf(sql_insert, "INSERT INTO listaEventos VALUES('%s','%s','%s',%s);",
+      sprintf(sql_insert, "INSERT INTO eventos VALUES('%s','%s','%s',%s);",
         Dia,
         Descripcion,
         nombre_discoteca,
@@ -658,32 +658,64 @@ int comprobarCodigoLocal(int cod) {
 }
 
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
-  char line[1024]; int codigo = 2000; int entradas = 400;
 
-  sscanf(line, "%[^','],%[^','],%[^','],%[^','],%s",
-        codigo,
-        fecha, 
-        nomDiscoteca,
-        entradas,
-        eventoEsp);
+  int codigo = 2000; int entradas = 400;
+  char lineFi[1024];
 
-      char sql_insert[1024];
+  sscanf(lineFi, "%[^','],%[^','],%[^','],%[^','],%s",
+    codigo,
+    fecha, 
+    nomDiscoteca,
+    entradas,
+    eventoEsp);
 
-      sprintf(sql_insert, "INSERT INTO dias_de_fiesta VALUES('%s','%s','%s',%s,'%s');",
-        codigo,
-        fecha,
-        nomDiscoteca,
-        entradas,
-        eventoEsp);
+  char sql_insertFi[1024];
 
-      aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
+  sprintf(sql_insertFi, "INSERT INTO dias_de_fiesta VALUES('%s','%s','%s',%s,'%s');",
+    codigo,
+    fecha,
+    nomDiscoteca,
+    entradas,
+    eventoEsp);
 
-      if (apertura != SQLITE_OK) {
-        gestionarFree(mensajeError);
-        gestionarError(database);
-        gestionarFree(errorMessage);
+  aperturaInsert = sqlite3_exec(database, sql_insertFi, 0, 0, &mensajeError);
 
-        cerrarConexion(database);
-        return 1;
-      }
+  if (aperturaInsert != SQLITE_OK) {
+    gestionarFree(mensajeError);
+    gestionarError(database);
+    gestionarFree(errorMessage);
+
+    cerrarConexion(database);
+    return 1;
+  }
+}
+
+int insertarEvento() {
+
+  char lineEven[1024];
+  char Dia[50], Descripcion[50], nombre_discoteca[50], Aforo[50];
+
+  sscanf(lineEven, "%[^','],%[^','],%[^','],%s", Dia,
+    Descripcion,
+    nombre_discoteca,
+    Aforo);
+
+  char sql_insertEven[1024];
+
+  sprintf(sql_insertEven, "INSERT INTO eventos VALUES('%s','%s','%s',%s);",
+    Dia,
+    Descripcion,
+    nombre_discoteca,
+    Aforo);
+
+  aperturaInsert = sqlite3_exec(database, sql_insertEven, 0, 0, &mensajeError);
+  
+  if (apertura != SQLITE_OK) {
+    gestionarFree(mensajeError);
+    gestionarError(database);
+    gestionarFree(errorMessage);
+
+    cerrarConexion(database);
+    return 1;
+  }
 }

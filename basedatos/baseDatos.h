@@ -25,6 +25,6 @@ int inicializarDJ();
 int inicializarRRPP();
 int inicializarListaEventos();
 
-int insertarDiaFiesta(char* fecha, char* discoteca, char* eventoEsp);
+int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp);
 
 #endif
