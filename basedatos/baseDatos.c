@@ -529,7 +529,7 @@ void clearIfNeeded(char * str, int max_line) {
     while (getchar() != '\n');
 }
 
-void seleccionarRRPP(char* codRRPP){
+void seleccionarRRPP(){
     abrirConexion();
 
     char* error = 0;

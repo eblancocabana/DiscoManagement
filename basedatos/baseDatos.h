@@ -10,7 +10,7 @@ int eliminarBD();
 
 int gestionarError(sqlite3* baseDatos);
 void gestionarFree(char* str);
-void seleccionarRRPP(char* codRRPP);
+void seleccionarRRPP();
 int comprobarExistencia();
 static int callback(void *NotUsed, int argc, char **argv, char **azColName);
 void mostrarlistadoeventos();

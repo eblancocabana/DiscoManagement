@@ -199,13 +199,14 @@ void confirmarPago(){
         switch(opcionConfirmarPago){
             case '1':
                 printf("\n---------------------------------------------------\n");
+                seleccionarRRPP(codigoRRPP);
+                printf("\n---------------------------------------------------\n");
                 printf("Introducir Codigo de RRPP");
                 codigoRRPP = introducirCodigoRRPP();
 
                 int len = strcspn(codigoRRPP, "\n");
                 codigoRRPP[len] = '\0';
 
-                seleccionarRRPP(codigoRRPP);
                 confirmarCompra();
             break;
             //case '2':

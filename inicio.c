@@ -165,6 +165,7 @@ int menu() {
     case '2':
       printf("\n---------------------------------------------------\n");
       printf("Menu de compra de entrada\n\n");
+      datosCompra();
       break;
 
     case '3':
