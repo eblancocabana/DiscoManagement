@@ -56,9 +56,8 @@ int abrirConexion() {
   }
 }
 
-
-
 int comprobarExistencia() {
+
   sqlite3_stmt * statement;
   char * mensajeError = 0;
   int apertura = 0;
@@ -523,7 +522,7 @@ void clearIfNeeded(char * str, int max_line) {
     while (getchar() != '\n');
 }
 
-void mostrarRRPP(char codRRPP){
+void seleccionarRRPP(char* codRRPP){
     sqlite3_stmt * statement;
     int busqueda = 0;
     abrirConexion();
@@ -539,7 +538,7 @@ void mostrarRRPP(char codRRPP){
     }
 
     busqueda = sqlite3_prepare_v2(database, sql, -1, &statement, 0);
-    sqlite3_bind_int(statement, 1, codRRPP);
+    sqlite3_bind_text(statement, 1, codRRPP, strlen(codRRPP), SQLITE_STATIC);
 
     cerrarConexion(database);
 }
@@ -556,10 +555,6 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
   printf("\n");
 
   return 0;
-}
-
-void selectRRPP(char codRRPP) {
-    
 }
 
 
@@ -593,7 +588,6 @@ void mostrarFiestas() {
   cerrarConexion(database);
 }
 
-
 void mostrarlistadoeventos(){
 	abrirConexion();
 
@@ -607,7 +601,6 @@ void mostrarlistadoeventos(){
     }
 
 	cerrarConexion(database);
-
 }
 
 int comprobarCodigoLocal(int cod) {
@@ -662,7 +655,35 @@ int comprobarCodigoLocal(int cod) {
   }
 
   cerrarConexion(database);
-
 }
 
+int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
+  char line[1024]; int codigo = 2000; int entradas = 400;
 
+  sscanf(line, "%[^','],%[^','],%[^','],%[^','],%s",
+        codigo,
+        fecha, 
+        nomDiscoteca,
+        entradas,
+        eventoEsp);
+
+      char sql_insert[1024];
+
+      sprintf(sql_insert, "INSERT INTO dias_de_fiesta VALUES('%s','%s','%s',%s,'%s');",
+        codigo,
+        fecha,
+        nomDiscoteca,
+        entradas,
+        eventoEsp);
+
+      aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
+
+      if (apertura != SQLITE_OK) {
+        gestionarFree(mensajeError);
+        gestionarError(database);
+        gestionarFree(errorMessage);
+
+        cerrarConexion(database);
+        return 1;
+      }
+}

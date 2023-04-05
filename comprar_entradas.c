@@ -82,6 +82,7 @@ void datosCompra(){
                 gmail[len] = '\0';
 
                 printf("\n%s %s", nombreCompleto, gmail);
+                pagarEntrada();
             break;
         }
     } while(opcionDatosCompra != 0);
@@ -152,6 +153,7 @@ void pagarEntrada(){
                 caducidadTarjeta[len] = '\0';
 
                 printf("\n%s %s %s", numTarjeta, cvvTarjeta, caducidadTarjeta);
+                confirmarPago();
             break;
         }
     } while(opcionPagoEntrada != 0);
@@ -207,7 +209,7 @@ void confirmarPago(){
 
                 printf("\n%s", codigoRRPP);
 
-                mostrarRRPP(codigoRRPP);
+                seleccionarRRPP(codigoRRPP);
                 confirmarCompra();
             break;
             //case '2':
