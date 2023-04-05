@@ -102,9 +102,7 @@ char iniciarSesion() {
   if (existe == 1) {
     menu();
     //inicioServidor();
-  } else {
-    comprobarExistencia();
-  }
+  } 
 }
 
 int registrarse() {

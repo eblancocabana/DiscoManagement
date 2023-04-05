@@ -10,7 +10,7 @@ void clearIfNeeded(char *str, int max_line);
 int gestionarError(sqlite3* baseDatos);
 void gestionarFree(char* str);
 int eliminarTablas();
-void selectRRPP(char codRRPP);
+void mostrarRRPP(char codRRPP);
 int comprobarExistencia();
 static int callback(void *NotUsed, int argc, char **argv, char **azColName);
 void mostrarlistadoeventos();
