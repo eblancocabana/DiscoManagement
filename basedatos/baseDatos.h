@@ -18,6 +18,7 @@ void mostrarFiestas();
 
 void cargarLocales();
 int comprobarCodigoLocal(int cod);
+int comprobarCodigoRRPP(int cod);
 
 int inicializacion();
 int inicializarUsuarios();

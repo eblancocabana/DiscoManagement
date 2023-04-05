@@ -17,7 +17,7 @@ char* introducirCVVTarjeta();
 void confirmarPago();
 char mostrarConfirmarPago();
 
-char* introducirCodigoRRPP();
+int introducirCodigoRRPP();
 
 void confirmarCompra();
 char confirmarPagoCompra();

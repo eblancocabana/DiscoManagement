@@ -181,18 +181,20 @@ char confirmarPagoCompra(){
     return *inputConfirmarCompra;
 }
 
-char* introducirCodigoRRPP() {
+int introducirCodigoRRPP() {
     printf("\n\tIntroduce el codigo del RRPP: ");
 
     //char inputCodRRPP[MAX_COD_RRPP];
     char* inputCodRRPP = (char*) malloc(MAX_COD_RRPP * sizeof(char));
+    int cdRRPP;
     fgets(inputCodRRPP, MAX_COD_RRPP, stdin);
-    return inputCodRRPP;
+    sscanf(inputCodRRPP, "%d", &cdRRPP);
+    return cdRRPP;
 }
 
 void confirmarPago(){
     char opcionConfirmarPago;
-    char* codigoRRPP;
+    int codigoRRPP;
 
     do{
         opcionConfirmarPago = mostrarConfirmarPago();
@@ -203,9 +205,7 @@ void confirmarPago(){
                 printf("\n---------------------------------------------------\n");
                 printf("Introducir Codigo de RRPP");
                 codigoRRPP = introducirCodigoRRPP();
-
-                int len = strcspn(codigoRRPP, "\n");
-                codigoRRPP[len] = '\0';
+                comprobarCodigoRRPP(codigoRRPP);
 
                 confirmarCompra();
             break;
