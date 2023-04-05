@@ -520,23 +520,26 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
 
 
 void cargarLocales() {
-  /*
-  char* st = "SELECT * FROM dias_de_fiesta WHERE fecha > ?";
-
-  time_t current_time;
-  time(&current_time);
-
-  struct tm* local_time = localtime(&current_time);
-
-  char date_str[8];
-  strftime(date_str, sizeof(date_str, "%Y-%m-%d", local_time));
-  */
-
   abrirConexion();
 
   char* error = 0;
   int st;
   char* sql = "SELECT * FROM dias_de_fiesta WHERE entradas = 400";
+  st = sqlite3_exec(database, sql, callback, 0, &error);
+    if (st != SQLITE_OK) {
+        fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+        sqlite3_free(error);
+    }
+    
+  cerrarConexion(database);
+}
+
+void mostrarFiestas() {
+  abrirConexion();
+
+  char* error = 0;
+  int st;
+  char* sql = "SELECT * FROM dias_de_fiesta";
   st = sqlite3_exec(database, sql, callback, 0, &error);
     if (st != SQLITE_OK) {
         fprintf(stderr, "Error en la consulta SQL: %s\n", error);

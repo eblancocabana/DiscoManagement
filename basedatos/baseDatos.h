@@ -13,6 +13,7 @@ void selectRRPP(char codRRPP);
 int comprobarExistencia();
 static int callback(void *NotUsed, int argc, char **argv, char **azColName);
 void mostrarlistadoeventos();
+void mostrarFiestas();
 int inicializacion();
 
 void cargarLocales();
