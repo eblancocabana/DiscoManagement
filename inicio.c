@@ -94,7 +94,7 @@ char rellenarCamposRegistro() {
 
   return * inputRegis;
 }
-
+ 
 char iniciarSesion() {
   int existe = 0;
   existe = comprobarExistencia();
