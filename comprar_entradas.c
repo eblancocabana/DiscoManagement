@@ -138,12 +138,20 @@ void pagarEntrada(){
             case '1':
                 printf("\n---------------------------------------------------\n");
                 printf("Introducir datos de la tarjeta");
-                introducirNumTarjeta();
-                introducirCaducidadTarjeta();
-                introducirCVVTar();
-                // numeroTarjeta[MAX_NUMERO_TARJETA] = introducirNumeroTarjeta();
-                // cvvTarjeta[MAX_CVV] = introducirCVVTar();
-                // caducidadTarjeta[MAX_CADUCIDAD] = introducirCaducidadTarjeta();
+                numTarjeta = introducirNumeroTarjeta();
+                cvvTarjeta = introducirCVVTar();
+                caducidadTarjeta = introducirCaducidadTarjeta();
+
+                int len = strcspn(numTarjeta, "\n");
+                numTarjeta[len] = '\0';
+
+                len = strcspn(cvvTarjeta, "\n");
+                cvvTarjeta[len] = '\0';
+
+                len = strcspn(caducidadTarjeta, "\n");
+                caducidadTarjeta[len] = '\0';
+
+                printf("\n%s %s %s", numTarjeta, cvvTarjeta, caducidadTarjeta);
             break;
         }
     } while(opcionPagoEntrada != 0);
