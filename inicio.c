@@ -108,7 +108,7 @@ char iniciarSesion() {
   if (existe == 1) {
     menu();
   } else {
-    login();
+    comprobarExistencia();
   }
 }
 
