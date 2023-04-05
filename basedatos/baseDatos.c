@@ -602,7 +602,6 @@ void mostrarlistadoeventos(){
     }
 
 	cerrarConexion(database);
-
 }
 
 int comprobarCodigoLocal(int cod) {
