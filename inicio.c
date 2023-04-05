@@ -102,9 +102,7 @@ char iniciarSesion() {
   if (existe == 1) {
     menu();
     //inicioServidor();
-  } else {
-    comprobarExistencia();
-  }
+  } 
 }
 
 void clearIfNeeded(char * str, int max_line) {
