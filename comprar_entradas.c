@@ -84,7 +84,7 @@ void datosCompra(){
                 pagarEntrada();
             break;
         }
-    } while(opcionDatosCompra != 0);
+    } while(opcionDatosCompra != '0');
 }
 
 char mostrarPagarEntrada(){
@@ -154,7 +154,7 @@ void pagarEntrada(){
                 confirmarPago();
             break;
         }
-    } while(opcionPagoEntrada != 0);
+    } while(opcionPagoEntrada != '0');
 }
 
 char mostrarConfirmarPago(){
@@ -212,7 +212,7 @@ void confirmarPago(){
                 
         }   
 
-    }while(opcionConfirmarPago != 0);
+    }while(opcionConfirmarPago != '0');
 
 }
 

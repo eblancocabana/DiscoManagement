@@ -530,23 +530,17 @@ void clearIfNeeded(char * str, int max_line) {
 }
 
 void seleccionarRRPP(char* codRRPP){
-    sqlite3_stmt * statement;
-    int busqueda = 0;
     abrirConexion();
 
     char* error = 0;
     int st;
-    char* sql = "SELECT * FROM rrpp WHERE codigo = ?";
+    char* sql = "SELECT * FROM rrpp";
     st = sqlite3_exec(database, sql, callback, 0, &error);
-    
-    if(st != SQLITE_OK){
-      fprintf(stderr, "Error en la consulta SQL: %s\n", error);
-      sqlite3_free(error);
+    if (st != SQLITE_OK) {
+        fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+        sqlite3_free(error);
     }
-
-    busqueda = sqlite3_prepare_v2(database, sql, -1, &statement, 0);
-    sqlite3_bind_text(statement, 1, codRRPP, strlen(codRRPP), SQLITE_STATIC);
-
+    
     cerrarConexion(database);
 }
 
