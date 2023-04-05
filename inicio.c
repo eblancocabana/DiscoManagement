@@ -1,18 +1,12 @@
 #include <stdio.h>
-
 #include <stdlib.h>
-
 #include <string.h>
-
 #include <stdbool.h>
-
 #include "inicio.h"
-
 #include "reservar_local.h"
-
 #include "basedatos/sqlite/sqlite3.h"
-
 #include "basedatos/baseDatos.h"
+#include "servidor/inicio_servidor.h"
 
 #define MAX_SELECCION 5
 #define MAX_REGISTRO 20
@@ -107,6 +101,7 @@ char iniciarSesion() {
 
   if (existe == 1) {
     menu();
+    //inicioServidor();
   } else {
     comprobarExistencia();
   }
