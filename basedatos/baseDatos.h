@@ -6,7 +6,7 @@ int dbExiste(char* fichero);
 int abrirConexion();
 void cerrarConexion(sqlite3* baseDatos);
 void clearIfNeeded(char *str, int max_line);
-int eliminarBD();
+int reiniciarBD();
 
 int gestionarError(sqlite3* baseDatos);
 void gestionarFree(char* str);
