@@ -523,7 +523,7 @@ void clearIfNeeded(char * str, int max_line) {
     while (getchar() != '\n');
 }
 
-void mostrarRRPP(char codRRPP){
+void mostrarRRPP(char* codRRPP){
     sqlite3_stmt * statement;
     int busqueda = 0;
     abrirConexion();
