@@ -74,7 +74,7 @@ char* introducirNombreDiscoteca() {
 }
 
 char* introducirFecha() {
-    printf("\n\tIntroduce la fecha (dd/mm/aa): ");
+    printf("\tIntroduce la fecha (dd/mm/aa): ");
 
     char* inputFecha = (char*) malloc(MAX_FECHA * sizeof(char));
     fgets(inputFecha, MAX_FECHA, stdin);
@@ -82,7 +82,7 @@ char* introducirFecha() {
 }
 
 char* introducirDescripcion() {
-    printf("\n\tIntroduce la descripcion del evento (max 70 letras): ");
+    printf("\tIntroduce la descripcion del evento (max 70 letras): ");
 
     char* inputDescripcion = (char*) malloc(MAX_DESCRIPCION * sizeof(char));
     fgets(inputDescripcion, MAX_DESCRIPCION, stdin);
@@ -96,6 +96,7 @@ int menuServidor() {
   char* fecha;
   char* descripcionEvento;
   char* evento;
+  int len;
 
   do {
     opcionMenu = mostrarMenuServidor();
@@ -108,10 +109,10 @@ int menuServidor() {
 
     case '2':
         printf("\n---------------------------------------------------\n");
-        printf("Aniadir fiesta\n\n");
+        printf("Aniadir fiesta");
 
         nomDiscoteca = introducirNombreDiscoteca();
-        int len = strcspn(nomDiscoteca, "\n");
+        len = strcspn(nomDiscoteca, "\n");
         nomDiscoteca[len] = '\0';
 
         fecha = introducirFecha();
@@ -120,7 +121,7 @@ int menuServidor() {
 
         evento = "No";
 
-        //insertarDiaFiesta(fecha, nomDiscoteca, evento);
+        insertarDiaFiesta(fecha, nomDiscoteca, evento);
 
     break;
 
@@ -129,7 +130,7 @@ int menuServidor() {
         printf("Aniadir evento\n\n");
 
         nomDiscoteca = introducirNombreDiscoteca();
-        int len = strcspn(nomDiscoteca, "\n");
+        len = strcspn(nomDiscoteca, "\n");
         nomDiscoteca[len] = '\0';
 
         fecha = introducirFecha();
