@@ -128,7 +128,9 @@ int menuServidor() {
 
         if ((strcmp(nomDiscoteca, "BACK") == 0) || (strcmp(nomDiscoteca, "STAGE") == 0)) {
             printf("Las cadenas son iguales\n");
-            //insertarDiaFiesta(fecha, nomDiscoteca, evento);
+            insertarDiaFiesta(fecha, nomDiscoteca, evento);
+        } else {
+            printf("Valores incorrectos\n");
         }
 
     break;

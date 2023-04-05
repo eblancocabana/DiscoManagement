@@ -101,8 +101,8 @@ char iniciarSesion() {
   existe = comprobarExistencia();
 
   if (existe == 1) {
-    menu();
-    //inicioServidor();
+    //menu();
+    inicioServidor();
   } 
 }
 
