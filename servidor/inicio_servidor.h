@@ -7,4 +7,9 @@ char mostrarIncioServido();
 char mostrarMenuServidor();
 int menuServidor();
 
+char* introducirNombreDiscoteca();
+char* introducirFecha();
+char* introducirDescripcion();
+int menuServidor();
+
 #endif
