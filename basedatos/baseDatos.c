@@ -16,6 +16,7 @@ int aperturaInsert;
 int existeBD;
 char* mensajeError = NULL;
 char* errorMessage = NULL;
+int admin = 1;
 
 int dbExiste(char* fichero) {
   FILE* arch = fopen(fichero, "r");
@@ -38,14 +39,14 @@ void gestionarFree(char* str) {
 
 int reiniciarBD() {
   if (remove("basedatosSSR.db") != 0) {
-    fprintf(stderr, "Cannot delete database: %s\n", strerror(errno));
+    fprintf(stderr, "No se pudo eliminar La Base De Datos: %s\n", strerror(errno));
     exit(1);
   }
 }
 
 void cerrarConexion(sqlite3* baseDatos) {
   sqlite3_close(baseDatos);
-  fprintf(stdout, "\nLa Base De Datos se cerro exitosamente\n");
+  //fprintf(stdout, "\nLa Base De Datos se cerro exitosamente\n");
 }
 
 int abrirConexion() {
@@ -58,12 +59,65 @@ int abrirConexion() {
     return 0;
 
   } else {
-    fprintf(stdout, "\nLa Base De Datos se abrio exitosamente\n");
+    //fprintf(stdout, "\nLa Base De Datos se abrio exitosamente\n");
     return 1;
   }
 }
 
-int comprobarExistencia() {
+int comprobarAdmin(char* user) {
+  sqlite3_stmt * statement;
+  char * mensajeError = 0;
+  int apertura = 0;
+  int busqueda = 0;
+
+  abrirConexion();
+
+  char* sentencia = "SELECT admin FROM usuarios WHERE usuario = ? AND admin = 'Si';";
+
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
+
+  sqlite3_bind_text(statement, 1, user, strlen(user), SQLITE_STATIC);
+
+  if (busqueda != SQLITE_OK) {
+    printf("Error preparing SQL statement: %s\n", sqlite3_errmsg(database));
+    gestionarFree(mensajeError);
+    fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 1;
+  }
+
+  busqueda = sqlite3_step(statement);
+
+  if (mensajeError != NULL) {
+    gestionarFree(mensajeError);
+
+    cerrarConexion(database);
+    return 1;
+  }
+
+  if (busqueda == SQLITE_ROW) {
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 0;
+
+  } else if (busqueda != SQLITE_OK) {
+    gestionarFree(mensajeError);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 1;
+
+  } else {
+    printf("\nNo se ha encontrado el usuario\n");
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+  }
+
+  cerrarConexion(database);
+  return 0;
+}
+
+int comprobarExistencia(char* username, char* password) {
 
   sqlite3_stmt * statement;
   char * mensajeError = 0;
@@ -72,81 +126,51 @@ int comprobarExistencia() {
 
   abrirConexion();
 
-  char input[MAX_REGISTRO];
-
-  printf("Usuario: ");
-  fgets(input, MAX_NOMBRE_USU, stdin);
-
-  char * username = malloc((MAX_NOMBRE_USU) * sizeof(char));
-  sscanf(input, "%s", username); //le quita el 'n' (si lo hay)
-
-  clearIfNeeded(input, MAX_NOMBRE_USU); //le quita el 'n' (si lo hay)
-  fflush(stdout);
-  fflush(stdin);
-
-  printf("Contrasenya: ");
-  fgets(input, MAX_CONTRASENYA, stdin);
-
-  char * password = malloc((MAX_CONTRASENYA) * sizeof(char));
-  sscanf(input, "%s", password); //le quita el 'n' (si lo hay)
-
-  clearIfNeeded(input, MAX_CONTRASENYA); //le quita el 'n' (si lo hay)
-  fflush(stdout);
-  fflush(stdin);
-
-  printf("%s, %s", username, password);
-
   char * sentencia = "SELECT usuario, contrasenya FROM usuarios WHERE usuario = ? AND contrasenya = ?;";
-  if (sqlite3_errcode(database) != SQLITE_OK) {
+  /* if (sqlite3_errcode(database) != SQLITE_OK) {
     printf("Error en la conexión a la base de datos.:::%s\n",sqlite3_errmsg(database));
-    // Aquí puedes agregar el código para manejar el error.
-  }
+  } */
 
   busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
-  printf("\n%i\n", busqueda);
 
   sqlite3_bind_text(statement, 1, username, strlen(username), SQLITE_STATIC);
   sqlite3_bind_text(statement, 2, password, strlen(password), SQLITE_STATIC);
 
+  comprobarAdmin(username);
+
   if (busqueda != SQLITE_OK) {
-    printf("AQUI");
-    printf("Error preparing SQL statement: %s\n", sqlite3_errmsg(database));
+    printf("Error en la consulta: %s\n", gestionarError(database));
     gestionarFree(mensajeError);
-    fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
     sqlite3_finalize(statement);
     cerrarConexion(database);
-    return 0;
+    return 1;
   }
-
-  printf("BIEN");
 
   busqueda = sqlite3_step(statement);
 
   if (mensajeError != NULL) {
     gestionarFree(mensajeError);
-    fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
 
     cerrarConexion(database);
-    return 0;
+    return 1;
   }
 
   if (busqueda == SQLITE_ROW) {
-    printf("\nUSUARIO ENCONTRADO, accediendo al menu\n");
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 0;
+
+  } else if (busqueda != SQLITE_OK) {
+    printf("No se ha encontrado el usuario\n");
     sqlite3_finalize(statement);
     cerrarConexion(database);
     return 1;
 
-  } else if (busqueda != SQLITE_OK) {
-    fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
+  } else {
     gestionarFree(mensajeError);
     sqlite3_finalize(statement);
     cerrarConexion(database);
-    return 0;
-
-  } else {
-    printf("No se ha encontrado el usuario\n");
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
+    return 1;
   }
 
   cerrarConexion(database);
@@ -221,7 +245,6 @@ int inicializarDiasDeFiesta() {
         return 1;
       }
     }
-
     fclose(fp);
 }
 
@@ -291,7 +314,6 @@ int inicializarDJ() {
         return 1;
       }
     }
-
     fclose(fp2);
 }
 
@@ -359,7 +381,6 @@ int inicializarListaEventos() {
         return 1;
       }
     }
-
     fclose(fp3);
 }
 
@@ -429,7 +450,6 @@ int inicializarRRPP() {
         return 1;
       }
     }
-
     fclose(fp4);
 }
 
@@ -449,7 +469,7 @@ int inicializarUsuarios() {
   }
 
   // Implementacion de importacion de datos CSV
-  char * sql5 = "CREATE TABLE usuarios(nombre TEXT NOT NULL, usuario TEXT NOT NULL, sexo TEXT NOT NULL, edad INT NOT NULL, email TEXT NOT NULL, contrasenya TEXT NOT NULL);";
+  char * sql5 = "CREATE TABLE usuarios(nombre TEXT NOT NULL, usuario TEXT NOT NULL, sexo TEXT NOT NULL, edad INT NOT NULL, email TEXT NOT NULL, contrasenya TEXT NOT NULL, admin TEXT NOT NULL);";
     apertura = sqlite3_exec(database, sql5, 0, 0, &mensajeError);
     if (apertura != SQLITE_OK) {
       gestionarError(database);
@@ -471,24 +491,26 @@ int inicializarUsuarios() {
 
     while (fgets(line5, sizeof(line5), fp5)) {
 
-      char Nombre[50], nombre_usuario[50], Sexo[50], Edad[50], email[50], password[50];
+      char Nombre[50], nombre_usuario[50], Sexo[50], Edad[50], email[50], password[50], admin[50];
 
-      sscanf(line5, "%[^','],%[^','],%[^','],%[^','],%[^','],%s", Nombre,
+      sscanf(line5, "%[^','],%[^','],%[^','],%[^','],%[^','],%[^','],%s", Nombre,
         nombre_usuario,
         Sexo,
         Edad,
         email,
-        password);
+        password,
+        admin);
 
       char sql_insert[1024];
 
-      sprintf(sql_insert, "INSERT INTO usuarios VALUES('%s','%s','%s',%s,'%s','%s');",
+      sprintf(sql_insert, "INSERT INTO usuarios VALUES('%s','%s','%s',%s,'%s','%s','%s');",
         Nombre,
         nombre_usuario,
         Sexo,
         Edad,
         email,
-        password);
+        password,
+        admin);
 
       aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
 

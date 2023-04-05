@@ -11,10 +11,11 @@ int reiniciarBD();
 int gestionarError(sqlite3* baseDatos);
 void gestionarFree(char* str);
 void seleccionarRRPP();
-int comprobarExistencia();
+int comprobarExistencia(char* username, char* password);
 static int callback(void *NotUsed, int argc, char **argv, char **azColName);
 void mostrarlistadoeventos();
 void mostrarFiestas();
+int comprobarAdmin(char* user);
 
 void cargarLocales();
 int comprobarCodigoLocal(int cod);

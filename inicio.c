@@ -96,14 +96,44 @@ char rellenarCamposRegistro() {
   return * inputRegis;
 }
  
-char iniciarSesion() {
+void iniciarSesion() {
   int existe = 0;
-  existe = comprobarExistencia();
 
-  if (existe == 1) {
-    //menu();
+  char input[MAX_REGISTRO];
+
+  printf("Usuario: ");
+  fgets(input, MAX_NOMBRE_USU, stdin);
+
+  char* username = malloc((MAX_NOMBRE_USU) * sizeof(char));
+  sscanf(input, "%s", username); //le quita el 'n' (si lo hay)
+
+  clearIfNeeded(input, MAX_NOMBRE_USU); //le quita el 'n' (si lo hay)
+  fflush(stdout);
+  fflush(stdin);
+
+  printf("Contrasenya: ");
+  fgets(input, MAX_CONTRASENYA, stdin);
+
+  char* password = malloc((MAX_CONTRASENYA) * sizeof(char));
+  sscanf(input, "%s", password); //le quita el 'n' (si lo hay)
+
+  clearIfNeeded(input, MAX_CONTRASENYA); //le quita el 'n' (si lo hay)
+  fflush(stdout);
+  fflush(stdin);
+
+  existe = comprobarExistencia(username, password);
+
+  if ((existe == 0) && (comprobarAdmin(username) == 0)) {
+    printf("\nADMIN ENCONTRADO, accediendo al menu\n");
     inicioServidor();
-  } 
+
+  } else if ((existe == 0)) {
+    printf("\nUSUARIO ENCONTRADO, accediendo al menu\n");
+    menu();
+
+  } else {
+
+  }
 }
 
 int registrarse() {

@@ -5,7 +5,7 @@ char mostrarLogin();
 char mostrarRegistrarse();
 char mostrarMenu();
 
-char iniciarSesion();
+void iniciarSesion();
 int login();
 
 int registrarse();
