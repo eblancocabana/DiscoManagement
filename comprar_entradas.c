@@ -225,6 +225,8 @@ void confirmarCompra(){
         switch (opcionConfirmarCompra) {
             case '1':
                 printf("\nEL PAGO HA SIDO CONFIRMADO");
+                printf("\n---------------------------------------------------\n");
+                menu();
             break;
         }
     } while (opcionConfirmarCompra != '0');
