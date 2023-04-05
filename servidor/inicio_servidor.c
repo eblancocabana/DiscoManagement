@@ -6,6 +6,9 @@
 #include "inicio_servidor.h"
 
 #define MAX_SELECCION 5
+#define MAX_NOM_DISCOTECA 10
+#define MAX_FECHA 10
+#define MAX_DESCRIPCION 75
 
 char mostrarIncioServido() {
     char inputInicio[MAX_SELECCION];
@@ -61,39 +64,97 @@ char mostrarMenuServidor() {
   return * inputMenu;
 }
 
+
+char* introducirNombreDiscoteca() {
+    printf("\n\tIntroduce nombre de la discoteca (Back / Stage): ");
+
+    char* inputDiscoteca = (char*) malloc(MAX_NOM_DISCOTECA * sizeof(char));
+    fgets(inputDiscoteca, MAX_NOM_DISCOTECA, stdin);
+    return inputDiscoteca;
+}
+
+char* introducirFecha() {
+    printf("\n\tIntroduce la fecha (dd/mm/aa): ");
+
+    char* inputFecha = (char*) malloc(MAX_FECHA * sizeof(char));
+    fgets(inputFecha, MAX_FECHA, stdin);
+    return inputFecha;
+}
+
+char* introducirDescripcion() {
+    printf("\n\tIntroduce la descripcion del evento (max 70 letras): ");
+
+    char* inputDescripcion = (char*) malloc(MAX_DESCRIPCION * sizeof(char));
+    fgets(inputDescripcion, MAX_DESCRIPCION, stdin);
+    return inputDescripcion;
+}
+
+
 int menuServidor() {
   char opcionMenu;
+  char* nomDiscoteca;
+  char* fecha;
+  char* descripcionEvento;
+  char* evento;
 
   do {
     opcionMenu = mostrarMenuServidor();
     switch (opcionMenu) {
     case '1':
-      printf("\n---------------------------------------------------\n");
-      printf("Reiniciar BD\n\n");
+        printf("\n---------------------------------------------------\n");
+        printf("Reiniciar BD\n\n");
       
     break;
 
     case '2':
-      printf("\n---------------------------------------------------\n");
-      printf("Aniadir fiesta\n\n");
+        printf("\n---------------------------------------------------\n");
+        printf("Aniadir fiesta\n\n");
+
+        nomDiscoteca = introducirNombreDiscoteca();
+        int len = strcspn(nomDiscoteca, "\n");
+        nomDiscoteca[len] = '\0';
+
+        fecha = introducirFecha();
+        len = strcspn(fecha, "\n");
+        fecha[len] = '\0';
+
+        evento = "No";
+
+        //insertarDiaFiesta(fecha, nomDiscoteca, evento);
 
     break;
 
     case '3':
-      printf("\n---------------------------------------------------\n");
-      printf("Aniadir evento\n\n");
+        printf("\n---------------------------------------------------\n");
+        printf("Aniadir evento\n\n");
+
+        nomDiscoteca = introducirNombreDiscoteca();
+        int len = strcspn(nomDiscoteca, "\n");
+        nomDiscoteca[len] = '\0';
+
+        fecha = introducirFecha();
+        len = strcspn(fecha, "\n");
+        fecha[len] = '\0';
+
+        descripcionEvento = introducirDescripcion();
+        len = strcspn(descripcionEvento, "\n");
+        descripcionEvento[len] = '\0';
+
+        evento = "Si";
+
+        //insertarDiaFiesta(fecha, nomDiscoteca, evento);
+        //insertarEvento(fecha, nomDiscoteca, descripcionEvento);
       
     break;
 
     case '4':
-      printf("\n---------------------------------------------------\n");
-      printf("Importar RRPPs\n\n");
-
+        printf("\n---------------------------------------------------\n");
+        printf("Importar RRPPs\n\n");
     break;
     
     case '5':
-      printf("\n---------------------------------------------------\n");
-      printf("Importar DJs\n\n");
+        printf("\n---------------------------------------------------\n");
+        printf("Importar DJs\n\n");
 
     break;
     }
