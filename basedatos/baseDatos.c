@@ -522,7 +522,7 @@ void clearIfNeeded(char * str, int max_line) {
     while (getchar() != '\n');
 }
 
-void mostrarRRPP(char* codRRPP){
+void seleccionarRRPP(char* codRRPP){
     sqlite3_stmt * statement;
     int busqueda = 0;
     abrirConexion();
@@ -557,10 +557,6 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
   return 0;
 }
 
-void selectRRPP(char codRRPP) {
-    
-}
-
 
 void cargarLocales() {
   abrirConexion();
@@ -591,7 +587,6 @@ void mostrarFiestas() {
     
   cerrarConexion(database);
 }
-
 
 void mostrarlistadoeventos(){
 	abrirConexion();
@@ -660,7 +655,6 @@ int comprobarCodigoLocal(int cod) {
   }
 
   cerrarConexion(database);
-
 }
 
 
