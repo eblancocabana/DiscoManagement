@@ -12,8 +12,8 @@
 #define MAX_GMAIL 30
 
 #define MAX_NUM_TARJETA 20
-#define MAX_CVV 3
-#define MAX_CADUCIDAD 5
+#define MAX_CVV 5
+#define MAX_CADUCIDAD 10
 
 #define MAX_COD_RRPP 2
 
@@ -46,7 +46,7 @@ char* introducirNombreCompleto(){
 
     //char inputNombreCompleto[MAX_NOMBRE];
     char* inputNombreCompleto = (char*) malloc(MAX_NOMBRE * sizeof(char));
-    fgets(inputNombreCompleto, MAX_ENTRADAS, stdin);
+    fgets(inputNombreCompleto, MAX_NOMBRE, stdin);
     return inputNombreCompleto;
 }
 
