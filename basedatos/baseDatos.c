@@ -147,9 +147,8 @@ int comprobarExistencia() {
   return 0;
 }
 
-
-
-int eliminarTablas() {
+int inicializarDiasDeFiesta() {
+  //Eliminar tabla si existe
   char* sentenciaDDF = "DROP TABLE IF EXISTS dias_de_fiesta;";
 
   int resultadoDDF = sqlite3_exec(database, sentenciaDDF, NULL, NULL, &mensajeError);
@@ -163,90 +162,7 @@ int eliminarTablas() {
       return 1;
   }
 
-  char* sentenciaDJ = "DROP TABLE IF EXISTS dj;";
-
-  int resultadoDJ = sqlite3_exec(database, sentenciaDJ, NULL, NULL, &mensajeError);
-
-  if (resultadoDJ != SQLITE_OK) {
-      // Manejar el error si ocurre
-      gestionarError(database);
-      gestionarFree(mensajeError);
-
-      cerrarConexion(database);
-      return 1;
-  }
-
-  char* sentenciaLE = "DROP TABLE IF EXISTS listaEventos;";
-
-  int resultadoLE = sqlite3_exec(database, sentenciaLE, NULL, NULL, &mensajeError);
-
-  if (resultadoLE != SQLITE_OK) {
-      // Manejar el error si ocurre
-      gestionarError(database);
-      gestionarFree(mensajeError);
-
-      cerrarConexion(database);
-      return 1;
-  }
-
-  char* sentenciaRRPP = "DROP TABLE IF EXISTS rrpp;";
-
-  int resultadoRRPP = sqlite3_exec(database, sentenciaRRPP, NULL, NULL, &mensajeError);
-
-  if (resultadoRRPP != SQLITE_OK) {
-      // Manejar el error si ocurre
-      gestionarError(database);
-      gestionarFree(mensajeError);
-
-      cerrarConexion(database);
-      return 1;
-  }
-
-  char* sentenciaUsu = "DROP TABLE IF EXISTS usuarios;";
-
-  int resultadoUsu = sqlite3_exec(database, sentenciaUsu, NULL, NULL, &mensajeError);
-
-  if (resultadoUsu != SQLITE_OK) {
-      // Manejar el error si ocurre
-      gestionarError(database);
-      gestionarFree(mensajeError);
-      
-      cerrarConexion(database);
-      return 1;
-  }
- 
-  return 0;
-}
-
-int inicializarDiasDeFiesta() {
-
-}
-
-int inicializarDJ() {
-  
-}
-
-int inicializarListaEventos() {
-  
-}
-
-int inicializarRRPP() {
-  
-}
-
-int inicializarUsuarios() {
-  
-}
-
-int inicializacion() {
-  
-  abrirConexion();
-
-  if (!existeBD) {
-    //Se eliminan las tablas para evitar errores
-    eliminarTablas();
-
-    // Implementacion de importacion de datos CSV
+  // Implementacion de importacion de datos CSV
     char * sql = "CREATE TABLE dias_de_fiesta(codigo TEXT PRIMARY KEY NOT NULL, fecha DATE NOT NULL, nombre TEXT NOT NULL, entradas INT NOT NULL, especial TEXT NOT NULL)";
     apertura = sqlite3_exec(database, sql, 0, 0, &mensajeError);
 
@@ -301,8 +217,25 @@ int inicializacion() {
     }
 
     fclose(fp);
+}
 
-    char * sql2 = "CREATE TABLE dj(identificador INT PRIMARY KEY NOT NULL, nombre_comercial TEXT NOT NULL, genero_musical TEXT NOT NULL, fecha_nacimiento TEXT NOT NULL, numero_contacto TEXT NOT NULL);";
+int inicializarDJ() {
+  //Eliminar tabla si existe
+  char* sentenciaDJ = "DROP TABLE IF EXISTS dj;";
+
+  int resultadoDJ = sqlite3_exec(database, sentenciaDJ, NULL, NULL, &mensajeError);
+
+  if (resultadoDJ != SQLITE_OK) {
+      // Manejar el error si ocurre
+      gestionarError(database);
+      gestionarFree(mensajeError);
+
+      cerrarConexion(database);
+      return 1;
+  }
+
+  // Implementacion de importacion de datos CSV
+  char * sql2 = "CREATE TABLE dj(identificador INT PRIMARY KEY NOT NULL, nombre_comercial TEXT NOT NULL, genero_musical TEXT NOT NULL, fecha_nacimiento TEXT NOT NULL, numero_contacto TEXT NOT NULL);";
     apertura = sqlite3_exec(database, sql2, 0, 0, &mensajeError);
     if (apertura != SQLITE_OK) {
       gestionarError(database);
@@ -354,8 +287,25 @@ int inicializacion() {
     }
 
     fclose(fp2);
+}
 
-    char * sql3 = "CREATE TABLE listaEventos(dia TEXT NOT NULL, descripcion TEXT NOT NULL, nombre_discoteca TEXT NOT NULL, aforo INT NOT NULL);";
+int inicializarListaEventos() {
+  //Eliminar tabla si existe
+  char* sentenciaLE = "DROP TABLE IF EXISTS listaEventos;";
+
+  int resultadoLE = sqlite3_exec(database, sentenciaLE, NULL, NULL, &mensajeError);
+
+  if (resultadoLE != SQLITE_OK) {
+      // Manejar el error si ocurre
+      gestionarError(database);
+      gestionarFree(mensajeError);
+
+      cerrarConexion(database);
+      return 1;
+  }
+
+  // Implementacion de importacion de datos CSV
+  char * sql3 = "CREATE TABLE listaEventos(dia TEXT NOT NULL, descripcion TEXT NOT NULL, nombre_discoteca TEXT NOT NULL, aforo INT NOT NULL);";
     apertura = sqlite3_exec(database, sql3, 0, 0, &mensajeError);
     if (apertura != SQLITE_OK) {
       gestionarError(database);
@@ -405,8 +355,25 @@ int inicializacion() {
     }
 
     fclose(fp3);
+}
 
-    char * sql4 = "CREATE TABLE rrpp(codigo INT PRIMARY KEY NOT NULL, nombre TEXT NOT NULL, zona_recogida TEXT NOT NULL, hora_recogida TEXT NOT NULL, numero_contacto TEXT NOT NULL);";
+int inicializarRRPP() {
+  //Eliminar tabla si existe
+  char* sentenciaRRPP = "DROP TABLE IF EXISTS rrpp;";
+
+  int resultadoRRPP = sqlite3_exec(database, sentenciaRRPP, NULL, NULL, &mensajeError);
+
+  if (resultadoRRPP != SQLITE_OK) {
+      // Manejar el error si ocurre
+      gestionarError(database);
+      gestionarFree(mensajeError);
+
+      cerrarConexion(database);
+      return 1;
+  }
+
+  // Implementacion de importacion de datos CSV
+  char * sql4 = "CREATE TABLE rrpp(codigo INT PRIMARY KEY NOT NULL, nombre TEXT NOT NULL, zona_recogida TEXT NOT NULL, hora_recogida TEXT NOT NULL, numero_contacto TEXT NOT NULL);";
     apertura = sqlite3_exec(database, sql4, 0, 0, &mensajeError);
     if (apertura != SQLITE_OK) {
       gestionarError(database);
@@ -458,8 +425,25 @@ int inicializacion() {
     }
 
     fclose(fp4);
+}
 
-    char * sql5 = "CREATE TABLE usuarios(nombre TEXT NOT NULL, usuario TEXT NOT NULL, sexo TEXT NOT NULL, edad INT NOT NULL, email TEXT NOT NULL, contrasenya TEXT NOT NULL);";
+int inicializarUsuarios() {
+  //Eliminar tabla si existe
+  char* sentenciaUsu = "DROP TABLE IF EXISTS usuarios;";
+
+  int resultadoUsu = sqlite3_exec(database, sentenciaUsu, NULL, NULL, &mensajeError);
+
+  if (resultadoUsu != SQLITE_OK) {
+      // Manejar el error si ocurre
+      gestionarError(database);
+      gestionarFree(mensajeError);
+      
+      cerrarConexion(database);
+      return 1;
+  }
+
+  // Implementacion de importacion de datos CSV
+  char * sql5 = "CREATE TABLE usuarios(nombre TEXT NOT NULL, usuario TEXT NOT NULL, sexo TEXT NOT NULL, edad INT NOT NULL, email TEXT NOT NULL, contrasenya TEXT NOT NULL);";
     apertura = sqlite3_exec(database, sql5, 0, 0, &mensajeError);
     if (apertura != SQLITE_OK) {
       gestionarError(database);
@@ -512,6 +496,19 @@ int inicializacion() {
       }
     }
     fclose(fp5);
+}
+
+int inicializacion() {
+  
+  abrirConexion();
+
+  if (!existeBD) {
+    //Inicializar las tablas
+    inicializarUsuarios();
+    inicializarDiasDeFiesta();
+    inicializarDJ();
+    inicializarRRPP();
+    inicializarListaEventos();
   }
   
   cerrarConexion(database);
