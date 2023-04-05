@@ -138,7 +138,7 @@ void pagarEntrada(){
             case '1':
                 printf("\n---------------------------------------------------\n");
                 printf("Introducir datos de la tarjeta");
-                numTarjeta = introducirNumeroTarjeta();
+                numTarjeta = introducirNumTarjeta();
                 cvvTarjeta = introducirCVVTar();
                 caducidadTarjeta = introducirCaducidadTarjeta();
 
@@ -200,8 +200,12 @@ void confirmarPago(){
             case '1':
                 printf("\n---------------------------------------------------\n");
                 printf("Introducir Codigo de RRPP");
-                introducirCodigoRRPP();
-                // codigoRRPP[MAX_COD_RRPP] = introducirCodigoRRPP();
+                codigoRRPP = introducirCodigoRRPP();
+
+                int len = strcspn(codigoRRPP, "\n");
+                codigoRRPP[len] = '\0';
+
+                printf("\n%s", codigoRRPP);
 
                 confirmarCompra();
             break;
