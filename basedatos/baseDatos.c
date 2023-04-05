@@ -657,4 +657,33 @@ int comprobarCodigoLocal(int cod) {
   cerrarConexion(database);
 }
 
+int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
+  char line[1024]; int codigo = 2000; int entradas = 400;
 
+  sscanf(line, "%[^','],%[^','],%[^','],%[^','],%s",
+        codigo,
+        fecha, 
+        nomDiscoteca,
+        entradas,
+        eventoEsp);
+
+      char sql_insert[1024];
+
+      sprintf(sql_insert, "INSERT INTO dias_de_fiesta VALUES('%s','%s','%s',%s,'%s');",
+        codigo,
+        fecha,
+        nomDiscoteca,
+        entradas,
+        eventoEsp);
+
+      aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
+
+      if (apertura != SQLITE_OK) {
+        gestionarFree(mensajeError);
+        gestionarError(database);
+        gestionarFree(errorMessage);
+
+        cerrarConexion(database);
+        return 1;
+      }
+}

@@ -14,15 +14,17 @@ int comprobarExistencia();
 static int callback(void *NotUsed, int argc, char **argv, char **azColName);
 void mostrarlistadoeventos();
 void mostrarFiestas();
-int inicializacion();
 
 void cargarLocales();
 int comprobarCodigoLocal(int cod);
 
+int inicializacion();
 int inicializarUsuarios();
 int inicializarDiasDeFiesta();
 int inicializarDJ();
 int inicializarRRPP();
 int inicializarListaEventos();
+
+int insertarDiaFiesta(char* fecha, char* discoteca, char* eventoEsp);
 
 #endif
