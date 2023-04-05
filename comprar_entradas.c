@@ -207,6 +207,7 @@ void confirmarPago(){
 
                 printf("\n%s", codigoRRPP);
 
+                mostrarRRPP(codigoRRPP);
                 confirmarCompra();
             break;
             //case '2':
