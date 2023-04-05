@@ -213,6 +213,26 @@ int eliminarTablas() {
   return 0;
 }
 
+int inicializarDiasDeFiesta() {
+
+}
+
+int inicializarDJ() {
+  
+}
+
+int inicializarListaEventos() {
+  
+}
+
+int inicializarRRPP() {
+  
+}
+
+int inicializarUsuarios() {
+  
+}
+
 int inicializacion() {
   
   abrirConexion();
@@ -495,8 +515,10 @@ int inicializacion() {
   return 0;
 }
 
-void selectRRPP(char codRRPP){
-    
+void clearIfNeeded(char * str, int max_line) {
+  // Limpia los caracteres de más introducidos
+  if ((strlen(str) == max_line - 1) && (str[max_line - 2] != '\n'))
+    while (getchar() != '\n');
 }
 
 static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
@@ -511,6 +533,10 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
   printf("\n");
 
   return 0;
+}
+
+void selectRRPP(char codRRPP) {
+    
 }
 
 
