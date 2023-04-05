@@ -36,6 +36,13 @@ void gestionarFree(char* str) {
   sqlite3_free(str);
 }
 
+int eliminarBD() {
+  if (remove("basedatosSSR.db") != 0) {
+    fprintf(stderr, "Cannot delete database: %s\n", strerror(errno));
+    exit(1);
+  }
+}
+
 void cerrarConexion(sqlite3* baseDatos) {
   sqlite3_close(baseDatos);
   fprintf(stdout, "\nLa Base De Datos se cerro exitosamente\n");
