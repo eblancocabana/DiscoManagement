@@ -5,7 +5,7 @@
 
 //PARA EJECUTAR ESTO:
 
-// gcc main.c inicio.c reservar_local.c comprar_entradas.c basedatos/baseDatos.c basedatos/sqlite/sqlite3.c servicio/servicio_local.c -o salida.exe
+// gcc main.c inicio.c reservar_local.c comprar_entradas.c basedatos/baseDatos.c basedatos/sqlite/sqlite3.c servidor/inicio_servidor.c -o salida.exe
 
 int main() {
     setlocale(LC_ALL, "en_US.UTF-8");
