@@ -714,7 +714,7 @@ int insertarEvento() {
     gestionarFree(mensajeError);
     gestionarError(database);
     gestionarFree(errorMessage);
-
+ 
     cerrarConexion(database);
     return 1;
   }
