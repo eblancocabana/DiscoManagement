@@ -81,7 +81,6 @@ void datosCompra(){
                 len = strcspn(gmail, "\n");
                 gmail[len] = '\0';
 
-                printf("\n%s %s", nombreCompleto, gmail);
                 pagarEntrada();
             break;
         }
@@ -152,7 +151,6 @@ void pagarEntrada(){
                 len = strcspn(caducidadTarjeta, "\n");
                 caducidadTarjeta[len] = '\0';
 
-                printf("\n%s %s %s", numTarjeta, cvvTarjeta, caducidadTarjeta);
                 confirmarPago();
             break;
         }
@@ -206,8 +204,6 @@ void confirmarPago(){
 
                 int len = strcspn(codigoRRPP, "\n");
                 codigoRRPP[len] = '\0';
-
-                printf("\n%s", codigoRRPP);
 
                 seleccionarRRPP(codigoRRPP);
                 confirmarCompra();
