@@ -30,6 +30,6 @@ int inicializarRRPP();
 int inicializarListaEventos();
 
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp);
-void insertarRegistro(char* nombre, char* usuario, char* sexo, char* edad, char* correo, char* contra);
+int insertarRegistro(char* nombre, char* usuario, char* sexo, char* edad, char* correo, char* contra);
 
 #endif

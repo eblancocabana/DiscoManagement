@@ -108,8 +108,8 @@ void rellenarCamposRegistro() {
 
   char* repPass = limpiarInput(inputRegis);
 
+  printf("\nDatos introducidos: %s - %s - %s - %s - %s - %s - %s\n", name, username, sex, age, correoElec, password, repPass);
   existe = comprobarExistencia(username, password);
-  printf("LIMPIO: %s, %s, %s, %s, %s, %s, %s\n", name, username, sex, age, correoElec, password, repPass);
 
   if ((existe == -1) && (strcmp(password, repPass) != 0)) {
     printf("Pero las contrasenyas NO coinciden\n");

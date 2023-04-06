@@ -749,6 +749,7 @@ int comprobarCodigoRRPP(int cod) {
 
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
 
+  abrirConexion();
   int codigo = 2000; int entradas = 400;
   char lineFi[1024];
 
@@ -770,6 +771,48 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
 
   aperturaInsert = sqlite3_exec(database, sql_insertFi, 0, 0, &mensajeError);
 
+  if (apertura != SQLITE_OK) {
+    gestionarFree(mensajeError);
+    gestionarError(database);
+    gestionarFree(errorMessage);
+
+    cerrarConexion(database);
+    return 1;
+  }
+
+  printf("Insertado");
+  cerrarConexion(database);
+  return 0;
+}
+
+int insertarRegistro(char* nombre, char* usuario, char* sexo, char* edad, char* correo, char* contra) {
+
+  abrirConexion();
+  char* admin = "No";
+  char lineRe[1024];
+
+  sscanf(lineRe, "%[^','],%[^','],%[^','],%d,%[^','],%[^','],%s", 
+    nombre,
+    usuario,
+    sexo,
+    edad,
+    correo,
+    contra,
+    admin);
+
+  char sql_insertRe[1024];
+
+  sprintf(sql_insertRe, "INSERT INTO usuarios VALUES('%s','%s','%s',%d,'%s','%s','%s');",
+    nombre,
+    usuario,
+    sexo,
+    edad,
+    correo,
+    contra,
+    admin);
+
+  aperturaInsert = sqlite3_exec(database, sql_insertRe, 0, 0, &mensajeError);
+
   if (aperturaInsert != SQLITE_OK) {
     gestionarFree(mensajeError);
     gestionarError(database);
@@ -778,29 +821,30 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
     cerrarConexion(database);
     return 1;
   }
-}
 
-void insertarRegistro(char* nombre, char* usuario, char* sexo, char* edad, char* correo, char* contra) {
   printf("Insertado");
+  cerrarConexion(database);
+  return 0;
 }
 
 int insertarEvento() {
 
+  abrirConexion();
   char lineEven[1024];
-  char Dia[50], Descripcion[50], nombre_discoteca[50], Aforo[50];
+  char dia[50], descripcion[50], nombreDiscoteca[50], aforo[50];
 
-  sscanf(lineEven, "%[^','],%[^','],%[^','],%s", Dia,
-    Descripcion,
-    nombre_discoteca,
-    Aforo);
+  sscanf(lineEven, "%[^','],%[^','],%[^','],%s", dia,
+    descripcion,
+    nombreDiscoteca,
+    aforo);
 
   char sql_insertEven[1024];
 
   sprintf(sql_insertEven, "INSERT INTO eventos VALUES('%s','%s','%s',%s);",
-    Dia,
-    Descripcion,
-    nombre_discoteca,
-    Aforo);
+    dia,
+    descripcion,
+    nombreDiscoteca,
+    aforo);
 
   aperturaInsert = sqlite3_exec(database, sql_insertEven, 0, 0, &mensajeError);
   
@@ -812,4 +856,8 @@ int insertarEvento() {
     cerrarConexion(database);
     return 1;
   }
+
+  printf("Insertado");
+  cerrarConexion(database);
+  return 0;
 }
