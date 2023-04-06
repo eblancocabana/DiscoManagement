@@ -53,7 +53,7 @@ char mostrarMenu() {
   return * inputMenu;
 }
 
-char rellenarCamposRegistro() {
+void rellenarCamposRegistro() {
   char inputRegis[MAX_REGISTRO];
   char * nombre;
   char * nombreUsu;
@@ -62,6 +62,7 @@ char rellenarCamposRegistro() {
   char * correo;
   char * contrasenya;
   char * repertirContrasenya;
+  int existe = 1;
 
   printf("Menu Registro:\n\n");
 
@@ -69,35 +70,62 @@ char rellenarCamposRegistro() {
   fgets(inputRegis, MAX_NOMBRE, stdin);
   sscanf(inputRegis, "%s", & nombre);
 
+  char* name = limpiarInput(inputRegis);
+
   printf("Nombre de Usuario: ");
   fgets(inputRegis, MAX_NOMBRE_USU, stdin);
   sscanf(inputRegis, "%s", & nombreUsu);
+
+  char* username = limpiarInput(inputRegis);
 
   printf("Sexo: ");
   fgets(inputRegis, MAX_SEXO, stdin);
   sscanf(inputRegis, "%s", & sexo);
 
+  char* sex = limpiarInput(inputRegis);
+
   printf("Edad: ");
   fgets(inputRegis, MAX_EDAD, stdin);
   sscanf(inputRegis, "%i", & edad);
+
+  char* age = limpiarInput(inputRegis);
 
   printf("Correo Electronico: ");
   fgets(inputRegis, MAX_CORREO, stdin);
   sscanf(inputRegis, "%s", & correo);
 
+  char* correoElec = limpiarInput(inputRegis);
+
   printf("Contrasenya: ");
   fgets(inputRegis, MAX_CONTRASENYA, stdin);
   sscanf(inputRegis, "%s", & contrasenya);
+
+  char* password = limpiarInput(inputRegis);
 
   printf("Repetir Contrasenya: ");
   fgets(inputRegis, MAX_CONTRASENYA, stdin);
   sscanf(inputRegis, "%s", & repertirContrasenya);
 
-  return * inputRegis;
+  char* repPass = limpiarInput(inputRegis);
+
+  existe = comprobarExistencia(username, password);
+  printf("LIMPIO: %s, %s, %s, %s, %s, %s, %s\n", name, username, sex, age, correoElec, password, repPass);
+
+  if ((existe == -1) && (strcmp(password, repPass) != 0)) {
+    printf("Pero las contrasenyas NO coinciden\n");
+
+  } else if ((existe == -1) && (strcmp(password, repPass) == 0)) {
+    printf("Valores aceptados para ser introducidos a la BD\n");
+    insertarRegistro(name, username, sex, age, correoElec, password);  
+
+  } else if (existe == 0) {
+    printf("\nEl usuario ya existe, registro cancelado\n");
+    login();
+  }
 }
  
 void iniciarSesion() {
-  int existe = 0;
+  int existe = 1;
 
   char input[MAX_REGISTRO];
 

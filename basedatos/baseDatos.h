@@ -6,6 +6,7 @@ int dbExiste(char* fichero);
 int abrirConexion();
 void cerrarConexion(sqlite3* baseDatos);
 void clearIfNeeded(char *str, int max_line);
+char* limpiarInput(char* input);
 int reiniciarBD();
 
 int gestionarError(sqlite3* baseDatos);
@@ -29,5 +30,6 @@ int inicializarRRPP();
 int inicializarListaEventos();
 
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp);
+void insertarRegistro(char* nombre, char* usuario, char* sexo, char* edad, char* correo, char* contra);
 
 #endif

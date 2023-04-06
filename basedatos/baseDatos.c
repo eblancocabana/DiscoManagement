@@ -9,6 +9,7 @@
 #define MAX_LOGIN 15
 #define MAX_NOMBRE_USU 20
 #define MAX_CONTRASENYA 20
+#define MAX_INPUT 30
 
 sqlite3* database;
 int apertura;
@@ -161,10 +162,10 @@ int comprobarExistencia(char* username, char* password) {
     return 0;
 
   } else if (busqueda != SQLITE_OK) {
-    printf("No se ha encontrado el usuario\n");
+    printf("\nNo se ha encontrado el usuario\n");
     sqlite3_finalize(statement);
     cerrarConexion(database);
-    return 1;
+    return -1;
 
   } else {
     gestionarFree(mensajeError);
@@ -545,6 +546,18 @@ int inicializacion() {
   return 0;
 }
 
+char* limpiarInput(char* input) {
+
+  char* limpio = malloc((MAX_INPUT) * sizeof(char));
+  sscanf(input, "%s", limpio); //le quita el 'n' (si lo hay)
+
+  clearIfNeeded(input, MAX_INPUT); //le quita el 'n' (si lo hay)
+  fflush(stdout);
+  fflush(stdin);
+
+  return limpio;
+}
+
 void clearIfNeeded(char * str, int max_line) {
   // Limpia los caracteres de más introducidos
   if ((strlen(str) == max_line - 1) && (str[max_line - 2] != '\n'))
@@ -725,7 +738,7 @@ int comprobarCodigoRRPP(int cod) {
     return 0;
 
   } else {
-    printf("No se ha encontrado el usuario\n");
+    printf("\nNo se ha encontrado el usuario\n");
     sqlite3_finalize(statement);
     cerrarConexion(database);
     return 0;
@@ -765,6 +778,10 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
     cerrarConexion(database);
     return 1;
   }
+}
+
+void insertarRegistro(char* nombre, char* usuario, char* sexo, char* edad, char* correo, char* contra) {
+  printf("Insertado");
 }
 
 int insertarEvento() {

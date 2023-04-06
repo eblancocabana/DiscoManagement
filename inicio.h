@@ -9,7 +9,7 @@ void iniciarSesion();
 int login();
 
 int registrarse();
-char rellenarCamposRegistro();
+void rellenarCamposRegistro();
 
 int menu();
 
