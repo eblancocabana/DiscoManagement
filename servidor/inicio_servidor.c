@@ -105,7 +105,7 @@ int menuServidor() {
     case '1':
         printf("\n---------------------------------------------------\n");
         printf("Reiniciar BD\n\n");
-      
+        //reiniciarBD();
     break;
 
     case '2':
