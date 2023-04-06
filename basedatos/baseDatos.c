@@ -771,7 +771,7 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
 
   aperturaInsert = sqlite3_exec(database, sql_insertFi, 0, 0, &mensajeError);
 
-  if (apertura != SQLITE_OK) {
+  if (aperturaInsert != SQLITE_OK) {
     gestionarFree(mensajeError);
     gestionarError(database);
     gestionarFree(errorMessage);
@@ -848,7 +848,7 @@ int insertarEvento() {
 
   aperturaInsert = sqlite3_exec(database, sql_insertEven, 0, 0, &mensajeError);
   
-  if (apertura != SQLITE_OK) {
+  if (aperturaInsert != SQLITE_OK) {
     gestionarFree(mensajeError);
     gestionarError(database);
     gestionarFree(errorMessage);
