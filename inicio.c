@@ -113,6 +113,7 @@ void rellenarCamposRegistro() {
 
   if ((existe == -1) && (strcmp(password, repPass) != 0)) {
     printf("Pero las contrasenyas NO coinciden\n");
+    login();
 
   } else if ((existe == -1) && (strcmp(password, repPass) == 0)) {
     printf("Valores aceptados para ser introducidos a la BD\n");

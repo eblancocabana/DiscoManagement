@@ -780,7 +780,7 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
     return 1;
   }
 
-  printf("Insertado");
+  printf("\nInsertado\n");
   cerrarConexion(database);
   return 0;
 }
