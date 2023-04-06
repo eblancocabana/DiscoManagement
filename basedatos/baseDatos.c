@@ -356,7 +356,7 @@ int inicializarListaEventos() {
 
     while (fgets(line3, sizeof(line3), fp3)) {
 
-      char Dia[50], Descripcion[50], nombre_discoteca[50], Aforo[50];
+      char Dia[50], Descripcion[80], nombre_discoteca[50], Aforo[50];
 
       sscanf(line3, "%[^','],%[^','],%[^','],%s", Dia,
         Descripcion,
@@ -629,7 +629,7 @@ void mostrarlistadoeventos(){
 
   char* error = 0;
   int st;
-  char* sql = "SELECT * FROM listaeventos";
+  char* sql = "SELECT * FROM eventos";
     st = sqlite3_exec(database, sql, callback, 0, &error);
     if (st != SQLITE_OK) {
         fprintf(stderr, "Error en la consulta SQL: %s\n", error);

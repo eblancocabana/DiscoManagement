@@ -31,13 +31,13 @@ int inicioServidor() {
         switch (opcionInicioServidor) {
         case '1':
             printf("\n---------------------------------------------------\n");
-            printf("Listado de eventos\n\n");
+            printf("Listado de eventos (fecha - descripcion - discoteca - aforo)\n\n");
             mostrarlistadoeventos();
         break;
 
         case '2':
             printf("\n---------------------------------------------------\n");
-            printf("Listado de dias de fiesta (cod - fecha - discoteca - entradas - evento?\n\n");
+            printf("Listado de dias de fiesta (cod - fecha - discoteca - entradas - evento?)\n\n");
             mostrarFiestas();
         break;
 

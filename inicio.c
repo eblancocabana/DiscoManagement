@@ -217,7 +217,7 @@ int menu() {
     switch (opcionMenu) {
     case '1':
       printf("\n---------------------------------------------------\n");
-      printf("Listado de eventos\n\n");
+      printf("Listado de eventos (fecha - descripcion - discoteca - aforo)\n\n");
       mostrarlistadoeventos();
       break;
 
