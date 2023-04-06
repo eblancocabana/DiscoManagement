@@ -105,7 +105,7 @@ int menuServidor() {
     case '1':
         printf("\n---------------------------------------------------\n");
         printf("Reiniciar BD\n\n");
-        //reiniciarBD();
+        reiniciarBD();
     break;
 
     case '2':
@@ -155,7 +155,7 @@ int menuServidor() {
 
         if ((strcmp(nomDiscoteca, "BACK") == 0) || (strcmp(nomDiscoteca, "STAGE") == 0)) {
             printf("Las cadenas son iguales\n");
-            //insertarDiaFiesta(fecha, nomDiscoteca, evento);
+            insertarDiaFiesta(fecha, nomDiscoteca, evento);
             //insertarEvento(fecha, nomDiscoteca, descripcionEvento);
         }
 

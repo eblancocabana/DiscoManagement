@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <ctype.h>
+#include <errno.h>
 #include "inicio.h"
 #include "reservar_local.h"
 #include "comprar_entradas.h"
@@ -19,6 +21,13 @@
 #define MAX_EDAD 20
 #define MAX_CORREO 20
 #define MAX_CONTRASENYA 20
+
+char* name;
+char* username;
+char* sex;
+int edad;
+char* correoElec;
+char* password;
 
 char mostrarLogin() {
   char inputLogin[MAX_SELECCION];
@@ -58,73 +67,82 @@ void rellenarCamposRegistro() {
   char * nombre;
   char * nombreUsu;
   char * sexo;
-  int edad;
+  char* age;
   char * correo;
   char * contrasenya;
   char * repertirContrasenya;
   int existe = 1;
+  char* type;
 
   printf("Menu Registro:\n\n");
 
   printf("Nombre: ");
   fgets(inputRegis, MAX_NOMBRE, stdin);
-  sscanf(inputRegis, "%s", & nombre);
+  sscanf(inputRegis, "%s", &nombre);
 
-  char* name = limpiarInput(inputRegis);
+  name = limpiarInput(inputRegis);
 
   printf("Nombre de Usuario: ");
   fgets(inputRegis, MAX_NOMBRE_USU, stdin);
-  sscanf(inputRegis, "%s", & nombreUsu);
+  sscanf(inputRegis, "%s", &nombreUsu);
 
-  char* username = limpiarInput(inputRegis);
+  username = limpiarInput(inputRegis);
 
   printf("Sexo: ");
   fgets(inputRegis, MAX_SEXO, stdin);
-  sscanf(inputRegis, "%s", & sexo);
+  sscanf(inputRegis, "%s", &sexo);
 
-  char* sex = limpiarInput(inputRegis);
+  sex = limpiarInput(inputRegis);
+   
+  do {
+    printf("Edad: ");
+    fgets(inputRegis, MAX_EDAD, stdin);
+    sscanf(inputRegis, "%i", &edad);
+    age = limpiarInput(inputRegis);
 
-  printf("Edad: ");
-  fgets(inputRegis, MAX_EDAD, stdin);
-  sscanf(inputRegis, "%i", & edad);
+    errno = 0;
+    long int num = strtol(age, &type, 10);
 
-  char* age = limpiarInput(inputRegis);
+    if (errno != 0 || *type != '\0') {
+      printf("'%s' no es una edad valida\n", age);
+    }
+
+  } while (errno != 0 || *type != '\0');
 
   printf("Correo Electronico: ");
   fgets(inputRegis, MAX_CORREO, stdin);
-  sscanf(inputRegis, "%s", & correo);
+  sscanf(inputRegis, "%s", &correo);
 
-  char* correoElec = limpiarInput(inputRegis);
+  correoElec = limpiarInput(inputRegis);
 
   printf("Contrasenya: ");
   fgets(inputRegis, MAX_CONTRASENYA, stdin);
-  sscanf(inputRegis, "%s", & contrasenya);
+  sscanf(inputRegis, "%s", &contrasenya);
 
-  char* password = limpiarInput(inputRegis);
+  password = limpiarInput(inputRegis);
 
   printf("Repetir Contrasenya: ");
   fgets(inputRegis, MAX_CONTRASENYA, stdin);
-  sscanf(inputRegis, "%s", & repertirContrasenya);
+  sscanf(inputRegis, "%s", &repertirContrasenya);
 
   char* repPass = limpiarInput(inputRegis);
 
   printf("\nDatos introducidos: %s - %s - %s - %s - %s - %s - %s\n", name, username, sex, age, correoElec, password, repPass);
-  existe = comprobarExistencia(username, password);
+  existe = comprobarUsuario(username);
 
   if ((existe == -1) && (strcmp(password, repPass) != 0)) {
     printf("Pero las contrasenyas NO coinciden\n");
     login();
 
   } else if ((existe == -1) && (strcmp(password, repPass) == 0)) {
-    printf("Valores aceptados para ser introducidos a la BD\n");
-    insertarRegistro(name, username, sex, age, correoElec, password);  
+    printf("Valores aceptados para ser introducidos a la BD\n\nQuiere registrarse?\n");  
 
   } else if (existe == 0) {
     printf("\nEl usuario ya existe, registro cancelado\n");
     login();
   }
 }
- 
+
 void iniciarSesion() {
   int existe = 1;
 
@@ -133,26 +151,16 @@ void iniciarSesion() {
   printf("Usuario: ");
   fgets(input, MAX_NOMBRE_USU, stdin);
 
-  char* username = malloc((MAX_NOMBRE_USU) * sizeof(char));
-  sscanf(input, "%s", username); //le quita el 'n' (si lo hay)
-
-  clearIfNeeded(input, MAX_NOMBRE_USU); //le quita el 'n' (si lo hay)
-  fflush(stdout);
-  fflush(stdin);
+  char* us = limpiarInput(input);
 
   printf("Contrasenya: ");
   fgets(input, MAX_CONTRASENYA, stdin);
 
-  char* password = malloc((MAX_CONTRASENYA) * sizeof(char));
-  sscanf(input, "%s", password); //le quita el 'n' (si lo hay)
+  char* pa = limpiarInput(input);
 
-  clearIfNeeded(input, MAX_CONTRASENYA); //le quita el 'n' (si lo hay)
-  fflush(stdout);
-  fflush(stdin);
+  existe = comprobarExistencia(us, pa);
 
-  existe = comprobarExistencia(username, password);
-
-  if ((existe == 0) && (comprobarAdmin(username) == 0)) {
+  if ((existe == 0) && (comprobarAdmin(us) == 0)) {
     printf("\nADMIN ENCONTRADO, accediendo al menu\n");
     inicioServidor();
 
@@ -175,6 +183,7 @@ int registrarse() {
     switch (opcionRegistrarse) {
     case '1':
       printf("\n---------------------------------------------------\n");
+      insertarRegistro(name, username, sex, edad, correoElec, password);
       login();
       break;
     }
@@ -217,7 +226,7 @@ int menu() {
     switch (opcionMenu) {
     case '1':
       printf("\n---------------------------------------------------\n");
-      printf("Listado de eventos (fecha - descripcion - discoteca - aforo)\n\n");
+      printf("Listado de eventos\n\n");
       mostrarlistadoeventos();
       break;
 

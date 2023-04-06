@@ -39,10 +39,16 @@ void gestionarFree(char* str) {
 }
 
 int reiniciarBD() {
-  if (remove("basedatosSSR.db") != 0) {
-    fprintf(stderr, "No se pudo eliminar La Base De Datos: %s\n", strerror(errno));
-    exit(1);
-  }
+  abrirConexion();
+
+  inicializarUsuarios();
+  inicializarDiasDeFiesta();
+  inicializarDJ();
+  inicializarRRPP();
+  inicializarListaEventos();
+
+  cerrarConexion(database);
+ 
 }
 
 void cerrarConexion(sqlite3* baseDatos) {
@@ -119,7 +125,6 @@ int comprobarAdmin(char* user) {
 }
 
 int comprobarExistencia(char* username, char* password) {
-
   sqlite3_stmt * statement;
   char * mensajeError = 0;
   int apertura = 0;
@@ -178,6 +183,59 @@ int comprobarExistencia(char* username, char* password) {
   return 0;
 }
 
+int comprobarUsuario(char* usuario) {
+  sqlite3_stmt * statement;
+  char * mensajeError = 0;
+  int apertura = 0;
+  int busqueda = 0;
+
+  abrirConexion();
+
+  char * sentencia = "SELECT usuario FROM usuarios WHERE usuario = ?;";
+
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
+
+  sqlite3_bind_text(statement, 1, usuario, strlen(usuario), SQLITE_STATIC);
+
+  if (busqueda != SQLITE_OK) {
+    printf("Error en la consulta: %s\n", gestionarError(database));
+    gestionarFree(mensajeError);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 1;
+  }
+
+  busqueda = sqlite3_step(statement);
+
+  if (mensajeError != NULL) {
+    gestionarFree(mensajeError);
+
+    cerrarConexion(database);
+    return 1;
+  }
+
+  if (busqueda == SQLITE_ROW) {
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 0;
+
+  } else if (busqueda != SQLITE_OK) {
+    printf("\nNo se ha encontrado el usuario\n");
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return -1;
+
+  } else {
+    gestionarFree(mensajeError);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 1;
+  }
+
+  cerrarConexion(database);
+  return 0;
+}
+
 int inicializarDiasDeFiesta() {
   //Eliminar tabla si existe
   char* sentenciaDDF = "DROP TABLE IF EXISTS dias_de_fiesta;";
@@ -194,7 +252,7 @@ int inicializarDiasDeFiesta() {
   }
 
   // Implementacion de importacion de datos CSV
-    char * sql = "CREATE TABLE dias_de_fiesta(codigo TEXT PRIMARY KEY NOT NULL, fecha DATE NOT NULL, nombre TEXT NOT NULL, entradas INT NOT NULL, especial TEXT NOT NULL)";
+    char * sql = "CREATE TABLE dias_de_fiesta(codigo TEXT PRIMARY KEY NOT NULL, fecha TEXT NOT NULL, nombre TEXT NOT NULL, entradas INT NOT NULL, especial TEXT NOT NULL)";
     apertura = sqlite3_exec(database, sql, 0, 0, &mensajeError);
 
     if (apertura != SQLITE_OK) {
@@ -750,10 +808,10 @@ int comprobarCodigoRRPP(int cod) {
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
 
   abrirConexion();
-  int codigo = 2000; int entradas = 400;
+  char* codigo = "2000"; int entradas = 400;
   char lineFi[1024];
 
-  sscanf(lineFi, "%[^','],%[^','],%[^','],%[^','],%s",
+  sscanf(lineFi, "%[^','],%[^','],%[^','],%d,%s",
     codigo,
     fecha, 
     nomDiscoteca,
@@ -762,7 +820,7 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
 
   char sql_insertFi[1024];
 
-  sprintf(sql_insertFi, "INSERT INTO dias_de_fiesta VALUES('%s','%s','%s',%s,'%s');",
+  sprintf(sql_insertFi, "INSERT INTO dias_de_fiesta VALUES('%s','%s','%s',%d,'%s');",
     codigo,
     fecha,
     nomDiscoteca,
@@ -785,7 +843,7 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
   return 0;
 }
 
-int insertarRegistro(char* nombre, char* usuario, char* sexo, char* edad, char* correo, char* contra) {
+int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* correo, char* contra) {
 
   abrirConexion();
   char* admin = "No";

@@ -21,6 +21,7 @@ int comprobarAdmin(char* user);
 void cargarLocales();
 int comprobarCodigoLocal(int cod);
 int comprobarCodigoRRPP(int cod);
+int comprobarUsuario(char* usuario);
 
 int inicializacion();
 int inicializarUsuarios();
@@ -30,6 +31,6 @@ int inicializarRRPP();
 int inicializarListaEventos();
 
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp);
-int insertarRegistro(char* nombre, char* usuario, char* sexo, char* edad, char* correo, char* contra);
+int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* correo, char* contra);
 
 #endif
