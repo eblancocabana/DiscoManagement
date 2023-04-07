@@ -44,32 +44,22 @@ void tipoEntradaSeleccionada(){
         switch(opcionTipoEntrada){
             case '1':
                 printf("Ha seleccionado entradas con %c consumicion, con un precio de: %i euro\n", opcionTipoEntrada, PRECIO_CONS_1);
-                //sleep(SEGUNDOS);
                 datosCompra();
             break;
 
             case '2':
                 printf("Ha seleccionado entradas con %c consumiciones, con un precio de: %i euro\n", opcionTipoEntrada, PRECIO_CONS_2);
-                //sleep(SEGUNDOS);
                 datosCompra();
             break;
 
             case '3':
                 printf("Ha seleccionado entradas con %c consumiciones, con un precio de: %i euro\n", opcionTipoEntrada, PRECIO_CONS_3);
-                //sleep(SEGUNDOS);
                 datosCompra();
             break;
 
             case '4':
                 printf("Ha seleccionado entradas para reservado, con un precio de: %i euro\n", PRECIO_RES);
-                //sleep(SEGUNDOS);
                 datosCompra();
-            break;
-            
-            case '5':
-                printf("Atras...\n");
-                //sleep(SEGUNDOS);
-                menuListadoDiasDisponibles();
             break;
         }
     } while (opcionTipoEntrada != '0');
