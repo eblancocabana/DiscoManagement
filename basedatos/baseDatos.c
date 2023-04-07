@@ -79,6 +79,8 @@ void gestionarFree(char* str) {
     // INICIALIZACION DE LOS VALORES DE LA BASE DE DATOS (VALORES POR DEFECTO)
 
 int inicializarDiasDeFiesta() {
+
+  abrirConexion();
   //Eliminar tabla si existe
   char* sentenciaDDF = "DROP TABLE IF EXISTS dias_de_fiesta;";
 
@@ -147,9 +149,12 @@ int inicializarDiasDeFiesta() {
       }
     }
     fclose(fp);
+    cerrarConexion(database);
 }
 
 int inicializarDJ() {
+
+  abrirConexion();
   //Eliminar tabla si existe
   char* sentenciaDJ = "DROP TABLE IF EXISTS dj;";
 
@@ -216,9 +221,12 @@ int inicializarDJ() {
       }
     }
     fclose(fp2);
+    cerrarConexion(database);
 }
 
 int inicializarListaEventos() {
+
+  abrirConexion();
   //Eliminar tabla si existe
   char* sentenciaLE = "DROP TABLE IF EXISTS eventos;";
 
@@ -283,9 +291,12 @@ int inicializarListaEventos() {
       }
     }
     fclose(fp3);
+    cerrarConexion(database);
 }
 
 int inicializarRRPP() {
+
+  abrirConexion();
   //Eliminar tabla si existe
   char* sentenciaRRPP = "DROP TABLE IF EXISTS rrpp;";
 
@@ -352,9 +363,12 @@ int inicializarRRPP() {
       }
     }
     fclose(fp4);
+    cerrarConexion(database);
 }
 
 int inicializarUsuarios() {
+
+  abrirConexion();
   //Eliminar tabla si existe
   char* sentenciaUsu = "DROP TABLE IF EXISTS usuarios;";
 
@@ -425,6 +439,7 @@ int inicializarUsuarios() {
       }
     }
     fclose(fp5);
+    cerrarConexion(database);
 }
 
 int inicializacion() {

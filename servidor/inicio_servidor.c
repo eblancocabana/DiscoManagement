@@ -164,12 +164,14 @@ int menuServidor() {
     case '4':
         printf("\n---------------------------------------------------\n");
         printf("Importar RRPPs\n\n");
+        abrirConexion();
         inicializarRRPP();
     break;
     
     case '5':
         printf("\n---------------------------------------------------\n");
         printf("Importar DJs\n\n");
+        abrirConexion();
         inicializarDJ();
     break;
     }
