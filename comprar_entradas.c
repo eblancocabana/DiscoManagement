@@ -16,7 +16,7 @@
 #define MAX_CVV 5
 #define MAX_CADUCIDAD 10
 
-#define MAX_COD_RRPP 2
+#define MAX_COD_RRPP 5
 
 char mostrarDatosCompra(){
     printf("\nDatos necesarios:\n\t1. Comprar \n\t0. Atras\n\nElige una opcion: ");
