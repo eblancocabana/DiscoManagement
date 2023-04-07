@@ -815,12 +815,12 @@ int comprobarFecha(char* fecha, int evento) {
   }
 
   if (busqueda == SQLITE_ROW) {
+    printf("Encuentra");
     sqlite3_finalize(statement);
     cerrarConexion(database);
     return 0;
 
   } else if (busqueda != SQLITE_OK) {
-    printf("\nNo se ha encontrado el usuario\n");
     sqlite3_finalize(statement);
     cerrarConexion(database);
     return -1;

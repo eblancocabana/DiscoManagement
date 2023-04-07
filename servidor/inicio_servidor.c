@@ -98,6 +98,7 @@ int menuServidor() {
   char* descripcionEvento;
   char* evento;
   int len;
+  int existeFecha;
 
   do {
     opcionMenu = mostrarMenuServidor();
@@ -127,11 +128,13 @@ int menuServidor() {
             nomDiscoteca[i] = tolower(nomDiscoteca[i]);
         }
 
-        if ((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) {
-            printf("Las cadenas son iguales\n");
+        existeFecha = comprobarFecha(fecha, 1);
+
+        if (((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) && (existeFecha == -1)) {
             insertarDiaFiesta(fecha, nomDiscoteca, evento);
+            
         } else {
-            printf("\nNombre de discoteca incorrecto\n");
+            printf("\nValores incorrectoa\n");
         }
 
     break;
@@ -159,11 +162,13 @@ int menuServidor() {
             nomDiscoteca[i] = tolower(nomDiscoteca[i]);
         }
 
-        if ((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) {
+        existeFecha = comprobarFecha(fecha, 0);
+
+        if (((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) && (existeFecha == -1)) {
             insertarDiaFiesta(fecha, nomDiscoteca, evento);
             insertarEvento(fecha, nomDiscoteca, descripcionEvento);
         } else {
-            printf("\nNombre de discoteca incorrecto\n");
+            printf("\nValores incorrectoa\n");
         }
 
     break;
