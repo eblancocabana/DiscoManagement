@@ -775,6 +775,61 @@ int comprobarCodigoRRPP(int cod) {
   cerrarConexion(database);
 }
 
+int comprobarFecha(char* fecha) {
+  sqlite3_stmt * statement;
+  char * mensajeError = 0;
+  int apertura = 0;
+  int busqueda = 0;
+
+  abrirConexion();
+  if (gestionarError(database) != SQLITE_OK) {
+    printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
+  }
+
+  char * sentencia = "SELECT fecha FROM usuarios WHERE fecha = ?;";
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
+
+  sqlite3_bind_text(statement, 1, fecha, strlen(fecha), SQLITE_STATIC);
+
+  if (busqueda != SQLITE_OK) {
+    printf("Error en la consulta: %s\n", gestionarError(database));
+    gestionarFree(mensajeError);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 1;
+  }
+
+  busqueda = sqlite3_step(statement);
+
+  if (mensajeError != NULL) {
+    gestionarFree(mensajeError);
+
+    cerrarConexion(database);
+    return 1;
+  }
+
+  if (busqueda == SQLITE_ROW) {
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 0;
+
+  } else if (busqueda != SQLITE_OK) {
+    printf("\nNo se ha encontrado el usuario\n");
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return -1;
+
+  } else {
+    gestionarFree(mensajeError);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 1;
+  }
+
+  cerrarConexion(database);
+  return 0;
+}    
+    
     // CARGAR/MOSTRAR ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS
 
 void seleccionarRRPP(){
@@ -927,7 +982,7 @@ int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* co
   return 0;
 }
 
-int insertarEvento() {
+int insertarEvento(char* fecha, char* nombreDisco, char* descripcion) {
 
   abrirConexion();
   char lineEven[1024];
@@ -961,4 +1016,3 @@ int insertarEvento() {
   cerrarConexion(database);
   return 0;
 }
-
