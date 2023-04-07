@@ -134,7 +134,7 @@ int menuServidor() {
             insertarDiaFiesta(fecha, nomDiscoteca, evento);
             
         } else {
-            printf("\nValores incorrectoa\n");
+            printf("\nValores incorrectos\n");
         }
 
     break;
@@ -168,7 +168,7 @@ int menuServidor() {
             insertarDiaFiesta(fecha, nomDiscoteca, evento);
             insertarEvento(fecha, nomDiscoteca, descripcionEvento);
         } else {
-            printf("\nValores incorrectoa\n");
+            printf("\nValores incorrectos\n");
         }
 
     break;

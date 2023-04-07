@@ -780,17 +780,18 @@ int comprobarFecha(char* fecha, int evento) {
   char * mensajeError = 0;
   int apertura = 0;
   int busqueda = 0;
+  char* sentencia;
 
   abrirConexion();
   if (gestionarError(database) != SQLITE_OK) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
 
-  char* sentencia = "SELECT fecha FROM dias_de_fiesta WHERE fecha = ?;";
-
   //Si es un evento, la sentencia cambia a la tabla eventos
   if (evento == 0) {
     sentencia = "SELECT dia FROM eventos WHERE dia = ?;";
+  } else {
+    sentencia = "SELECT fecha FROM dias_de_fiesta WHERE fecha = ?;";
   }
 
   busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
@@ -910,9 +911,23 @@ void mostrarlistadoeventos(){
 
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
 
-  abrirConexion();
-  char* codigo = "2000"; int entradas = 400;
+  int entradas = 400;
   char lineFi[1024];
+  int ultimo;
+  char* codigo = NULL;
+
+  codigo = malloc(sizeof(char) * 20);
+
+  if (eventoEsp == "No") {
+    ultimo = buscarUltimoCodigo(1) + 1;
+  } else {
+    ultimo = buscarUltimoCodigo(0) + 1;
+  }
+
+  abrirConexion();
+
+  sprintf(codigo, "%d", ultimo);
+  printf("%s", codigo);
 
   sscanf(lineFi, "%[^','],%[^','],%[^','],%d,%s",
     codigo,
@@ -995,7 +1010,7 @@ int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento) {
   char dia[50], descripcion[80], nombreDiscoteca[50];
   int aforo = 400;
 
-  sscanf(lineEven, "%[^','],%[^','],%s,%d", 
+  sscanf(lineEven, "%[^','],%[^','],%d,%s", 
     dia,
     descripcion,
     nombreDiscoteca,
@@ -1023,4 +1038,46 @@ int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento) {
   printf("Insertado");
   cerrarConexion(database);
   return 0;
+}
+
+    // BUSCAR DATOS EN LA BASE DE DATOS
+
+int buscarUltimoCodigo(int evento) {
+  abrirConexion();
+
+  sqlite3_stmt* statement;
+  char * mensajeError = 0;
+  int busqueda = 0;
+  char* sentencia;
+  int lastId;
+
+  //Si es un evento, la sentencia cambia a la tabla eventos
+  if (evento == 0) {
+    sentencia = "SELECT MAX(codigo) FROM dias_de_fiesta;";
+  } else {
+    sentencia = "SELECT MAX(codigo) FROM dias_de_fiesta WHERE codigo < 999;";
+  }
+
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, &statement, NULL);
+
+  if (busqueda != SQLITE_OK) {
+    printf("No se pudo preparar la consulta SQL: %s\n", gestionarError(database));
+    exit(EXIT_FAILURE);
+  }
+
+  busqueda = sqlite3_step(statement);
+
+  if (busqueda == SQLITE_ROW) {
+    lastId = sqlite3_column_int(statement, 0);
+    printf("El ultimo ID es: %d\n", lastId);
+
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return lastId;
+
+  } else {
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return -1;
+  }
 }
