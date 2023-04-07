@@ -5,6 +5,7 @@
 #include "comprar_entradas.h"
 #include "basedatos/sqlite/sqlite3.h"
 #include "basedatos/baseDatos.h"
+
 #define MAX_SELECCION 5
 #define SEGUNDOS 2
 #define PRECIO_CONS_1 10
@@ -13,13 +14,13 @@
 #define PRECIO_RES 25
 
 char introducirTipoEntrada(){
-    printf("\n##########################################################\n");
+    printf("\n---------------------------------------------------\n");
     printf("\nTipos de entrada:\n");
         printf("\t1. Una consumicion (%i euro) \n", PRECIO_CONS_1);
         printf("\t2. Dos consumiciones (%i euro) \n", PRECIO_CONS_2);
         printf("\t3. Tres consumiciones (%i euro) \n", PRECIO_CONS_3);
         printf("\t4. Reservado (%i euro) \n", PRECIO_RES);
-    printf("5. Atras\n");
+    printf("\t5. Atras\n\n");
     printf("Elige una opcion: ");
 
 
@@ -86,13 +87,13 @@ void mostrarDiasDisponibles(){
 }
 
 char introducirCodioDia(){
-    printf("\n##########################################################\n");
+    printf("\n---------------------------------------------------\n");
     printf("\nMenu calendario:\n");
-        printf("\t1. Introducir identificacion de entrada (codigo de la fecha)\n");
+        printf("\t1. Introducir identificacion de entrada (codigo)\n");
         printf("\t2. Siguiente pagina entradas \n");
         printf("\t3. Pagina anterior entradas \n");
-    printf("4. Atras\n");
-    printf("Elige una opcion:");
+    printf("\t4. Atras\n\n");
+    printf("Elige una opcion: ");
 
 
     char inputDatosCompra[MAX_SELECCION];
@@ -104,7 +105,6 @@ char introducirCodioDia(){
 }
 
 void menuListadoDiasDisponibles(){
-    system("cls");
     char opcionMenuCalendario;
     do{
         opcionMenuCalendario = introducirCodioDia();
@@ -112,20 +112,17 @@ void menuListadoDiasDisponibles(){
             case '1':
                 printf(" \n");
                 // sleep(SEGUNDOS);
-                // system("cls");
-                // mostrarEntradasDisponibles(001);
+                mostrarEntradasDisponibles("001");
                 tipoEntradaSeleccionada();
             break;
 
             case '2':
                 printf("Mostrando siguiente pagina entradas...\n");
-                //system("cls");
                 mostrarDiasDisponibles();
             break;
 
             case '3':
                 printf("Mostrando pagina anterior entradas...\n");
-                //system("cls");
                 mostrarDiasDisponibles();
             break;
 
