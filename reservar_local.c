@@ -15,7 +15,10 @@
 
 
 char mostrarListado() {
-    printf("\nListado de dias disponible: (fecha - nombre discoteca - numero de invitados - precio - DJ)\n");
+    printf("\e[37m\e[1m");
+    printf("\nListado de dias disponible: (codigo - fecha - nombre discoteca - aforo - evento?)\n\n");
+    printf("\e[0m");
+    
     cargarLocales(); // Se van a mostrar aquellos dias en los que todavia no se hayan comprado entradas
     printf("\n--------------------------------------------------------------------------------------------\n");
     printf("\nListado de dias disponible:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ");

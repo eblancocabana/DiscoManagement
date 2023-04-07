@@ -10,6 +10,14 @@
 int main() {
     setlocale(LC_ALL, "en_US.UTF-8");
 
+    printf("\n\n\n\n");
+    printf("\e[34m\e[1m");
+    printf("********************************\n");
+    printf("*   SOUND STRATEGY PARTNERS    *\n");
+    printf("********************************\n");
+    printf("\e[0m");
+    printf("\n"); 
+
     inicializacion();
     login();
 

@@ -54,6 +54,7 @@ char mostrarRegistrarse() {
 char mostrarMenu() {
   char inputMenu[MAX_SELECCION];
   int numMenu;
+
   printf("\nMenu Principal: \n\t1. Informacion de eventos \n\t2. Comprar entradas \n\t3. Reservar local \n\t4. Mis reservas / compras \n\t0. Cerrar Sesion \n\n Elige una opcion: ");
 
   fgets(inputMenu, MAX_SELECCION, stdin);
@@ -226,18 +227,26 @@ int menu() {
     switch (opcionMenu) {
     case '1':
       printf("\n---------------------------------------------------\n");
-      printf("Listado de eventos\n\n");
+
+      printf("\e[37m\e[1m");
+      printf("Listado de eventos (fecha - descripcion - nombre discoteca - aforo)\n\n");
+      printf("\e[0m");
+
       mostrarlistadoeventos();
       break;
 
     case '2':
       printf("\n---------------------------------------------------\n");
+
+      printf("\e[37m\e[1m");
       printf("Menu de compra de entrada\n\n");
+      printf("\e[0m");
+
+      
       break;
 
     case '3':
       printf("\n---------------------------------------------------\n");
-      printf("Reservar el local\n\n");
       reservarLocal();
       break;
 
