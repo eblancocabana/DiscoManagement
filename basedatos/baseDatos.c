@@ -256,20 +256,20 @@ int inicializarListaEventos() {
 
     while (fgets(line3, sizeof(line3), fp3)) {
 
-      char Dia[50], Descripcion[80], nombre_discoteca[50], Aforo[50];
+      char dia[50], descripcion[80], nombre_discoteca[50], aforo[50];
 
-      sscanf(line3, "%[^','],%[^','],%[^','],%s", Dia,
-        Descripcion,
+      sscanf(line3, "%[^','],%[^','],%[^','],%s", dia,
+        descripcion,
         nombre_discoteca,
-        Aforo);
+        aforo);
 
       char sql_insert[1024];
 
       sprintf(sql_insert, "INSERT INTO eventos VALUES('%s','%s','%s',%s);",
-        Dia,
-        Descripcion,
+        dia,
+        descripcion,
         nombre_discoteca,
-        Aforo);
+        aforo);
 
       aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
       
@@ -392,12 +392,12 @@ int inicializarUsuarios() {
 
     while (fgets(line5, sizeof(line5), fp5)) {
 
-      char nombre[50], nombre_usuario[50], Sexo[50], Edad[50], email[50], password[50], admin[50];
+      char nombre[50], nombre_usuario[50], sexo[50], edad[50], email[50], password[50], admin[50];
 
       sscanf(line5, "%[^','],%[^','],%[^','],%[^','],%[^','],%[^','],%s", nombre,
         nombre_usuario,
-        Sexo,
-        Edad,
+        sexo,
+        edad,
         email,
         password,
         admin);
@@ -407,8 +407,8 @@ int inicializarUsuarios() {
       sprintf(sql_insert, "INSERT INTO usuarios VALUES('%s','%s','%s',%s,'%s','%s','%s');",
         nombre,
         nombre_usuario,
-        Sexo,
-        Edad,
+        sexo,
+        edad,
         email,
         password,
         admin);
