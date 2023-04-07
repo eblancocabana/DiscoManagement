@@ -188,7 +188,6 @@ int registrarse() {
     opcionRegistrarse = mostrarRegistrarse();
     switch (opcionRegistrarse) {
     case '1':
-      printf("\n---------------------------------------------------\n");
       insertarRegistro(name, username, sex, edad, correoElec, password);
       login();
       break;

@@ -230,8 +230,7 @@ void confirmarCompra(){
         opcionConfirmarCompra = confirmarPagoCompra();
         switch (opcionConfirmarCompra) {
             case '1':
-                printf("\nEL PAGO HA SIDO CONFIRMADO");
-                printf("\n---------------------------------------------------\n");
+                printf("\nEL PAGO HA SIDO CONFIRMADO\n");
                 opcionDatosCompra = '0';
                 opcionPagoEntrada = '0';
                 opcionConfirmarPago = '0';
