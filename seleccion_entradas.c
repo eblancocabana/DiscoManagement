@@ -134,9 +134,8 @@ void menuListadoDiasDisponibles(){
 
                 } while (errno != 0 || *type != '\0');
 
-                printf("%i", codigo);
-                if (mostrarEntradasDisponibles(codigo) == 0) {
-                    printf("Codigo seleccionado correctamente\n");
+                if (confirmarEntrada(codigo) == 0) {
+                    printf("Entrada con codigo: '%i' seleccionada correctamente\n", codigo);
                     tipoEntradaSeleccionada();
                 } else {
                     printf("Codigo seleccionado incorrectamente\nOperacion cancelada\n");

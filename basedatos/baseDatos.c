@@ -868,24 +868,7 @@ int comprobarFecha(char* fecha, int evento) {
     
     // CARGAR/MOSTRAR ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS
 
-void seleccionarRRPP(){
-    abrirConexion();
-
-    char* error = 0;
-    int aper;
-
-    char* sql = "SELECT * FROM rrpp";
-    aper = sqlite3_exec(database, sql, callback, 0, &error);
-
-    if (aper != SQLITE_OK) {
-        fprintf(stderr, "Error en la consulta SQL: %s\n", error);
-        sqlite3_free(error);
-    }
-    
-    cerrarConexion(database);
-}
-
-void cargarLocales() {
+void mostrarLocales() {
   abrirConexion();
 
   char* error = 0;
@@ -915,7 +898,8 @@ void mostrarFiestas() {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
       sqlite3_free(error);
   }
-    
+  
+  printf("");
   cerrarConexion(database);
 }
 
@@ -936,7 +920,41 @@ void mostrarlistadoeventos() {
 	cerrarConexion(database);
 }
 
-int mostrarEntradasDisponibles(int codigo) {
+void mostrarDJ() {
+  abrirConexion();
+
+  char* error = 0;
+  int aper;
+
+  char* sql = "SELECT * FROM dj";
+  aper = sqlite3_exec(database, sql, callback, 0, &error);
+  
+  if (aper != SQLITE_OK) {
+      fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+      sqlite3_free(error);
+  }
+
+	cerrarConexion(database);
+}
+
+void mostrarRRPP() {
+  abrirConexion();
+
+  char* error = 0;
+  int aper;
+
+  char* sql = "SELECT * FROM rrpp";
+  aper = sqlite3_exec(database, sql, callback, 0, &error);
+  
+  if (aper != SQLITE_OK) {
+      fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+      sqlite3_free(error);
+  }
+
+	cerrarConexion(database);
+}
+
+int comprobarEntrada(int codigo) {
   sqlite3_stmt * statement;
   char * mensajeError = 0;
   int apertura = 0;

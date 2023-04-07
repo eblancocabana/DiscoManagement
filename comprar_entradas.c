@@ -207,7 +207,7 @@ void confirmarPago(){
         switch(opcionConfirmarPago){
             case '1':
                 printf("\n---------------------------------------------------\n");
-                seleccionarRRPP(codigoRRPP);
+                mostrarRRPP();
                 printf("\n---------------------------------------------------\n");
                 printf("Introducir Codigo de RRPP");
                 codigoRRPP = introducirCodigoRRPP();

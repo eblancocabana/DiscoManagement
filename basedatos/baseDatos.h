@@ -28,13 +28,14 @@ int comprobarCodigoRRPP(int cod);
 int comprobarUsuario(char* usuario);
 int comprobarFecha(char* fecha, int evento);
 int comprobarAdmin(char* user);
-int comprobarExistencia(char* username, char* password);
+int comprobarExistencia(char* username, char* password);ç
+int comprobarEntrada(int codigo);
 
 void mostrarlistadoeventos();
 void mostrarFiestas();
-int mostrarEntradasDisponibles(int codigo);
-void cargarLocales();
-void seleccionarRRPP();
+void mostrarDJ();
+void mostrarRRPP();
+void mostrarLocales();
 
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp);
 int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* correo, char* contra);

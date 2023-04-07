@@ -14,7 +14,9 @@
 char mostrarIncioServido() {
     char inputInicio[MAX_SELECCION];
     int numInicio;
-    printf("\nMenu Principal: \n\t1. Informacion de eventos \n\t2. Informacion de fiestas \n\t3. Actualizar base de datos \n\t0. Cerrar Sesion \n\n Elige una opcion: ");
+
+    printf("\n---------------------------------------------------\n");
+    printf("Menu Principal: \n\t1. Informacion de eventos \n\t2. Informacion de fiestas \n\t3. Actualizar base de datos \n\t0. Cerrar Sesion \n\n Elige una opcion: ");
 
     fgets(inputInicio, MAX_SELECCION, stdin);
     sscanf(inputInicio, "%d", &numInicio);
@@ -50,8 +52,6 @@ int inicioServidor() {
         break;
 
         case '3':
-            printf("\n---------------------------------------------------\n");
-            printf("Actualizar base de datos\n\n");
             menuServidor();
         break;
         }
@@ -65,7 +65,8 @@ int inicioServidor() {
 char mostrarMenuServidor() {
   char inputMenu[MAX_SELECCION];
   int numMenu;
-  printf("\nActualizar la Base de Datos: \n\t1. Reiniciar BD \n\t2. Aniadir fiesta \n\t3. Aniadir evento \n\t4. Importar RRPPs \n\t5. Importar DJs \n\t0. Atras \n\n Elige una opcion: ");
+  printf("\n---------------------------------------------------\n");
+  printf("Actualizar la Base de Datos: \n\t1. Reiniciar BD \n\t2. Aniadir fiesta \n\t3. Aniadir evento \n\t4. Importar RRPPs \n\t5. Importar DJs \n\t0. Atras \n\n Elige una opcion: ");
 
   fgets(inputMenu, MAX_SELECCION, stdin);
   sscanf(inputMenu, "%d", & numMenu);
@@ -202,7 +203,8 @@ int menuServidor() {
         printf("Importar RRPPs\n\n");
         abrirConexion();
         inicializarRRPP();
-        printf("LOS RRPPS SE HAN IMPORTADO CORRECTAMENTE\n\n");
+        mostrarRRPP();
+        printf("\nEstos son los RRPPs importados\n");
     break;
     
     case '5':
@@ -210,7 +212,8 @@ int menuServidor() {
         printf("Importar DJs\n\n");
         abrirConexion();
         inicializarDJ();
-        printf("LOS DJS SE HAN IMPORTADO CORRECTAMENTE\n\n");
+        mostrarDJ();
+        printf("\nEstos son los DJs importados\n");
     break;
     }
 
