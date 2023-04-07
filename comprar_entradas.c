@@ -18,6 +18,11 @@
 
 #define MAX_COD_RRPP 5
 
+char opcionDatosCompra;
+char opcionPagoEntrada;
+char opcionConfirmarPago;
+char opcionConfirmarCompra;
+
 char mostrarDatosCompra(){
     printf("\nDatos necesarios:\n\t1. Comprar \n\t0. Atras\n\nElige una opcion: ");
 
@@ -61,7 +66,7 @@ char* introducirGmail(){
 }
 
 void datosCompra(){
-    char opcionDatosCompra;
+    // char opcionDatosCompra;
     int numEntradas;
     char* nombreCompleto;
     char* gmail;
@@ -128,7 +133,7 @@ char* introducirCVVTar() {
 }
 
 void pagarEntrada(){
-    char opcionPagoEntrada;
+    //char opcionPagoEntrada;
     char* numTarjeta;
     char* cvvTarjeta;
     char* caducidadTarjeta;
@@ -194,7 +199,7 @@ int introducirCodigoRRPP() {
 }
 
 void confirmarPago(){
-    char opcionConfirmarPago;
+    //char opcionConfirmarPago;
     int codigoRRPP;
 
     do{
@@ -219,7 +224,7 @@ void confirmarPago(){
 }
 
 void confirmarCompra(){
-    char opcionConfirmarCompra;
+    //char opcionConfirmarCompra;
 
     do {
         opcionConfirmarCompra = confirmarPagoCompra();
@@ -227,6 +232,10 @@ void confirmarCompra(){
             case '1':
                 printf("\nEL PAGO HA SIDO CONFIRMADO");
                 printf("\n---------------------------------------------------\n");
+                opcionDatosCompra = '0';
+                opcionPagoEntrada = '0';
+                opcionConfirmarPago = '0';
+                opcionConfirmarCompra = '0';
                 menu();
             break;
         }
