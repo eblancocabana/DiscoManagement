@@ -139,7 +139,9 @@ void rellenarCamposRegistro() {
     login();
 
   } else if ((existe == -1) && (strcmp(password, repPass) == 0)) {
-    printf("Valores aceptados para ser introducidos a la BD\n\nQuiere registrarse?\n");  
+    printf("Valores aceptados para ser introducidos a la BD\n");  
+    printf("\n---------------------------------------------------\n");
+    printf("Quiere registrarse?\n");
 
   } else if (existe == 0) {
     printf("\nEl usuario ya existe, registro cancelado\n");
