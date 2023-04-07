@@ -20,8 +20,7 @@ char mostrarListado() {
     printf("\e[0m");
     
     cargarLocales(); // Se van a mostrar aquellos dias en los que todavia no se hayan comprado entradas
-    printf("\n--------------------------------------------------------------------------------------------\n");
-    printf("\nListado de dias disponible:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ");
+    printf("\nOpcion reserva:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ");
 
     char inputReservaLocal[MAX_SELECCION];
     //int numReservaLocal;

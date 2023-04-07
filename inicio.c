@@ -240,9 +240,10 @@ int menu() {
       printf("\n---------------------------------------------------\n");
 
       printf("\e[37m\e[1m");
-      printf("Menu de compra de entrada\n\n");
+      printf("Menu compra de entrada (codigo - fecha - nombre discoteca - aforo - evento?)\n\n");
       printf("\e[0m");
 
+      mostrarFiestas();
       menuListadoDiasDisponibles();
       break;
 

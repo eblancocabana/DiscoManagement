@@ -908,7 +908,7 @@ void mostrarFiestas() {
   char* error = 0;
   int aper;
 
-  char* sql = "SELECT * FROM dias_de_fiesta";
+  char* sql = "SELECT * FROM dias_de_fiesta WHERE entradas > 0";
   aper = sqlite3_exec(database, sql, callback, 0, &error);
 
   if (aper != SQLITE_OK) {
@@ -942,8 +942,10 @@ void mostrarEntradasDisponibles(char* codigo) {
   char* error = 0;
   int aper;
 
+  printf("BIEN");
   char* sql = "SELECT entradas FROM dias_de_fiesta WHERE codigo = 001";
   aper = sqlite3_exec(database, sql, callback, 0, &error);
+  printf("MEJOR");
 
       if (aper != SQLITE_OK) {
         fprintf(stderr, "Error en la consulta SQL: %s\n", error);

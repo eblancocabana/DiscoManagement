@@ -87,14 +87,11 @@ void mostrarDiasDisponibles(){
 }
 
 char introducirCodioDia(){
-    printf("\n---------------------------------------------------\n");
-    printf("\nMenu calendario:\n");
-        printf("\t1. Introducir identificacion de entrada (codigo)\n");
-        printf("\t2. Siguiente pagina entradas \n");
-        printf("\t3. Pagina anterior entradas \n");
-    printf("\t4. Atras\n\n");
-    printf("Elige una opcion: ");
 
+    printf("\nOpcion comprar entrada");
+    printf("\n\t1. Introducir identificacion de entrada (codigo)\n");
+    printf("\t0. Atras\n\n");
+    printf("Elige una opcion: ");
 
     char inputDatosCompra[MAX_SELECCION];
     int numDatosCompra;
@@ -115,18 +112,8 @@ void menuListadoDiasDisponibles(){
                 mostrarEntradasDisponibles("001");
                 tipoEntradaSeleccionada();
             break;
-
+            
             case '2':
-                printf("Mostrando siguiente pagina entradas...\n");
-                mostrarDiasDisponibles();
-            break;
-
-            case '3':
-                printf("Mostrando pagina anterior entradas...\n");
-                mostrarDiasDisponibles();
-            break;
-
-            case '4':
                 printf("\tAtras...\n");
                 //sleep(SEGUNDOS);
             break;
