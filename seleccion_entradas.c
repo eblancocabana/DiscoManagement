@@ -5,6 +5,7 @@
 #include "comprar_entradas.h"
 #include "basedatos/sqlite/sqlite3.h"
 #include "basedatos/baseDatos.h"
+#include "inicio.h"
 
 #define MAX_SELECCION 5
 #define MAX_REGISTRO 20
@@ -18,7 +19,7 @@
 
 char introducirTipoEntrada(){
     printf("\n---------------------------------------------------\n");
-    printf("\nTipos de entrada:\n");
+    printf("Tipos de entrada:\n");
         printf("\t1. Una consumicion (%i euro) \n", PRECIO_CONS_1);
         printf("\t2. Dos consumiciones (%i euro) \n", PRECIO_CONS_2);
         printf("\t3. Tres consumiciones (%i euro) \n", PRECIO_CONS_3);
@@ -115,7 +116,7 @@ void menuListadoDiasDisponibles(){
         opcionMenuCalendario = introducirCodioDia();
         switch(opcionMenuCalendario){
             case '1':
-                printf("\n");
+                printf("\n---------------------------------------------------\n");
 
                 do {
                     printf("Codigo de la entrada: ");
@@ -128,13 +129,19 @@ void menuListadoDiasDisponibles(){
                     long int num = strtol(cod, &type, 10);
 
                     if (errno != 0 || *type != '\0') {
-                        printf("'%s' no es una edad valida\n", cod);
+                        printf("'%s' no es una entrada valida\n", cod);
                     }
 
                 } while (errno != 0 || *type != '\0');
 
-                mostrarEntradasDisponibles(codigo);
-                tipoEntradaSeleccionada();
+                printf("%i", codigo);
+                if (mostrarEntradasDisponibles(codigo) == 0) {
+                    printf("Codigo seleccionado correctamente\n");
+                    tipoEntradaSeleccionada();
+                } else {
+                    printf("Codigo seleccionado incorrectamente\nOperacion cancelada\n");
+                    menu();
+                }
             break;
 
             case '2':

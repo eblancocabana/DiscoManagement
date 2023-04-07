@@ -32,7 +32,7 @@ int comprobarExistencia(char* username, char* password);
 
 void mostrarlistadoeventos();
 void mostrarFiestas();
-void mostrarEntradasDisponibles(int codigo);
+int mostrarEntradasDisponibles(int codigo);
 void cargarLocales();
 void seleccionarRRPP();
 
