@@ -25,7 +25,7 @@ char introducirTipoEntrada(){
         printf("\t2. Dos consumiciones (%i euro) \n", PRECIO_CONS_2);
         printf("\t3. Tres consumiciones (%i euro) \n", PRECIO_CONS_3);
         printf("\t4. Reservado (%i euro) \n", PRECIO_RES);
-    printf("\t5. Atras\n\n");
+    printf("\t0. Atras\n\n");
     printf("Elige una opcion: ");
 
 
