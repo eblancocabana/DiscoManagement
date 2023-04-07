@@ -64,13 +64,13 @@ char mostrarMenu() {
 
 void rellenarCamposRegistro() {
   char inputRegis[MAX_REGISTRO];
-  char * nombre;
-  char * nombreUsu;
-  char * sexo;
+  char* nombre;
+  char* nombreUsu;
+  char* sexo;
   char* age;
-  char * correo;
-  char * contrasenya;
-  char * repertirContrasenya;
+  char* correo;
+  char* contrasenya;
+  char* repertirContrasenya;
   int existe = 1;
   char* type;
 

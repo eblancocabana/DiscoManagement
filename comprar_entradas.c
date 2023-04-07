@@ -214,7 +214,7 @@ void confirmarPago(){
                 
         }   
 
-    }while(opcionConfirmarPago != '0');
+    } while(opcionConfirmarPago != '0');
 
 }
 

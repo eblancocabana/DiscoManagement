@@ -446,7 +446,43 @@ int inicializacion() {
   return 0;
 }
 
-    // COMPROBACIOIN DE EXISTENCIA DE DIFERENTES ELEMENTOS EN LA BASE DE DATOS 
+// FUNCIONES PARA LIMPIAR EL CODIGO
+
+char* limpiarInput(char* input) {
+
+  char* limpio = malloc((MAX_INPUT) * sizeof(char));
+  sscanf(input, "%s", limpio); //le quita el 'n' (si lo hay)
+
+  clearIfNeeded(input, MAX_INPUT); //le quita el 'n' (si lo hay)
+  fflush(stdout);
+  fflush(stdin);
+
+  return limpio;
+}
+
+void clearIfNeeded(char * str, int max_line) {
+  // Limpia los caracteres de más introducidos
+  if ((strlen(str) == max_line - 1) && (str[max_line - 2] != '\n'))
+    while (getchar() != '\n');
+}
+
+    // FUNCION PARA IMPRIMIR POR CONSOLA LOS ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS
+
+static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
+  int i;
+
+  for (i = 0; i < argc; i++) {
+    if (i > 0) {
+      printf(" - ");
+    }
+    printf("%s", argv[i] ? argv[i] : "NULL");
+  }
+  printf("\n");
+
+  return 0;
+}
+
+    // COMPROBACION DE EXISTENCIA DE DIFERENTES ELEMENTOS EN LA BASE DE DATOS 
 
 int comprobarAdmin(char* user) {
   sqlite3_stmt * statement;
@@ -724,42 +760,6 @@ int comprobarCodigoRRPP(int cod) {
   cerrarConexion(database);
 }
 
-    // FUNCIONES PARA LIMPIAR EL CODIGO
-
-char* limpiarInput(char* input) {
-
-  char* limpio = malloc((MAX_INPUT) * sizeof(char));
-  sscanf(input, "%s", limpio); //le quita el 'n' (si lo hay)
-
-  clearIfNeeded(input, MAX_INPUT); //le quita el 'n' (si lo hay)
-  fflush(stdout);
-  fflush(stdin);
-
-  return limpio;
-}
-
-void clearIfNeeded(char * str, int max_line) {
-  // Limpia los caracteres de más introducidos
-  if ((strlen(str) == max_line - 1) && (str[max_line - 2] != '\n'))
-    while (getchar() != '\n');
-}
-
-    // FUNCION PARA PRINTEAR POR CONSOLA LOS ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS
-
-static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
-  int i;
-
-  for (i = 0; i < argc; i++) {
-    if (i > 0) {
-      printf(" - ");
-    }
-    printf("%s", argv[i] ? argv[i] : "NULL");
-  }
-  printf("\n");
-
-  return 0;
-}
-
     // CARGAR/MOSTRAR ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS
 
 void seleccionarRRPP(){
@@ -819,7 +819,7 @@ void mostrarlistadoeventos(){
   char* error = 0;
   int aper;
 
-  char* sql = "SELECT * FROM listaeventos";
+  char* sql = "SELECT * FROM eventos";
   aper = sqlite3_exec(database, sql, callback, 0, &error);
   
   if (aper != SQLITE_OK) {
@@ -916,7 +916,7 @@ int insertarEvento() {
 
   abrirConexion();
   char lineEven[1024];
-  char dia[50], descripcion[50], nombreDiscoteca[50], aforo[50];
+  char dia[50], descripcion[80], nombreDiscoteca[50], aforo[50];
 
   sscanf(lineEven, "%[^','],%[^','],%[^','],%s", dia,
     descripcion,
