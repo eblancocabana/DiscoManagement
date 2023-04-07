@@ -919,7 +919,7 @@ void mostrarFiestas() {
   cerrarConexion(database);
 }
 
-void mostrarlistadoeventos(){
+void mostrarlistadoeventos() {
 	abrirConexion();
 
   char* error = 0;
@@ -935,6 +935,22 @@ void mostrarlistadoeventos(){
 
 	cerrarConexion(database);
 }
+
+void mostrarEntradasDisponibles(int codigo) {
+  abrirConexion();
+
+  char* error = 0;
+  int aper;
+
+  char* sql = "SELECT entradas FROM dias_de_fiesta WHERE codigo = 001";
+  aper = sqlite3_exec(database, sql, callback, 0, &error);
+
+      if (aper != SQLITE_OK) {
+        fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+        sqlite3_free(error);
+  }
+    cerrarConexion(database);
+} 
 
     // INSERTAR DATOS BASICOS A LA BASE DE DATOS
 
