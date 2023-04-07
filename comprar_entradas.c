@@ -164,7 +164,7 @@ void pagarEntrada(){
 }
 
 char mostrarConfirmarPago(){
-    printf("\nConfirmar pago:\n\t1. Confirmar pago (RRPP)\n\t2. Confirmar pago (PDF)\n\t0. Atras\n\nElige una opcion: ");
+    printf("\nConfirmar pago:\n\t1. Confirmar pago (RRPP)\n\t0. Atras\n\nElige una opcion: ");
 
     char inputConfirmarPago[MAX_SELECCION];
     int numConfirmarPago;
@@ -176,7 +176,7 @@ char mostrarConfirmarPago(){
 }
 
 char confirmarPagoCompra(){
-    printf("\nConfirmar pago:\n\t1. Confirmar \n\t0. Atras\n\nElige una opcion: ");
+    printf("\nConfirmar pago:\n\t1. Confirmar\n\t0. Atras\n\nElige una opcion: ");
 
     char inputConfirmarCompra[MAX_SELECCION];
     int numConfirmarCompra;
