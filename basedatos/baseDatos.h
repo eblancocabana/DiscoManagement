@@ -28,7 +28,7 @@ int comprobarCodigoRRPP(int cod);
 int comprobarUsuario(char* usuario);
 int comprobarFecha(char* fecha, int evento);
 int comprobarAdmin(char* user);
-int comprobarExistencia(char* username, char* password);ç
+int comprobarExistencia(char* username, char* password);
 int comprobarEntrada(int codigo);
 
 void mostrarlistadoeventos();

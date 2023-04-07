@@ -865,6 +865,61 @@ int comprobarFecha(char* fecha, int evento) {
   cerrarConexion(database);
   return 0;
 }    
+
+int comprobarEntrada(int codigo) {
+  sqlite3_stmt * statement;
+  char * mensajeError = 0;
+  int apertura = 0;
+  int busqueda = 0;
+  char* sentencia;
+
+  abrirConexion();
+  if (gestionarError(database) != SQLITE_OK) {
+    printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
+  }
+
+  sentencia = "SELECT entradas FROM dias_de_fiesta WHERE codigo = ?";
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
+
+  sqlite3_bind_int(statement, 1, codigo);
+
+  if (busqueda != SQLITE_OK) {
+    printf("Error en la consulta: %s\n", gestionarError(database));
+    gestionarFree(mensajeError);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 1;
+  }
+
+  busqueda = sqlite3_step(statement);
+
+  if (mensajeError != NULL) {
+    gestionarFree(mensajeError);
+
+    cerrarConexion(database);
+    return 1;
+  }
+
+  if (busqueda == SQLITE_ROW) {
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 0;
+
+  } else if (busqueda != SQLITE_OK) {
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return -1;
+
+  } else {
+    gestionarFree(mensajeError);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 1;
+  }
+
+  cerrarConexion(database);
+  return 0;
+}
     
     // CARGAR/MOSTRAR ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS
 
@@ -953,61 +1008,6 @@ void mostrarRRPP() {
 
 	cerrarConexion(database);
 }
-
-int comprobarEntrada(int codigo) {
-  sqlite3_stmt * statement;
-  char * mensajeError = 0;
-  int apertura = 0;
-  int busqueda = 0;
-  char* sentencia;
-
-  abrirConexion();
-  if (gestionarError(database) != SQLITE_OK) {
-    printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
-  }
-
-  sentencia = "SELECT entradas FROM dias_de_fiesta WHERE codigo = ?";
-  busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
-
-  sqlite3_bind_int(statement, 1, codigo);
-
-  if (busqueda != SQLITE_OK) {
-    printf("Error en la consulta: %s\n", gestionarError(database));
-    gestionarFree(mensajeError);
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-    return 1;
-  }
-
-  busqueda = sqlite3_step(statement);
-
-  if (mensajeError != NULL) {
-    gestionarFree(mensajeError);
-
-    cerrarConexion(database);
-    return 1;
-  }
-
-  if (busqueda == SQLITE_ROW) {
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-    return 0;
-
-  } else if (busqueda != SQLITE_OK) {
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-    return -1;
-
-  } else {
-    gestionarFree(mensajeError);
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-    return 1;
-  }
-
-  cerrarConexion(database);
-  return 0;
-} 
 
     // INSERTAR DATOS BASICOS A LA BASE DE DATOS
 
