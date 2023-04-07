@@ -29,7 +29,7 @@ int comprobarUsuario(char* usuario);
 int comprobarFecha(char* fecha, int evento);
 int comprobarAdmin(char* user);
 int comprobarExistencia(char* username, char* password);
-int comprobarEntrada(int codigo);
+int comprobarEntrada(char* codigo);
 
 void mostrarlistadoeventos();
 void mostrarFiestas();

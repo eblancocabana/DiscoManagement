@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 #include "seleccion_entradas.h"
 #include "comprar_entradas.h"
 #include "basedatos/sqlite/sqlite3.h"
@@ -70,12 +71,8 @@ void tipoEntradaSeleccionada(){
                 //sleep(SEGUNDOS);
                 menuListadoDiasDisponibles();
             break;
-            
-            default:
-                printf("Introduzca una opción valida: %c no es valida\n", opcionTipoEntrada);
-            break;
         }
-    } while (opcionTipoEntrada != '1' && opcionTipoEntrada != '2' && opcionTipoEntrada != '3' && opcionTipoEntrada != '4' && opcionTipoEntrada != '5');
+    } while (opcionTipoEntrada != '0');
 }
 
 void mostrarDiasDisponibles(){
@@ -112,6 +109,8 @@ void menuListadoDiasDisponibles(){
     char* cod;
     char* type;
     char strNum[3];
+    char strCodigo[4];
+    char auxCodigo[16];
 
     do{
         opcionMenuCalendario = introducirCodioDia();
@@ -135,22 +134,38 @@ void menuListadoDiasDisponibles(){
 
                 } while (errno != 0 || *type != '\0');
 
-                printf("%i", codigo);
                 if (codigo < 100) {
-                     sprintf(strNum, "%d", codigo);
+                    sprintf(strNum, "%d", codigo);
 
-                    char strResultado[4] = {'0', '\0'};
-                    strcat(strResultado, strNum);
-                }
-                
-                if (comprobarEntrada(codigo) == 0) {
-                    printf("Entrada con codigo: '%i' seleccionada correctamente\n", codigo);
-                    tipoEntradaSeleccionada();
-                } else if (comprobarEntrada(codigo) == -1) {
-                    printf("El codigo de entrada seleccionado no existe\nOperacion cancelada\n");
+                    char strCodigo[4] = {'0', '\0'};
+                    strcat(strCodigo, strNum);
+
+                    if (comprobarEntrada(strCodigo) == 0) {
+                        printf("Entrada con codigo: '%s' seleccionada correctamente\n", strCodigo);
+                        tipoEntradaSeleccionada();
+
+                    } else if (comprobarEntrada(strCodigo) == -1) {
+                        printf("El codigo de entrada seleccionado no existe\nOperacion cancelada\n");
+
+                    } else {
+                        printf("Codigo seleccionado incorrectamente\nOperacion cancelada\n");
+                        menu();
+                    }
+                    
                 } else {
-                    printf("Codigo seleccionado incorrectamente\nOperacion cancelada\n");
-                    menu();
+                    sprintf(auxCodigo, "%d", codigo);   
+
+                    if (comprobarEntrada(auxCodigo) == 0) {
+                        printf("Entrada con codigo: '%i' seleccionada correctamente\n", auxCodigo);
+                        tipoEntradaSeleccionada();
+
+                    } else if (comprobarEntrada(auxCodigo) == -1) {
+                        printf("El codigo de entrada seleccionado no existe\nOperacion cancelada\n");
+
+                    } else {
+                        printf("Codigo seleccionado incorrectamente\nOperacion cancelada\n");
+                        menu();
+                    }
                 }
             break;
         }

@@ -866,7 +866,7 @@ int comprobarFecha(char* fecha, int evento) {
   return 0;
 }    
 
-int comprobarEntrada(int codigo) {
+int comprobarEntrada(char* codigo) {
   sqlite3_stmt * statement;
   char * mensajeError = 0;
   int apertura = 0;
@@ -881,7 +881,7 @@ int comprobarEntrada(int codigo) {
   sentencia = "SELECT entradas FROM dias_de_fiesta WHERE codigo = ?";
   busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
 
-  sqlite3_bind_int(statement, 1, codigo);
+  sqlite3_bind_text(statement, 1, codigo, strlen(codigo), SQLITE_STATIC);
 
   if (busqueda != SQLITE_OK) {
     printf("Error en la consulta: %s\n", gestionarError(database));
