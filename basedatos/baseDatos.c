@@ -775,7 +775,7 @@ int comprobarCodigoRRPP(int cod) {
   cerrarConexion(database);
 }
 
-int comprobarFecha(char* fecha) {
+int comprobarFecha(char* fecha, int evento) {
   sqlite3_stmt * statement;
   char * mensajeError = 0;
   int apertura = 0;
@@ -786,7 +786,13 @@ int comprobarFecha(char* fecha) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
 
-  char * sentencia = "SELECT fecha FROM usuarios WHERE fecha = ?;";
+  char* sentencia = "SELECT fecha FROM dias_de_fiesta WHERE fecha = ?;";
+
+  //Si es un evento, la sentencia cambia a la tabla eventos
+  if (evento == 0) {
+    sentencia = "SELECT dia FROM eventos WHERE dia = ?;";
+  }
+
   busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
 
   sqlite3_bind_text(statement, 1, fecha, strlen(fecha), SQLITE_STATIC);
