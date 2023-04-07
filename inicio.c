@@ -243,7 +243,7 @@ int menu() {
       printf("Menu de compra de entrada\n\n");
       printf("\e[0m");
 
-      
+      menuListadoDiasDisponibles();
       break;
 
     case '3':

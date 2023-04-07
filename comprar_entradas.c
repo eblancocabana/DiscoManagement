@@ -43,7 +43,7 @@ int introducirNumEntradas(){
 }
 
 char* introducirNombreCompleto(){
-    printf("\n\tIntroduce tu nombre completo: ");
+    printf("\tIntroduce tu nombre completo: ");
 
     //char inputNombreCompleto[MAX_NOMBRE];
     char* inputNombreCompleto = (char*) malloc(MAX_NOMBRE * sizeof(char));
@@ -52,7 +52,7 @@ char* introducirNombreCompleto(){
 }
 
 char* introducirGmail(){
-    printf("\n\tIntroduce tu cuenta de gmail: ");
+    printf("\tIntroduce tu cuenta de gmail: ");
 
     //char inputGmail[MAX_GMAIL];
     char* inputGmail = (char*) malloc(MAX_GMAIL * sizeof(char));

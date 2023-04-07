@@ -20,7 +20,7 @@ char introducirTipoEntrada(){
         printf("\t3. Tres consumiciones (%i euro) \n", PRECIO_CONS_3);
         printf("\t4. Reservado (%i euro) \n", PRECIO_RES);
     printf("5. Atras\n");
-    printf("Elige una opcion: \n\n");
+    printf("Elige una opcion: ");
 
 
     char inputDatosCompra[MAX_SELECCION];
@@ -92,7 +92,7 @@ char introducirCodioDia(){
         printf("\t2. Siguiente pagina entradas \n");
         printf("\t3. Pagina anterior entradas \n");
     printf("4. Atras\n");
-    printf("Elige una opcion: \n\n");
+    printf("Elige una opcion:");
 
 
     char inputDatosCompra[MAX_SELECCION];
@@ -113,7 +113,7 @@ void menuListadoDiasDisponibles(){
                 printf(" \n");
                 // sleep(SEGUNDOS);
                 // system("cls");
-                mostrarEntradasDisponibles(001);
+                // mostrarEntradasDisponibles(001);
                 tipoEntradaSeleccionada();
             break;
 
@@ -130,7 +130,7 @@ void menuListadoDiasDisponibles(){
             break;
 
             case '4':
-                printf("Atras...\n");
+                printf("\tAtras...\n");
                 //sleep(SEGUNDOS);
             break;
 
