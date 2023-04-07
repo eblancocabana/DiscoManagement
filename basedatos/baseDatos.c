@@ -992,16 +992,18 @@ int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento) {
 
   abrirConexion();
   char lineEven[1024];
-  char dia[50], descripcion[80], nombreDiscoteca[50], aforo[50];
+  char dia[50], descripcion[80], nombreDiscoteca[50];
+  int aforo = 400;
 
-  sscanf(lineEven, "%[^','],%[^','],%[^','],%s", dia,
+  sscanf(lineEven, "%[^','],%[^','],%s,%d", 
+    dia,
     descripcion,
     nombreDiscoteca,
     aforo);
 
   char sql_insertEven[1024];
 
-  sprintf(sql_insertEven, "INSERT INTO eventos VALUES('%s','%s','%s',%s);",
+  sprintf(sql_insertEven, "INSERT INTO eventos VALUES('%s','%s','%s',%d);",
     dia,
     descripcion,
     nombreDiscoteca,
