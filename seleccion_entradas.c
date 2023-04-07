@@ -75,7 +75,7 @@ void tipoEntradaSeleccionada(){
                 printf("Introduzca una opción valida: %c no es valida\n", opcionTipoEntrada);
             break;
         }
-    } while( opcionTipoEntrada != '1' && opcionTipoEntrada != '2' && opcionTipoEntrada != '3' && opcionTipoEntrada != '4' && opcionTipoEntrada != '5');
+    } while (opcionTipoEntrada != '1' && opcionTipoEntrada != '2' && opcionTipoEntrada != '3' && opcionTipoEntrada != '4' && opcionTipoEntrada != '5');
 }
 
 void mostrarDiasDisponibles(){
@@ -111,6 +111,7 @@ void menuListadoDiasDisponibles(){
     int codigo;
     char* cod;
     char* type;
+    char strNum[3];
 
     do{
         opcionMenuCalendario = introducirCodioDia();
@@ -122,7 +123,7 @@ void menuListadoDiasDisponibles(){
                     printf("Codigo de la entrada: ");
                     fgets(inputCod, MAX_CODIGO, stdin);
 
-                    sscanf(inputCod, "%i", &codigo);
+                    sscanf(inputCod, "%d", &codigo);
                     cod = limpiarInput(inputCod);
 
                     errno = 0;
@@ -134,24 +135,24 @@ void menuListadoDiasDisponibles(){
 
                 } while (errno != 0 || *type != '\0');
 
+                printf("%i", codigo);
+                if (codigo < 100) {
+                     sprintf(strNum, "%d", codigo);
+
+                    char strResultado[4] = {'0', '\0'};
+                    strcat(strResultado, strNum);
+                }
+                
                 if (comprobarEntrada(codigo) == 0) {
                     printf("Entrada con codigo: '%i' seleccionada correctamente\n", codigo);
                     tipoEntradaSeleccionada();
+                } else if (comprobarEntrada(codigo) == -1) {
+                    printf("El codigo de entrada seleccionado no existe\nOperacion cancelada\n");
                 } else {
                     printf("Codigo seleccionado incorrectamente\nOperacion cancelada\n");
                     menu();
                 }
             break;
-
-            case '2':
-                printf("\tAtras...\n");
-
-            break;
-
-            
-            default:
-                printf("Introduzca una opción valida: %c no es valida\n", opcionMenuCalendario);
-            break;
         }
-    } while(opcionMenuCalendario != '1' && opcionMenuCalendario != '4');
+    } while (opcionMenuCalendario != '0');
 }
