@@ -10,7 +10,7 @@
 #include "basedatos/sqlite/sqlite3.h"
 #include "basedatos/baseDatos.h"
 #include "servidor/inicio_servidor.h"
-
+ 
 #define MAX_SELECCION 5
 #define MAX_REGISTRO 20
 #define MAX_LOGIN 15
