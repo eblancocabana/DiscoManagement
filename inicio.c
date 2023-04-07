@@ -68,7 +68,7 @@ char mostrarMenu() {
 
 void rellenarCamposRegistro() {
   char inputRegis[MAX_REGISTRO];
-  char* nombre;
+  char nombre[MAX_NOMBRE];
   char* nombreUsu;
   char* sexo;
   char* age;

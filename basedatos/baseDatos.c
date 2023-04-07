@@ -1029,7 +1029,7 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
   abrirConexion();
 
   sprintf(codigo, "%d", ultimo);
-  printf("%s", codigo);
+  //printf("%s", codigo);
 
   sscanf(lineFi, "%[^','],%[^','],%[^','],%d,%s",
     codigo,
