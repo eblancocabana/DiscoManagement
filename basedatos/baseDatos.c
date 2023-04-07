@@ -844,7 +844,6 @@ int comprobarFecha(char* fecha, int evento) {
   }
 
   if (busqueda == SQLITE_ROW) {
-    printf("Encuentra");
     sqlite3_finalize(statement);
     cerrarConexion(database);
     return 0;
@@ -1035,7 +1034,6 @@ int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento) {
 
   abrirConexion();
   char lineEven[1024];
-  char dia[50], descripcion[80], nombreDiscoteca[50];
   char* aforo = "400";
 
   sscanf(lineEven, "%[^','],%[^','],%[^','],%s", 

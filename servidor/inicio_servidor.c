@@ -139,8 +139,10 @@ int menuServidor() {
             } else {
                 printf("Formato de fecha incorrecto\nOperacion cancelada\n");
             }
+        } else if (existeFecha == 0) {
+            printf("\nLa fecha introducida ya esta ocupada\nOperacion cancelada\n");
         } else {
-            printf("\nValores incorrectos\nOperacion cancelada\n");
+            printf("\nNombre de la discoteca incorrecto\nOperacion cancelada\n");
         }
 
     break;
@@ -179,8 +181,10 @@ int menuServidor() {
             } else {
                 printf("Formato de fecha incorrecto\nOperacion cancelada");
             }
+        } else if (existeFecha == 0) {
+            printf("\nLa fecha introducida ya esta ocupada\nOperacion cancelada\n");
         } else {
-            printf("\nValores incorrectos\nOperacion cancelada\n");
+            printf("\nNombre de la discoteca incorrecto\nOperacion cancelada\n");
         }
 
     break;
