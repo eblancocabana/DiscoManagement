@@ -169,7 +169,7 @@ int inicializarDiasDeFiesta() {
 
       if (apertura != SQLITE_OK) {
         gestionarFree(mensajeError);
-        gestionarError(database);
+        //gestionarError(database);
         gestionarFree(errorMessage);
 
         cerrarConexion(database);
@@ -545,7 +545,7 @@ int comprobarAdmin(char* user) {
   sqlite3_bind_text(statement, 1, user, strlen(user), SQLITE_STATIC);
 
   if (busqueda != SQLITE_OK) {
-    printf("Error preparing SQL statement: %s\n", sqlite3_errmsg(database));
+    printf("Error preparing SQL statement: %s\n", gestionarError(database));
     gestionarFree(mensajeError);
     fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
     sqlite3_finalize(statement);
@@ -557,7 +557,7 @@ int comprobarAdmin(char* user) {
 
   if (mensajeError != NULL) {
     gestionarFree(mensajeError);
-
+    //gestionarError(database);
     cerrarConexion(database);
     return 1;
   }
@@ -614,7 +614,7 @@ int comprobarExistencia(char* username, char* password) {
 
   if (mensajeError != NULL) {
     gestionarFree(mensajeError);
-
+    //gestionarError(database);
     cerrarConexion(database);
     return 1;
   }
@@ -669,7 +669,7 @@ int comprobarUsuario(char* usuario) {
 
   if (mensajeError != NULL) {
     gestionarFree(mensajeError);
-
+    //gestionarError(database);
     cerrarConexion(database);
     return 1;
   }
@@ -1018,7 +1018,7 @@ int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* co
 
   if (aperturaInsert != SQLITE_OK) {
     gestionarFree(mensajeError);
-    gestionarError(database);
+    //gestionarError(database);
     gestionarFree(errorMessage);
 
     cerrarConexion(database);
