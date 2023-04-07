@@ -3,6 +3,7 @@
 #include <string.h>
 #include "reservar_local.h"
 #include "basedatos/baseDatos.h"
+#include "inicio.h"
 
 #define MAX_SELECCION 5
 #define MAX_NOMBRE_DISCOTECA 20
@@ -156,6 +157,8 @@ void confirmarReserva() {
         switch (opcionConfirmarReserva) {
             case '1':
                 printf("\nEL PAGO HA SIDO CONFIRMADO");
+                menu();
+                //opcionConfirmarReserva = '0';
             break;
         }
     } while (opcionConfirmarReserva != '0');
