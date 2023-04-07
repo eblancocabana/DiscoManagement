@@ -113,8 +113,7 @@ int menuServidor() {
     opcionMenu = mostrarMenuServidor();
     switch (opcionMenu) {
     case '1':
-        printf("\n---------------------------------------------------\n");
-        printf("Reiniciar BD\n\n");
+        printf("\nLa Base De Datos se ha reiniciado con los valores de fabrica correctamente\n");
         reiniciarBD();
     break;
 
@@ -142,7 +141,6 @@ int menuServidor() {
         if (((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) && (existeFecha == -1)) {
             if (verificarFecha(fecha)) {
                 insertarDiaFiesta(fecha, nomDiscoteca, evento);
-                insertarEvento(fecha, nomDiscoteca, descripcionEvento);
 
                 printf("Fiesta introducida correctamente en La Base De Datos\n");
             } else {
