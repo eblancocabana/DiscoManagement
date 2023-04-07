@@ -982,7 +982,7 @@ int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* co
   return 0;
 }
 
-int insertarEvento(char* fecha, char* nombreDisco, char* descripcion) {
+int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento) {
 
   abrirConexion();
   char lineEven[1024];
