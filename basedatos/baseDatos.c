@@ -19,6 +19,8 @@ char* mensajeError = NULL;
 char* errorMessage = NULL;
 int admin = 1;
 
+    // ACCIONES BASICAS CON LA BASE DE DATOS
+
 int dbExiste(char* fichero) {
   FILE* arch = fopen(fichero, "r");
 
@@ -27,15 +29,6 @@ int dbExiste(char* fichero) {
     return 1;
   }
   return 0;
-}
-
-int gestionarError(sqlite3* baseDatos) {
-  fprintf(stderr, "\nSQL Error: %s\n", sqlite3_errmsg(baseDatos));
-  return sqlite3_errcode(baseDatos);
-}
-
-void gestionarFree(char* str) {
-  sqlite3_free(str);
 }
 
 int reiniciarBD() {
@@ -48,8 +41,9 @@ int reiniciarBD() {
   inicializarListaEventos();
 
   cerrarConexion(database);
- 
 }
+
+    // CONEXION A LA BASE DE DATOS
 
 void cerrarConexion(sqlite3* baseDatos) {
   sqlite3_close(baseDatos);
@@ -71,174 +65,18 @@ int abrirConexion() {
   }
 }
 
-int comprobarAdmin(char* user) {
-  sqlite3_stmt * statement;
-  char * mensajeError = 0;
-  int apertura = 0;
-  int busqueda = 0;
+    // GESTION DE SUCESOS EN LA BASE DE DATOS
 
-  abrirConexion();
-
-  if (gestionarError(database) != SQLITE_OK) {
-    printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
-  }
-
-  char* sentencia = "SELECT admin FROM usuarios WHERE usuario = ? AND admin = 'Si';";
-  busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
-
-  sqlite3_bind_text(statement, 1, user, strlen(user), SQLITE_STATIC);
-
-  if (busqueda != SQLITE_OK) {
-    printf("Error preparing SQL statement: %s\n", sqlite3_errmsg(database));
-    gestionarFree(mensajeError);
-    fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-    return 1;
-  }
-
-  busqueda = sqlite3_step(statement);
-
-  if (mensajeError != NULL) {
-    gestionarFree(mensajeError);
-
-    cerrarConexion(database);
-    return 1;
-  }
-
-  if (busqueda == SQLITE_ROW) {
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-    return 0;
-
-  } else if (busqueda != SQLITE_OK) {
-    gestionarFree(mensajeError);
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-    return 1;
-
-  } else {
-    printf("\nNo se ha encontrado el usuario\n");
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-  }
-
-  cerrarConexion(database);
-  return 0;
+int gestionarError(sqlite3* baseDatos) {
+  fprintf(stderr, "\nSQL Error: %s\n", sqlite3_errmsg(baseDatos));
+  return sqlite3_errcode(baseDatos);
 }
 
-int comprobarExistencia(char* username, char* password) {
-  sqlite3_stmt * statement;
-  char * mensajeError = 0;
-  int apertura = 0;
-  int busqueda = 0;
-
-  abrirConexion();
-  if (gestionarError(database) != SQLITE_OK) {
-    printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
-  }
-
-  char * sentencia = "SELECT usuario, contrasenya FROM usuarios WHERE usuario = ? AND contrasenya = ?;";
-  busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
-
-  sqlite3_bind_text(statement, 1, username, strlen(username), SQLITE_STATIC);
-  sqlite3_bind_text(statement, 2, password, strlen(password), SQLITE_STATIC);
-
-  comprobarAdmin(username);
-
-  if (busqueda != SQLITE_OK) {
-    printf("Error en la consulta: %s\n", gestionarError(database));
-    gestionarFree(mensajeError);
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-    return 1;
-  }
-
-  busqueda = sqlite3_step(statement);
-
-  if (mensajeError != NULL) {
-    gestionarFree(mensajeError);
-
-    cerrarConexion(database);
-    return 1;
-  }
-
-  if (busqueda == SQLITE_ROW) {
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-    return 0;
-
-  } else if (busqueda != SQLITE_OK) {
-    printf("\nNo se ha encontrado el usuario\n");
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-    return -1;
-
-  } else {
-    gestionarFree(mensajeError);
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-    return 1;
-  }
-
-  cerrarConexion(database);
-  return 0;
+void gestionarFree(char* str) {
+  sqlite3_free(str);
 }
 
-int comprobarUsuario(char* usuario) {
-  sqlite3_stmt * statement;
-  char * mensajeError = 0;
-  int apertura = 0;
-  int busqueda = 0;
-
-  abrirConexion();
-  if (gestionarError(database) != SQLITE_OK) {
-    printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
-  }
-
-  char * sentencia = "SELECT usuario FROM usuarios WHERE usuario = ?;";
-  busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
-
-  sqlite3_bind_text(statement, 1, usuario, strlen(usuario), SQLITE_STATIC);
-
-  if (busqueda != SQLITE_OK) {
-    printf("Error en la consulta: %s\n", gestionarError(database));
-    gestionarFree(mensajeError);
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-    return 1;
-  }
-
-  busqueda = sqlite3_step(statement);
-
-  if (mensajeError != NULL) {
-    gestionarFree(mensajeError);
-
-    cerrarConexion(database);
-    return 1;
-  }
-
-  if (busqueda == SQLITE_ROW) {
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-    return 0;
-
-  } else if (busqueda != SQLITE_OK) {
-    printf("\nNo se ha encontrado el usuario\n");
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-    return -1;
-
-  } else {
-    gestionarFree(mensajeError);
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-    return 1;
-  }
-
-  cerrarConexion(database);
-  return 0;
-}
+    // INICIALIZACION DE LOS VALORES DE LA BASE DE DATOS (VALORES POR DEFECTO)
 
 int inicializarDiasDeFiesta() {
   //Eliminar tabla si existe
@@ -485,9 +323,9 @@ int inicializarRRPP() {
 
     while (fgets(line4, sizeof(line4), fp4)) {
 
-      char Codigo[50], nombre[50], zona_recogida[50], hora_recogida[50], numero_contacto[50];
+      char codigo[50], nombre[50], zona_recogida[50], hora_recogida[50], numero_contacto[50];
 
-      sscanf(line4, "%[^','],%[^','],%[^','],%[^','],%s", Codigo,
+      sscanf(line4, "%[^','],%[^','],%[^','],%[^','],%s", codigo,
         nombre,
         zona_recogida,
         hora_recogida,
@@ -496,7 +334,7 @@ int inicializarRRPP() {
       char sql_insert[1024];
 
       sprintf(sql_insert, "INSERT INTO rrpp VALUES(%s,'%s','%s','%s','%s');",
-        Codigo,
+        codigo,
         nombre,
         zona_recogida,
         hora_recogida,
@@ -554,9 +392,9 @@ int inicializarUsuarios() {
 
     while (fgets(line5, sizeof(line5), fp5)) {
 
-      char Nombre[50], nombre_usuario[50], Sexo[50], Edad[50], email[50], password[50], admin[50];
+      char nombre[50], nombre_usuario[50], Sexo[50], Edad[50], email[50], password[50], admin[50];
 
-      sscanf(line5, "%[^','],%[^','],%[^','],%[^','],%[^','],%[^','],%s", Nombre,
+      sscanf(line5, "%[^','],%[^','],%[^','],%[^','],%[^','],%[^','],%s", nombre,
         nombre_usuario,
         Sexo,
         Edad,
@@ -567,7 +405,7 @@ int inicializarUsuarios() {
       char sql_insert[1024];
 
       sprintf(sql_insert, "INSERT INTO usuarios VALUES('%s','%s','%s',%s,'%s','%s','%s');",
-        Nombre,
+        nombre,
         nombre_usuario,
         Sexo,
         Edad,
@@ -608,104 +446,175 @@ int inicializacion() {
   return 0;
 }
 
-char* limpiarInput(char* input) {
+    // COMPROBACIOIN DE EXISTENCIA DE DIFERENTES ELEMENTOS EN LA BASE DE DATOS 
 
-  char* limpio = malloc((MAX_INPUT) * sizeof(char));
-  sscanf(input, "%s", limpio); //le quita el 'n' (si lo hay)
+int comprobarAdmin(char* user) {
+  sqlite3_stmt * statement;
+  char * mensajeError = 0;
+  int apertura = 0;
+  int busqueda = 0;
 
-  clearIfNeeded(input, MAX_INPUT); //le quita el 'n' (si lo hay)
-  fflush(stdout);
-  fflush(stdin);
+  abrirConexion();
 
-  return limpio;
-}
-
-void clearIfNeeded(char * str, int max_line) {
-  // Limpia los caracteres de más introducidos
-  if ((strlen(str) == max_line - 1) && (str[max_line - 2] != '\n'))
-    while (getchar() != '\n');
-}
-
-void seleccionarRRPP(){
-    abrirConexion();
-
-    char* error = 0;
-    int aper;
-
-    char* sql = "SELECT * FROM rrpp";
-    aper = sqlite3_exec(database, sql, callback, 0, &error);
-
-    if (aper != SQLITE_OK) {
-        fprintf(stderr, "Error en la consulta SQL: %s\n", error);
-        sqlite3_free(error);
-    }
-    
-    cerrarConexion(database);
-}
-
-static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
-  int i;
-
-  for (i = 0; i < argc; i++) {
-    if (i > 0) {
-      printf(" - ");
-    }
-    printf("%s", argv[i] ? argv[i] : "NULL");
+  if (gestionarError(database) != SQLITE_OK) {
+    printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
-  printf("\n");
 
+  char* sentencia = "SELECT admin FROM usuarios WHERE usuario = ? AND admin = 'Si';";
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
+
+  sqlite3_bind_text(statement, 1, user, strlen(user), SQLITE_STATIC);
+
+  if (busqueda != SQLITE_OK) {
+    printf("Error preparing SQL statement: %s\n", sqlite3_errmsg(database));
+    gestionarFree(mensajeError);
+    fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 1;
+  }
+
+  busqueda = sqlite3_step(statement);
+
+  if (mensajeError != NULL) {
+    gestionarFree(mensajeError);
+
+    cerrarConexion(database);
+    return 1;
+  }
+
+  if (busqueda == SQLITE_ROW) {
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 0;
+
+  } else if (busqueda != SQLITE_OK) {
+    gestionarFree(mensajeError);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 1;
+
+  } else {
+    printf("\nNo se ha encontrado el usuario\n");
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+  }
+
+  cerrarConexion(database);
   return 0;
 }
 
-void cargarLocales() {
+int comprobarExistencia(char* username, char* password) {
+  sqlite3_stmt * statement;
+  char * mensajeError = 0;
+  int apertura = 0;
+  int busqueda = 0;
+
   abrirConexion();
-
-  char* error = 0;
-  int aper;
-
-  char* sql = "SELECT * FROM dias_de_fiesta WHERE entradas = 400";
-  aper = sqlite3_exec(database, sql, callback, 0, &error);
-
-  if (aper != SQLITE_OK) {
-      fprintf(stderr, "Error en la consulta SQL: %s\n", error);
-      sqlite3_free(error);
+  if (gestionarError(database) != SQLITE_OK) {
+    printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
-    
+
+  char * sentencia = "SELECT usuario, contrasenya FROM usuarios WHERE usuario = ? AND contrasenya = ?;";
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
+
+  sqlite3_bind_text(statement, 1, username, strlen(username), SQLITE_STATIC);
+  sqlite3_bind_text(statement, 2, password, strlen(password), SQLITE_STATIC);
+
+  comprobarAdmin(username);
+
+  if (busqueda != SQLITE_OK) {
+    printf("Error en la consulta: %s\n", gestionarError(database));
+    gestionarFree(mensajeError);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 1;
+  }
+
+  busqueda = sqlite3_step(statement);
+
+  if (mensajeError != NULL) {
+    gestionarFree(mensajeError);
+
+    cerrarConexion(database);
+    return 1;
+  }
+
+  if (busqueda == SQLITE_ROW) {
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 0;
+
+  } else if (busqueda != SQLITE_OK) {
+    printf("\nNo se ha encontrado el usuario\n");
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return -1;
+
+  } else {
+    gestionarFree(mensajeError);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 1;
+  }
+
   cerrarConexion(database);
+  return 0;
 }
 
-void mostrarFiestas() {
+int comprobarUsuario(char* usuario) {
+  sqlite3_stmt * statement;
+  char * mensajeError = 0;
+  int apertura = 0;
+  int busqueda = 0;
+
   abrirConexion();
-
-  char* error = 0;
-  int aper;
-
-  char* sql = "SELECT * FROM dias_de_fiesta";
-  aper = sqlite3_exec(database, sql, callback, 0, &error);
-
-  if (aper != SQLITE_OK) {
-      fprintf(stderr, "Error en la consulta SQL: %s\n", error);
-      sqlite3_free(error);
+  if (gestionarError(database) != SQLITE_OK) {
+    printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
-    
+
+  char * sentencia = "SELECT usuario FROM usuarios WHERE usuario = ?;";
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
+
+  sqlite3_bind_text(statement, 1, usuario, strlen(usuario), SQLITE_STATIC);
+
+  if (busqueda != SQLITE_OK) {
+    printf("Error en la consulta: %s\n", gestionarError(database));
+    gestionarFree(mensajeError);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 1;
+  }
+
+  busqueda = sqlite3_step(statement);
+
+  if (mensajeError != NULL) {
+    gestionarFree(mensajeError);
+
+    cerrarConexion(database);
+    return 1;
+  }
+
+  if (busqueda == SQLITE_ROW) {
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 0;
+
+  } else if (busqueda != SQLITE_OK) {
+    printf("\nNo se ha encontrado el usuario\n");
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return -1;
+
+  } else {
+    gestionarFree(mensajeError);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+    return 1;
+  }
+
   cerrarConexion(database);
-}
-
-void mostrarlistadoeventos(){
-	abrirConexion();
-
-  char* error = 0;
-  int aper;
-
-  char* sql = "SELECT * FROM listaeventos";
-  aper = sqlite3_exec(database, sql, callback, 0, &error);
-  
-  if (aper != SQLITE_OK) {
-      fprintf(stderr, "Error en la consulta SQL: %s\n", error);
-      sqlite3_free(error);
-  }
-
-	cerrarConexion(database);
+  return 0;
 }
 
 int comprobarCodigoLocal(int cod) {
@@ -814,6 +723,114 @@ int comprobarCodigoRRPP(int cod) {
 
   cerrarConexion(database);
 }
+
+    // FUNCIONES PARA LIMPIAR EL CODIGO
+
+char* limpiarInput(char* input) {
+
+  char* limpio = malloc((MAX_INPUT) * sizeof(char));
+  sscanf(input, "%s", limpio); //le quita el 'n' (si lo hay)
+
+  clearIfNeeded(input, MAX_INPUT); //le quita el 'n' (si lo hay)
+  fflush(stdout);
+  fflush(stdin);
+
+  return limpio;
+}
+
+void clearIfNeeded(char * str, int max_line) {
+  // Limpia los caracteres de más introducidos
+  if ((strlen(str) == max_line - 1) && (str[max_line - 2] != '\n'))
+    while (getchar() != '\n');
+}
+
+    // FUNCION PARA PRINTEAR POR CONSOLA LOS ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS
+
+static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
+  int i;
+
+  for (i = 0; i < argc; i++) {
+    if (i > 0) {
+      printf(" - ");
+    }
+    printf("%s", argv[i] ? argv[i] : "NULL");
+  }
+  printf("\n");
+
+  return 0;
+}
+
+    // CARGAR/MOSTRAR ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS
+
+void seleccionarRRPP(){
+    abrirConexion();
+
+    char* error = 0;
+    int aper;
+
+    char* sql = "SELECT * FROM rrpp";
+    aper = sqlite3_exec(database, sql, callback, 0, &error);
+
+    if (aper != SQLITE_OK) {
+        fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+        sqlite3_free(error);
+    }
+    
+    cerrarConexion(database);
+}
+
+void cargarLocales() {
+  abrirConexion();
+
+  char* error = 0;
+  int aper;
+
+  char* sql = "SELECT * FROM dias_de_fiesta WHERE entradas = 400";
+  aper = sqlite3_exec(database, sql, callback, 0, &error);
+
+  if (aper != SQLITE_OK) {
+      fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+      sqlite3_free(error);
+  }
+    
+  cerrarConexion(database);
+}
+
+void mostrarFiestas() {
+  abrirConexion();
+
+  char* error = 0;
+  int aper;
+
+  char* sql = "SELECT * FROM dias_de_fiesta";
+  aper = sqlite3_exec(database, sql, callback, 0, &error);
+
+  if (aper != SQLITE_OK) {
+      fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+      sqlite3_free(error);
+  }
+    
+  cerrarConexion(database);
+}
+
+void mostrarlistadoeventos(){
+	abrirConexion();
+
+  char* error = 0;
+  int aper;
+
+  char* sql = "SELECT * FROM listaeventos";
+  aper = sqlite3_exec(database, sql, callback, 0, &error);
+  
+  if (aper != SQLITE_OK) {
+      fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+      sqlite3_free(error);
+  }
+
+	cerrarConexion(database);
+}
+
+    // INSERTAR DATOS BASICOS A LA BASE DE DATOS
 
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
 
