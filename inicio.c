@@ -33,7 +33,8 @@ char* password;
 char mostrarLogin() {
   char inputLogin[MAX_SELECCION];
   int numLogin;
-  printf("\nInicio Sesion: \n\t1. Registrarse \n\t2. Login \n\t0. Salir \n\n Elige una opcion: ");
+  printf("\n---------------------------------------------------\n");
+  printf("Inicio Sesion: \n\t1. Registrarse \n\t2. Login \n\t0. Salir \n\n Elige una opcion: ");
 
   fgets(inputLogin, MAX_SELECCION, stdin);
   sscanf(inputLogin, "%d", & numLogin);
@@ -56,7 +57,8 @@ char mostrarMenu() {
   char inputMenu[MAX_SELECCION];
   int numMenu;
 
-  printf("\nMenu Principal: \n\t1. Informacion de eventos \n\t2. Comprar entradas \n\t3. Reservar local \n\t4. Mis reservas / compras \n\t0. Cerrar Sesion \n\n Elige una opcion: ");
+  printf("\n---------------------------------------------------\n");
+  printf("Menu Principal: \n\t1. Informacion de eventos \n\t2. Comprar entradas \n\t3. Reservar local \n\t4. Mis reservas / compras \n\t0. Cerrar Sesion \n\n Elige una opcion: ");
 
   fgets(inputMenu, MAX_SELECCION, stdin);
   sscanf(inputMenu, "%d", & numMenu);
