@@ -14,6 +14,10 @@
 #define MAX_CVV 5
 #define MAX_CADUCIDAD 10
 
+char opcionReserva;
+char opcionPagoReserva;
+char opcionConfirmarReserva;
+
 
 char mostrarListado() {
     printf("\e[37m\e[1m");
@@ -43,7 +47,7 @@ int elegirCodigo() {
 }
 
 void reservarLocal() {
-    char opcionReserva;
+    //char opcionReserva;
     int codLocal;
     int existe = 0;
 
@@ -114,7 +118,7 @@ char* introducirCaduTarjeta() {
 }
 
 void pagarReserva() {
-    char opcionPagoReserva;
+    //char opcionPagoReserva;
     char* numeroTarjeta;
     char* cvvTarjeta;
     char* caducidadTarjeta;
@@ -139,8 +143,6 @@ void pagarReserva() {
                 len = strcspn(caducidadTarjeta, "\n");
                 caducidadTarjeta[len] = '\0';
 
-                printf("\n%s, %s, %s", numeroTarjeta, cvvTarjeta, caducidadTarjeta);
-
                 confirmarReserva();
             break;
         }
@@ -150,7 +152,7 @@ void pagarReserva() {
 
 
 void confirmarReserva() {
-    char opcionConfirmarReserva;
+    // char opcionConfirmarReserva;
 
     do {
         opcionConfirmarReserva = confirmarPagoReserva();
@@ -158,7 +160,9 @@ void confirmarReserva() {
             case '1':
                 printf("\nEL PAGO HA SIDO CONFIRMADO");
                 menu();
-                //opcionConfirmarReserva = '0';
+                opcionConfirmarReserva = '0';
+                opcionPagoReserva = '0';
+                opcionReserva = '0';
             break;
         }
     } while (opcionConfirmarReserva != '0');
