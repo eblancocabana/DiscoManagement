@@ -936,7 +936,7 @@ void mostrarlistadoeventos() {
 	cerrarConexion(database);
 }
 
-void mostrarEntradasDisponibles(char* codigo) {
+void mostrarEntradasDisponibles(int codigo) {
   abrirConexion();
 
   char* error = 0;

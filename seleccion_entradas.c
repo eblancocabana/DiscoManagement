@@ -7,6 +7,9 @@
 #include "basedatos/baseDatos.h"
 
 #define MAX_SELECCION 5
+#define MAX_REGISTRO 20
+#define MAX_CODIGO 5
+
 #define SEGUNDOS 2
 #define PRECIO_CONS_1 10
 #define PRECIO_CONS_2 15
@@ -103,19 +106,40 @@ char introducirCodioDia(){
 
 void menuListadoDiasDisponibles(){
     char opcionMenuCalendario;
+    char inputCod[MAX_REGISTRO];
+    int codigo;
+    char* cod;
+    char* type;
+
     do{
         opcionMenuCalendario = introducirCodioDia();
         switch(opcionMenuCalendario){
             case '1':
-                printf(" \n");
-                // sleep(SEGUNDOS);
-                mostrarEntradasDisponibles("001");
+                printf("\n");
+
+                do {
+                    printf("Codigo de la entrada: ");
+                    fgets(inputCod, MAX_CODIGO, stdin);
+
+                    sscanf(inputCod, "%i", &codigo);
+                    cod = limpiarInput(inputCod);
+
+                    errno = 0;
+                    long int num = strtol(cod, &type, 10);
+
+                    if (errno != 0 || *type != '\0') {
+                        printf("'%s' no es una edad valida\n", cod);
+                    }
+
+                } while (errno != 0 || *type != '\0');
+
+                mostrarEntradasDisponibles(codigo);
                 tipoEntradaSeleccionada();
             break;
-            
+
             case '2':
                 printf("\tAtras...\n");
-                //sleep(SEGUNDOS);
+
             break;
 
             
