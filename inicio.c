@@ -10,6 +10,7 @@
 #include "basedatos/sqlite/sqlite3.h"
 #include "basedatos/baseDatos.h"
 #include "servidor/inicio_servidor.h"
+#include "seleccion_entradas.h"
  
 #define MAX_SELECCION 5
 #define MAX_REGISTRO 20
@@ -233,6 +234,7 @@ int menu() {
     case '2':
       printf("\n---------------------------------------------------\n");
       printf("Menu de compra de entrada\n\n");
+      menuListadoDiasDisponibles();
       break;
 
     case '3':
