@@ -484,7 +484,7 @@ int inicializacion() {
   }
   
   cerrarConexion(database);
-  printf("Se mantendra cerrada hasta cualquier cambio\n");
+  printf("La Base De Datos esta activa y lista para ser utilizada\n");
 
   return 0;
 }
@@ -513,6 +513,7 @@ void clearIfNeeded(char * str, int max_line) {
 
 static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
   int i;
+  printf("\e[37m\e[1m");
 
   for (i = 0; i < argc; i++) {
     if (i > 0) {
@@ -521,6 +522,7 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
     printf("%s", argv[i] ? argv[i] : "NULL");
   }
   printf("\n");
+  printf("\e[0m");
 
   return 0;
 }
