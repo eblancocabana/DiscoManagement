@@ -14,7 +14,7 @@
 char mostrarIncioServido() {
     char inputInicio[MAX_SELECCION];
     int numInicio;
-    printf("\nMenu Principal: \n\t1. Informacion de eventos \n\t2. Informacio de fiestas \n\t3. Actualizar base de datos \n\t0. Cerrar Sesion \n\n Elige una opcion: ");
+    printf("\nMenu Principal: \n\t1. Informacion de eventos \n\t2. Informacion de fiestas \n\t3. Actualizar base de datos \n\t0. Cerrar Sesion \n\n Elige una opcion: ");
 
     fgets(inputInicio, MAX_SELECCION, stdin);
     sscanf(inputInicio, "%d", &numInicio);
@@ -67,7 +67,7 @@ char mostrarMenuServidor() {
 
 
 char* introducirNombreDiscoteca() {
-    printf("\n\tIntroduce nombre de la discoteca (Back / Stage): ");
+    printf("\tIntroduce nombre de la discoteca (Back / Stage): ");
 
     char* inputDiscoteca = (char*) malloc(MAX_NOM_DISCOTECA * sizeof(char));
     fgets(inputDiscoteca, MAX_NOM_DISCOTECA, stdin);
@@ -110,7 +110,7 @@ int menuServidor() {
 
     case '2':
         printf("\n---------------------------------------------------\n");
-        printf("Aniadir fiesta");
+        printf("Aniadir fiesta:\n");
 
         nomDiscoteca = introducirNombreDiscoteca();
         len = strcspn(nomDiscoteca, "\n");
@@ -122,22 +122,23 @@ int menuServidor() {
 
         evento = "No";
 
-        for (int i = 0; nomDiscoteca[i] != '\0'; i++) {
-            nomDiscoteca[i] = toupper(nomDiscoteca[i]);
+        nomDiscoteca[0] = toupper(nomDiscoteca[0]);
+        for (int i = 1; nomDiscoteca[i] != '\0'; i++) {
+            nomDiscoteca[i] = tolower(nomDiscoteca[i]);
         }
 
-        if ((strcmp(nomDiscoteca, "BACK") == 0) || (strcmp(nomDiscoteca, "STAGE") == 0)) {
+        if ((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) {
             printf("Las cadenas son iguales\n");
             insertarDiaFiesta(fecha, nomDiscoteca, evento);
         } else {
-            printf("Valores incorrectos\n");
+            printf("\nNombre de discoteca incorrecto\n");
         }
 
     break;
 
     case '3':
         printf("\n---------------------------------------------------\n");
-        printf("Aniadir evento\n\n");
+        printf("Aniadir evento:\n");
 
         nomDiscoteca = introducirNombreDiscoteca();
         len = strcspn(nomDiscoteca, "\n");
@@ -153,10 +154,16 @@ int menuServidor() {
 
         evento = "Si";
 
-        if ((strcmp(nomDiscoteca, "BACK") == 0) || (strcmp(nomDiscoteca, "STAGE") == 0)) {
-            printf("Las cadenas son iguales\n");
+        nomDiscoteca[0] = toupper(nomDiscoteca[0]);
+        for (int i = 1; nomDiscoteca[i] != '\0'; i++) {
+            nomDiscoteca[i] = tolower(nomDiscoteca[i]);
+        }
+
+        if ((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) {
             insertarDiaFiesta(fecha, nomDiscoteca, evento);
-            //insertarEvento(fecha, nomDiscoteca, descripcionEvento);
+            insertarEvento(fecha, nomDiscoteca, descripcionEvento);
+        } else {
+            printf("\nNombre de discoteca incorrecto\n");
         }
 
     break;
@@ -166,6 +173,7 @@ int menuServidor() {
         printf("Importar RRPPs\n\n");
         abrirConexion();
         inicializarRRPP();
+        printf("LOS RRPPS SE HAN IMPORTADO CORRECTAMENTE\n\n");
     break;
     
     case '5':
@@ -173,6 +181,7 @@ int menuServidor() {
         printf("Importar DJs\n\n");
         abrirConexion();
         inicializarDJ();
+        printf("LOS DJS SE HAN IMPORTADO CORRECTAMENTE\n\n");
     break;
     }
 
