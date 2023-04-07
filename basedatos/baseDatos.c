@@ -64,7 +64,7 @@ int verificarFecha(char* fecha) {
         return 0;
     }
     
-    if (anio < 0 || anio > 99) {
+    if (anio < 23 || anio > 99) {
         return 0;
     }
     

@@ -4,7 +4,6 @@
 void reservarLocal();
 
 char mostrarListado();
-
 int elegirCodigo();
 
 void pagarReserva();
