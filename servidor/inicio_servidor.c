@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
+#include <time.h>
 #include "../basedatos/baseDatos.h"
 #include "inicio_servidor.h"
 
@@ -131,10 +131,16 @@ int menuServidor() {
         existeFecha = comprobarFecha(fecha, 1);
 
         if (((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) && (existeFecha == -1)) {
-            insertarDiaFiesta(fecha, nomDiscoteca, evento);
-            
+            if (verificarFecha(fecha)) {
+                insertarDiaFiesta(fecha, nomDiscoteca, evento);
+                insertarEvento(fecha, nomDiscoteca, descripcionEvento);
+
+                printf("Fiesta introducida correctamente en La Base De Datos\n");
+            } else {
+                printf("Formato de fecha incorrecto\nOperacion cancelada\n");
+            }
         } else {
-            printf("\nValores incorrectos\n");
+            printf("\nValores incorrectos\nOperacion cancelada\n");
         }
 
     break;
@@ -165,10 +171,16 @@ int menuServidor() {
         existeFecha = comprobarFecha(fecha, 0);
 
         if (((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) && (existeFecha == -1)) {
-            insertarDiaFiesta(fecha, nomDiscoteca, evento);
-            insertarEvento(fecha, nomDiscoteca, descripcionEvento);
+            if (verificarFecha(fecha)) {
+                insertarDiaFiesta(fecha, nomDiscoteca, evento);
+                insertarEvento(fecha, nomDiscoteca, descripcionEvento);
+
+                printf("Evento introducido correctamente en La Base De Datos\n");
+            } else {
+                printf("Formato de fecha incorrecto\nOperacion cancelada");
+            }
         } else {
-            printf("\nValores incorrectos\n");
+            printf("\nValores incorrectos\nOperacion cancelada\n");
         }
 
     break;

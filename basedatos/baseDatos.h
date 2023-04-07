@@ -4,6 +4,7 @@
 
 int dbExiste(char* fichero);
 int reiniciarBD();
+int verificarFecha(char* fecha);
 
 int abrirConexion();
 void cerrarConexion(sqlite3* baseDatos);

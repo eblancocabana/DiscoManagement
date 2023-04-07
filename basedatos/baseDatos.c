@@ -43,6 +43,34 @@ int reiniciarBD() {
   cerrarConexion(database);
 }
 
+int verificarFecha(char* fecha) {
+    int dia, mes, anio;
+    
+    // Convierte los primeros dos caracteres en el día
+    dia = atoi(fecha);
+    
+    // Convierte los caracteres 3 y 4 en el mes
+    mes = atoi(fecha + 3);
+    
+    // Convierte los últimos dos caracteres en el año
+    anio = atoi(fecha + 6);
+    
+    // Verifica si los valores son válidos para día, mes y año
+    if (dia < 1 || dia > 31) {
+        return 0;
+    }
+    
+    if (mes < 1 || mes > 12) {
+        return 0;
+    }
+    
+    if (anio < 0 || anio > 99) {
+        return 0;
+    }
+    
+    return 1;
+}
+
     // CONEXION A LA BASE DE DATOS
 
 void cerrarConexion(sqlite3* baseDatos) {
@@ -242,7 +270,7 @@ int inicializarListaEventos() {
   }
 
   // Implementacion de importacion de datos CSV
-  char * sql3 = "CREATE TABLE eventos(dia TEXT NOT NULL, descripcion TEXT NOT NULL, nombre_discoteca TEXT NOT NULL, aforo INT NOT NULL);";
+  char * sql3 = "CREATE TABLE eventos(dia TEXT NOT NULL, descripcion TEXT NOT NULL, nombre_discoteca TEXT NOT NULL, aforo TEXT NOT NULL);";
     apertura = sqlite3_exec(database, sql3, 0, 0, &mensajeError);
     if (apertura != SQLITE_OK) {
       gestionarError(database);
@@ -956,7 +984,7 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
     return 1;
   }
 
-  printf("\nInsertado\n");
+//printf("\nInsertado\n");
   cerrarConexion(database);
   return 0;
 }
@@ -998,7 +1026,7 @@ int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* co
     return 1;
   }
 
-  printf("Insertado");
+//printf("\nInsertado\n");
   cerrarConexion(database);
   return 0;
 }
@@ -1008,41 +1036,41 @@ int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento) {
   abrirConexion();
   char lineEven[1024];
   char dia[50], descripcion[80], nombreDiscoteca[50];
-  int aforo = 400;
+  char* aforo = "400";
 
-  sscanf(lineEven, "%[^','],%[^','],%d,%s", 
-    dia,
-    descripcion,
-    nombreDiscoteca,
+  sscanf(lineEven, "%[^','],%[^','],%[^','],%s", 
+    fecha,
+    descripcionEvento,
+    nombreDisco,
     aforo);
 
   char sql_insertEven[1024];
 
-  sprintf(sql_insertEven, "INSERT INTO eventos VALUES('%s','%s','%s',%d);",
-    dia,
-    descripcion,
-    nombreDiscoteca,
+  sprintf(sql_insertEven, "INSERT INTO eventos VALUES('%s','%s','%s',%s);",
+    fecha,
+    descripcionEvento,
+    nombreDisco,
     aforo);
 
   aperturaInsert = sqlite3_exec(database, sql_insertEven, 0, 0, &mensajeError);
   
   if (aperturaInsert != SQLITE_OK) {
     gestionarFree(mensajeError);
-    gestionarError(database);
+    //gestionarError(database);
     gestionarFree(errorMessage);
  
     cerrarConexion(database);
     return 1;
   }
 
-  printf("Insertado");
+//printf("\nInsertado\n");
   cerrarConexion(database);
   return 0;
 }
 
     // BUSCAR DATOS EN LA BASE DE DATOS
 
-int buscarUltimoCodigo(int evento) {
+int buscarUltimoCodigo(int eventoBool) {
   abrirConexion();
 
   sqlite3_stmt* statement;
@@ -1052,7 +1080,7 @@ int buscarUltimoCodigo(int evento) {
   int lastId;
 
   //Si es un evento, la sentencia cambia a la tabla eventos
-  if (evento == 0) {
+  if (eventoBool == 0) {
     sentencia = "SELECT MAX(codigo) FROM dias_de_fiesta;";
   } else {
     sentencia = "SELECT MAX(codigo) FROM dias_de_fiesta WHERE codigo < 999;";
@@ -1069,7 +1097,6 @@ int buscarUltimoCodigo(int evento) {
 
   if (busqueda == SQLITE_ROW) {
     lastId = sqlite3_column_int(statement, 0);
-    printf("El ultimo ID es: %d\n", lastId);
 
     sqlite3_finalize(statement);
     cerrarConexion(database);
