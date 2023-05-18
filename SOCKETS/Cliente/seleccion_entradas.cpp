@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
+#include <iostream>
+#include <string>
 #include "seleccion_entradas.h"
 #include "comprar_entradas.h"
 #include "basedatos/sqlite/sqlite3.h"
@@ -18,20 +16,22 @@
 #define PRECIO_CONS_3 20
 #define PRECIO_RES 25
 
+using namespace std;
+
 char introducirTipoEntrada() {
-    printf("\n---------------------------------------------------\n");
-    printf("Tipos de entrada:\n");
-    printf("\t1. Una consumicion (%i euro) \n", PRECIO_CONS_1);
-    printf("\t2. Dos consumiciones (%i euro) \n", PRECIO_CONS_2);
-    printf("\t3. Tres consumiciones (%i euro) \n", PRECIO_CONS_3);
-    printf("\t4. Reservado (%i euro) \n", PRECIO_RES);
-    printf("\t0. Atras\n\n");
-    printf("Elige una opcion: ");
+    cout << "\n---------------------------------------------------\n";
+    cout << "Tipos de entrada:\n";
+    cout << "\t1. Una consumicion (" << PRECIO_CONS_1 << " euro)\n";
+    cout << "\t2. Dos consumiciones (" << PRECIO_CONS_2 << " euro)\n";
+    cout << "\t3. Tres consumiciones (" << PRECIO_CONS_3 << " euro)\n";
+    cout << "\t4. Reservado (" << PRECIO_RES << " euro)\n";
+    cout << "\t0. Atras\n\n";
+    cout << "Elige una opcion: ";
 
     char inputDatosCompra[MAX_SELECCION];
     int numDatosCompra;
 
-    fgets(inputDatosCompra, MAX_SELECCION, stdin);
+    cin.getline(inputDatosCompra, MAX_SELECCION);
 
     return *inputDatosCompra;
 }
@@ -42,25 +42,25 @@ void tipoEntradaSeleccionada() {
         opcionTipoEntrada = introducirTipoEntrada();
         switch (opcionTipoEntrada) {
             case '1':
-                printf("Ha seleccionado entradas con %c consumicion, con un precio de: %i euro\n", opcionTipoEntrada, PRECIO_CONS_1);
+                cout << "Ha seleccionado entradas con " << opcionTipoEntrada << " consumicion, con un precio de: " << PRECIO_CONS_1 << " euro\n";
                 //BD
                 enviar_datos("datosCompra", 0);
                 break;
 
             case '2':
-                printf("Ha seleccionado entradas con %c consumiciones, con un precio de: %i euro\n", opcionTipoEntrada, PRECIO_CONS_2);
+                cout << "Ha seleccionado entradas con " << opcionTipoEntrada << " consumiciones, con un precio de: " << PRECIO_CONS_2 << " euro\n";
                 //BD
                 enviar_datos("datosCompra", 0);
                 break;
 
             case '3':
-                printf("Ha seleccionado entradas con %c consumiciones, con un precio de: %i euro\n", opcionTipoEntrada, PRECIO_CONS_3);
+                cout << "Ha seleccionado entradas con " << opcionTipoEntrada << " consumiciones, con un precio de: " << PRECIO_CONS_3 << " euro\n";
                 //BD
                 enviar_datos("datosCompra", 0);
                 break;
 
             case '4':
-                printf("Ha seleccionado entradas para reservado, con un precio de: %i euro\n", PRECIO_RES);
+                cout << "Ha seleccionado entradas para reservado, con un precio de: " << PRECIO_RES << " euro\n";
                 //BD
                 enviar_datos("datosCompra", 0);
                 break;
@@ -69,28 +69,27 @@ void tipoEntradaSeleccionada() {
 }
 
 void mostrarDiasDisponibles() {
-    printf("\n----------------------------------------------------------\n");
-
-    printf("Entrada 1\n\n");
-    printf("Codigo de la fecha: %s\n", "No me apetece");
-    printf("Fecha: %s\n", "El dia que Sabin se duche");
-    printf("Nombre de la discoteca: %s\n", "StackOverflow");
-    printf("Entradas disponibles: %i\n", 666);
-    printf("Evento especial: %s\n", "NO");
-    printf("\n----------------------------------------------------------\n");
+    cout << "\n----------------------------------------------------------\n";
+    cout << "Entrada 1\n\n";
+    cout << "Codigo de la fecha: " << "No me apetece" << endl;
+    cout << "Fecha: " << "El dia que Sabin se duche" << endl;
+    cout << "Nombre de la discoteca: " << "StackOverflow" << endl;
+    cout << "Entradas disponibles: " << 666 << endl;
+    cout << "Evento especial: " << "NO" << endl;
+    cout << "\n----------------------------------------------------------\n";
 }
 
 char introducirCodioDia() {
 
-    printf("\nOpcion comprar entrada");
-    printf("\n\t1. Introducir identificacion de entrada (codigo)\n");
-    printf("\t0. Atras\n\n");
-    printf("Elige una opcion: ");
+    cout << "\nOpcion comprar entrada" << endl;
+    cout << "\t1. Introducir identificacion de entrada (codigo)\n";
+    cout << "\t0. Atras\n\n";
+    cout << "Elige una opcion: ";
 
     char inputDatosCompra[MAX_SELECCION];
     int numDatosCompra;
 
-    fgets(inputDatosCompra, MAX_SELECCION, stdin);
+    cin.getline(inputDatosCompra, MAX_SELECCION);
 
     return *inputDatosCompra;
 }
@@ -109,11 +108,11 @@ void menuListadoDiasDisponibles() {
         opcionMenuCalendario = introducirCodioDia();
         switch (opcionMenuCalendario) {
             case '1':
-                printf("\n---------------------------------------------------\n");
+                cout << "\n---------------------------------------------------\n";
 
                 do {
-                    printf("Codigo de la entrada: ");
-                    fgets(inputCod, MAX_CODIGO, stdin);
+                    cout << "Codigo de la entrada: ";
+                    cin.getline(inputCod, MAX_CODIGO);
 
                     sscanf(inputCod, "%d", &codigo);
                     //BD
@@ -123,7 +122,7 @@ void menuListadoDiasDisponibles() {
                     long int num = strtol(cod, &type, 10);
 
                     if (errno != 0 || *type != '\0') {
-                        printf("'%s' no es una entrada valida\n", cod);
+                        cout << "'" << cod << "' no es una entrada valida\n";
                     }
 
                 } while (errno != 0 || *type != '\0');
@@ -135,14 +134,14 @@ void menuListadoDiasDisponibles() {
                     strcat(strCodigo, strNum);
                     //BD
                     if (enviar_datos("comprobarCodigoEntrada", 1, strCodigo, strlen(strCodigo)) == 0) {
-                        printf("Entrada con codigo: '%s' seleccionada correctamente\n", strCodigo);
+                        cout << "Entrada con codigo: '" << strCodigo << "' seleccionada correctamente\n";
                         tipoEntradaSeleccionada();
                         //BD
                     } else if (enviar_datos("comprobarCodigoEntrada", 1, strCodigo, strlen(strCodigo)) == -1) {
-                        printf("El codigo de entrada seleccionado no existe\nOperacion cancelada\n");
+                        cout << "El codigo de entrada seleccionado no existe\nOperacion cancelada\n";
 
                     } else {
-                        printf("Codigo seleccionado incorrectamente\nOperacion cancelada\n");
+                        cout << "Codigo seleccionado incorrectamente\nOperacion cancelada\n";
                         menu();
                     }
 
@@ -150,14 +149,14 @@ void menuListadoDiasDisponibles() {
                     sprintf(auxCodigo, "%d", codigo);
                     //BD
                     if (enviar_datos("comprobarCodigoEntrada", 1, auxCodigo, strlen(auxCodigo)) == 0) {
-                        printf("Entrada con codigo: '%i' seleccionada correctamente\n", auxCodigo);
+                        cout << "Entrada con codigo: '" << auxCodigo << "' seleccionada correctamente\n";
                         tipoEntradaSeleccionada();
                         //BD
                     } else if (enviar_datos("comprobarCodigoEntrada", 1, auxCodigo, strlen(auxCodigo)) == -1) {
-                        printf("El codigo de entrada seleccionado no existe\nOperacion cancelada\n");
+                        cout << "El codigo de entrada seleccionado no existe\nOperacion cancelada\n";
 
                     } else {
-                        printf("Codigo seleccionado incorrectamente\nOperacion cancelada\n");
+                        cout << "Codigo seleccionado incorrectamente\nOperacion cancelada\n";
                         menu();
                     }
                 }
