@@ -1,6 +1,6 @@
 #include <iostream>
-#include <string>
-#include <cstring>
+#include <char*>
+#include <cchar*>
 #include "reservar_local.h"
 #include "basedatos/baseDatos.h"
 #include "inicio.h"
@@ -20,7 +20,7 @@ char opcionReserva;
 char opcionPagoReserva;
 char opcionConfirmarReserva;
 
-void enviar_datos(string nombre_funcion, int num_args, ...) {
+void enviar_datos(char* nombre_funcion, int num_args, ...) {
     va_list args;
     va_start(args, num_args);
 
@@ -40,7 +40,7 @@ char mostrarListado() {
     enviar_datos("mostrarLocales", 0);
     cout << "\nOpcion reserva:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ";
 
-    string inputReservaLocal;
+    char* inputReservaLocal;
     getline(cin, inputReservaLocal);
 
     return inputReservaLocal[0];
@@ -48,7 +48,7 @@ char mostrarListado() {
 
 int elegirCodigo() {
     cout << "\n\tIntroduce el codigo del local: ";
-    string inputCodigo;
+    char* inputCodigo;
     int numCodigo;
 
     getline(cin, inputCodigo);
@@ -82,7 +82,7 @@ void reservarLocal() {
 char mostrarPagarReserva() {
     cout << "\nPagar reserva:\n\t1. Confirmar \n\t0. Atras\n\nElige una opcion: ";
 
-    string inputPagarReserva;
+    char* inputPagarReserva;
     int numPagarReserva;
 
     getline(cin, inputPagarReserva);
@@ -94,7 +94,7 @@ char mostrarPagarReserva() {
 char confirmarPagoReserva() {
     cout << "\nConfirmar pago:\n\t1. Confirmar \n\t0. Atras\n\nElige una opcion: ";
 
-    string inputConfirmarReserva;
+    char* inputConfirmarReserva;
     int numConfirmarReserva;
 
     getline(cin, inputConfirmarReserva);
@@ -103,34 +103,34 @@ char confirmarPagoReserva() {
     return inputConfirmarReserva[0];
 }
 
-string introducirNumeroTarjeta() {
+char* introducirNumeroTarjeta() {
     cout << "\n\tIntroduce el numero de tarjeta (sin espacios): ";
 
-    string inputNumeroTarjeta;
+    char* inputNumeroTarjeta;
     getline(cin, inputNumeroTarjeta);
     return inputNumeroTarjeta;
 }
 
-string introducirCVVTarjeta() {
+char* introducirCVVTarjeta() {
     cout << "\tIntroduce el CVV de tarjeta: ";
 
-    string inputCVV;
+    char* inputCVV;
     getline(cin, inputCVV);
     return inputCVV;
 }
 
-string introducirCaduTarjeta() {
+char* introducirCaduTarjeta() {
     cout << "\tIntroduce la caducidad de tarjeta (mm/aa): ";
 
-    string inputCaducidad;
+    char* inputCaducidad;
     getline(cin, inputCaducidad);
     return inputCaducidad;
 }
 
 void pagarReserva() {
-    string numeroTarjeta;
-    string cvvTarjeta;
-    string caducidadTarjeta;
+    char* numeroTarjeta;
+    char* cvvTarjeta;
+    char* caducidadTarjeta;
 
     do {
         opcionPagoReserva = mostrarPagarReserva();
