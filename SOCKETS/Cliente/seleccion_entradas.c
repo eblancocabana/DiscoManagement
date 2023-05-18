@@ -113,6 +113,7 @@ void menuListadoDiasDisponibles(){
                     fgets(inputCod, MAX_CODIGO, stdin);
 
                     sscanf(inputCod, "%d", &codigo);
+                    //BD
                     cod = limpiarInput(inputCod);
 
                     errno = 0;
@@ -129,11 +130,11 @@ void menuListadoDiasDisponibles(){
 
                     char strCodigo[4] = {'0', '\0'};
                     strcat(strCodigo, strNum);
-
+        //BD
                     if (comprobarEntrada(strCodigo) == 0) {
                         printf("Entrada con codigo: '%s' seleccionada correctamente\n", strCodigo);
                         tipoEntradaSeleccionada();
-
+//BD
                     } else if (comprobarEntrada(strCodigo) == -1) {
                         printf("El codigo de entrada seleccionado no existe\nOperacion cancelada\n");
 
@@ -144,11 +145,11 @@ void menuListadoDiasDisponibles(){
                     
                 } else {
                     sprintf(auxCodigo, "%d", codigo);   
-
+//BD
                     if (comprobarEntrada(auxCodigo) == 0) {
                         printf("Entrada con codigo: '%i' seleccionada correctamente\n", auxCodigo);
                         tipoEntradaSeleccionada();
-
+//BD
                     } else if (comprobarEntrada(auxCodigo) == -1) {
                         printf("El codigo de entrada seleccionado no existe\nOperacion cancelada\n");
 

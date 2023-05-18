@@ -83,25 +83,26 @@ void rellenarCamposRegistro() {
   printf("Nombre: ");
   fgets(inputRegis, MAX_NOMBRE, stdin);
   sscanf(inputRegis, "%s", &nombre);
-
+//BD
   name = limpiarInput(inputRegis);
 
   printf("Nombre de Usuario: ");
   fgets(inputRegis, MAX_NOMBRE_USU, stdin);
   sscanf(inputRegis, "%s", &nombreUsu);
-
+//BD
   username = limpiarInput(inputRegis);
 
   printf("Sexo: ");
   fgets(inputRegis, MAX_SEXO, stdin);
   sscanf(inputRegis, "%s", &sexo);
-
+//BD
   sex = limpiarInput(inputRegis);
    
   do {
     printf("Edad: ");
     fgets(inputRegis, MAX_EDAD, stdin);
     sscanf(inputRegis, "%i", &edad);
+    //BD
     age = limpiarInput(inputRegis);
 
     errno = 0;
@@ -116,22 +117,23 @@ void rellenarCamposRegistro() {
   printf("Correo Electronico: ");
   fgets(inputRegis, MAX_CORREO, stdin);
   sscanf(inputRegis, "%s", &correo);
-
+//BD
   correoElec = limpiarInput(inputRegis);
 
   printf("Contrasenya: ");
   fgets(inputRegis, MAX_CONTRASENYA, stdin);
   sscanf(inputRegis, "%s", &contrasenya);
-
+//BD
   password = limpiarInput(inputRegis);
 
   printf("Repetir Contrasenya: ");
   fgets(inputRegis, MAX_CONTRASENYA, stdin);
   sscanf(inputRegis, "%s", &repertirContrasenya);
-
+//BD
   char* repPass = limpiarInput(inputRegis);
 
   printf("\nDatos introducidos: %s - %s - %s - %s - %s - %s - %s\n", name, username, sex, age, correoElec, password, repPass);
+  //BD
   existe = comprobarUsuario(username);
 
   if ((existe == -1) && (strcmp(password, repPass) != 0)) {
@@ -156,16 +158,18 @@ void iniciarSesion() {
 
   printf("Usuario: ");
   fgets(input, MAX_NOMBRE_USU, stdin);
-
+//BD
   char* us = limpiarInput(input);
 
   printf("Contrasenya: ");
   fgets(input, MAX_CONTRASENYA, stdin);
-
+//BD
   char* pa = limpiarInput(input);
-
+//BD
   existe = comprobarExistencia(us, pa);
+//BD
 
+//ADMIN
   if ((existe == 0) && (comprobarAdmin(us) == 0)) {
     printf("\nADMIN ENCONTRADO, accediendo al menu\n");
     inicioServidor();
@@ -188,6 +192,7 @@ int registrarse() {
     opcionRegistrarse = mostrarRegistrarse();
     switch (opcionRegistrarse) {
     case '1':
+    //BD
       insertarRegistro(name, username, sex, edad, correoElec, password);
       login();
       break;
@@ -235,7 +240,7 @@ int menu() {
       printf("\e[37m\e[1m");
       printf("Listado de eventos (fecha - descripcion - nombre discoteca - aforo)\n\n");
       printf("\e[0m");
-
+    //BD
       mostrarlistadoeventos();
       break;
 
@@ -245,13 +250,14 @@ int menu() {
       printf("\e[37m\e[1m");
       printf("Menu compra de entrada (codigo - fecha - nombre discoteca - aforo - evento?)\n\n");
       printf("\e[0m");
-
+    //BD
       mostrarFiestas();
       menuListadoDiasDisponibles();
       break;
 
     case '3':
       printf("\n---------------------------------------------------\n");
+      //BD
       reservarLocal();
       break;
 

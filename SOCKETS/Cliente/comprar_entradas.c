@@ -211,6 +211,7 @@ void confirmarPago(){
                 printf("\n---------------------------------------------------\n");
                 printf("Introducir Codigo de RRPP");
                 codigoRRPP = introducirCodigoRRPP();
+                //BD
                 comprobarCodigoRRPP(codigoRRPP);
 
                 confirmarCompra();

@@ -23,7 +23,7 @@ char mostrarListado() {
     printf("\e[37m\e[1m");
     printf("\nListado de dias disponible: (codigo - fecha - nombre discoteca - aforo - evento?)\n\n");
     printf("\e[0m");
-    
+    //BD
     mostrarLocales(); // Se van a mostrar aquellos dias en los que todavia no se hayan comprado entradas
     printf("\nOpcion reserva:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ");
 
@@ -59,6 +59,7 @@ void reservarLocal() {
                 printf("Introducir fecha y nombre de discoteca");
 
                 codLocal = elegirCodigo();
+                //BD
                 existe = comprobarCodigoLocal(codLocal);
 
                 pagarReserva();

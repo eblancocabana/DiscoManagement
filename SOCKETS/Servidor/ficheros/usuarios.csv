@@ -1,0 +1,11 @@
+Nombre,Usuario,Sexo,Edad,Correo Electronico,Contrasenya,Admin
+Endika Blanco,eblanco,Masculino,19,e.blanco@opendeusto.es,1234,Si
+Sabin Luja,sabinluja,Masculino,19,sabinluja@opendeusto.es,1111,Si
+Aitor Molero,aitormolero,Masculino,19,aitormolero@opendeusto.es,0000,Si
+Kerman Bruna,kermanbruna,Masculino,19,kermanbruna@opendeusto.es,2222,Si
+Iker Cubillo,ikercubillo,Masculino,19,ikercubillo@opendeusto.es,3333,No
+Juan Pérez,JuanP,Masculino,25,JuanP@gmail.com,m1c0ntr4s3ñ4,No
+María García,MariaG,Femenino,32,MariaG@yahoo.com,p4ssw0rd,No
+Pedro López,PedroL,Masculino,40,PedroL@hotmail.com,s3cr3t,No
+Ana Torres,AnaT,Femenino,28,AnaT@gmail.com,qwerty,No
+Admin,admin,Masculino,19,admin@gmail.com,admin,Si
