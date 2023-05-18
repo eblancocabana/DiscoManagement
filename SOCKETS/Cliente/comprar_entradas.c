@@ -212,6 +212,7 @@ void confirmarPago(){
                 printf("Introducir Codigo de RRPP");
                 codigoRRPP = introducirCodigoRRPP();
                 //BD
+                enviar_datos("comprobarCodigoRRPP", &codigoRRPP, sizeof(codigoRRPP));
                 comprobarCodigoRRPP(codigoRRPP);
 
                 confirmarCompra();

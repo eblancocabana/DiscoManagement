@@ -11,6 +11,17 @@
 #define SERVER_IP "127.0.0.1"
 #define SERVER_PORT 6000
 
+SOCKET s;
+
+
+void enviar_datos(char *nombre_funcion, void *argumento, size_t arg_size) {
+    char sendBuff[512];
+    sprintf(sendBuff, "%s:", nombre_funcion);
+    memcpy(sendBuff + strlen(sendBuff), argumento, arg_size);
+    send(s, sendBuff, sizeof(sendBuff), 0);
+}
+
+
 int main(int argc, char *argv[]) {
 
     printf("\n\n\n\n");
@@ -24,7 +35,7 @@ int main(int argc, char *argv[]) {
     printf("\n"); 
 
 	WSADATA wsaData;
-	SOCKET s;
+
 	struct sockaddr_in server;
 	char sendBuff[512], recvBuff[512];
 
@@ -64,32 +75,6 @@ int main(int argc, char *argv[]) {
     
     inicializacion();
     login();
-
-
-
-
-	// SEND and RECEIVE data
-	printf("Sending message 1... \n");
-	strcpy(sendBuff, "Hello, server.");
-	send(s, sendBuff, sizeof(sendBuff), 0);
-
-	printf("Receiving message 1... \n");
-	recv(s, recvBuff, sizeof(recvBuff), 0);
-	printf("Data received: %s \n", recvBuff);
-
-	printf("Sending message 2... \n");
-	strcpy(sendBuff, "Hello again.");
-	send(s, sendBuff, sizeof(sendBuff), 0);
-	printf("Data sent: %s \n", sendBuff);
-
-	printf("Receiving message 2... \n");
-	recv(s, recvBuff, sizeof(recvBuff), 0);
-	printf("Data received: %s \n", recvBuff);
-
-	printf("Sending last message... \n");
-	strcpy(sendBuff, "Bye");
-	send(s, sendBuff, sizeof(sendBuff), 0);
-	printf("Data sent: %s \n", sendBuff);
 
 	// CLOSING the socket and cleaning Winsock...
 	closesocket(s);
