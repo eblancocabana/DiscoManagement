@@ -83,27 +83,26 @@ void rellenarCamposRegistro() {
   printf("Nombre: ");
   fgets(inputRegis, MAX_NOMBRE, stdin);
   sscanf(inputRegis, "%s", &nombre);
-//BD
-  name = limpiarInput(inputRegis);
+
+  name =   enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
 
   printf("Nombre de Usuario: ");
   fgets(inputRegis, MAX_NOMBRE_USU, stdin);
   sscanf(inputRegis, "%s", &nombreUsu);
-//BD
-  username = limpiarInput(inputRegis);
+
+  username =   enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
 
   printf("Sexo: ");
   fgets(inputRegis, MAX_SEXO, stdin);
   sscanf(inputRegis, "%s", &sexo);
-//BD
-  sex = limpiarInput(inputRegis);
+
+  sex =   enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
    
   do {
     printf("Edad: ");
     fgets(inputRegis, MAX_EDAD, stdin);
     sscanf(inputRegis, "%i", &edad);
-    //BD
-    age = limpiarInput(inputRegis);
+    age =   enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
 
     errno = 0;
     long int num = strtol(age, &type, 10);
@@ -117,23 +116,22 @@ void rellenarCamposRegistro() {
   printf("Correo Electronico: ");
   fgets(inputRegis, MAX_CORREO, stdin);
   sscanf(inputRegis, "%s", &correo);
-//BD
-  correoElec = limpiarInput(inputRegis);
+
+  correoElec =   enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
 
   printf("Contrasenya: ");
   fgets(inputRegis, MAX_CONTRASENYA, stdin);
   sscanf(inputRegis, "%s", &contrasenya);
-//BD
-  password = limpiarInput(inputRegis);
+
+  password =   enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
 
   printf("Repetir Contrasenya: ");
   fgets(inputRegis, MAX_CONTRASENYA, stdin);
   sscanf(inputRegis, "%s", &repertirContrasenya);
-//BD
-  char* repPass = limpiarInput(inputRegis);
+
+  char* repPass =   enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
 
   printf("\nDatos introducidos: %s - %s - %s - %s - %s - %s - %s\n", name, username, sex, age, correoElec, password, repPass);
-  //BD
   existe = comprobarUsuario(username);
 
   if ((existe == -1) && (strcmp(password, repPass) != 0)) {
@@ -158,19 +156,17 @@ void iniciarSesion() {
 
   printf("Usuario: ");
   fgets(input, MAX_NOMBRE_USU, stdin);
-//BD
-  char* us = limpiarInput(input);
+
+  char* us = enviar_datos("limpiarInput", 1, &input, sizeof(input));
 
   printf("Contrasenya: ");
   fgets(input, MAX_CONTRASENYA, stdin);
-//BD
-  char* pa = limpiarInput(input);
-//BD
-  existe = comprobarExistencia(us, pa);
-//BD
 
-//ADMIN
-  if ((existe == 0) && (comprobarAdmin(us) == 0)) {
+  char* pa = enviar_datos("limpiarInput", 1, &input, sizeof(input));
+
+  existe = enviar_datos("comprobarExistencia", 2, us, sizeof(us), pa, sizeof(pa));
+
+  if ((existe == 0) && (enviar_datos("comprobarAdmin", 1, us, sizeof(us)) == 0)) {
     printf("\nADMIN ENCONTRADO, accediendo al menu\n");
     inicioServidor();
 
@@ -192,8 +188,7 @@ int registrarse() {
     opcionRegistrarse = mostrarRegistrarse();
     switch (opcionRegistrarse) {
     case '1':
-    //BD
-      insertarRegistro(name, username, sex, edad, correoElec, password);
+      enviar_datos("insertarRegistro", 7, name, sizeof(name), username, sizeof(username), sex, sizeof(sex), edad, sizeof(edad), correoElec, sizeof(correoElec), password, sizeof(password));
       login();
       break;
     }
@@ -240,7 +235,7 @@ int menu() {
       printf("\e[37m\e[1m");
       printf("Listado de eventos (fecha - descripcion - nombre discoteca - aforo)\n\n");
       printf("\e[0m");
-    //BD
+
       mostrarlistadoeventos();
       break;
 
@@ -250,14 +245,13 @@ int menu() {
       printf("\e[37m\e[1m");
       printf("Menu compra de entrada (codigo - fecha - nombre discoteca - aforo - evento?)\n\n");
       printf("\e[0m");
-    //BD
+
       mostrarFiestas();
       menuListadoDiasDisponibles();
       break;
 
     case '3':
       printf("\n---------------------------------------------------\n");
-      //BD
       reservarLocal();
       break;
 

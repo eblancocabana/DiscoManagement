@@ -18,13 +18,27 @@ char opcionReserva;
 char opcionPagoReserva;
 char opcionConfirmarReserva;
 
+void enviar_datos(char *nombre_funcion, int num_args, ...) {
+    // Implementación de enviar_datos
+    va_list args;
+    va_start(args, num_args);
+
+    if (strcmp(nombre_funcion, "mostrarLocales") == 0) {
+        mostrarLocales();
+    } else if (strcmp(nombre_funcion, "comprobarCodigoLocal") == 0) {
+        int codLocal = va_arg(args, int);
+        comprobarCodigoLocal(codLocal);
+    }
+
+    va_end(args);
+}
 
 char mostrarListado() {
     printf("\e[37m\e[1m");
     printf("\nListado de dias disponible: (codigo - fecha - nombre discoteca - aforo - evento?)\n\n");
     printf("\e[0m");
     //BD
-    mostrarLocales(); // Se van a mostrar aquellos dias en los que todavia no se hayan comprado entradas
+    enviar_datos("mostrarLocales", 0);
     printf("\nOpcion reserva:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ");
 
     char inputReservaLocal[MAX_SELECCION];
@@ -60,7 +74,7 @@ void reservarLocal() {
 
                 codLocal = elegirCodigo();
                 //BD
-                existe = comprobarCodigoLocal(codLocal);
+                existe = enviar_datos("comprobarCodigoLocal", 1, codLocal);
 
                 pagarReserva();
             break;
@@ -167,5 +181,4 @@ void confirmarReserva() {
             break;
         }
     } while (opcionConfirmarReserva != '0');
-    
 }

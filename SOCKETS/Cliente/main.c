@@ -13,11 +13,21 @@
 
 SOCKET s;
 
-
-void enviar_datos(char *nombre_funcion, void *argumento, size_t arg_size) {
+void enviar_datos(char *nombre_funcion, int num_args, ...) {
     char sendBuff[512];
     sprintf(sendBuff, "%s:", nombre_funcion);
-    memcpy(sendBuff + strlen(sendBuff), argumento, arg_size);
+
+    va_list args;
+    va_start(args, num_args);
+
+    for (int i = 0; i < num_args; i++) {
+        void *arg = va_arg(args, void*);
+        size_t arg_size = va_arg(args, size_t);
+        memcpy(sendBuff + strlen(sendBuff), arg, arg_size);
+    }
+
+    va_end(args);
+
     send(s, sendBuff, sizeof(sendBuff), 0);
 }
 

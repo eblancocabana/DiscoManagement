@@ -18,16 +18,15 @@
 #define PRECIO_CONS_3 20
 #define PRECIO_RES 25
 
-char introducirTipoEntrada(){
+char introducirTipoEntrada() {
     printf("\n---------------------------------------------------\n");
     printf("Tipos de entrada:\n");
-        printf("\t1. Una consumicion (%i euro) \n", PRECIO_CONS_1);
-        printf("\t2. Dos consumiciones (%i euro) \n", PRECIO_CONS_2);
-        printf("\t3. Tres consumiciones (%i euro) \n", PRECIO_CONS_3);
-        printf("\t4. Reservado (%i euro) \n", PRECIO_RES);
+    printf("\t1. Una consumicion (%i euro) \n", PRECIO_CONS_1);
+    printf("\t2. Dos consumiciones (%i euro) \n", PRECIO_CONS_2);
+    printf("\t3. Tres consumiciones (%i euro) \n", PRECIO_CONS_3);
+    printf("\t4. Reservado (%i euro) \n", PRECIO_RES);
     printf("\t0. Atras\n\n");
     printf("Elige una opcion: ");
-
 
     char inputDatosCompra[MAX_SELECCION];
     int numDatosCompra;
@@ -37,35 +36,39 @@ char introducirTipoEntrada(){
     return *inputDatosCompra;
 }
 
-void tipoEntradaSeleccionada(){
+void tipoEntradaSeleccionada() {
     char opcionTipoEntrada;
-    do{
+    do {
         opcionTipoEntrada = introducirTipoEntrada();
-        switch(opcionTipoEntrada){
+        switch (opcionTipoEntrada) {
             case '1':
                 printf("Ha seleccionado entradas con %c consumicion, con un precio de: %i euro\n", opcionTipoEntrada, PRECIO_CONS_1);
-                datosCompra();
-            break;
+                //BD
+                enviar_datos("datosCompra", 0);
+                break;
 
             case '2':
                 printf("Ha seleccionado entradas con %c consumiciones, con un precio de: %i euro\n", opcionTipoEntrada, PRECIO_CONS_2);
-                datosCompra();
-            break;
+                //BD
+                enviar_datos("datosCompra", 0);
+                break;
 
             case '3':
                 printf("Ha seleccionado entradas con %c consumiciones, con un precio de: %i euro\n", opcionTipoEntrada, PRECIO_CONS_3);
-                datosCompra();
-            break;
+                //BD
+                enviar_datos("datosCompra", 0);
+                break;
 
             case '4':
                 printf("Ha seleccionado entradas para reservado, con un precio de: %i euro\n", PRECIO_RES);
-                datosCompra();
-            break;
+                //BD
+                enviar_datos("datosCompra", 0);
+                break;
         }
     } while (opcionTipoEntrada != '0');
 }
 
-void mostrarDiasDisponibles(){
+void mostrarDiasDisponibles() {
     printf("\n----------------------------------------------------------\n");
 
     printf("Entrada 1\n\n");
@@ -77,7 +80,7 @@ void mostrarDiasDisponibles(){
     printf("\n----------------------------------------------------------\n");
 }
 
-char introducirCodioDia(){
+char introducirCodioDia() {
 
     printf("\nOpcion comprar entrada");
     printf("\n\t1. Introducir identificacion de entrada (codigo)\n");
@@ -92,7 +95,7 @@ char introducirCodioDia(){
     return *inputDatosCompra;
 }
 
-void menuListadoDiasDisponibles(){
+void menuListadoDiasDisponibles() {
     char opcionMenuCalendario;
     char inputCod[MAX_REGISTRO];
     int codigo;
@@ -102,9 +105,9 @@ void menuListadoDiasDisponibles(){
     char strCodigo[4];
     char auxCodigo[16];
 
-    do{
+    do {
         opcionMenuCalendario = introducirCodioDia();
-        switch(opcionMenuCalendario){
+        switch (opcionMenuCalendario) {
             case '1':
                 printf("\n---------------------------------------------------\n");
 
@@ -130,27 +133,27 @@ void menuListadoDiasDisponibles(){
 
                     char strCodigo[4] = {'0', '\0'};
                     strcat(strCodigo, strNum);
-        //BD
-                    if (comprobarEntrada(strCodigo) == 0) {
+                    //BD
+                    if (enviar_datos("comprobarCodigoEntrada", 1, strCodigo, strlen(strCodigo)) == 0) {
                         printf("Entrada con codigo: '%s' seleccionada correctamente\n", strCodigo);
                         tipoEntradaSeleccionada();
-//BD
-                    } else if (comprobarEntrada(strCodigo) == -1) {
+                        //BD
+                    } else if (enviar_datos("comprobarCodigoEntrada", 1, strCodigo, strlen(strCodigo)) == -1) {
                         printf("El codigo de entrada seleccionado no existe\nOperacion cancelada\n");
 
                     } else {
                         printf("Codigo seleccionado incorrectamente\nOperacion cancelada\n");
                         menu();
                     }
-                    
+
                 } else {
-                    sprintf(auxCodigo, "%d", codigo);   
-//BD
-                    if (comprobarEntrada(auxCodigo) == 0) {
+                    sprintf(auxCodigo, "%d", codigo);
+                    //BD
+                    if (enviar_datos("comprobarCodigoEntrada", 1, auxCodigo, strlen(auxCodigo)) == 0) {
                         printf("Entrada con codigo: '%i' seleccionada correctamente\n", auxCodigo);
                         tipoEntradaSeleccionada();
-//BD
-                    } else if (comprobarEntrada(auxCodigo) == -1) {
+                        //BD
+                    } else if (enviar_datos("comprobarCodigoEntrada", 1, auxCodigo, strlen(auxCodigo)) == -1) {
                         printf("El codigo de entrada seleccionado no existe\nOperacion cancelada\n");
 
                     } else {
@@ -158,7 +161,7 @@ void menuListadoDiasDisponibles(){
                         menu();
                     }
                 }
-            break;
+                break;
         }
     } while (opcionMenuCalendario != '0');
 }

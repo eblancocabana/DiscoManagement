@@ -175,27 +175,13 @@ char mostrarConfirmarPago(){
     return *inputConfirmarPago;
 }
 
-char confirmarPagoCompra(){
-    printf("\nConfirmar pago:\n\t1. Confirmar\n\t0. Atras\n\nElige una opcion: ");
-
-    char inputConfirmarCompra[MAX_SELECCION];
-    int numConfirmarCompra;
-
-    fgets(inputConfirmarCompra, MAX_SELECCION, stdin);
-    sscanf(inputConfirmarCompra, "%d", &numConfirmarCompra);
-
-    return *inputConfirmarCompra;
-}
-
-int introducirCodigoRRPP() {
+char* introducirCodigoRRPP() {
     printf("\n\tIntroduce el codigo del RRPP: ");
 
     //char inputCodRRPP[MAX_COD_RRPP];
     char* inputCodRRPP = (char*) malloc(MAX_COD_RRPP * sizeof(char));
-    int cdRRPP;
     fgets(inputCodRRPP, MAX_COD_RRPP, stdin);
-    sscanf(inputCodRRPP, "%d", &cdRRPP);
-    return cdRRPP;
+    return inputCodRRPP;
 }
 
 void confirmarPago(){
@@ -212,8 +198,7 @@ void confirmarPago(){
                 printf("Introducir Codigo de RRPP");
                 codigoRRPP = introducirCodigoRRPP();
                 //BD
-                enviar_datos("comprobarCodigoRRPP", &codigoRRPP, sizeof(codigoRRPP));
-                comprobarCodigoRRPP(codigoRRPP);
+                enviar_datos("comprobarCodigoRRPP", 1, &codigoRRPP, sizeof(codigoRRPP));
 
                 confirmarCompra();
             break;
@@ -243,6 +228,4 @@ void confirmarCompra(){
     } while (opcionConfirmarCompra != '0');
     
 }
-
-
 
