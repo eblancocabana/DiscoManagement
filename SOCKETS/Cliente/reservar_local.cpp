@@ -1,9 +1,10 @@
 #include <iostream>
-#include <char*>
-#include <cchar*>
 #include "reservar_local.h"
 #include "basedatos/baseDatos.h"
 #include "inicio.h"
+#include <istream>
+#include "recibir_datos.h"
+#include "enviar_datos.h"
 
 #define MAX_SELECCION 5
 #define MAX_NOMBRE_DISCOTECA 20
@@ -40,19 +41,19 @@ char mostrarListado() {
     enviar_datos("mostrarLocales", 0);
     cout << "\nOpcion reserva:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ";
 
-    char* inputReservaLocal;
-    getline(cin, inputReservaLocal);
+    char inputReservaLocal[MAX_SELECCION];
+    cin.getline(inputReservaLocal, sizeof(inputReservaLocal));
 
     return inputReservaLocal[0];
 }
 
 int elegirCodigo() {
     cout << "\n\tIntroduce el codigo del local: ";
-    char* inputCodigo;
+    char inputCodigo[MAX_CODIGO];
     int numCodigo;
 
-    getline(cin, inputCodigo);
-    sscanf(inputCodigo.c_str(), "%d", &numCodigo);
+    cin.getline(inputCodigo, sizeof(inputCodigo));
+    sscanf(inputCodigo, "%d", &numCodigo);
     return numCodigo;
 }
 
@@ -63,15 +64,16 @@ void reservarLocal() {
     do {
         opcionReserva = mostrarListado();
         switch (opcionReserva) {
-            case '1': 
-                cout << "\n---------------------------------------------------\n";
-                cout << "Introducir fecha y nombre de discoteca";
+        case '1':
+            cout << "\n---------------------------------------------------\n";
+            cout << "Introducir fecha y nombre de discoteca";
 
-                codLocal = elegirCodigo();
-                //BD
-                existe = enviar_datos("comprobarCodigoLocal", 1, codLocal);
+            codLocal = elegirCodigo();
+            //BD
+            enviar_datos("comprobarCodigoLocal", 1, codLocal);
+            existe = recibir_datos<int>();
 
-                pagarReserva();
+            pagarReserva();
             break;
         }
 
@@ -82,11 +84,11 @@ void reservarLocal() {
 char mostrarPagarReserva() {
     cout << "\nPagar reserva:\n\t1. Confirmar \n\t0. Atras\n\nElige una opcion: ";
 
-    char* inputPagarReserva;
+    char inputPagarReserva[MAX_SELECCION];
     int numPagarReserva;
 
-    getline(cin, inputPagarReserva);
-    sscanf(inputPagarReserva.c_str(), "%d", &numPagarReserva);
+    cin.getline(inputPagarReserva, sizeof(inputPagarReserva));
+    sscanf(inputPagarReserva, "%d", &numPagarReserva);
 
     return inputPagarReserva[0];
 }
@@ -94,65 +96,55 @@ char mostrarPagarReserva() {
 char confirmarPagoReserva() {
     cout << "\nConfirmar pago:\n\t1. Confirmar \n\t0. Atras\n\nElige una opcion: ";
 
-    char* inputConfirmarReserva;
+    char inputConfirmarReserva[MAX_SELECCION];
     int numConfirmarReserva;
 
-    getline(cin, inputConfirmarReserva);
-    sscanf(inputConfirmarReserva.c_str(), "%d", &numConfirmarReserva);
+    cin.getline(inputConfirmarReserva, sizeof(inputConfirmarReserva));
+    sscanf(inputConfirmarReserva, "%d", &numConfirmarReserva);
 
     return inputConfirmarReserva[0];
 }
 
+
 char* introducirNumeroTarjeta() {
     cout << "\n\tIntroduce el numero de tarjeta (sin espacios): ";
-
-    char* inputNumeroTarjeta;
-    getline(cin, inputNumeroTarjeta);
+    char* inputNumeroTarjeta = new char[MAX_NUMERO_TARJETA];
+    cin.getline(inputNumeroTarjeta, MAX_NUMERO_TARJETA);
     return inputNumeroTarjeta;
 }
 
 char* introducirCVVTarjeta() {
     cout << "\tIntroduce el CVV de tarjeta: ";
-
-    char* inputCVV;
-    getline(cin, inputCVV);
-    return inputCVV;
+    char* cvvTarjeta = new char[MAX_CVV];
+    cin.getline(cvvTarjeta, MAX_CVV);
+    return cvvTarjeta;
 }
 
 char* introducirCaduTarjeta() {
     cout << "\tIntroduce la caducidad de tarjeta (mm/aa): ";
-
-    char* inputCaducidad;
-    getline(cin, inputCaducidad);
-    return inputCaducidad;
+    char* caducidadTarjeta = new char[MAX_CADUCIDAD];
+    cin.getline(caducidadTarjeta, MAX_CADUCIDAD);
+    return caducidadTarjeta;
 }
 
+
 void pagarReserva() {
-    char* numeroTarjeta;
-    char* cvvTarjeta;
-    char* caducidadTarjeta;
+    char numeroTarjeta[MAX_NUMERO_TARJETA];
+    char cvvTarjeta[MAX_CVV];
+    char caducidadTarjeta[MAX_CADUCIDAD];
 
     do {
         opcionPagoReserva = mostrarPagarReserva();
         switch (opcionPagoReserva) {
-            case '1': 
-                cout << "\n---------------------------------------------------\n";
-                cout << "Introducir datos de la tarjeta";
-                
-                numeroTarjeta = introducirNumeroTarjeta();
-                cvvTarjeta = introducirCVVTarjeta();
-                caducidadTarjeta = introducirCaduTarjeta();
+        case '1':
+            cout << "\n---------------------------------------------------\n";
+            cout << "Introducir datos de la tarjeta";
 
-                int len = numeroTarjeta.find('\n');
-                numeroTarjeta = numeroTarjeta.substr(0, len);
+            strcpy(numeroTarjeta,introducirNumeroTarjeta());
+            strcpy(cvvTarjeta,introducirCVVTarjeta());
+            strcpy(caducidadTarjeta,introducirCaduTarjeta());
 
-                len = cvvTarjeta.find('\n');
-                cvvTarjeta = cvvTarjeta.substr(0, len);
-
-                len = caducidadTarjeta.find('\n');
-                caducidadTarjeta = caducidadTarjeta.substr(0, len);
-
-                confirmarReserva();
+            confirmarReserva();
             break;
         }
 
@@ -164,12 +156,12 @@ void confirmarReserva() {
     do {
         opcionConfirmarReserva = confirmarPagoReserva();
         switch (opcionConfirmarReserva) {
-            case '1':
-                cout << "\nEL PAGO HA SIDO CONFIRMADO";
-                menu();
-                opcionConfirmarReserva = '0';
-                opcionPagoReserva = '0';
-                opcionReserva = '0';
+        case '1':
+            cout << "\nEL PAGO HA SIDO CONFIRMADO";
+            menu();
+            opcionConfirmarReserva = '0';
+            opcionPagoReserva = '0';
+            opcionReserva = '0';
             break;
         }
     } while (opcionConfirmarReserva != '0');

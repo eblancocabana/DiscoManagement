@@ -5,6 +5,8 @@
 #include "basedatos/sqlite/sqlite3.h"
 #include "basedatos/baseDatos.h"
 #include "inicio.h"
+#include "enviar_datos.h"
+#include "recibir_datos.h"
 
 #define MAX_SELECCION 5
 #define MAX_REGISTRO 20
@@ -133,11 +135,13 @@ void menuListadoDiasDisponibles() {
                     char strCodigo[4] = {'0', '\0'};
                     strcat(strCodigo, strNum);
                     //BD
-                    if (enviar_datos("comprobarCodigoEntrada", 1, strCodigo, strlen(strCodigo)) == 0) {
+                    enviar_datos("comprobarCodigoEntrada", 1, strCodigo, strlen(strCodigo));
+                    int resultado = recibir_datos<int>();
+                    if ( resultado== 0) {
                         cout << "Entrada con codigo: '" << strCodigo << "' seleccionada correctamente\n";
                         tipoEntradaSeleccionada();
                         //BD
-                    } else if (enviar_datos("comprobarCodigoEntrada", 1, strCodigo, strlen(strCodigo)) == -1) {
+                    } else if ( resultado== -1) {
                         cout << "El codigo de entrada seleccionado no existe\nOperacion cancelada\n";
 
                     } else {
@@ -148,11 +152,15 @@ void menuListadoDiasDisponibles() {
                 } else {
                     sprintf(auxCodigo, "%d", codigo);
                     //BD
-                    if (enviar_datos("comprobarCodigoEntrada", 1, auxCodigo, strlen(auxCodigo)) == 0) {
+                    enviar_datos("comprobarCodigoEntrada", 1, auxCodigo, strlen(auxCodigo));
+                    
+                    int resultado = recibir_datos<int>();
+                    if (resultado== 0) {
                         cout << "Entrada con codigo: '" << auxCodigo << "' seleccionada correctamente\n";
                         tipoEntradaSeleccionada();
                         //BD
-                    } else if (enviar_datos("comprobarCodigoEntrada", 1, auxCodigo, strlen(auxCodigo)) == -1) {
+                    
+                    } else if ( resultado== -1) {
                         cout << "El codigo de entrada seleccionado no existe\nOperacion cancelada\n";
 
                     } else {

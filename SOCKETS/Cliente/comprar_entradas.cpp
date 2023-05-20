@@ -4,6 +4,8 @@
 #include "basedatos/sqlite/sqlite3.h"
 #include "basedatos/baseDatos.h"
 #include "inicio.h"
+#include "enviar_datos.h"
+
 
 #define MAX_SELECCION 5
 #define MAX_ENTRADAS 10
@@ -165,13 +167,14 @@ char mostrarConfirmarPago(){
     return *inputConfirmarPago;
 }
 
-char* introducirCodigoRRPP() {
+int introducirCodigoRRPP() {
     cout << "\n\tIntroduce el codigo del RRPP: ";
 
-    char* inputCodRRPP = new char[MAX_COD_RRPP];
-    cin.getline(inputCodRRPP, MAX_COD_RRPP);
+    int inputCodRRPP;
+    cin >> inputCodRRPP;
     return inputCodRRPP;
 }
+
 
 void confirmarPago(){
     int codigoRRPP;
