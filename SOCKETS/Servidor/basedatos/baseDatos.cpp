@@ -493,7 +493,7 @@ int inicializacion() {
 
 char* limpiarInput(char* input) {
 
-  char* limpio = malloc((MAX_INPUT) * sizeof(char));
+  char* limpio = new char[MAX_INPUT];
   sscanf(input, "%s", limpio); //le quita el 'n' (si lo hay)
 
   clearIfNeeded(input, MAX_INPUT); //le quita el 'n' (si lo hay)
@@ -1018,7 +1018,7 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
   int ultimo;
   char* codigo = NULL;
 
-  codigo = malloc(sizeof(char) * 20);
+  char* codigo = new char[20];
 
   if (eventoEsp == "No") {
     ultimo = buscarUltimoCodigo(1) + 1;
