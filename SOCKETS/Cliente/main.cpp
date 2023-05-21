@@ -36,15 +36,30 @@ void enviar_datos(char *nombre_funcion, int num_args, ...) {
     va_start(args, num_args);
 
     for (int i = 0; i < num_args; i++) {
-        void *arg = va_arg(args, void*);
-        size_t arg_size = va_arg(args, size_t);
-        memcpy(sendBuff + strlen(sendBuff), arg, arg_size);
+        // Obtener el tipo del argumento actual
+        char *type = va_arg(args, char*);
+
+        // Serializar el argumento de acuerdo a su tipo
+        if (strcmp(type, "int") == 0) {
+            int arg = va_arg(args, int);
+            sprintf(sendBuff + strlen(sendBuff), "%d,", arg);
+        } else if (strcmp(type, "char*") == 0) {
+            char *arg = va_arg(args, char*);
+            sprintf(sendBuff + strlen(sendBuff), "%s,", arg);
+        } else if (strcmp(type, "float") == 0) {
+            float arg = (float)va_arg(args, double);
+            sprintf(sendBuff + strlen(sendBuff), "%f,", arg);
+        }
     }
 
     va_end(args);
 
+    // Eliminar la última coma
+    sendBuff[strlen(sendBuff) - 1] = '\0';
+
     send(s, sendBuff, sizeof(sendBuff), 0);
 }
+
 
 int main(int argc, char *argv[]) {
 
