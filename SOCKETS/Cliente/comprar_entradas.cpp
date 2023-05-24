@@ -212,8 +212,3 @@ void confirmarCompra(){
         }
     } while (opcionConfirmarCompra != '0');
 }
-
-int main() {
-    datosCompra();
-    return 0;
-}
