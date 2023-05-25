@@ -169,6 +169,7 @@ int main(int argc, char *argv[]) {
     if (opcion == 1) {
         cout << "Accediendo como admin modo local...\n";
         iniciarSesion();
+        return;
     } else if (opcion == 2) {
         cout << "Ejecutando el servidor para ponerse en escucha...\n";
     } else {
