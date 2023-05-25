@@ -556,7 +556,7 @@ int inicializacion() {
 
 char* limpiarInput(char* input) {
 
-  char* limpio = new char[MAX_INPUT];
+  char* limpio = (char*) malloc(MAX_INPUT * sizeof(char));
   sscanf(input, "%s", limpio); //le quita el 'n' (si lo hay)
 
   clearIfNeeded(input, MAX_INPUT); //le quita el 'n' (si lo hay)
@@ -1079,7 +1079,7 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
   int entradas = 400;
   char lineFi[1024];
   int ultimo;
-  const char* codigo = new char[20];
+  const char* codigo = (char*)malloc(MAX_INPUT * sizeof(char));
   char* codigoFinal = NULL;
 
   if (eventoEsp == "No") {
@@ -1246,7 +1246,7 @@ int buscarUltimoCodigo(int eventoBool) {
 }
       //  METODOS DE C++
 
-  int insertarEntrada(Entrada entradaInsertar) {
+  /* int insertarEntrada(Entrada entradaInsertar) {
 
     // Construir la sentencia INSERT
     char sentenciaEntradaInsert[500];
@@ -1282,5 +1282,5 @@ int buscarUltimoCodigo(int eventoBool) {
     // Cerrar la conexión a la base de datos
     cerrarConexion(database);
 
-    return 0;
+    return 0; */
   }

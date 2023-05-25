@@ -30,7 +30,7 @@ extern "C" {
 
 using namespace std;
 
-// g++ main.cpp basedatos/baseDatos.cpp administrador/inicio_servidor.cpp -o prueba.exe
+// g++ *.cpp -o prueba.exe -lWs2_32
 
 void iniciarSesion() {
 
