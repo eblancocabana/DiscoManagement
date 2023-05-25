@@ -9,6 +9,7 @@ int main(void) {
     .subject = "Entrada de discoteca",
     .date = "Hoy"
   };
+  
   struct pdf_doc * pdf = pdf_create(PDF_A4_WIDTH, PDF_A4_HEIGHT, & info);
   pdf_set_font(pdf, "Helvetica-Bold");
   pdf_append_page(pdf);

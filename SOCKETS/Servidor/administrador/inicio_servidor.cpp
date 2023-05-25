@@ -5,7 +5,8 @@
 #include <ctime>
 
 #include "../basedatos/baseDatos.h"
-
+#include "../basedatos/sqlite/sqlite3.h"
+#include "../clases/entrada.h"
 #include "inicio_servidor.h"
 
 #define MAX_SELECCION 5
@@ -208,7 +209,7 @@ int menuServidor() {
     case '4':
       printf("\n---------------------------------------------------\n");
       printf("Importar RRPPs\n\n");
-      
+
       abrirConexion();
       inicializarRRPP();
       mostrarRRPP();
