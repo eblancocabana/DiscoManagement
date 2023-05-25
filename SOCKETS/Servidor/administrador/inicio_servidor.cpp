@@ -150,19 +150,15 @@ int menuServidor() {
           cout << "Formato de fecha incorrecto\nOperacion cancelada\n";
         }
       } else if (existeFecha == 0) {
-        std: ;
         cout << "\nLa fecha introducida ya esta ocupada\nOperacion cancelada\n";
       } else {
-        std: ;
         cout << "\nNombre de la discoteca incorrecto\nOperacion cancelada\n";
       }
 
       break;
 
     case '3':
-      std: ;
       cout << "\n---------------------------------------------------\n";
-      std: ;
       cout << "Aniadir evento:\n";
 
       nomDiscoteca = introducirNombreDiscoteca();
@@ -189,15 +185,18 @@ int menuServidor() {
       if (((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) && (existeFecha == -1)) {
         int verificacionFecha = 0;
         verificacionFecha = verificarFecha(fecha);
+
         if (verificacionFecha) {
           char* eventoFinal = NULL;
           strcpy(eventoFinal, evento);
           insertarDiaFiesta(fecha, nomDiscoteca, eventoFinal);
           insertarEvento(fecha, nomDiscoteca, descripcionEvento);
           printf("Evento introducido correctamente en La Base De Datos\n");
+
         } else {
           printf("Formato de fecha incorrecto\nOperacion cancelada");
         }
+
       } else if (existeFecha == 0) {
         printf("\nLa fecha introducida ya esta ocupada\nOperacion cancelada\n");
       } else {
@@ -209,19 +208,25 @@ int menuServidor() {
     case '4':
       printf("\n---------------------------------------------------\n");
       printf("Importar RRPPs\n\n");
+      
       abrirConexion();
       inicializarRRPP();
       mostrarRRPP();
+
       printf("\nEstos son los RRPPs importados\n");
+
       break;
 
     case '5':
       printf("\n---------------------------------------------------\n");
       printf("Importar DJs\n\n");
+
       abrirConexion();
       inicializarDJ();
       mostrarDJ();
+
       printf("\nEstos son los DJs importados\n");
+
       break;
     }
 
