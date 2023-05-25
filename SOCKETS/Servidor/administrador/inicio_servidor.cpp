@@ -4,8 +4,11 @@
 #include <cctype>
 #include <ctime>
 
-#include "../basedatos/baseDatos.h"
-#include "../basedatos/sqlite/sqlite3.h"
+extern "C" {
+    #include "../basedatos/sqlite/sqlite3.h"
+    #include "../basedatos/baseDatos.h"
+    }
+
 #include "../clases/entrada.h"
 #include "inicio_servidor.h"
 

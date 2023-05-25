@@ -12,6 +12,7 @@ extern "C" {
     }
 
 #include "administrador/inicio_servidor.h"
+
 #pragma comment(lib, "ws2_32.lib")
 
 #define SERVER_IP "127.0.0.1"
@@ -172,7 +173,7 @@ int main(int argc, char *argv[]) {
     char sendBuff[512], recvBuff[512];
 
     int opcion;
-    cout << "¿Qué quieres hacer?\n";
+    cout << "Que quieres hacer?\n";
     cout << "1. Acceder como admin modo local\n";
     cout << "2. Ejecutar el servidor para ponerse en escucha\n";
     cin >> opcion;

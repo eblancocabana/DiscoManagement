@@ -3,8 +3,6 @@
 #include <string.h>
 #include "sqlite/sqlite3.h"
 #include "baseDatos.h"
-#include "../clases/entrada.h"
-#include "../clases/reservalocal.h"
 
 #define MAX_REGISTRO 20
 #define MAX_LOGIN 15
