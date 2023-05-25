@@ -1075,7 +1075,7 @@ void mostrarRRPP() {
     // INSERTAR DATOS BASICOS A LA BASE DE DATOS
 
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
-
+ 
   int entradas = 400;
   char lineFi[1024];
   int ultimo;

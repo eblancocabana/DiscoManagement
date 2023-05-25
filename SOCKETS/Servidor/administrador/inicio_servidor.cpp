@@ -1,9 +1,13 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <time.h>
+#include <iostream>
+
+#include <string>
+
+#include <cctype>
+
+#include <ctime>
+
 #include "../basedatos/baseDatos.h"
+
 #include "inicio_servidor.h"
 
 #define MAX_SELECCION 5
@@ -11,101 +15,106 @@
 #define MAX_FECHA 10
 #define MAX_DESCRIPCION 75
 
+using namespace std;
+
 char mostrarIncioServido() {
-    char inputInicio[MAX_SELECCION];
-    int numInicio;
+  std::string inputInicio;
+  int numInicio;
 
-    printf("\n---------------------------------------------------\n");
-    printf("Menu Principal: \n\t1. Informacion de eventos \n\t2. Informacion de fiestas \n\t3. Actualizar base de datos \n\t0. Cerrar Sesion \n\n Elige una opcion: ");
+  cout << "\n---------------------------------------------------\n";
+  cout << "Menu Principal: \n\t1. Informacion de eventos \n\t2. Informacion de fiestas \n\t3. Actualizar base de datos \n\t0. Cerrar Sesion \n\n Elige una opcion: ";
 
-    fgets(inputInicio, MAX_SELECCION, stdin);
-    sscanf(inputInicio, "%d", &numInicio);
+  std::getline(cin, inputInicio);
+  sscanf(inputInicio.c_str(), "%d", & numInicio);
 
-    return *inputInicio;
+  return * inputInicio.c_str();
 }
-
 
 int inicioServidor() {
-    char opcionInicioServidor;
+  char opcionInicioServidor;
 
-    do {
-        opcionInicioServidor = mostrarIncioServido();
-        switch (opcionInicioServidor) {
-        case '1':
-            printf("\n---------------------------------------------------\n");
+  do {
+    opcionInicioServidor = mostrarIncioServido();
+    switch (opcionInicioServidor) {
+    case '1':
+      cout << "\n---------------------------------------------------\n";
 
-            printf("\e[37m\e[1m");
-            printf("Listado de eventos (fecha - descripcion - discoteca - aforo)\n\n");
-            printf("\e[0m");
+      cout << "\e[37m\e[1m";
+      cout << "Listado de eventos (fecha - descripcion - discoteca - aforo)\n\n";
+      cout << "\e[0m";
 
-            mostrarlistadoeventos();
-        break;
+      mostrarlistadoeventos();
+      break;
 
-        case '2':
-            printf("\n---------------------------------------------------\n");
+    case '2':
+      cout << "\n---------------------------------------------------\n";
 
-            printf("\e[37m\e[1m");
-            printf("Listado de dias de fiesta (codigo - fecha - nombre discoteca - entradas disponibles - evento?)\n\n");
-            printf("\e[0m");
+      cout << "\e[37m\e[1m";
+      cout << "Listado de dias de fiesta (codigo - fecha - nombre discoteca - entradas disponibles - evento?)\n\n";
+      cout << "\e[0m";
 
-            mostrarFiestas();
-        break;
+      mostrarFiestas();
+      break;
 
-        case '3':
-            menuServidor();
-        break;
-        }
+    case '3':
+      menuServidor();
+      break;
+    }
 
-    } while (opcionInicioServidor != '0');
+  } while (opcionInicioServidor != '0');
 
-    return 0;
+  return 0;
 }
-
 
 char mostrarMenuServidor() {
-  char inputMenu[MAX_SELECCION];
+  std::string inputMenu;
   int numMenu;
-  printf("\n---------------------------------------------------\n");
-  printf("Actualizar la Base de Datos: \n\t1. Reiniciar BD \n\t2. Aniadir fiesta \n\t3. Aniadir evento \n\t4. Importar RRPPs \n\t5. Importar DJs \n\t0. Atras \n\n Elige una opcion: ");
+  cout << "\n---------------------------------------------------\n";
+  cout << "Actualizar la Base de Datos: \n\t1. Reiniciar BD \n\t2. Aniadir fiesta \n\t3. Aniadir evento \n\t4. Importar RRPPs \n\t5. Importar DJs \n\t0. Atras \n\n Elige una opcion: ";
 
-  fgets(inputMenu, MAX_SELECCION, stdin);
-  sscanf(inputMenu, "%d", & numMenu);
+  std::getline(cin, inputMenu);
+  sscanf(inputMenu.c_str(), "%d", & numMenu);
 
-  return * inputMenu;
+  return * inputMenu.c_str();
 }
 
+char * introducirNombreDiscoteca() {
+  cout << "\tIntroduce nombre de la discoteca (Back / Stage): ";
 
-char* introducirNombreDiscoteca() {
-    printf("\tIntroduce nombre de la discoteca (Back / Stage): ");
-
-    char* inputDiscoteca = (char*) malloc(MAX_NOM_DISCOTECA * sizeof(char));
-    fgets(inputDiscoteca, MAX_NOM_DISCOTECA, stdin);
-    return inputDiscoteca;
+  char * inputDiscoteca = new char[MAX_NOM_DISCOTECA];
+  cin.getline(inputDiscoteca, MAX_NOM_DISCOTECA);
+  return inputDiscoteca;
 }
 
-char* introducirFecha() {
-    printf("\tIntroduce la fecha (dd/mm/aa): ");
+char * introducirFecha() {
+  cout << "\tIntroduce la fecha (dd/mm/aa): ";
 
-    char* inputFecha = (char*) malloc(MAX_FECHA * sizeof(char));
-    fgets(inputFecha, MAX_FECHA, stdin);
-    return inputFecha;
+  char * inputFecha = new char[MAX_FECHA];
+  cin.getline(inputFecha, MAX_FECHA);
+  return inputFecha;
 }
 
-char* introducirDescripcion() {
-    printf("\tIntroduce la descripcion del evento (max 70 letras): ");
+char * introducirDescripcion() {
+  cout << "\tIntroduce la descripcion del evento (max 70 letras): ";
 
-    char* inputDescripcion = (char*) malloc(MAX_DESCRIPCION * sizeof(char));
-    fgets(inputDescripcion, MAX_DESCRIPCION, stdin);
-    return inputDescripcion;
+  char * inputDescripcion = new char[MAX_DESCRIPCION];
+  cin.getline(inputDescripcion, MAX_DESCRIPCION);
+  return inputDescripcion;
 }
-
 
 int menuServidor() {
   char opcionMenu;
+<<<<<<< HEAD
   char* nomDiscoteca;
   char* fecha;
   char* descripcionEvento;
   const char* evento;
+=======
+  char * nomDiscoteca;
+  char * fecha;
+  char * descripcionEvento;
+  char * evento;
+>>>>>>> dee53e6a4aacb078289361a0b455bf077c1a4f86
   int len;
   int existeFecha;
 
@@ -113,29 +122,30 @@ int menuServidor() {
     opcionMenu = mostrarMenuServidor();
     switch (opcionMenu) {
     case '1':
-        printf("\nLa Base De Datos se ha reiniciado con los valores de fabrica correctamente\n");
-        reiniciarBD();
-    break;
+      cout << "\nLa Base De Datos se ha reiniciado con los valores de fabrica correctamente\n";
+      reiniciarBD();
+      break;
 
     case '2':
-        printf("\n---------------------------------------------------\n");
-        printf("Aniadir fiesta:\n");
+      cout << "\n---------------------------------------------------\n";
+      cout << "Aniadir fiesta:\n";
 
-        nomDiscoteca = introducirNombreDiscoteca();
-        len = strcspn(nomDiscoteca, "\n");
-        nomDiscoteca[len] = '\0';
+      nomDiscoteca = introducirNombreDiscoteca();
+      len = strcspn(nomDiscoteca, "\n");
+      nomDiscoteca[len] = '\0';
 
-        fecha = introducirFecha();
-        len = strcspn(fecha, "\n");
-        fecha[len] = '\0';
+      fecha = introducirFecha();
+      len = strcspn(fecha, "\n");
+      fecha[len] = '\0';
 
-        evento = "No";
+      evento = "No";
 
-        nomDiscoteca[0] = toupper(nomDiscoteca[0]);
-        for (int i = 1; nomDiscoteca[i] != '\0'; i++) {
-            nomDiscoteca[i] = tolower(nomDiscoteca[i]);
-        }
+      nomDiscoteca[0] = toupper(nomDiscoteca[0]);
+      for (int i = 1; nomDiscoteca[i] != '\0'; i++) {
+        nomDiscoteca[i] = tolower(nomDiscoteca[i]);
+      }
 
+<<<<<<< HEAD
         existeFecha = comprobarFecha(fecha, 1);
         if (((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) && (existeFecha == -1)) {
             int verificacionFecha = 0;
@@ -145,44 +155,57 @@ int menuServidor() {
                 char* eventoFinal = NULL;
                 strcpy(eventoFinal, evento);
                 insertarDiaFiesta(fecha, nomDiscoteca, eventoFinal);
+=======
+      existeFecha = comprobarFecha(fecha, 1);
+      if (((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) && (existeFecha == -1)) {
+        int verificacionFecha = 0;
+        verificacionFecha = verificarFecha(fecha);
+        if (verificacionFecha) {
+          insertarDiaFiesta(fecha, nomDiscoteca, evento);
+>>>>>>> dee53e6a4aacb078289361a0b455bf077c1a4f86
 
-                printf("Fiesta introducida correctamente en La Base De Datos\n");
-            } else {
-                printf("Formato de fecha incorrecto\nOperacion cancelada\n");
-            }
-        } else if (existeFecha == 0) {
-            printf("\nLa fecha introducida ya esta ocupada\nOperacion cancelada\n");
+          cout << "Fiesta introducida correctamente en La Base De Datos\n";
         } else {
-            printf("\nNombre de la discoteca incorrecto\nOperacion cancelada\n");
+          cout << "Formato de fecha incorrecto\nOperacion cancelada\n";
         }
+      } else if (existeFecha == 0) {
+        std: ;
+        cout << "\nLa fecha introducida ya esta ocupada\nOperacion cancelada\n";
+      } else {
+        std: ;
+        cout << "\nNombre de la discoteca incorrecto\nOperacion cancelada\n";
+      }
 
-    break;
+      break;
 
     case '3':
-        printf("\n---------------------------------------------------\n");
-        printf("Aniadir evento:\n");
+      std: ;
+      cout << "\n---------------------------------------------------\n";
+      std: ;
+      cout << "Aniadir evento:\n";
 
-        nomDiscoteca = introducirNombreDiscoteca();
-        len = strcspn(nomDiscoteca, "\n");
-        nomDiscoteca[len] = '\0';
+      nomDiscoteca = introducirNombreDiscoteca();
+      len = strcspn(nomDiscoteca, "\n");
+      nomDiscoteca[len] = '\0';
 
-        fecha = introducirFecha();
-        len = strcspn(fecha, "\n");
-        fecha[len] = '\0';
+      fecha = introducirFecha();
+      len = strcspn(fecha, "\n");
+      fecha[len] = '\0';
 
-        descripcionEvento = introducirDescripcion();
-        len = strcspn(descripcionEvento, "\n");
-        descripcionEvento[len] = '\0';
+      descripcionEvento = introducirDescripcion();
+      len = strcspn(descripcionEvento, "\n");
+      descripcionEvento[len] = '\0';
 
-        evento = "Si";
+      evento = "Si";
 
-        nomDiscoteca[0] = toupper(nomDiscoteca[0]);
-        for (int i = 1; nomDiscoteca[i] != '\0'; i++) {
-            nomDiscoteca[i] = tolower(nomDiscoteca[i]);
-        }
+      nomDiscoteca[0] = toupper(nomDiscoteca[0]);
+      for (int i = 1; nomDiscoteca[i] != '\0'; i++) {
+        nomDiscoteca[i] = tolower(nomDiscoteca[i]);
+      }
 
-        existeFecha = comprobarFecha(fecha, 0);
+      existeFecha = comprobarFecha(fecha, 0);
 
+<<<<<<< HEAD
         if (((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) && (existeFecha == -1)) {
             int verificacionFecha = 0;
             verificacionFecha = verificarFecha(fecha);
@@ -192,40 +215,47 @@ int menuServidor() {
                 strcpy(eventoFinal, evento);
                 insertarDiaFiesta(fecha, nomDiscoteca, eventoFinal);
                 insertarEvento(fecha, nomDiscoteca, descripcionEvento);
+=======
+      if (((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) && (existeFecha == -1)) {
+        int verificacionFecha = 0;
+        verificacionFecha = verificarFecha(fecha);
+        if (verificacionFecha) {
+          insertarDiaFiesta(fecha, nomDiscoteca, evento);
+          insertarEvento(fecha, nomDiscoteca, descripcionEvento);
+>>>>>>> dee53e6a4aacb078289361a0b455bf077c1a4f86
 
-                printf("Evento introducido correctamente en La Base De Datos\n");
-            } else {
-                printf("Formato de fecha incorrecto\nOperacion cancelada");
-            }
-        } else if (existeFecha == 0) {
-            printf("\nLa fecha introducida ya esta ocupada\nOperacion cancelada\n");
+          printf("Evento introducido correctamente en La Base De Datos\n");
         } else {
-            printf("\nNombre de la discoteca incorrecto\nOperacion cancelada\n");
+          printf("Formato de fecha incorrecto\nOperacion cancelada");
         }
+      } else if (existeFecha == 0) {
+        printf("\nLa fecha introducida ya esta ocupada\nOperacion cancelada\n");
+      } else {
+        printf("\nNombre de la discoteca incorrecto\nOperacion cancelada\n");
+      }
 
-    break;
+      break;
 
     case '4':
-        printf("\n---------------------------------------------------\n");
-        printf("Importar RRPPs\n\n");
-        abrirConexion();
-        inicializarRRPP();
-        mostrarRRPP();
-        printf("\nEstos son los RRPPs importados\n");
-    break;
-    
+      printf("\n---------------------------------------------------\n");
+      printf("Importar RRPPs\n\n");
+      abrirConexion();
+      inicializarRRPP();
+      mostrarRRPP();
+      printf("\nEstos son los RRPPs importados\n");
+      break;
+
     case '5':
-        printf("\n---------------------------------------------------\n");
-        printf("Importar DJs\n\n");
-        abrirConexion();
-        inicializarDJ();
-        mostrarDJ();
-        printf("\nEstos son los DJs importados\n");
-    break;
+      printf("\n---------------------------------------------------\n");
+      printf("Importar DJs\n\n");
+      abrirConexion();
+      inicializarDJ();
+      mostrarDJ();
+      printf("\nEstos son los DJs importados\n");
+      break;
     }
 
   } while (opcionMenu != '0');
 
   return 0;
 }
-
