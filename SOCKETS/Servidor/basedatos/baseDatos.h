@@ -2,7 +2,7 @@
 #define _BASEDATOS_
 #include "sqlite/sqlite3.h"
 
-int dbExiste(char* fichero);
+int dbExiste(const char* fichero);
 int reiniciarBD();
 int verificarFecha(char* fecha);
 

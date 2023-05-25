@@ -1282,5 +1282,5 @@ int buscarUltimoCodigo(int eventoBool) {
     // Cerrar la conexión a la base de datos
     cerrarConexion(database);
 
-    return 0; */
-  }
+    return 0; 
+  } */

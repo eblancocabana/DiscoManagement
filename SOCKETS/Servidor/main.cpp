@@ -4,11 +4,11 @@
 #include <winsock2.h>
 #include <string.h>
 #include <sstream>
-#include "basedatos/baseDatos.h"
 #include "clases/reservalocal.h"
 
 extern "C" {
     #include "basedatos/sqlite/sqlite3.h"
+    #include "basedatos/baseDatos.h"
     }
 
 #include "administrador/inicio_servidor.h"
