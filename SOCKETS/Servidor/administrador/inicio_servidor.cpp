@@ -104,17 +104,10 @@ char * introducirDescripcion() {
 
 int menuServidor() {
   char opcionMenu;
-<<<<<<< HEAD
   char* nomDiscoteca;
   char* fecha;
   char* descripcionEvento;
   const char* evento;
-=======
-  char * nomDiscoteca;
-  char * fecha;
-  char * descripcionEvento;
-  char * evento;
->>>>>>> dee53e6a4aacb078289361a0b455bf077c1a4f86
   int len;
   int existeFecha;
 
@@ -145,7 +138,6 @@ int menuServidor() {
         nomDiscoteca[i] = tolower(nomDiscoteca[i]);
       }
 
-<<<<<<< HEAD
         existeFecha = comprobarFecha(fecha, 1);
         if (((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) && (existeFecha == -1)) {
             int verificacionFecha = 0;
@@ -155,15 +147,6 @@ int menuServidor() {
                 char* eventoFinal = NULL;
                 strcpy(eventoFinal, evento);
                 insertarDiaFiesta(fecha, nomDiscoteca, eventoFinal);
-=======
-      existeFecha = comprobarFecha(fecha, 1);
-      if (((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) && (existeFecha == -1)) {
-        int verificacionFecha = 0;
-        verificacionFecha = verificarFecha(fecha);
-        if (verificacionFecha) {
-          insertarDiaFiesta(fecha, nomDiscoteca, evento);
->>>>>>> dee53e6a4aacb078289361a0b455bf077c1a4f86
-
           cout << "Fiesta introducida correctamente en La Base De Datos\n";
         } else {
           cout << "Formato de fecha incorrecto\nOperacion cancelada\n";
@@ -205,25 +188,14 @@ int menuServidor() {
 
       existeFecha = comprobarFecha(fecha, 0);
 
-<<<<<<< HEAD
-        if (((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) && (existeFecha == -1)) {
-            int verificacionFecha = 0;
-            verificacionFecha = verificarFecha(fecha);
-            if (verificacionFecha) {
-
-                char* eventoFinal = NULL;
-                strcpy(eventoFinal, evento);
-                insertarDiaFiesta(fecha, nomDiscoteca, eventoFinal);
-                insertarEvento(fecha, nomDiscoteca, descripcionEvento);
-=======
       if (((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) && (existeFecha == -1)) {
         int verificacionFecha = 0;
         verificacionFecha = verificarFecha(fecha);
         if (verificacionFecha) {
-          insertarDiaFiesta(fecha, nomDiscoteca, evento);
+          char* eventoFinal = NULL;
+          strcpy(eventoFinal, evento);
+          insertarDiaFiesta(fecha, nomDiscoteca, eventoFinal);
           insertarEvento(fecha, nomDiscoteca, descripcionEvento);
->>>>>>> dee53e6a4aacb078289361a0b455bf077c1a4f86
-
           printf("Evento introducido correctamente en La Base De Datos\n");
         } else {
           printf("Formato de fecha incorrecto\nOperacion cancelada");

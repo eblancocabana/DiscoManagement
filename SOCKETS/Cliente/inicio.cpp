@@ -8,7 +8,6 @@
 #include "comprar_entradas.h"
 //#include "basedatos/sqlite/sqlite3.h"
 //#include "basedatos/baseDatos.h"
-#include "administrador/inicio_servidor.h"
 #include "seleccion_entradas.h"
 #include "enviar_datos.h"
 #include "recibir_datos.h"
@@ -169,7 +168,6 @@ void iniciarSesion() {
     int admin = recibir_datos<int>();
     if ((existe == 0) && ( admin== 0)) {
         cout << "\nADMIN ENCONTRADO, accediendo al menu\n";
-        inicioServidor();
     } else if ((existe == 0)) {
         cout << "\nUSUARIO ENCONTRADO, accediendo al menu\n";
         menu();
