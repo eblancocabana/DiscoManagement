@@ -28,7 +28,7 @@ T recibir_datos() {
 }
 
 
-void enviar_datos(char *nombre_funcion, int num_args, ...) {
+void enviar_datos(const char *nombre_funcion, int num_args, ...) {
     char sendBuff[512];
     sprintf(sendBuff, "%s:", nombre_funcion);
 
