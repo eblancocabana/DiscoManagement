@@ -81,26 +81,26 @@ void rellenarCamposRegistro() {
     cout << "Nombre: ";
     cin.getline(inputRegis, MAX_NOMBRE);
     sscanf(inputRegis, "%s", &nombre);
-    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
+    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(inputRegis));
     name = recibir_datos<char*>();
 
     cout << "Nombre de Usuario: ";
     cin.getline(inputRegis, MAX_NOMBRE_USU);
     sscanf(inputRegis, "%s", &nombreUsu);
-    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
+    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(inputRegis));
     username = recibir_datos<char*>();
 
     cout << "Sexo: ";
     cin.getline(inputRegis, MAX_SEXO);
     sscanf(inputRegis, "%s", &sexo);
-    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
+    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(inputRegis));
     sex = recibir_datos<char*>();
 
     do {
         cout << "Edad: ";
         cin.getline(inputRegis, MAX_EDAD);
         sscanf(inputRegis, "%i", &edad);
-        enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
+        enviar_datos("limpiarInput", 1, &inputRegis, sizeof(inputRegis));
         age = recibir_datos<char*>();
 
         errno = 0;
@@ -114,20 +114,20 @@ void rellenarCamposRegistro() {
     cout << "Correo Electronico: ";
     cin.getline(inputRegis, MAX_CORREO);
     sscanf(inputRegis, "%s", &correo);
-    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
+    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(inputRegis));
     correoElec = recibir_datos<char*>();
 
     cout << "Contrasenya: ";
     cin.getline(inputRegis, MAX_CONTRASENYA);
     sscanf(inputRegis, "%s", &contrasenya);
-    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
+    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(inputRegis));
     char* password = recibir_datos<char*>();
 
 
     cout << "Repetir Contrasenya: ";
     cin.getline(inputRegis, MAX_CONTRASENYA);
     sscanf(inputRegis, "%s", &repertirContrasenya);
-    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
+    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(inputRegis));
     char* repPass = recibir_datos<char*>();
 
     cout << "\nDatos introducidos: " << name << " - " << username << " - " << sex << " - " << age << " - " << correoElec << " - " << password << " - " << repPass << endl;

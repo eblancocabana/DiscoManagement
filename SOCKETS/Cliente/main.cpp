@@ -20,35 +20,29 @@ SOCKET s;
 #include <cstdarg>
 void enviar_datos(const char *nombre_funcion, int num_args, ...) {
     char sendBuff[512];
-    sprintf(sendBuff, "%s:", nombre_funcion);
+    int pos = sprintf(sendBuff, "%s:", nombre_funcion);
 
     va_list args;
     va_start(args, num_args);
 
     for (int i = 0; i < num_args; i++) {
-        // Obtener el tipo del argumento actual
-        const char *type = va_arg(args, const char*);
+        // Obtener el argumento actual y su tamaño
+        const void *arg = va_arg(args, const void*);
+        size_t size = va_arg(args, size_t);
 
-        // Serializar el argumento de acuerdo a su tipo
-        if (strcmp(type, "int") == 0) {
-            int arg = va_arg(args, int);
-            sprintf(sendBuff + strlen(sendBuff), "%d,", arg);
-        } else if (strcmp(type, "char*") == 0) {
-            const char *arg = va_arg(args, const char*);
-            sprintf(sendBuff + strlen(sendBuff), "%s,", arg);
-        } else if (strcmp(type, "float") == 0) {
-            float arg = (float)va_arg(args, double);
-            sprintf(sendBuff + strlen(sendBuff), "%f,", arg);
-        }
+        // Serializar el argumento
+        memcpy(sendBuff + pos, arg, size);
+        pos += size;
+        sendBuff[pos++] = ',';
     }
 
     va_end(args);
 
-    // Eliminar la última coma
-    sendBuff[strlen(sendBuff) - 1] = '\0';
-
+    printf("DATOOOS: %s\n", sendBuff);
     send(s, sendBuff, sizeof(sendBuff), 0);
 }
+
+
 
 
 
