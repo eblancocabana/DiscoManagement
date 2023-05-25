@@ -30,9 +30,9 @@ T recibir_datos() {
 
 #include <string>
 #include <cstdarg>
-void enviar_datos(const std::string &nombre_funcion, int num_args, ...) {
+void enviar_datos(const char *nombre_funcion, int num_args, ...) {
     char sendBuff[512];
-    sprintf(sendBuff, "%s:", nombre_funcion.c_str());
+    sprintf(sendBuff, "%s:", nombre_funcion);
 
     va_list args;
     va_start(args, num_args);
@@ -61,6 +61,7 @@ void enviar_datos(const std::string &nombre_funcion, int num_args, ...) {
 
     send(s, sendBuff, sizeof(sendBuff), 0);
 }
+
 
 
 
