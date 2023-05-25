@@ -48,7 +48,6 @@ void enviar_datos(const std::string &nombre_funcion, int num_args, ...) {
         } else if (strcmp(type, "char*") == 0) {
             char *arg = va_arg(args, char*);
             sprintf(sendBuff + strlen(sendBuff), "%s,", arg);
-        
         }else if (strcmp(type, "std::string") == 0) {
             std::string arg = va_arg(args, std::string);
             sprintf(sendBuff + strlen(sendBuff), "%s,", arg.c_str());
