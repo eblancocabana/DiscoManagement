@@ -1,9 +1,7 @@
 #include <iostream>
-
 #include <string>
-
+#include <string.h>
 #include <cctype>
-
 #include <ctime>
 
 #include "../basedatos/baseDatos.h"
