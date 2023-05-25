@@ -28,9 +28,11 @@ T recibir_datos() {
 }
 
 
-void enviar_datos(const char *nombre_funcion, int num_args, ...) {
+#include <string>
+#include <cstdarg>
+void enviar_datos(const std::string &nombre_funcion, int num_args, ...) {
     char sendBuff[512];
-    sprintf(sendBuff, "%s:", nombre_funcion);
+    sprintf(sendBuff, "%s:", nombre_funcion.c_str());
 
     va_list args;
     va_start(args, num_args);
@@ -46,6 +48,10 @@ void enviar_datos(const char *nombre_funcion, int num_args, ...) {
         } else if (strcmp(type, "char*") == 0) {
             char *arg = va_arg(args, char*);
             sprintf(sendBuff + strlen(sendBuff), "%s,", arg);
+        
+        }else if (strcmp(type, "std::string") == 0) {
+            std::string arg = va_arg(args, std::string);
+            sprintf(sendBuff + strlen(sendBuff), "%s,", arg.c_str());
         } else if (strcmp(type, "float") == 0) {
             float arg = (float)va_arg(args, double);
             sprintf(sendBuff + strlen(sendBuff), "%f,", arg);
@@ -59,6 +65,7 @@ void enviar_datos(const char *nombre_funcion, int num_args, ...) {
 
     send(s, sendBuff, sizeof(sendBuff), 0);
 }
+
 
 
 int main(int argc, char *argv[]) {
