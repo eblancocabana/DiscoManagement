@@ -4,6 +4,7 @@
 #include "sqlite/sqlite3.h"
 #include "baseDatos.h"
 #include "../clases/entrada.h"
+#include "../clases/reservalocal.h"
 
 #define MAX_REGISTRO 20
 #define MAX_LOGIN 15
@@ -1234,7 +1235,7 @@ int buscarUltimoCodigo(int eventoBool) {
     return -1;
   }
 }
-          //  METODOS DE C++
+      //  METODOS DE C++
 
   int insertarEntrada(Entrada entradaInsertar) {
 
@@ -1256,6 +1257,21 @@ int buscarUltimoCodigo(int eventoBool) {
     return 0;
   }
 
-  int insertarReservaLocal() {
-    
+  int insertarReservaLocal(ReservaLocal reservarLocalInsertar) {
+    // Construir la sentencia INSERT
+    char sentenciaReservarLocalInsert[500];
+    sprintf(sentenciaReservarLocalInsert, "INSERT INTO reservalocal (codigo, fecha, nombrediscoteca, aforo, numerotarjeta, cvvtarjeta, caducidadtarjeta) VALUES ('%s', '%s', '%s', %d, '%s', '%s', '%s');",
+            reservarLocalInsertar.getCodigo(), reservarLocalInsertar.getFecha(), reservarLocalInsertar.getNombreDiscoteca(), reservarLocalInsertar.getAforo(), reservarLocalInsertar.getNumeroTarjeta(), reservarLocalInsertar.getCvvTarjeta(), reservarLocalInsertar.getCaducidadTarjeta());
+
+    // Ejecutar la sentencia INSERT
+    aperturaInsert = sqlite3_exec(database, sentenciaReservarLocalInsert, 0, 0, &mensajeError);
+    if (aperturaInsert != SQLITE_OK) {
+        printf("Error al ejecutar la sentencia INSERT: %s\n", gestionarError(database));
+        return 1;
+    }
+
+    // Cerrar la conexión a la base de datos
+    cerrarConexion(database);
+
+    return 0;
   }
