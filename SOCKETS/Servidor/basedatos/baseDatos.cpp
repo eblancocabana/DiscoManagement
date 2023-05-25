@@ -105,6 +105,54 @@ void gestionarFree(char* str) {
 }
 
     // INICIALIZACION DE LOS VALORES DE LA BASE DE DATOS (VALORES POR DEFECTO)
+int inicializarReservaLocal() {
+    abrirConexion();
+    //Eliminar tabla si existe
+    char* sentenciaRL = "DROP TABLE IF EXISTS reservalocal;";
+    int resultadoRL = sqlite3_exec(database, sentenciaRL, NULL, NULL, &mensajeError);
+    if (resultadoRL != SQLITE_OK) {
+        // Manejar el error si ocurre
+        gestionarError(database);
+        gestionarFree(mensajeError);
+        cerrarConexion(database);
+        return 1;
+    }
+    // Crear tabla
+    char * sql = "CREATE TABLE reservalocal(codigo TEXT PRIMARY KEY NOT NULL, fecha TEXT NOT NULL, nombrediscoteca TEXT NOT NULL, aforo INT NOT NULL, numerotarjeta TEXT NOT NULL, cvvtarjeta TEXT NOT NULL, caducidadtarjeta TEXT NOT NULL)";
+    apertura = sqlite3_exec(database, sql, 0, 0, &mensajeError);
+    if (apertura != SQLITE_OK) {
+        gestionarError(database);
+        gestionarFree(mensajeError);
+        cerrarConexion(database);
+        return 1;
+    }
+    cerrarConexion(database);
+}
+
+int inicializarEntradas() {
+    abrirConexion();
+    //Eliminar tabla si existe
+    char* sentenciaE = "DROP TABLE IF EXISTS entradas;";
+    int resultadoE = sqlite3_exec(database, sentenciaE, NULL, NULL, &mensajeError);
+    if (resultadoE != SQLITE_OK) {
+        // Manejar el error si ocurre
+        gestionarError(database);
+        gestionarFree(mensajeError);
+        cerrarConexion(database);
+        return 1;
+    }
+    // Crear tabla
+    char * sql = "CREATE TABLE entradas(codigoFecha INT PRIMARY KEY NOT NULL, fechaEntrada TEXT NOT NULL, nombreDiscoteca TEXT NOT NULL, numeroEntradas INT NOT NULL, cuentaGmail TEXT NOT NULL, numeroTarjetaCredito TEXT NOT NULL, cvvTarjeta TEXT NOT NULL, caducidadTarjeta TEXT NOT NULL, tipoEntrada TEXT NOT NULL, precio REAL NOT NULL, nombreUsuario TEXT NOT NULL)";
+    apertura = sqlite3_exec(database, sql, 0, 0, &mensajeError);
+    if (apertura != SQLITE_OK) {
+        gestionarError(database);
+        gestionarFree(mensajeError);
+        cerrarConexion(database);
+        return 1;
+    }
+    cerrarConexion(database);
+}
+
 
 int inicializarDiasDeFiesta() {
 
