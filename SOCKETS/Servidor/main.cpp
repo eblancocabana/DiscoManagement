@@ -4,7 +4,7 @@
 #include <winsock2.h>
 #include <string.h>
 #include <sstream>
-#include "baseDatos.h"
+#include "basedatos/baseDatos.h"
 #include "administrador/inicio_servidor.h"
 
 #define SERVER_IP "127.0.0.1"
@@ -169,7 +169,7 @@ int main(int argc, char *argv[]) {
     if (opcion == 1) {
         cout << "Accediendo como admin modo local...\n";
         iniciarSesion();
-        return;
+        return 0;
     } else if (opcion == 2) {
         cout << "Ejecutando el servidor para ponerse en escucha...\n";
     } else {
