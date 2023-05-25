@@ -167,6 +167,18 @@ char mostrarConfirmarPago(){
     return *inputConfirmarPago;
 }
 
+char confirmarPagoCompra(){
+    cout << "\nConfirmar pago:\n\t1. Confirmar\n\t0. Atras\n\nElige una opcion: ";
+
+    char inputConfirmarCompra[MAX_SELECCION];
+    int numConfirmarCompra;
+
+    cin.getline(inputConfirmarCompra, MAX_SELECCION);
+    sscanf(inputConfirmarCompra, "%d", &numConfirmarCompra);
+
+    return *inputConfirmarCompra;
+}
+
 int introducirCodigoRRPP() {
     cout << "\n\tIntroduce el codigo del RRPP: ";
 

@@ -87,9 +87,10 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket,char *recvBuff) {
         sendBuff << ret;
     } else if (strcmp(nombre_funcion, "clearIfNeeded") == 0) {
         // Dividir los argumentos en str y max_line
-        char *str = strtok(args, ",");
+        char *ret = strtok(args, ",");
         int max_line = atoi(strtok(NULL, ","));
-        clearIfNeeded(str,max_line);
+        clearIfNeeded(ret,max_line);
+        sendBuff << ret;
     } else if (strcmp(nombre_funcion,"comprobarCodigoLocal")==0){
         int cod=atoi(args);
         int ret=comprobarCodigoLocal(cod);
