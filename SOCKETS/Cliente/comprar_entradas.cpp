@@ -184,6 +184,7 @@ void confirmarPago(){
         switch(opcionConfirmarPago){
             case '1':
                 cout << "\n---------------------------------------------------\n";
+                enviar_datos("mostrarRRPP", 0);
                 //mostrarRRPP();
                 cout << "\n---------------------------------------------------\n";
                 cout << "Introducir Codigo de RRPP";

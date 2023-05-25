@@ -21,19 +21,6 @@ char opcionReserva;
 char opcionPagoReserva;
 char opcionConfirmarReserva;
 
-void enviar_datos(char* nombre_funcion, int num_args, ...) {
-    va_list args;
-    va_start(args, num_args);
-
-    if (nombre_funcion == "mostrarLocales") {
-        //mostrarLocales(); BD
-    } else if (nombre_funcion == "comprobarCodigoLocal") {
-        int codLocal = va_arg(args, int);
-        //comprobarCodigoLocal(codLocal);
-    }
-
-    va_end(args);
-}
 
 char mostrarListado() {
     cout << "\nListado de dias disponible: (codigo - fecha - nombre discoteca - aforo - evento?)\n\n";

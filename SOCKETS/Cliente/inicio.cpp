@@ -66,84 +66,86 @@ char mostrarMenu() {
 }
 
 void rellenarCamposRegistro() {
-  char inputRegis[MAX_REGISTRO];
-  char nombre[MAX_NOMBRE];
-  char* nombreUsu;
-  char* sexo;
-  char* age;
-  char* correo;
-  char* contrasenya;
-  char* repertirContrasenya;
-  int existe = 1;
-  char* type;
+    char inputRegis[MAX_REGISTRO];
+    char nombre[MAX_NOMBRE];
+    char* nombreUsu;
+    char* sexo;
+    char* age;
+    char* correo;
+    char* contrasenya;
+    char* repertirContrasenya;
+    int existe = 1;
+    char* type;
 
-  cout << "Menu Registro:\n\n";
-  cout << "Nombre: ";
-  cin.getline(inputRegis, MAX_NOMBRE);
-  sscanf(inputRegis, "%s", &nombre);
-  enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
-  name = recibir_datos<char*>();
+    cout << "Menu Registro:\n\n";
+    cout << "Nombre: ";
+    cin.getline(inputRegis, MAX_NOMBRE);
+    sscanf(inputRegis, "%s", &nombre);
+    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
+    name = recibir_datos<char*>();
 
-  cout << "Nombre de Usuario: ";
-  cin.getline(inputRegis, MAX_NOMBRE_USU);
-  sscanf(inputRegis, "%s", &nombreUsu);
-  enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
-  username = recibir_datos<char*>();
+    cout << "Nombre de Usuario: ";
+    cin.getline(inputRegis, MAX_NOMBRE_USU);
+    sscanf(inputRegis, "%s", &nombreUsu);
+    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
+    username = recibir_datos<char*>();
 
-  cout << "Sexo: ";
-  cin.getline(inputRegis, MAX_SEXO);
-  sscanf(inputRegis, "%s", &sexo);
-  enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
-  sex = recibir_datos<char*>();
+    cout << "Sexo: ";
+    cin.getline(inputRegis, MAX_SEXO);
+    sscanf(inputRegis, "%s", &sexo);
+    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
+    sex = recibir_datos<char*>();
 
-  do {
-  cout << "Edad: ";
-  cin.getline(inputRegis, MAX_EDAD);
-  sscanf(inputRegis, "%i", &edad);
-  enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
-  age = recibir_datos<char*>();
+    do {
+        cout << "Edad: ";
+        cin.getline(inputRegis, MAX_EDAD);
+        sscanf(inputRegis, "%i", &edad);
+        enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
+        age = recibir_datos<char*>();
 
-  errno = 0;
-  long int num = strtol(age, &type, 10);
+        errno = 0;
+        long int num = strtol(age, &type, 10);
 
-  if (errno != 0 || *type != '\0') {
-  cout << "'" << age << "' no es una edad valida" << endl;
-  }
-  } while (errno != 0 || *type != '\0');
+        if (errno != 0 || *type != '\0') {
+            cout << "'" << age << "' no es una edad valida" << endl;
+        }
+    } while (errno != 0 || *type != '\0');
 
-  cout << "Correo Electronico: ";
-  cin.getline(inputRegis, MAX_CORREO);
-  sscanf(inputRegis, "%s", &correo);
-  enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
-  correoElec = recibir_datos<char*>();
+    cout << "Correo Electronico: ";
+    cin.getline(inputRegis, MAX_CORREO);
+    sscanf(inputRegis, "%s", &correo);
+    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
+    correoElec = recibir_datos<char*>();
 
-  cout << "Contrasenya: ";
-  cin.getline(inputRegis, MAX_CONTRASENYA);
-  sscanf(inputRegis, "%s", &contrasenya);
-  enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
-  char* password = recibir_datos<char*>();
+    cout << "Contrasenya: ";
+    cin.getline(inputRegis, MAX_CONTRASENYA);
+    sscanf(inputRegis, "%s", &contrasenya);
+    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
+    char* password = recibir_datos<char*>();
 
 
-  cout << "Repetir Contrasenya: ";
-  cin.getline(inputRegis, MAX_CONTRASENYA);
-  sscanf(inputRegis, "%s", &repertirContrasenya);
-  enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
-  char* repPass = recibir_datos<char*>();
+    cout << "Repetir Contrasenya: ";
+    cin.getline(inputRegis, MAX_CONTRASENYA);
+    sscanf(inputRegis, "%s", &repertirContrasenya);
+    enviar_datos("limpiarInput", 1, &inputRegis, sizeof(correoElec));
+    char* repPass = recibir_datos<char*>();
 
-  cout << "\nDatos introducidos: " << name << " - " << username << " - " << sex << " - " << age << " - " << correoElec << " - " << password << " - " << repPass << endl;
-  //existe = comprobarUsuario(username); BD
+    cout << "\nDatos introducidos: " << name << " - " << username << " - " << sex << " - " << age << " - " << correoElec << " - " << password << " - " << repPass << endl;
+    //existe = comprobarUsuario(username); BD
+    enviar_datos("comprobarUsuario", 1, &username, sizeof(username));
+    existe = recibir_datos<int>();
 
-  if ((existe == -1) && (strcmp(password, repPass) != 0)) {
-    cout << "Pero las contrasenyas NO coinciden" << endl;
-    login();
-  } else if ((existe == -1) && (strcmp(password, repPass) == 0)) {
-    cout << "Valores aceptados para ser introducidos a la BD" << endl;
-    cout << "\n---------------------------------------------------\n";
-    cout << "Quiere registrarse?\n";
-  } else if (existe == 0) {
-    cout << "\nEl usuario ya existe, registro cancelado\n";
-    login();
-  }
+    if ((existe == -1) && (strcmp(password, repPass) != 0)) {
+        cout << "Pero las contrasenyas NO coinciden" << endl;
+        login();
+    } else if ((existe == -1) && (strcmp(password, repPass) == 0)) {
+        cout << "Valores aceptados para ser introducidos a la BD" << endl;
+        cout << "\n---------------------------------------------------\n";
+        cout << "Quiere registrarse?\n";
+    } else if (existe == 0) {
+        cout << "\nEl usuario ya existe, registro cancelado\n";
+        login();
+    }
 }
 
 // ...
@@ -231,6 +233,7 @@ int menu() {
                 cout << "Listado de eventos (fecha - descripcion - nombre discoteca - aforo)\n\n";
                 cout << "\e[0m";
                 //mostrarlistadoeventos(); BD
+                enviar_datos("mostrarlistadoeventos", 0);
                 break;
 
             case '2':
@@ -239,6 +242,7 @@ int menu() {
                 cout << "Menu compra de entrada (codigo - fecha - nombre discoteca - aforo - evento?)\n\n";
                 cout << "\e[0m";
                 //mostrarFiestas(); BD
+                enviar_datos("mostrarFiestas", 0);
                 menuListadoDiasDisponibles();
                 break;
 
