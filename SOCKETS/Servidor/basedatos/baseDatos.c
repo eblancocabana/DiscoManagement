@@ -95,8 +95,15 @@ int abrirConexion() {
     // GESTION DE SUCESOS EN LA BASE DE DATOS
 
 int gestionarError(sqlite3* baseDatos) {
-  fprintf(stderr, "\nSQL Error: %s\n", sqlite3_errmsg(baseDatos));
-  return sqlite3_errcode(baseDatos);
+  int resultado = strcmp(sqlite3_errmsg(baseDatos), "not an error");
+    
+  if (resultado == 0) {
+      return 0;
+  } else {
+
+    fprintf(stderr, "\nSQL Error: %s\n", sqlite3_errmsg(baseDatos));
+    return sqlite3_errcode(baseDatos);
+  }
 }
 
 void gestionarFree(char* str) {
@@ -545,7 +552,7 @@ int inicializacion() {
   }
   
   cerrarConexion(database);
-  printf("La Base De Datos esta activa y lista para ser utilizada\n");
+  printf("La Base De Datos esta activa y lista para ser utilizada\n\n");
 
   return 0;
 }

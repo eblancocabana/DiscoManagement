@@ -32,10 +32,7 @@ extern "C" {
 
 using namespace std;
 
-// g++ *.cpp -o prueba.exe -lWs2_32
-
 void iniciarSesion() {
-
     int existe = 1;
     char input[MAX_REGISTRO];
 
@@ -49,11 +46,14 @@ void iniciarSesion() {
 
     existe = comprobarExistencia(us, pa);
     int admin = comprobarAdmin(us);
-    if ((existe == 0) && ( admin== 0)) {
+
+    if ((existe == 0) && (admin == 0)) {
         cout << "\nADMIN ENCONTRADO, accediendo al menu\n";
         inicioServidor();
+
     } else if ((existe == 0)) {
         cout << "\nUSUARIO NO ADMIN\n";
+
         return;
     } else {
         // Hacer algo si no se encuentra el usuario o la contraseña es incorrecta
@@ -178,8 +178,8 @@ int main(int argc, char *argv[]) {
 
     while (opcion != 1 && opcion != 2) {
         cout << "Ingrese una opcion\n";
-        cout << "\t1. para acceder como admin modo local\n";
-        cout << "\t2. Para ejecutar el servidor\n\n";
+        cout << "\t1. Acceder como admin modo local\n";
+        cout << "\t2. Ejecutar el servidor\n";
 
         getline(cin, entrada);
 
@@ -188,7 +188,9 @@ int main(int argc, char *argv[]) {
 
             if (opcion == 1) {
                 cout << "Accediendo como admin modo local...\n";
+                inicializacion();
                 iniciarSesion();
+
                 return 0;
             } else if (opcion == 2) {
                 cout << "Ejecutando el servidor para ponerse en escucha...\n";
@@ -203,6 +205,7 @@ int main(int argc, char *argv[]) {
     cout << "\nInitialising Winsock...\n";
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
         cout << "Failed. Error Code : " << WSAGetLastError();
+
         return -1;
     }
 
@@ -212,6 +215,7 @@ int main(int argc, char *argv[]) {
     if ((conn_socket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
         cout << "Could not create socket : " << WSAGetLastError();
         WSACleanup();
+
         return -1;
     }
 
@@ -227,6 +231,7 @@ int main(int argc, char *argv[]) {
         cout << "Bind failed with error code: " << WSAGetLastError();
         closesocket(conn_socket);
         WSACleanup();
+
         return -1;
     }
 
@@ -237,6 +242,7 @@ int main(int argc, char *argv[]) {
         cout << "Listen failed with error code: " << WSAGetLastError();
         closesocket(conn_socket);
         WSACleanup();
+
         return -1;
     }
 
@@ -249,6 +255,7 @@ int main(int argc, char *argv[]) {
         cout << "accept failed with error code : " << WSAGetLastError();
         closesocket(conn_socket);
         WSACleanup();
+
         return -1;
     }
     cout << "Incomming connection from: " << inet_ntoa(client.sin_addr) <<
@@ -271,6 +278,7 @@ int main(int argc, char *argv[]) {
              if (strcmp(recvBuff, "Bye") == 0)
                  break;
          }
+         
      } while (1);
 
      // CLOSING the sockets and cleaning Winsock...
