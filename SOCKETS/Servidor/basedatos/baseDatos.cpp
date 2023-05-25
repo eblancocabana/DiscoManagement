@@ -3,7 +3,7 @@
 #include <string.h>
 #include "sqlite/sqlite3.h"
 #include "baseDatos.h"
-#include "../../clases/entrada.h"
+#include "../clases/entrada.h"
 
 #define MAX_REGISTRO 20
 #define MAX_LOGIN 15
@@ -1233,25 +1233,25 @@ int buscarUltimoCodigo(int eventoBool) {
     cerrarConexion(database);
     return -1;
   }
-
+}
           //  METODOS DE C++
 
   int insertarEntrada(Entrada entradaInsertar) {
 
     // Construir la sentencia INSERT
     char sentenciaEntradaInsert[500];
-    sprintf(sentencia, "INSERT INTO entradas (codigoFecha, fechaEntrada, nombreDiscoteca, numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta, caducidadTarjeta, tipoEntrada, precio, nombreUsuario) VALUES (%d, '%s', '%s', %d, '%s', '%s', '%s', '%s', '%s', %f, '%s');",
-            entradaInsertar.codi, fechaEntrada, nombreDiscoteca, numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta, caducidadTarjeta, tipoEntrada, precio, nombreUsuario);
+    sprintf(sentenciaEntradaInsert, "INSERT INTO entradas (codigoFecha, fechaEntrada, nombreDiscoteca, numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta, caducidadTarjeta, tipoEntrada, precio, nombreUsuario) VALUES (%d, '%s', '%s', %d, '%s', '%s', '%s', '%s', '%s', %f, '%s');",
+            entradaInsertar.getCodigoFecha(), entradaInsertar.getFechaEntrada(), entradaInsertar.getNombreDiscoteca(), entradaInsertar.getNumeroEntradas(), entradaInsertar.getCuentaGmail(), entradaInsertar.getNumeroTarjetaCredito(), entradaInsertar.getCvvTarjeta(), entradaInsertar.getCaducidadTarjeta(), entradaInsertar.getTipoEntrada(), entradaInsertar.getPrecio(), entradaInsertar.getUsuario());
 
     // Ejecutar la sentencia INSERT
-    resultado = sqlite3_exec(db, sentenciaEntradaInsert, 0, 0, NULL);
-    if (resultado != SQLITE_OK) {
-        printf("Error al ejecutar la sentencia INSERT: %s\n", sqlite3_errmsg(db));
+    aperturaInsert = sqlite3_exec(database, sentenciaEntradaInsert, 0, 0, &mensajeError);
+    if (aperturaInsert != SQLITE_OK) {
+        printf("Error al ejecutar la sentencia INSERT: %s\n", gestionarError(database));
         return 1;
     }
 
     // Cerrar la conexión a la base de datos
-    sqlite3_close(db);
+    cerrarConexion(database);
 
     return 0;
   }
@@ -1259,5 +1259,3 @@ int buscarUltimoCodigo(int eventoBool) {
   int insertarReservaLocal() {
     
   }
-
-}
