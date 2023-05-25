@@ -5,11 +5,17 @@
 #include <string.h>
 #include <sstream>
 #include "basedatos/baseDatos.h"
+#include "clases/reservalocal.h"
+
+extern "C" {
+    #include "basedatos/sqlite/sqlite3.h"
+    }
+
 #include "administrador/inicio_servidor.h"
+#pragma comment(lib, "ws2_32.lib")
 
 #define SERVER_IP "127.0.0.1"
 #define SERVER_PORT 6000
-
 
 #define MAX_SELECCION 5
 #define MAX_REGISTRO 20
