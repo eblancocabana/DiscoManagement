@@ -1,49 +1,59 @@
 #ifndef ENTRADA_H
 #define ENTRADA_H
 
-#include <string>
-
 class Entrada {
 private:
     int codigoFecha;
-    std::string fechaEntrada;
-    std::string nombreDiscoteca;
+    char* fechaEntrada;
+    char* nombreDiscoteca;
     int numeroEntradas;
-    std::string cuentaGmail;
-    std::string numeroTarjetaCredito;
-    std::string cvvTarjeta;
-    std::string caducidadTarjeta;
-    std::string tipoEntrada;
+    char* cuentaGmail;
+    char* numeroTarjetaCredito;
+    char* cvvTarjeta;
+    char* caducidadTarjeta;
+    char* tipoEntrada;
     double precio;
+    char* usuario;
 
 public:
     Entrada();
-    Entrada(int codigoFecha, std::string fechaEntrada, std::string nombreDiscoteca, int numeroEntradas,
-            std::string cuentaGmail, std::string numeroTarjetaCredito, std::string cvvTarjeta,
-            std::string caducidadTarjeta, std::string tipoEntrada, double precio);
+    Entrada(int codigoFecha, char* fechaEntrada, char* nombreDiscoteca, int numeroEntradas, char* cuentaGmail, 
+            char* numeroTarjetaCredito, char* cvvTarjeta, char* caducidadTarjeta, char* tipoEntrada, double precio, char* usuario);
     Entrada(const Entrada &entrada);
     ~Entrada();
 
     int getCodigoFecha();
     void setCodigoFecha(int codigoFecha);
-    std::string getFechaEntrada();
-    void setFechaEntrada(std::string fechaEntrada);
-    std::string getNombreDiscoteca();
-    void setNombreDiscoteca(std::string nombreDiscoteca);
+
+    char* getFechaEntrada();
+    void setFechaEntrada(char* fechaEntrada);
+
+    char* getNombreDiscoteca();
+    void setNombreDiscoteca(char* nombreDiscoteca);
+
     int getNumeroEntradas();
     void setNumeroEntradas(int numeroEntradas);
-    std::string getCuentaGmail();
-    void setCuentaGmail(std::string cuentaGmail);
-    std::string getNumeroTarjetaCredito();
-    void setNumeroTarjetaCredito(std::string numeroTarjetaCredito);
-    std::string getCvvTarjeta();
-    void setCvvTarjeta(std::string cvvTarjeta);
-    std::string getCaducidadTarjeta();
-    void setCaducidadTarjeta(std::string caducidadTarjeta);
-    std::string getTipoEntrada();
-    void setTipoEntrada(std::string tipoEntrada);
+
+    char* getCuentaGmail();
+    void setCuentaGmail(char* cuentaGmail);
+
+    char* getNumeroTarjetaCredito();
+    void setNumeroTarjetaCredito(char* numeroTarjetaCredito);
+
+    char* getCvvTarjeta();
+    void setCvvTarjeta(char* cvvTarjeta);
+
+    char* getCaducidadTarjeta();
+    void setCaducidadTarjeta(char* caducidadTarjeta);
+    
+    char* getTipoEntrada();
+    void setTipoEntrada(char* tipoEntrada);
+
     double getPrecio();
     void setPrecio(double precio);
+
+    char* getUsuario();
+    void setUsuario(char* usuario);
 
     void printEntrada();
 };
