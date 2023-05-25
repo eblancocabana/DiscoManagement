@@ -105,7 +105,7 @@ int menuServidor() {
   char* nomDiscoteca;
   char* fecha;
   char* descripcionEvento;
-  char* evento;
+  const char* evento;
   int len;
   int existeFecha;
 
@@ -141,7 +141,10 @@ int menuServidor() {
             int verificacionFecha = 0;
             verificacionFecha = verificarFecha(fecha);
             if (verificacionFecha) {
-                insertarDiaFiesta(fecha, nomDiscoteca, evento);
+                
+                char* eventoFinal = NULL;
+                strcpy(eventoFinal, evento);
+                insertarDiaFiesta(fecha, nomDiscoteca, eventoFinal);
 
                 printf("Fiesta introducida correctamente en La Base De Datos\n");
             } else {
@@ -184,7 +187,10 @@ int menuServidor() {
             int verificacionFecha = 0;
             verificacionFecha = verificarFecha(fecha);
             if (verificacionFecha) {
-                insertarDiaFiesta(fecha, nomDiscoteca, evento);
+
+                char* eventoFinal = NULL;
+                strcpy(eventoFinal, evento);
+                insertarDiaFiesta(fecha, nomDiscoteca, eventoFinal);
                 insertarEvento(fecha, nomDiscoteca, descripcionEvento);
 
                 printf("Evento introducido correctamente en La Base De Datos\n");

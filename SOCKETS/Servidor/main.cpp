@@ -23,6 +23,9 @@
 #define MAX_CONTRASENYA 20
 
 using namespace std;
+
+// g++ main.cpp basedatos/baseDatos.cpp administrador/inicio_servidor.cpp -o prueba.exe
+
 void iniciarSesion() {
 
     int existe = 1;

@@ -22,7 +22,7 @@ int admin = 1;
 
     // ACCIONES BASICAS CON LA BASE DE DATOS
 
-int dbExiste(char* fichero) {
+int dbExiste(const char* fichero) {
   FILE* arch = fopen(fichero, "r");
 
   if (arch) {
@@ -110,8 +110,9 @@ int inicializarReservaLocal() {
     abrirConexion();
 
     //Eliminar tabla si existe
-    char* sentenciaRL = "DROP TABLE IF EXISTS reservalocal;";
+    const char* sentenciaRL = "DROP TABLE IF EXISTS reservalocal;";
     int resultadoRL = sqlite3_exec(database, sentenciaRL, NULL, NULL, &mensajeError);
+
     if (resultadoRL != SQLITE_OK) {
         // Manejar el error si ocurre
         gestionarError(database);
@@ -121,14 +122,15 @@ int inicializarReservaLocal() {
     }
 
     // Crear tabla
-    char * sql = "CREATE TABLE reservalocal(codigo TEXT PRIMARY KEY NOT NULL, fecha TEXT NOT NULL, nombrediscoteca TEXT NOT NULL, aforo INT NOT NULL, numerotarjeta TEXT NOT NULL, cvvtarjeta TEXT NOT NULL, caducidadtarjeta TEXT NOT NULL)";
-    apertura = sqlite3_exec(database, sql, 0, 0, &mensajeError);
+    const char* sqlRL = "CREATE TABLE reservalocal(codigo TEXT PRIMARY KEY NOT NULL, fecha TEXT NOT NULL, nombrediscoteca TEXT NOT NULL, aforo INT NOT NULL, numerotarjeta TEXT NOT NULL, cvvtarjeta TEXT NOT NULL, caducidadtarjeta TEXT NOT NULL)";
+    apertura = sqlite3_exec(database, sqlRL, 0, 0, &mensajeError);
     if (apertura != SQLITE_OK) {
         gestionarError(database);
         gestionarFree(mensajeError);
         cerrarConexion(database);
         return 1;
     }
+    
     cerrarConexion(database);
 }
 
@@ -136,24 +138,27 @@ int inicializarEntradas() {
     abrirConexion();
 
     //Eliminar tabla si existe
-    char* sentenciaE = "DROP TABLE IF EXISTS entradas;";
-    int resultadoE = sqlite3_exec(database, sentenciaE, NULL, NULL, &mensajeError);
-    if (resultadoE != SQLITE_OK) {
+    const char* sentenciaEntra = "DROP TABLE IF EXISTS entradas;";
+    int resultadoEntra = sqlite3_exec(database, sentenciaEntra, NULL, NULL, &mensajeError);
+
+    if (resultadoEntra != SQLITE_OK) {
         // Manejar el error si ocurre
         gestionarError(database);
         gestionarFree(mensajeError);
         cerrarConexion(database);
         return 1;
     }
+
     // Crear tabla
-    char * sql = "CREATE TABLE entradas(codigoFecha INT PRIMARY KEY NOT NULL, fechaEntrada TEXT NOT NULL, nombreDiscoteca TEXT NOT NULL, numeroEntradas INT NOT NULL, cuentaGmail TEXT NOT NULL, numeroTarjetaCredito TEXT NOT NULL, cvvTarjeta TEXT NOT NULL, caducidadTarjeta TEXT NOT NULL, tipoEntrada TEXT NOT NULL, precio REAL NOT NULL, nombreUsuario TEXT NOT NULL)";
-    apertura = sqlite3_exec(database, sql, 0, 0, &mensajeError);
+    const char* sqlEntra = "CREATE TABLE entradas(codigoFecha INT PRIMARY KEY NOT NULL, fechaEntrada TEXT NOT NULL, nombreDiscoteca TEXT NOT NULL, numeroEntradas INT NOT NULL, cuentaGmail TEXT NOT NULL, numeroTarjetaCredito TEXT NOT NULL, cvvTarjeta TEXT NOT NULL, caducidadTarjeta TEXT NOT NULL, tipoEntrada TEXT NOT NULL, precio REAL NOT NULL, nombreUsuario TEXT NOT NULL)";
+    apertura = sqlite3_exec(database, sqlEntra, 0, 0, &mensajeError);
     if (apertura != SQLITE_OK) {
         gestionarError(database);
         gestionarFree(mensajeError);
         cerrarConexion(database);
         return 1;
     }
+
     cerrarConexion(database);
 }
 
@@ -162,8 +167,7 @@ int inicializarDiasDeFiesta() {
 
   abrirConexion();
   //Eliminar tabla si existe
-  char* sentenciaDDF = "DROP TABLE IF EXISTS dias_de_fiesta;";
-
+  const char* sentenciaDDF = "DROP TABLE IF EXISTS dias_de_fiesta;";
   int resultadoDDF = sqlite3_exec(database, sentenciaDDF, NULL, NULL, &mensajeError);
 
   if (resultadoDDF != SQLITE_OK) {
@@ -176,68 +180,68 @@ int inicializarDiasDeFiesta() {
   }
 
   // Implementacion de importacion de datos CSV
-    char * sql = "CREATE TABLE dias_de_fiesta(codigo TEXT PRIMARY KEY NOT NULL, fecha TEXT NOT NULL, nombre TEXT NOT NULL, entradas INT NOT NULL, especial TEXT NOT NULL)";
-    apertura = sqlite3_exec(database, sql, 0, 0, &mensajeError);
+  const char* sqlDDF = "CREATE TABLE dias_de_fiesta(codigo TEXT PRIMARY KEY NOT NULL, fecha TEXT NOT NULL, nombre TEXT NOT NULL, entradas INT NOT NULL, especial TEXT NOT NULL)";
+  apertura = sqlite3_exec(database, sqlDDF, 0, 0, &mensajeError);
+
+  if (apertura != SQLITE_OK) {
+    gestionarError(database);
+    gestionarFree(mensajeError);
+
+    cerrarConexion(database);
+    return 1;
+  }
+
+  FILE* fp = fopen("ficheros/dias_de_fiesta.csv", "r");
+  if (!fp) {
+    printf("No se puede abrir el archivo\n");
+    return 1;
+  }
+
+  char line[1024];
+
+  fgets(line, sizeof(line), fp); // Saltar la primera línea (encabezados)
+
+  while (fgets(line, sizeof(line), fp)) {
+
+    char codigo[50], fecha[50], nombre[50], entradas[50], especial[50];
+
+    sscanf(line, "%[^','],%[^','],%[^','],%[^','],%s",
+      codigo,
+      fecha, 
+      nombre,
+      entradas,
+      especial);
+
+    char sql_insert[1024];
+
+    sprintf(sql_insert, "INSERT INTO dias_de_fiesta VALUES('%s','%s','%s',%s,'%s');",
+      codigo,
+      fecha,
+      nombre,
+      entradas,
+      especial);
+
+    aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
 
     if (apertura != SQLITE_OK) {
-      gestionarError(database);
       gestionarFree(mensajeError);
+      //gestionarError(database);
+      gestionarFree(errorMessage);
 
       cerrarConexion(database);
       return 1;
     }
-
-    FILE* fp = fopen("ficheros/dias_de_fiesta.csv", "r");
-    if (!fp) {
-      printf("No se puede abrir el archivo\n");
-      return 1;
-    }
-
-    char line[1024];
-
-    fgets(line, sizeof(line), fp); // Saltar la primera línea (encabezados)
-
-    while (fgets(line, sizeof(line), fp)) {
-
-      char codigo[50], fecha[50], nombre[50], entradas[50], especial[50];
-
-      sscanf(line, "%[^','],%[^','],%[^','],%[^','],%s",
-        codigo,
-        fecha, 
-        nombre,
-        entradas,
-        especial);
-
-      char sql_insert[1024];
-
-      sprintf(sql_insert, "INSERT INTO dias_de_fiesta VALUES('%s','%s','%s',%s,'%s');",
-        codigo,
-        fecha,
-        nombre,
-        entradas,
-        especial);
-
-      aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
-
-      if (apertura != SQLITE_OK) {
-        gestionarFree(mensajeError);
-        //gestionarError(database);
-        gestionarFree(errorMessage);
-
-        cerrarConexion(database);
-        return 1;
-      }
-    }
-    fclose(fp);
-    cerrarConexion(database);
+  }
+  
+  fclose(fp);
+  cerrarConexion(database);
 }
 
 int inicializarDJ() {
 
   abrirConexion();
   //Eliminar tabla si existe
-  char* sentenciaDJ = "DROP TABLE IF EXISTS dj;";
-
+  const char* sentenciaDJ = "DROP TABLE IF EXISTS dj;";
   int resultadoDJ = sqlite3_exec(database, sentenciaDJ, NULL, NULL, &mensajeError);
 
   if (resultadoDJ != SQLITE_OK) {
@@ -250,66 +254,67 @@ int inicializarDJ() {
   }
 
   // Implementacion de importacion de datos CSV
-  char * sql2 = "CREATE TABLE dj(identificador INT PRIMARY KEY NOT NULL, nombre_comercial TEXT NOT NULL, genero_musical TEXT NOT NULL, fecha_nacimiento TEXT NOT NULL, numero_contacto TEXT NOT NULL);";
-    apertura = sqlite3_exec(database, sql2, 0, 0, &mensajeError);
+  const char* sqlDJ = "CREATE TABLE dj(identificador INT PRIMARY KEY NOT NULL, nombre_comercial TEXT NOT NULL, genero_musical TEXT NOT NULL, fecha_nacimiento TEXT NOT NULL, numero_contacto TEXT NOT NULL);";
+  apertura = sqlite3_exec(database, sqlDJ, 0, 0, &mensajeError);
+
+  if (apertura != SQLITE_OK) {
+    gestionarError(database);
+    gestionarFree(mensajeError);
+
+    cerrarConexion(database);
+    return 1;
+  }
+
+  FILE * fp2 = fopen("ficheros/dj.csv", "r");
+  if (!fp2) {
+    printf("No se puede abrir el archivo\n");
+    return 1;
+  }
+
+  char line2[1024];
+
+  fgets(line2, sizeof(line2), fp2); // Saltar la primera línea (encabezados)
+
+  while (fgets(line2, sizeof(line2), fp2)) {
+
+    char identificador[50], nombre_comercial[50], genero_musical[50], fecha_nacimiento[50], numero_contacto[50];
+
+    sscanf(line2, "%[^','],%[^','],%[^','],%[^','],%s", identificador,
+      nombre_comercial,
+      genero_musical,
+      fecha_nacimiento,
+      numero_contacto);
+
+    char sql_insert[1024];
+
+    sprintf(sql_insert, "INSERT INTO dj VALUES(%s,'%s','%s','%s','%s');",
+      identificador,
+      nombre_comercial,
+      genero_musical,
+      fecha_nacimiento,
+      numero_contacto);
+
+    aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
+    
     if (apertura != SQLITE_OK) {
-      gestionarError(database);
       gestionarFree(mensajeError);
+      gestionarError(database);
+      gestionarFree(errorMessage);
 
       cerrarConexion(database);
       return 1;
     }
-
-    FILE * fp2 = fopen("ficheros/dj.csv", "r");
-    if (!fp2) {
-      printf("No se puede abrir el archivo\n");
-      return 1;
-    }
-
-    char line2[1024];
-
-    fgets(line2, sizeof(line2), fp2); // Saltar la primera línea (encabezados)
-
-    while (fgets(line2, sizeof(line2), fp2)) {
-
-      char identificador[50], nombre_comercial[50], genero_musical[50], fecha_nacimiento[50], numero_contacto[50];
-
-      sscanf(line2, "%[^','],%[^','],%[^','],%[^','],%s", identificador,
-        nombre_comercial,
-        genero_musical,
-        fecha_nacimiento,
-        numero_contacto);
-
-      char sql_insert[1024];
-
-      sprintf(sql_insert, "INSERT INTO dj VALUES(%s,'%s','%s','%s','%s');",
-        identificador,
-        nombre_comercial,
-        genero_musical,
-        fecha_nacimiento,
-        numero_contacto);
-
-      aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
-      
-      if (apertura != SQLITE_OK) {
-        gestionarFree(mensajeError);
-        gestionarError(database);
-        gestionarFree(errorMessage);
-
-        cerrarConexion(database);
-        return 1;
-      }
-    }
-    fclose(fp2);
-    cerrarConexion(database);
+  }
+  
+  fclose(fp2);
+  cerrarConexion(database);
 }
 
 int inicializarListaEventos() {
 
   abrirConexion();
   //Eliminar tabla si existe
-  char* sentenciaLE = "DROP TABLE IF EXISTS eventos;";
-
+  const char* sentenciaLE = "DROP TABLE IF EXISTS eventos;";
   int resultadoLE = sqlite3_exec(database, sentenciaLE, NULL, NULL, &mensajeError);
 
   if (resultadoLE != SQLITE_OK) {
@@ -322,64 +327,65 @@ int inicializarListaEventos() {
   }
 
   // Implementacion de importacion de datos CSV
-  char * sql3 = "CREATE TABLE eventos(dia TEXT NOT NULL, descripcion TEXT NOT NULL, nombre_discoteca TEXT NOT NULL, aforo TEXT NOT NULL);";
-    apertura = sqlite3_exec(database, sql3, 0, 0, &mensajeError);
+  const char* sqlEvent = "CREATE TABLE eventos(dia TEXT NOT NULL, descripcion TEXT NOT NULL, nombre_discoteca TEXT NOT NULL, aforo TEXT NOT NULL);";
+  apertura = sqlite3_exec(database, sqlEvent, 0, 0, &mensajeError);
+
+  if (apertura != SQLITE_OK) {
+    gestionarError(database);
+    gestionarFree(mensajeError);
+
+    cerrarConexion(database);
+    return 1;
+  }
+
+  FILE * fp3 = fopen("ficheros/listaeventos.csv", "r");
+  if (!fp3) {
+    printf("No se puede abrir el archivo\n");
+    return 1;
+  }
+
+  char line3[1024];
+
+  fgets(line3, sizeof(line3), fp3); // Saltar la primera línea (encabezados)
+
+  while (fgets(line3, sizeof(line3), fp3)) {
+
+    char dia[50], descripcion[80], nombre_discoteca[50], aforo[50];
+
+    sscanf(line3, "%[^','],%[^','],%[^','],%s", dia,
+      descripcion,
+      nombre_discoteca,
+      aforo);
+
+    char sql_insert[1024];
+
+    sprintf(sql_insert, "INSERT INTO eventos VALUES('%s','%s','%s',%s);",
+      dia,
+      descripcion,
+      nombre_discoteca,
+      aforo);
+
+    aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
+    
     if (apertura != SQLITE_OK) {
-      gestionarError(database);
       gestionarFree(mensajeError);
+      gestionarError(database);
+      gestionarFree(errorMessage);
 
       cerrarConexion(database);
       return 1;
     }
+  }
 
-    FILE * fp3 = fopen("ficheros/listaeventos.csv", "r");
-    if (!fp3) {
-      printf("No se puede abrir el archivo\n");
-      return 1;
-    }
-
-    char line3[1024];
-
-    fgets(line3, sizeof(line3), fp3); // Saltar la primera línea (encabezados)
-
-    while (fgets(line3, sizeof(line3), fp3)) {
-
-      char dia[50], descripcion[80], nombre_discoteca[50], aforo[50];
-
-      sscanf(line3, "%[^','],%[^','],%[^','],%s", dia,
-        descripcion,
-        nombre_discoteca,
-        aforo);
-
-      char sql_insert[1024];
-
-      sprintf(sql_insert, "INSERT INTO eventos VALUES('%s','%s','%s',%s);",
-        dia,
-        descripcion,
-        nombre_discoteca,
-        aforo);
-
-      aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
-      
-      if (apertura != SQLITE_OK) {
-        gestionarFree(mensajeError);
-        gestionarError(database);
-        gestionarFree(errorMessage);
-
-        cerrarConexion(database);
-        return 1;
-      }
-    }
-    fclose(fp3);
-    cerrarConexion(database);
+  fclose(fp3);
+  cerrarConexion(database);
 }
 
 int inicializarRRPP() {
 
   abrirConexion();
   //Eliminar tabla si existe
-  char* sentenciaRRPP = "DROP TABLE IF EXISTS rrpp;";
-
+  const char* sentenciaRRPP = "DROP TABLE IF EXISTS rrpp;";
   int resultadoRRPP = sqlite3_exec(database, sentenciaRRPP, NULL, NULL, &mensajeError);
 
   if (resultadoRRPP != SQLITE_OK) {
@@ -392,66 +398,67 @@ int inicializarRRPP() {
   }
 
   // Implementacion de importacion de datos CSV
-  char * sql4 = "CREATE TABLE rrpp(codigo INT PRIMARY KEY NOT NULL, nombre TEXT NOT NULL, zona_recogida TEXT NOT NULL, hora_recogida TEXT NOT NULL, numero_contacto TEXT NOT NULL);";
-    apertura = sqlite3_exec(database, sql4, 0, 0, &mensajeError);
+  const char* sqlRRPP = "CREATE TABLE rrpp(codigo INT PRIMARY KEY NOT NULL, nombre TEXT NOT NULL, zona_recogida TEXT NOT NULL, hora_recogida TEXT NOT NULL, numero_contacto TEXT NOT NULL);";
+  apertura = sqlite3_exec(database, sqlRRPP, 0, 0, &mensajeError);
+
+  if (apertura != SQLITE_OK) {
+    gestionarError(database);
+    gestionarFree(mensajeError);
+
+    cerrarConexion(database);
+    return 1;
+  }
+
+  FILE * fp4 = fopen("ficheros/rrpp.csv", "r");
+  if (!fp4) {
+    printf("No se puede abrir el archivo\n");
+    return 1;
+  }
+
+  char line4[1024];
+
+  fgets(line4, sizeof(line4), fp4); // Saltar la primera línea (encabezados)
+
+  while (fgets(line4, sizeof(line4), fp4)) {
+
+    char codigo[50], nombre[50], zona_recogida[50], hora_recogida[50], numero_contacto[50];
+
+    sscanf(line4, "%[^','],%[^','],%[^','],%[^','],%s", codigo,
+      nombre,
+      zona_recogida,
+      hora_recogida,
+      numero_contacto);
+
+    char sql_insert[1024];
+
+    sprintf(sql_insert, "INSERT INTO rrpp VALUES(%s,'%s','%s','%s','%s');",
+      codigo,
+      nombre,
+      zona_recogida,
+      hora_recogida,
+      numero_contacto);
+
+    aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
+    
     if (apertura != SQLITE_OK) {
-      gestionarError(database);
       gestionarFree(mensajeError);
+      gestionarError(database);
+      gestionarFree(errorMessage);
 
       cerrarConexion(database);
       return 1;
     }
+  }
 
-    FILE * fp4 = fopen("ficheros/rrpp.csv", "r");
-    if (!fp4) {
-      printf("No se puede abrir el archivo\n");
-      return 1;
-    }
-
-    char line4[1024];
-
-    fgets(line4, sizeof(line4), fp4); // Saltar la primera línea (encabezados)
-
-    while (fgets(line4, sizeof(line4), fp4)) {
-
-      char codigo[50], nombre[50], zona_recogida[50], hora_recogida[50], numero_contacto[50];
-
-      sscanf(line4, "%[^','],%[^','],%[^','],%[^','],%s", codigo,
-        nombre,
-        zona_recogida,
-        hora_recogida,
-        numero_contacto);
-
-      char sql_insert[1024];
-
-      sprintf(sql_insert, "INSERT INTO rrpp VALUES(%s,'%s','%s','%s','%s');",
-        codigo,
-        nombre,
-        zona_recogida,
-        hora_recogida,
-        numero_contacto);
-
-      aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
-      
-      if (apertura != SQLITE_OK) {
-        gestionarFree(mensajeError);
-        gestionarError(database);
-        gestionarFree(errorMessage);
-
-        cerrarConexion(database);
-        return 1;
-      }
-    }
-    fclose(fp4);
-    cerrarConexion(database);
+  fclose(fp4);
+  cerrarConexion(database);
 }
 
 int inicializarUsuarios() {
 
   abrirConexion();
   //Eliminar tabla si existe
-  char* sentenciaUsu = "DROP TABLE IF EXISTS usuarios;";
-
+  const char* sentenciaUsu = "DROP TABLE IF EXISTS usuarios;";
   int resultadoUsu = sqlite3_exec(database, sentenciaUsu, NULL, NULL, &mensajeError);
 
   if (resultadoUsu != SQLITE_OK) {
@@ -464,62 +471,64 @@ int inicializarUsuarios() {
   }
 
   // Implementacion de importacion de datos CSV
-  char * sql5 = "CREATE TABLE usuarios(nombre TEXT NOT NULL, usuario TEXT NOT NULL, sexo TEXT NOT NULL, edad INT NOT NULL, email TEXT NOT NULL, contrasenya TEXT NOT NULL, admin TEXT NOT NULL);";
-    apertura = sqlite3_exec(database, sql5, 0, 0, &mensajeError);
+  const char* sqlUsu = "CREATE TABLE usuarios(nombre TEXT NOT NULL, usuario TEXT NOT NULL, sexo TEXT NOT NULL, edad INT NOT NULL, email TEXT NOT NULL, contrasenya TEXT NOT NULL, admin TEXT NOT NULL);";
+  apertura = sqlite3_exec(database, sqlUsu, 0, 0, &mensajeError);
+
+  if (apertura != SQLITE_OK) {
+    gestionarError(database);
+    gestionarFree(mensajeError);
+
+    cerrarConexion(database);
+    return 1;
+  }
+
+  FILE * fp5 = fopen("ficheros/usuarios.csv", "r");
+  if (!fp5) {
+    printf("No se puede abrir el archivo\n");
+    return 1;
+  }
+
+  char line5[1024];
+
+  fgets(line5, sizeof(line5), fp5); // Saltar la primera línea (encabezados)
+
+  while (fgets(line5, sizeof(line5), fp5)) {
+
+    char nombre[50], nombre_usuario[50], sexo[50], edad[50], email[50], password[50], admin[50];
+
+    sscanf(line5, "%[^','],%[^','],%[^','],%[^','],%[^','],%[^','],%s", nombre,
+      nombre_usuario,
+      sexo,
+      edad,
+      email,
+      password,
+      admin);
+
+    char sql_insert[1024];
+
+    sprintf(sql_insert, "INSERT INTO usuarios VALUES('%s','%s','%s',%s,'%s','%s','%s');",
+      nombre,
+      nombre_usuario,
+      sexo,
+      edad,
+      email,
+      password,
+      admin);
+
+    aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
+
     if (apertura != SQLITE_OK) {
-      gestionarError(database);
       gestionarFree(mensajeError);
+      gestionarError(database);
+      gestionarFree(errorMessage);
 
       cerrarConexion(database);
       return 1;
     }
+  }
 
-    FILE * fp5 = fopen("ficheros/usuarios.csv", "r");
-    if (!fp5) {
-      printf("No se puede abrir el archivo\n");
-      return 1;
-    }
-
-    char line5[1024];
-
-    fgets(line5, sizeof(line5), fp5); // Saltar la primera línea (encabezados)
-
-    while (fgets(line5, sizeof(line5), fp5)) {
-
-      char nombre[50], nombre_usuario[50], sexo[50], edad[50], email[50], password[50], admin[50];
-
-      sscanf(line5, "%[^','],%[^','],%[^','],%[^','],%[^','],%[^','],%s", nombre,
-        nombre_usuario,
-        sexo,
-        edad,
-        email,
-        password,
-        admin);
-
-      char sql_insert[1024];
-
-      sprintf(sql_insert, "INSERT INTO usuarios VALUES('%s','%s','%s',%s,'%s','%s','%s');",
-        nombre,
-        nombre_usuario,
-        sexo,
-        edad,
-        email,
-        password,
-        admin);
-
-      aperturaInsert = sqlite3_exec(database, sql_insert, 0, 0, &mensajeError);
-
-      if (apertura != SQLITE_OK) {
-        gestionarFree(mensajeError);
-        gestionarError(database);
-        gestionarFree(errorMessage);
-
-        cerrarConexion(database);
-        return 1;
-      }
-    }
-    fclose(fp5);
-    cerrarConexion(database);
+  fclose(fp5);
+  cerrarConexion(database);
 }
 
 int inicializacion() {
@@ -595,7 +604,7 @@ int comprobarAdmin(char* user) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
 
-  char* sentencia = "SELECT admin FROM usuarios WHERE usuario = ? AND admin = 'Si';";
+  const char* sentencia = "SELECT admin FROM usuarios WHERE usuario = ? AND admin = 'Si';";
   busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
 
   sqlite3_bind_text(statement, 1, user, strlen(user), SQLITE_STATIC);
@@ -650,7 +659,7 @@ int comprobarExistencia(char* username, char* password) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
 
-  char * sentencia = "SELECT usuario, contrasenya FROM usuarios WHERE usuario = ? AND contrasenya = ?;";
+  const char* sentencia = "SELECT usuario, contrasenya FROM usuarios WHERE usuario = ? AND contrasenya = ?;";
   busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
 
   sqlite3_bind_text(statement, 1, username, strlen(username), SQLITE_STATIC);
@@ -708,7 +717,7 @@ int comprobarUsuario(char* usuario) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
 
-  char * sentencia = "SELECT usuario FROM usuarios WHERE usuario = ?;";
+  const char* sentencia = "SELECT usuario FROM usuarios WHERE usuario = ?;";
   busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
 
   sqlite3_bind_text(statement, 1, usuario, strlen(usuario), SQLITE_STATIC);
@@ -757,7 +766,7 @@ int comprobarCodigoLocal(int cod) {
   int busqueda = 0;
   abrirConexion();
 
-  char * sentencia = "SELECT codigo FROM dias_de_fiesta WHERE codigo = ? AND entradas = 400";
+  const char* sentencia = "SELECT codigo FROM dias_de_fiesta WHERE codigo = ? AND entradas = 400";
 
   if (gestionarError(database) != SQLITE_OK) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
@@ -811,7 +820,8 @@ int comprobarCodigoRRPP(int cod) {
   int busqueda = 0;
   abrirConexion();
 
-  char * sentencia = "SELECT codigo FROM rrpp WHERE codigo = ?";
+  const char* sentencia = "SELECT codigo FROM rrpp WHERE codigo = ?";
+
   if (gestionarError(database) != SQLITE_OK) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
@@ -864,7 +874,7 @@ int comprobarFecha(char* fecha, int evento) {
   char * mensajeError = 0;
   int apertura = 0;
   int busqueda = 0;
-  char* sentencia;
+  const char* sentencia;
 
   abrirConexion();
   if (gestionarError(database) != SQLITE_OK) {
@@ -925,14 +935,13 @@ int comprobarEntrada(char* codigo) {
   char * mensajeError = 0;
   int apertura = 0;
   int busqueda = 0;
-  char* sentencia;
 
   abrirConexion();
   if (gestionarError(database) != SQLITE_OK) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
 
-  sentencia = "SELECT entradas FROM dias_de_fiesta WHERE codigo = ?";
+  const char* sentencia = "SELECT entradas FROM dias_de_fiesta WHERE codigo = ?";
   busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
 
   sqlite3_bind_text(statement, 1, codigo, strlen(codigo), SQLITE_STATIC);
@@ -983,8 +992,8 @@ void mostrarLocales() {
   char* error = 0;
   int aper;
 
-  char* sql = "SELECT * FROM dias_de_fiesta WHERE entradas = 400";
-  aper = sqlite3_exec(database, sql, callback, 0, &error);
+  const char* sentencia = "SELECT * FROM dias_de_fiesta WHERE entradas = 400";
+  aper = sqlite3_exec(database, sentencia, callback, 0, &error);
 
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
@@ -1000,8 +1009,8 @@ void mostrarFiestas() {
   char* error = 0;
   int aper;
 
-  char* sql = "SELECT * FROM dias_de_fiesta WHERE entradas > 0";
-  aper = sqlite3_exec(database, sql, callback, 0, &error);
+  const char* sentencia = "SELECT * FROM dias_de_fiesta WHERE entradas > 0";
+  aper = sqlite3_exec(database, sentencia, callback, 0, &error);
 
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
@@ -1018,8 +1027,8 @@ void mostrarlistadoeventos() {
   char* error = 0;
   int aper;
 
-  char* sql = "SELECT * FROM eventos";
-  aper = sqlite3_exec(database, sql, callback, 0, &error);
+  const char* sentencia = "SELECT * FROM eventos";
+  aper = sqlite3_exec(database, sentencia, callback, 0, &error);
   
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
@@ -1035,8 +1044,8 @@ void mostrarDJ() {
   char* error = 0;
   int aper;
 
-  char* sql = "SELECT * FROM dj";
-  aper = sqlite3_exec(database, sql, callback, 0, &error);
+  const char* sentencia = "SELECT * FROM dj";
+  aper = sqlite3_exec(database, sentencia, callback, 0, &error);
   
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
@@ -1052,8 +1061,8 @@ void mostrarRRPP() {
   char* error = 0;
   int aper;
 
-  char* sql = "SELECT * FROM rrpp";
-  aper = sqlite3_exec(database, sql, callback, 0, &error);
+  const char* sentencia = "SELECT * FROM rrpp";
+  aper = sqlite3_exec(database, sentencia, callback, 0, &error);
   
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
@@ -1070,9 +1079,8 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
   int entradas = 400;
   char lineFi[1024];
   int ultimo;
-  char* codigo = NULL;
-
-  char* codigo = new char[20];
+  const char* codigo = new char[20];
+  char* codigoFinal = NULL;
 
   if (eventoEsp == "No") {
     ultimo = buscarUltimoCodigo(1) + 1;
@@ -1082,7 +1090,8 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
 
   abrirConexion();
 
-  sprintf(codigo, "%d", ultimo);
+  strcpy(codigoFinal, codigo);
+  sprintf(codigoFinal, "%d", ultimo);
   //printf("%s", codigo);
 
   sscanf(lineFi, "%[^','],%[^','],%[^','],%d,%s",
@@ -1120,7 +1129,7 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
 int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* correo, char* contra) {
 
   abrirConexion();
-  char* admin = "No";
+  const char* admin = "No";
   char lineRe[1024];
 
   sscanf(lineRe, "%[^','],%[^','],%[^','],%d,%[^','],%[^','],%s", 
@@ -1163,7 +1172,7 @@ int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento) {
 
   abrirConexion();
   char lineEven[1024];
-  char* aforo = "400";
+  const char* aforo = "400";
 
   sscanf(lineEven, "%[^','],%[^','],%[^','],%s", 
     fecha,
@@ -1203,7 +1212,7 @@ int buscarUltimoCodigo(int eventoBool) {
   sqlite3_stmt* statement;
   char * mensajeError = 0;
   int busqueda = 0;
-  char* sentencia;
+  const char* sentencia;
   int lastId;
 
   //Si es un evento, la sentencia cambia a la tabla eventos
