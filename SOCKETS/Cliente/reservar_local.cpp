@@ -1,6 +1,6 @@
 #include <iostream>
 #include "reservar_local.h"
-#include "basedatos/baseDatos.h"
+//#include "basedatos/baseDatos.h"
 #include "inicio.h"
 #include <istream>
 #include "recibir_datos.h"
@@ -26,10 +26,10 @@ void enviar_datos(char* nombre_funcion, int num_args, ...) {
     va_start(args, num_args);
 
     if (nombre_funcion == "mostrarLocales") {
-        mostrarLocales();
+        //mostrarLocales(); BD
     } else if (nombre_funcion == "comprobarCodigoLocal") {
         int codLocal = va_arg(args, int);
-        comprobarCodigoLocal(codLocal);
+        //comprobarCodigoLocal(codLocal);
     }
 
     va_end(args);

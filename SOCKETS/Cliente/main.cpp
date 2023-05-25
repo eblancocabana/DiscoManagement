@@ -1,7 +1,7 @@
 #include <iostream>
 #include <locale.h>
 #include "inicio.h"
-#include "basedatos/baseDatos.h"
+//#include "basedatos/baseDatos.h"
 #include "enviar_datos.h"
 #include "recibir_datos.h"
 
@@ -111,7 +111,7 @@ int main(int argc, char *argv[]) {
             "(" << ntohs(server.sin_port) << ")" << "\n";
 
     
-     inicializacion();
+     //inicializacion();
      login();
 
      // CLOSING the socket and cleaning Winsock...

@@ -2,8 +2,8 @@
 #include <string>
 #include "seleccion_entradas.h"
 #include "comprar_entradas.h"
-#include "basedatos/sqlite/sqlite3.h"
-#include "basedatos/baseDatos.h"
+//#include "basedatos/sqlite/sqlite3.h"
+//#include "basedatos/baseDatos.h"
 #include "inicio.h"
 #include "enviar_datos.h"
 #include "recibir_datos.h"
@@ -118,7 +118,7 @@ void menuListadoDiasDisponibles() {
 
                     sscanf(inputCod, "%d", &codigo);
                     //BD
-                    cod = limpiarInput(inputCod);
+                    //cod = limpiarInput(inputCod);
 
                     errno = 0;
                     long int num = strtol(cod, &type, 10);

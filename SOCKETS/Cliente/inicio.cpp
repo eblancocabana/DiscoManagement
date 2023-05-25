@@ -6,8 +6,8 @@
 #include "inicio.h"
 #include "reservar_local.h"
 #include "comprar_entradas.h"
-#include "basedatos/sqlite/sqlite3.h"
-#include "basedatos/baseDatos.h"
+//#include "basedatos/sqlite/sqlite3.h"
+//#include "basedatos/baseDatos.h"
 #include "administrador/inicio_servidor.h"
 #include "seleccion_entradas.h"
 #include "enviar_datos.h"
@@ -131,7 +131,7 @@ void rellenarCamposRegistro() {
   char* repPass = recibir_datos<char*>();
 
   cout << "\nDatos introducidos: " << name << " - " << username << " - " << sex << " - " << age << " - " << correoElec << " - " << password << " - " << repPass << endl;
-  existe = comprobarUsuario(username);
+  //existe = comprobarUsuario(username); BD
 
   if ((existe == -1) && (strcmp(password, repPass) != 0)) {
     cout << "Pero las contrasenyas NO coinciden" << endl;
@@ -230,7 +230,7 @@ int menu() {
                 cout << "\e[37m\e[1m";
                 cout << "Listado de eventos (fecha - descripcion - nombre discoteca - aforo)\n\n";
                 cout << "\e[0m";
-                mostrarlistadoeventos();
+                //mostrarlistadoeventos(); BD
                 break;
 
             case '2':
@@ -238,7 +238,7 @@ int menu() {
                 cout << "\e[37m\e[1m";
                 cout << "Menu compra de entrada (codigo - fecha - nombre discoteca - aforo - evento?)\n\n";
                 cout << "\e[0m";
-                mostrarFiestas();
+                //mostrarFiestas(); BD
                 menuListadoDiasDisponibles();
                 break;
 

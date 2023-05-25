@@ -1,8 +1,8 @@
 #include <iostream>
-#include <string>
+#include <string.h>
 #include "comprar_entradas.h"
-#include "basedatos/sqlite/sqlite3.h"
-#include "basedatos/baseDatos.h"
+//#include "basedatos/sqlite/sqlite3.h"
+//#include "basedatos/baseDatos.h"
 #include "inicio.h"
 #include "enviar_datos.h"
 
@@ -184,7 +184,7 @@ void confirmarPago(){
         switch(opcionConfirmarPago){
             case '1':
                 cout << "\n---------------------------------------------------\n";
-                mostrarRRPP();
+                //mostrarRRPP();
                 cout << "\n---------------------------------------------------\n";
                 cout << "Introducir Codigo de RRPP";
                 codigoRRPP = introducirCodigoRRPP();
