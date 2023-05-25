@@ -39,18 +39,15 @@ void enviar_datos(const std::string &nombre_funcion, int num_args, ...) {
 
     for (int i = 0; i < num_args; i++) {
         // Obtener el tipo del argumento actual
-        char *type = va_arg(args, char*);
+        const char *type = va_arg(args, const char*);
 
         // Serializar el argumento de acuerdo a su tipo
         if (strcmp(type, "int") == 0) {
             int arg = va_arg(args, int);
             sprintf(sendBuff + strlen(sendBuff), "%d,", arg);
         } else if (strcmp(type, "char*") == 0) {
-            char *arg = va_arg(args, char*);
+            const char *arg = va_arg(args, const char*);
             sprintf(sendBuff + strlen(sendBuff), "%s,", arg);
-        }else if (strcmp(type, "std::string") == 0) {
-            std::string arg = va_arg(args, std::string);
-            sprintf(sendBuff + strlen(sendBuff), "%s,", arg.c_str());
         } else if (strcmp(type, "float") == 0) {
             float arg = (float)va_arg(args, double);
             sprintf(sendBuff + strlen(sendBuff), "%f,", arg);
@@ -64,6 +61,7 @@ void enviar_datos(const std::string &nombre_funcion, int num_args, ...) {
 
     send(s, sendBuff, sizeof(sendBuff), 0);
 }
+
 
 
 
