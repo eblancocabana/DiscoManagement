@@ -4,6 +4,7 @@
 #include <winsock2.h>
 #include <string.h>
 #include <sstream>
+#include <limits>
 #include "clases/reservalocal.h"
 
 extern "C" {
@@ -172,25 +173,32 @@ int main(int argc, char *argv[]) {
     struct sockaddr_in client;
     char sendBuff[512], recvBuff[512];
 
-    int opcion;
-    cout << "Que quieres hacer?\n";
-    cout << "1. Acceder como admin modo local\n";
-    cout << "2. Ejecutar el servidor para ponerse en escucha\n";
-    cin >> opcion;
-    if (opcion == 1) {
-        cout << "Accediendo como admin modo local...\n";
-        iniciarSesion();
-        return 0;
-    } else if (opcion == 2) {
-        cout << "Ejecutando el servidor para ponerse en escucha...\n";
-    } else {
-        cout << "Opción no válida\n";
+    int opcion = 0;
+    std::string entrada;
+
+    while (opcion != 1 && opcion != 2) {
+        cout << "Ingrese una opcion\n";
+        cout << "\t1. para acceder como admin modo local\n";
+        cout << "\t2. Para ejecutar el servidor\n\n";
+
+        getline(cin, entrada);
+
+        try {
+            opcion = std::stoi(entrada);
+
+            if (opcion == 1) {
+                cout << "Accediendo como admin modo local...\n";
+                iniciarSesion();
+                return 0;
+            } else if (opcion == 2) {
+                cout << "Ejecutando el servidor para ponerse en escucha...\n";
+            } else {
+                cout << "Opcion no válida. Por favor, intente nuevamente.\n";
+            }
+        } catch (std::exception const& e) {
+            cout << "Entrada no válida. Por favor, ingrese un número entero.\n";
+        }
     }
-
-
-
-
-
 
     cout << "\nInitialising Winsock...\n";
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
