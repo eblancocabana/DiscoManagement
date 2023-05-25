@@ -4,6 +4,8 @@
         "stdio.h": "c",
         "sqlite3.h": "c",
         "sstream": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "xstring": "cpp",
+        "iostream": "cpp"
     }
 }

@@ -1,14 +1,6 @@
-// inicio.h
-#ifndef RECIBIR_DATOS_H
-#define RECIBIR_DATOS_H
-
-#include <iostream>
-#include <cstring>
-#include <type_traits>
+#include "recibir_datos.h"
 #include <winsock2.h>
-
-extern SOCKET s;
-
+SOCKET s;
 template <typename T>
 T recibir_datos() {
     char buffer[sizeof(T)];
@@ -22,5 +14,3 @@ T recibir_datos() {
         return T();
     }
 }
-
-#endif

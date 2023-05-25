@@ -6,6 +6,7 @@
 #include "recibir_datos.h"
 #include "enviar_datos.h"
 
+
 #define MAX_SELECCION 5
 #define MAX_NOMBRE_DISCOTECA 20
 #define MAX_FECHA 15
