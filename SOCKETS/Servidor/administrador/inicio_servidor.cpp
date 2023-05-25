@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
-//#include "../basedatos/baseDatos.h"
+#include "../basedatos/baseDatos.h"
 #include "inicio_servidor.h"
 
 #define MAX_SELECCION 5
@@ -38,7 +38,7 @@ int inicioServidor() {
             printf("Listado de eventos (fecha - descripcion - discoteca - aforo)\n\n");
             printf("\e[0m");
 
-            //mostrarlistadoeventos(); BD
+            mostrarlistadoeventos();
         break;
 
         case '2':
@@ -48,7 +48,7 @@ int inicioServidor() {
             printf("Listado de dias de fiesta (codigo - fecha - nombre discoteca - entradas disponibles - evento?)\n\n");
             printf("\e[0m");
 
-            //mostrarFiestas(); BD
+            mostrarFiestas();
         break;
 
         case '3':
@@ -114,7 +114,7 @@ int menuServidor() {
     switch (opcionMenu) {
     case '1':
         printf("\nLa Base De Datos se ha reiniciado con los valores de fabrica correctamente\n");
-        //reiniciarBD(); BD
+        reiniciarBD();
     break;
 
     case '2':
@@ -136,12 +136,12 @@ int menuServidor() {
             nomDiscoteca[i] = tolower(nomDiscoteca[i]);
         }
 
-        //existeFecha = comprobarFecha(fecha, 1); BD
+        existeFecha = comprobarFecha(fecha, 1);
         if (((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) && (existeFecha == -1)) {
             int verificacionFecha = 0;
-            //verificacionFecha = verificarFecha(fecha); BD
+            verificacionFecha = verificarFecha(fecha);
             if (verificacionFecha) {
-                //insertarDiaFiesta(fecha, nomDiscoteca, evento); BD
+                insertarDiaFiesta(fecha, nomDiscoteca, evento);
 
                 printf("Fiesta introducida correctamente en La Base De Datos\n");
             } else {
@@ -178,14 +178,14 @@ int menuServidor() {
             nomDiscoteca[i] = tolower(nomDiscoteca[i]);
         }
 
-        //existeFecha = comprobarFecha(fecha, 0); BD
+        existeFecha = comprobarFecha(fecha, 0);
 
         if (((strcmp(nomDiscoteca, "Back") == 0) || (strcmp(nomDiscoteca, "Stage") == 0)) && (existeFecha == -1)) {
             int verificacionFecha = 0;
-            //verificacionFecha = verificarFecha(fecha); BD
+            verificacionFecha = verificarFecha(fecha);
             if (verificacionFecha) {
-                //insertarDiaFiesta(fecha, nomDiscoteca, evento); BD
-                //insertarEvento(fecha, nomDiscoteca, descripcionEvento); BD
+                insertarDiaFiesta(fecha, nomDiscoteca, evento);
+                insertarEvento(fecha, nomDiscoteca, descripcionEvento);
 
                 printf("Evento introducido correctamente en La Base De Datos\n");
             } else {
@@ -202,18 +202,18 @@ int menuServidor() {
     case '4':
         printf("\n---------------------------------------------------\n");
         printf("Importar RRPPs\n\n");
-        //abrirConexion();
-        //inicializarRRPP();
-        //mostrarRRPP();
+        abrirConexion();
+        inicializarRRPP();
+        mostrarRRPP();
         printf("\nEstos son los RRPPs importados\n");
     break;
     
     case '5':
         printf("\n---------------------------------------------------\n");
         printf("Importar DJs\n\n");
-        //abrirConexion();
-        //inicializarDJ();
-        //mostrarDJ();
+        abrirConexion();
+        inicializarDJ();
+        mostrarDJ();
         printf("\nEstos son los DJs importados\n");
     break;
     }

@@ -5,10 +5,49 @@
 #include <string.h>
 #include <sstream>
 #include "baseDatos.h"
+#include "administrador/inicio_servidor.h"
 
 #define SERVER_IP "127.0.0.1"
 #define SERVER_PORT 6000
 
+
+#define MAX_SELECCION 5
+#define MAX_REGISTRO 20
+#define MAX_LOGIN 15
+
+#define MAX_NOMBRE 20
+#define MAX_NOMBRE_USU 20
+#define MAX_SEXO 20
+#define MAX_EDAD 20
+#define MAX_CORREO 20
+#define MAX_CONTRASENYA 20
+
+using namespace std;
+void iniciarSesion() {
+
+    int existe = 1;
+    char input[MAX_REGISTRO];
+
+    cout << "Usuario: ";
+    cin.getline(input, MAX_NOMBRE_USU);
+    char* us = limpiarInput(input);
+
+    cout << "Contrasenya: ";
+    cin.getline(input, MAX_CONTRASENYA);
+    char* pa = limpiarInput(input);
+
+    existe = comprobarExistencia(us, pa);
+    int admin = comprobarAdmin(us);
+    if ((existe == 0) && ( admin== 0)) {
+        cout << "\nADMIN ENCONTRADO, accediendo al menu\n";
+        inicioServidor();
+    } else if ((existe == 0)) {
+        cout << "\nUSUARIO NO ADMIN\n";
+        return;
+    } else {
+        // Hacer algo si no se encuentra el usuario o la contraseña es incorrecta
+    }
+}
 
 void deserializar_y_llamar_funcion(SOCKET comm_socket,char *recvBuff) {
     // Dividir el buffer recibido en el nombre de la función y los argumentos
@@ -105,15 +144,15 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket,char *recvBuff) {
 
 
 int main(int argc, char *argv[]) {
-    std::cout << "\n\n\n\n";
-    std::cout << "\e[34m\e[1m";
-    std::cout << "********************************\n";
-    std::cout << "*                              *\n";
-    std::cout << "*   SOUND STRATEGY PARTNERS    *\n";
-    std::cout << "*                              *\n";
-    std::cout << "********************************\n";
-    std::cout << "\e[0m";
-    std::cout << "\n";
+    cout << "\n\n\n\n";
+    cout << "\e[34m\e[1m";
+    cout << "********************************\n";
+    cout << "*                              *\n";
+    cout << "*   SOUND STRATEGY PARTNERS    *\n";
+    cout << "*                              *\n";
+    cout << "********************************\n";
+    cout << "\e[0m";
+    cout << "\n";
 
     WSADATA wsaData;
     SOCKET conn_socket;
@@ -122,22 +161,41 @@ int main(int argc, char *argv[]) {
     struct sockaddr_in client;
     char sendBuff[512], recvBuff[512];
 
-    std::cout << "\nInitialising Winsock...\n";
+    int opcion;
+    cout << "¿Qué quieres hacer?\n";
+    cout << "1. Acceder como admin modo local\n";
+    cout << "2. Ejecutar el servidor para ponerse en escucha\n";
+    cin >> opcion;
+    if (opcion == 1) {
+        cout << "Accediendo como admin modo local...\n";
+        iniciarSesion();
+    } else if (opcion == 2) {
+        cout << "Ejecutando el servidor para ponerse en escucha...\n";
+    } else {
+        cout << "Opción no válida\n";
+    }
+
+
+
+
+
+
+    cout << "\nInitialising Winsock...\n";
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
-        std::cout << "Failed. Error Code : " << WSAGetLastError();
+        cout << "Failed. Error Code : " << WSAGetLastError();
         return -1;
     }
 
-    std::cout << "Initialised.\n";
+    cout << "Initialised.\n";
 
     //SOCKET creation
     if ((conn_socket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
-        std::cout << "Could not create socket : " << WSAGetLastError();
+        cout << "Could not create socket : " << WSAGetLastError();
         WSACleanup();
         return -1;
     }
 
-    std::cout << "Socket created.\n";
+    cout << "Socket created.\n";
 
     server.sin_addr.s_addr = inet_addr(SERVER_IP);
     server.sin_family = AF_INET;
@@ -146,46 +204,46 @@ int main(int argc, char *argv[]) {
     //BIND (the IP/port with socket)
     if (bind(conn_socket, (struct sockaddr*) &server,
             sizeof(server)) == SOCKET_ERROR) {
-        std::cout << "Bind failed with error code: " << WSAGetLastError();
+        cout << "Bind failed with error code: " << WSAGetLastError();
         closesocket(conn_socket);
         WSACleanup();
         return -1;
     }
 
-    std::cout << "Bind done.\n";
+    cout << "Bind done.\n";
 
     //LISTEN to incoming connections (socket server moves to listening mode)
     if (listen(conn_socket, 1) == SOCKET_ERROR) {
-        std::cout << "Listen failed with error code: " << WSAGetLastError();
+        cout << "Listen failed with error code: " << WSAGetLastError();
         closesocket(conn_socket);
         WSACleanup();
         return -1;
     }
 
     //ACCEPT incoming connections (server keeps waiting for them)
-    std::cout << "Waiting for incoming connections...\n";
+    cout << "Waiting for incoming connections...\n";
     int stsize = sizeof(struct sockaddr);
     comm_socket = accept(conn_socket, (struct sockaddr*) &client, &stsize);
     // Using comm_socket is able to send/receive data to/from connected client
     if (comm_socket == INVALID_SOCKET) {
-        std::cout << "accept failed with error code : " << WSAGetLastError();
+        cout << "accept failed with error code : " << WSAGetLastError();
         closesocket(conn_socket);
         WSACleanup();
         return -1;
     }
-    std::cout << "Incomming connection from: " << inet_ntoa(client.sin_addr) <<
+    cout << "Incomming connection from: " << inet_ntoa(client.sin_addr) <<
             "(" << ntohs(client.sin_port) << ")"<<std::endl;
 
      // Closing the listening sockets (is not going to be used anymore)
      closesocket(conn_socket);
 
      //SEND and RECEIVE data
-     std::cout<<"Waiting for incoming messages from client... \n";
+     cout<<"Waiting for incoming messages from client... \n";
      do {
          int bytes = recv(comm_socket, recvBuff, sizeof(recvBuff), 0);
          if (bytes > 0) {
-             std::cout<<"Receiving message... \n";
-             std::cout<<"Data received: "<<recvBuff<<std::endl;
+             cout<<"Receiving message... \n";
+             cout<<"Data received: "<<recvBuff<<std::endl;
 
              // Deserializar los datos recibidos y llamar a la función correspondiente con sus argumentos
             deserializar_y_llamar_funcion(comm_socket, recvBuff);

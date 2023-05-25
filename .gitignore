@@ -52,3 +52,5 @@ Mkfile.old
 dkms.conf
 basedatosSSR.db
 .vscode/settings.json
+.vscode/c_cpp_properties.json
+.vscode/settings.json
