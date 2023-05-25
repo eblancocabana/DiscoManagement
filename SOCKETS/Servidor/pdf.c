@@ -1,6 +1,6 @@
 #include "pdfgen.h"
 
-int main(void) {
+/* int main(void) {
   struct pdf_info info = {
     .creator = "My software",
     .producer = "My software",
@@ -20,4 +20,4 @@ int main(void) {
   pdf_save(pdf, "entrada.pdf");
   pdf_destroy(pdf);
   return 0;
-}
+} */
