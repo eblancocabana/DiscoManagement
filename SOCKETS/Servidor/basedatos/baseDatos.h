@@ -18,6 +18,8 @@ int inicializarDiasDeFiesta();
 int inicializarDJ();
 int inicializarRRPP();
 int inicializarListaEventos();
+int inicializarEntradas();
+int inicializarReservaLocal();
 
 char* limpiarInput(char* input);
 void clearIfNeeded(char *str, int max_line);

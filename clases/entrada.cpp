@@ -103,7 +103,7 @@ int Entrada::getNumeroEntradas() {
 }
 
 void Entrada::setNumeroEntradas(int numeroEntradas) {
-    this->codigonumeroEntradasFecha = numeroEntradas;
+    this->numeroEntradas = numeroEntradas;
 }
 
 char* Entrada::getCuentaGmail() {

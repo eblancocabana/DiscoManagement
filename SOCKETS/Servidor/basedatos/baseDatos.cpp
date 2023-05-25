@@ -3,7 +3,7 @@
 #include <string.h>
 #include "sqlite/sqlite3.h"
 #include "baseDatos.h"
-#include "../inicio.h"
+#include "../../clases/entrada.h"
 
 #define MAX_REGISTRO 20
 #define MAX_LOGIN 15
@@ -107,6 +107,7 @@ void gestionarFree(char* str) {
     // INICIALIZACION DE LOS VALORES DE LA BASE DE DATOS (VALORES POR DEFECTO)
 int inicializarReservaLocal() {
     abrirConexion();
+
     //Eliminar tabla si existe
     char* sentenciaRL = "DROP TABLE IF EXISTS reservalocal;";
     int resultadoRL = sqlite3_exec(database, sentenciaRL, NULL, NULL, &mensajeError);
@@ -117,6 +118,7 @@ int inicializarReservaLocal() {
         cerrarConexion(database);
         return 1;
     }
+
     // Crear tabla
     char * sql = "CREATE TABLE reservalocal(codigo TEXT PRIMARY KEY NOT NULL, fecha TEXT NOT NULL, nombrediscoteca TEXT NOT NULL, aforo INT NOT NULL, numerotarjeta TEXT NOT NULL, cvvtarjeta TEXT NOT NULL, caducidadtarjeta TEXT NOT NULL)";
     apertura = sqlite3_exec(database, sql, 0, 0, &mensajeError);
@@ -131,6 +133,7 @@ int inicializarReservaLocal() {
 
 int inicializarEntradas() {
     abrirConexion();
+
     //Eliminar tabla si existe
     char* sentenciaE = "DROP TABLE IF EXISTS entradas;";
     int resultadoE = sqlite3_exec(database, sentenciaE, NULL, NULL, &mensajeError);
@@ -529,6 +532,8 @@ int inicializacion() {
     inicializarDJ();
     inicializarRRPP();
     inicializarListaEventos();
+    inicializarEntradas();
+    inicializarReservaLocal();
   }
   
   cerrarConexion(database);
@@ -1228,4 +1233,31 @@ int buscarUltimoCodigo(int eventoBool) {
     cerrarConexion(database);
     return -1;
   }
+
+          //  METODOS DE C++
+
+  int insertarEntrada(Entrada entradaInsertar) {
+
+    // Construir la sentencia INSERT
+    char sentenciaEntradaInsert[500];
+    sprintf(sentencia, "INSERT INTO entradas (codigoFecha, fechaEntrada, nombreDiscoteca, numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta, caducidadTarjeta, tipoEntrada, precio, nombreUsuario) VALUES (%d, '%s', '%s', %d, '%s', '%s', '%s', '%s', '%s', %f, '%s');",
+            entradaInsertar.codi, fechaEntrada, nombreDiscoteca, numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta, caducidadTarjeta, tipoEntrada, precio, nombreUsuario);
+
+    // Ejecutar la sentencia INSERT
+    resultado = sqlite3_exec(db, sentenciaEntradaInsert, 0, 0, NULL);
+    if (resultado != SQLITE_OK) {
+        printf("Error al ejecutar la sentencia INSERT: %s\n", sqlite3_errmsg(db));
+        return 1;
+    }
+
+    // Cerrar la conexión a la base de datos
+    sqlite3_close(db);
+
+    return 0;
+  }
+
+  int insertarReservaLocal() {
+    
+  }
+
 }
