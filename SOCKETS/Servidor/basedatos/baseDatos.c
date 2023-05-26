@@ -1458,13 +1458,13 @@ char* buscarFechaConCodigoFecha(char* codigoFecha) {
   }
 }
 
-char* buscarDiscotecaConCodigoFecha(int codigoFecha) {
+char* buscarDiscotecaConCodigoFecha(char* codigoFecha) {
   abrirConexion();
 
   sqlite3_stmt* statement;
   char* mensajeError = 0;
   int busqueda = 0;
-  char* codigoEntrada = NULL;
+  char* nombreDiscotecaEncontrada = NULL;
 
   abrirConexion();
   if (gestionarError(database) != SQLITE_OK) {
@@ -1483,12 +1483,12 @@ char* buscarDiscotecaConCodigoFecha(int codigoFecha) {
     return NULL;
   }
 
-  sqlite3_bind_int(statement, 1, codigoFecha);
+  sqlite3_bind_text(statement, 1, codigoFecha, -1, SQLITE_STATIC);
   busqueda = sqlite3_step(statement);
 
   if (busqueda == SQLITE_ROW) {
-    const char* nombreDiscoteca = (const char*)sqlite3_column_text(statement, 0);
-    char* nombreDiscotecaEncontrada = strdup(nombreDiscoteca); // Copia el nombre de la discoteca encontrada a una nueva cadena
+    const unsigned char* nombreDiscoteca = sqlite3_column_text(statement, 0);
+    nombreDiscotecaEncontrada = strdup((const char*)nombreDiscoteca); // Copia el nombre de la discoteca encontrada a una nueva cadena
 
     sqlite3_finalize(statement);
     cerrarConexion(database);
@@ -1501,7 +1501,4 @@ char* buscarDiscotecaConCodigoFecha(int codigoFecha) {
 
     return NULL;
   }
-
-  cerrarConexion(database);
-  return NULL;
 }
