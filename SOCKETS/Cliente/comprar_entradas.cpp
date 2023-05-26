@@ -37,6 +37,7 @@ int tipoEntradas;
 const char* entradaCat;
 int longitud;
 double precios;
+char* entradaCatFin;
 
 char mostrarDatosCompra(){
     cout << "\nDatos necesarios:\n\t1. Comprar \n\t0. Atras\n\nElige una opcion: ";
@@ -237,7 +238,6 @@ void confirmarCompra(){
                 cout << "\nEL PAGO HA SIDO CONFIRMADO\n"; // bd
                 fecha_ent = enviar_datos_char("buscarFechaConCodidoFecha", 1, codigoFecha_ent);
                 nomDiscoteca = enviar_datos_char("buscarDiscotecaConCodigoFecha", 1, codigoFecha_ent);
-                char* entradaCatFin;
                 if (tipoEntradas == 1) {
                     entradaCat = "Una consumicion";
                 } else if (tipoEntradas == 2) {
@@ -252,22 +252,21 @@ void confirmarCompra(){
                 strcpy(entradaCatFin, entradaCat);
 
                 struct Entrada {
-                    int codigoFecha_ent;
-                    char* fecha_ent;
-                    char* nomDiscoteca;
-                    int numEntradas;
-                    char* gmail;
-                    char* numTarjeta;
-                    char* cvvTar;
-                    char* caducidadTar;
-                    char* entradaCatFin;
-                    double precios;
-                    char* nombreCompleto;
-
+                    int codigoFecha;
+                    char* fechaEntrada;
+                    char* nombreDiscoteca;
+                    int numeroEntradas;
+                    char* cuentaGmail;
+                    char* numeroTarjetaCredito;
+                    char* cvvTarjeta;
+                    char* caducidadTarjeta;
+                    char* tipoEntrada;
+                    double precio;
+                    char* usuario;
     
-                    Entrada(int codigoFecha_ent, char* fecha_ent, char* nomDiscoteca, int numEntradas, char* gmail,
-                        char* numTarjeta, char* cvvTar, char* caducidadTar, char* entradaCatFin, double precios,
-                        char* nombreCompleto);
+                    Entrada(int codigoFecha, char* fechaEntrada, char* nombreDiscoteca, int numeroEntradas, char* cuentaGmail,
+                        char* numeroTarjetaCredito, char* cvvTarjeta, char* caducidadTarjeta, char* tipoEntrada, double precio,
+                        char* usuario);
 
                     Entrada* e = new Entrada(codigoFecha_ent, fecha_ent, nomDiscoteca, numEntradas, gmail, numTarjeta, cvvTar, caducidadTar, entradaCatFin, precios, nombreCompleto);
                 };
