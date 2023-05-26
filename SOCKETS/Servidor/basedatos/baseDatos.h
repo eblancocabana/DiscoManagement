@@ -9,6 +9,8 @@
 #pragma comment(lib, "Ws2_32.lib")
 extern SOCKET comm_socket;
 
+
+
 int dbExiste(const char* fichero);
 int reiniciarBD();
 int verificarFecha(char* fecha);

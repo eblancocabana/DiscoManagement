@@ -224,7 +224,9 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
   } else if (strcmp(nombre_funcion, "mostrarlistadoeventos") == 0) {
     mostrarlistadoeventos(comm_socket);
   } else if (strcmp(nombre_funcion, "mostrarFiestas") == 0) {
+    printf("ANTES DE ENTRAR FUNCION\n");
     mostrarFiestas(comm_socket);
+    printf("DESPUES DE ENTRAR FUNCION\n");
   }else if (strcmp(nombre_funcion, "inicicializacionSOCKET") == 0) {
     int ret = 1;
     const char* rret = (std::to_string(ret)).c_str();
