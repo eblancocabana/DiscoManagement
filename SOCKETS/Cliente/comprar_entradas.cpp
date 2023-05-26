@@ -23,15 +23,15 @@ char opcionPagoEntrada;
 char opcionConfirmarPago;
 char opcionConfirmarCompra;
 
-int codigoFecha;
-char* fecha;
+int codigoFecha_ent;
+char* fecha_ent;
 char* nomDiscoteca;
 int numEntradas;
 char* nombreCompleto;
 char* gmail;
 char* numTarjeta;
-char* cvvTarjeta;
-char* caducidadTarjeta;
+char* cvvTar;
+char* caducidadTar;
 int tipoEntradas;
 double precios;
 
@@ -79,7 +79,7 @@ void datosCompra(int codFecha, int tipoEntrada, double precio){
     //char* nombreCompleto;
     //char* gmail;
 
-    codigoFecha = codFecha;
+    codigoFecha_ent = codFecha;
     tipoEntradas = tipoEntrada;
     precios = precio;
 
@@ -153,17 +153,17 @@ void pagarEntrada(){
                 cout << "\n---------------------------------------------------\n";
                 cout << "Introducir datos de la tarjeta";
                 numTarjeta = introducirNumTarjeta(); //TARJETA
-                cvvTarjeta = introducirCVVTar();
-                caducidadTarjeta = introducirCaducidadTarjeta();
+                cvvTar = introducirCVVTar();
+                caducidadTar = introducirCaducidadTarjeta();
 
                 int len = strcspn(numTarjeta, "\n");
                 numTarjeta[len] = '\0';
 
-                len = strcspn(cvvTarjeta, "\n");
-                cvvTarjeta[len] = '\0';
+                len = strcspn(cvvTar, "\n");
+                cvvTar[len] = '\0';
 
-                len = strcspn(caducidadTarjeta, "\n");
-                caducidadTarjeta[len] = '\0';
+                len = strcspn(caducidadTar, "\n");
+                caducidadTar[len] = '\0';
 
                 confirmarPago();
             break;

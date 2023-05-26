@@ -23,10 +23,9 @@ char opcionPagoReserva;
 char opcionConfirmarReserva;
 
 int codLocal;
-char* fecha;
+char* fecha_loc;
 char* nombreDiscoteca;
-char* aforo = "400";
-char* numTa
+const char* aforo = "400";
 char numeroTarjeta[MAX_NUMERO_TARJETA];
 char cvvTarjeta[MAX_CVV];
 char caducidadTarjeta[MAX_CADUCIDAD];

@@ -1354,7 +1354,7 @@ char* buscarFechaConCodidoFecha(int codigoFecha) {
     sqlite3_finalize(statement);
     cerrarConexion(database);
 
-    return -1;
+    return NULL;
   }
 
   sqlite3_bind_int(statement, 1, codigoFecha);
