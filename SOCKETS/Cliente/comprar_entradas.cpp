@@ -122,73 +122,20 @@ char mostrarPagarEntrada(){
 }
 
 char* introducirNumTarjeta() {
+    cout << "\n\tIntroduce el número de tarjeta (sin espacios - 9 caracteres): ";
 
     char* inputNumTarjeta = new char[MAX_NUM_TARJETA];
-    bool valido = false;
-
-    while (!valido) {
-        cout << "\n\tIntroduce el número de tarjeta (sin espacios - 9 caracteres): ";
-        cin.getline(inputNumTarjeta, MAX_NUM_TARJETA);
-
-        // Validar la longitud
-        if (strlen(inputNumTarjeta) != 9) {
-            cout << "\n\tEl número de tarjeta debe tener 9 caracteres. Vuelve a intentarlo." << std::endl;
-            continue;
-        }
-
-        // Validar si todos los caracteres son dígitos
-        bool esDigito = true;
-        for (int i = 0; i < 9; i++) {
-            if (!isdigit(inputNumTarjeta[i])) {
-                esDigito = false;
-                break;
-            }
-        }
-
-        if (!esDigito) {
-            cout << "\n\tEl número de tarjeta debe contener solo dígitos. Vuelve a intentarlo." << std::endl;
-        } else {
-            valido = true;
-        }
-    }
+    cin.getline(inputNumTarjeta, MAX_NUM_TARJETA);
 
     return inputNumTarjeta;
 }
 
-int verificarFecha(char* fecha) {
-    int dia, mes;
-    
-    // Convierte los primeros dos caracteres en el día
-    dia = atoi(fecha);
-    
-    // Convierte los caracteres 3 y 4 en el mes
-    mes = atoi(fecha + 3);
-    
-    // Verifica si los valores son válidos para día, mes y año
-    if (dia < 1 || dia > 31) {
-        return 0;
-    }
-    
-    if (mes < 1 || mes > 12) {
-        return 0;
-    }
-    
-    return 1;
-}
-
 char* introducirCaducidadTarjeta() {
+    cout << "\tIntroduce la caducidad de tarjeta (mm/aa): ";
+
     char* inputCaducidad = new char[MAX_CADUCIDAD];
-    
-    while (true) {
-        cout << "\tIntroduce la caducidad de tarjeta (mm/aa): ";
-        cin.getline(inputCaducidad, MAX_CADUCIDAD);
-        
-        if (verificarFecha(inputCaducidad)) {
-            break;
-        }
-        
-        cout << "\tFecha no válida. Por favor, inténtalo nuevamente." << endl;
-    }
+    cin.getline(inputCaducidad, MAX_CADUCIDAD);
+
     return inputCaducidad;
 }
 
@@ -197,6 +144,7 @@ char* introducirCVVTar() {
 
     char* inputCVV = new char[MAX_CVV];
     cin.getline(inputCVV, MAX_CVV);
+
     return inputCVV;
 }
 
