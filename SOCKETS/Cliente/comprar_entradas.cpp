@@ -250,9 +250,28 @@ void confirmarCompra(){
                 longitud = strlen(entradaCat)+1;
                 entradaCatFin = new char[longitud];
                 strcpy(entradaCatFin, entradaCat);
-                
-                Entrada* e = new Entrada(codigoFecha_ent, fecha_ent, nomDiscoteca, numEntradas, gmail, numTarjeta, cvvTar, caducidadTar, entradaCatFin, precios, nombreCompleto);
-                
+
+                struct Entrada {
+                    int codigoFecha_ent;
+                    char* fecha_ent;
+                    char* nomDiscoteca;
+                    int numEntradas;
+                    char* gmail;
+                    char* numTarjeta;
+                    char* cvvTar;
+                    char* caducidadTar;
+                    char* entradaCatFin;
+                    double precios;
+                    char* nombreCompleto;
+
+    
+                    Entrada(int codigoFecha_ent, char* fecha_ent, char* nomDiscoteca, int numEntradas, char* gmail,
+                        char* numTarjeta, char* cvvTar, char* caducidadTar, char* entradaCatFin, double precios,
+                        char* nombreCompleto);
+
+                    Entrada* e = new Entrada(codigoFecha_ent, fecha_ent, nomDiscoteca, numEntradas, gmail, numTarjeta, cvvTar, caducidadTar, entradaCatFin, precios, nombreCompleto);
+                };
+
                 opcionDatosCompra = '0';
                 opcionPagoEntrada = '0';
                 opcionConfirmarPago = '0';
