@@ -107,6 +107,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     pos += sizeof(ret);
   } else if (strcmp(nombre_funcion, "limpiarInput") == 0) {
     char * ret = limpiarInput(args);
+    printf("Sending PENECULOS%s through socket\n", ret);
     size_t size = strlen(ret) + 1;
     memcpy(sendBuff + pos, ret, size);
     pos += size;
