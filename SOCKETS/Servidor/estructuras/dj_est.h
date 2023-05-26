@@ -8,6 +8,6 @@ typedef struct {
     char* fecha_nacimiento;
     char* numero_contacto;
 
-} DJ;
+} DJEst;
 
 #endif

@@ -8,6 +8,6 @@ typedef struct {
     int entradas_disponibles;
     char* evento_especial;
 
-} DiasFiesta;
+} DiasFiestaEst;
 
 #endif
