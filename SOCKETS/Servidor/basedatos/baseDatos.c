@@ -1011,8 +1011,8 @@ int comprobarEntrada(char* codigo) {
   return 0;
 }
     
-    // CARGAR/MOSTRAR ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS
-
+    // CARGAR/MOSTRAR ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS CLIENTE
+ 
 void mostrarLocales(SOCKET socket_fd) {
   abrirConexion();
 
@@ -1099,9 +1099,8 @@ void mostrarRRPP(SOCKET socket_fd) {
 	cerrarConexion(database);
 }
 
+// CARGAR/MOSTRAR ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS ADMIN
 
-
-//ADMIN
 void mostrarLocalesAdmin() {
   abrirConexion();
 
