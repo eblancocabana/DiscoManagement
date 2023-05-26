@@ -84,6 +84,9 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket,char *recvBuff) {
     } else if (strcmp(nombre_funcion, "inicializarListaEventos") == 0) {
         int ret = inicializarListaEventos();
         sendBuff << ret;
+    } else if (strcmp(nombre_funcion, "inicializacion") == 0) {
+        int ret = inicializacion();
+        sendBuff << ret;
     } else if (strcmp(nombre_funcion, "limpiarInput") == 0) {
         char *ret = limpiarInput(args);
         sendBuff << ret;

@@ -99,6 +99,7 @@ int main(int argc, char *argv[]) {
 
     
      //inicializacion();
+     enviar_datos("inicializacion", 0);
      login();
 
      // CLOSING the socket and cleaning Winsock...
