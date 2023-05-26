@@ -33,8 +33,8 @@ void clearIfNeeded(char *str, int max_line);
 static int callbackClient(void* socket_fd, int argc, char **argv, char **azColName);
 static int callback(void *NotUsed, int argc, char **argv, char** azColName);
 
-int comprobarCodigoLocal(int cod);
-int comprobarCodigoRRPP(int cod);
+int comprobarCodigoLocal(char* cod);
+int comprobarCodigoRRPP(char* cod);
 int comprobarUsuario(char* usuario);
 int comprobarFecha(char* fecha, int evento);
 int comprobarAdmin(char* user);
