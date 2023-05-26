@@ -47,8 +47,8 @@ int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento);
 int insertarEntrada(EntradaEst entradaInsertar);
 int insertarReservaLocal(ReservaLocalEst reservarLocalInsertar);
 
-int buscarUltimoCodigo(int evento);
-char* buscarFechaConCodidoFecha(int codigoFecha);
+int buscarUltimoCodigo();
+char* buscarFechaConCodigoFecha(int codigoFecha);
 char* buscarDiscotecaConCodigoFecha(int codigoFecha);
 
 #endif
