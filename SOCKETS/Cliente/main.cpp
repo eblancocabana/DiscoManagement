@@ -39,17 +39,17 @@ char * enviar_datos_char(const char * nombre_funcion, int num_args, ...) {
 
   va_end(args);
 
-  printf("DATOOOS: %s\n", sendBuff);
+  printf("DATOS CHAR MANDADOS CLIENTES: %s\n", sendBuff);
   send(s, sendBuff, sizeof(sendBuff), 0);
 
   char buffer[512];
   int bytes_recibidos = recv(s, buffer, sizeof(buffer), 0);
   if (bytes_recibidos > 0) {
-    printf("SIIIII");
     printf("Bytes recibidos: %d\n", bytes_recibidos);
     char * resultado = new char[bytes_recibidos + 1];
     memcpy(resultado, buffer, bytes_recibidos);
     resultado[bytes_recibidos] = '\0';
+    printf("DATOS CHAR RECIBIDO CLIENTES: %s\n", resultado);
     return resultado;
   } else {
     printf("NIOOOIOI");
@@ -79,13 +79,15 @@ int enviar_datos_int(const char * nombre_funcion, int num_args, ...) {
 
   va_end(args);
 
-  printf("DATOOOS: %s\n", sendBuff);
+  printf("DATOS INT MANDADOS CLIENTES: %s\n", sendBuff);
   send(s, sendBuff, sizeof(sendBuff), 0);
 
   char buffer[512];
   int bytes_recibidos = recv(s, buffer, sizeof(buffer), 0);
   if (bytes_recibidos > 0) {
+    printf("BUFFER: %s\n", buffer);
     int resultado = atoi(buffer);
+    printf("DATOS INT RECIBIDO CLIENTES: %i\n", resultado);
     return resultado;
   } else {
     std::cerr << "Error al recibir datos del servidor" << std::endl;

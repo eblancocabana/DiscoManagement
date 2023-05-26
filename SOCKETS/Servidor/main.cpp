@@ -133,7 +133,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     pos += sizeof(ret);
   } else if (strcmp(nombre_funcion, "comprobarUsuario") == 0) {
     int ret = comprobarUsuario(args);
-    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    memcpy(sendBuff + pos, &ret, sizeof(ret));
     pos += sizeof(ret);
   } else if (strcmp(nombre_funcion, "comprobarFecha") == 0) {
     //Dividir los argumentos en fecha y evento
@@ -197,6 +197,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
   }else if (strcmp(nombre_funcion, "mostrarLocales") == 0) {
     mostrarLocales();
   }
+  printf("ESTEEE:%s,|%d", sendBuff,sendBuff);
   printf("Sending %.*s through socket\n", pos, sendBuff);
   // Enviar el valor devuelto por la función llamada a través del socket
   send(comm_socket, sendBuff, pos, 0);

@@ -96,11 +96,13 @@ void rellenarCamposRegistro() {
   cin.getline(inputRegis, MAX_NOMBRE_USU);
   sscanf(inputRegis, "%s", & nombreUsu);
   username = enviar_datos_char("limpiarInput", 1, & inputRegis, sizeof(inputRegis));
+  printf("NOMBREEEEEEEUSERNAMEJMEJHEJFREJJHEAQUI");
+  printf(username);
 
   cout << "Sexo: ";
   cin.getline(inputRegis, MAX_SEXO);
   sscanf(inputRegis, "%s", & sexo);
-  sex = (char*) enviar_datos_char("limpiarInput", 1, & inputRegis, sizeof(inputRegis));
+  sex = (char * ) enviar_datos_char("limpiarInput", 1, & inputRegis, sizeof(inputRegis));
 
   do {
     cout << "Edad: ";
@@ -133,7 +135,8 @@ void rellenarCamposRegistro() {
 
   cout << "\nDatos introducidos: " << name << " - " << username << " - " << sex << " - " << age << " - " << correoElec << " - " << password << " - " << repPass << endl;
   //existe = comprobarUsuario(username); BD
-  existe =enviar_datos_int("comprobarUsuario", 1, & username, sizeof(username));
+  printf(username);
+  existe = enviar_datos_int("comprobarUsuario", 1, username, sizeof(username));
 
   if ((existe == -1) && (strcmp(password, repPass) != 0)) {
     cout << "Pero las contrasenyas NO coinciden" << endl;
@@ -161,8 +164,8 @@ void iniciarSesion() {
   cin.getline(input, MAX_CONTRASENYA);
   char * pa = enviar_datos_char("limpiarInput", 1, & input, sizeof(input));
 
-  existe =enviar_datos_int("comprobarExistencia", 2, us, sizeof(us), pa, sizeof(pa));
-  int admin =enviar_datos_int("comprobarAdmin", 1, us, sizeof(us));
+  existe = enviar_datos_int("comprobarExistencia", 2, us, sizeof(us), pa, sizeof(pa));
+  int admin = enviar_datos_int("comprobarAdmin", 1, us, sizeof(us));
   if ((existe == 0) && (admin == 0)) {
     cout << "\nADMIN ENCONTRADO, accediendo al menu\n";
   } else if ((existe == 0)) {
