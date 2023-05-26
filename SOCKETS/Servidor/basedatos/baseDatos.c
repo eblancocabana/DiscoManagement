@@ -1249,18 +1249,11 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
 }
 
 int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* correo, char* contra) {
-  printf("DENTRO1");
+
   abrirConexion();
-  printf("DENTRO2");
+
   const char* admin = "No";
   char lineRe[1024];
-  printf("DENTRO");
-  printf(nombre);
-  printf(usuario);
-  printf(sexo);
-  printf("%d", edad);
-  printf(correo);
-  printf(contra);
   sprintf(lineRe, "%s,%s,%s,%d,%s,%s,%s", nombre, usuario, sexo, edad, correo, contra, admin);
 
   char sql_insertRe[1024];
