@@ -41,44 +41,11 @@ using namespace std;
 //g++ -c administrador/inicio_servidor.cpp -o inicio.o         CREAR .O DE LOS C++
 //g++ -c main.cpp -o main.o         CREAR .O DE LOS C++
 
-//g++ main.o inicio.o sqlite.o bd.o -o servidor.exe -lWs2_32        EJECUTAR EL ARCHIVO
+//g++ main.o inicio.o sqlite.o bd.o -o admin.exe -lWs2_32        EJECUTAR EL ARCHIVO
 
 void iniciarSesion() {
     int existe = 1;
     char input[MAX_REGISTRO];
-
-    char nombre[50];
-    char usuario[50];
-    char sexo[10];
-    int edad;
-    char correo[50];
-    char contra[50];
-
-    printf("Ingresa el nombre: ");
-    fgets(nombre, sizeof(nombre), stdin);
-    nombre[strcspn(nombre, "\n")] = '\0';  // Eliminar el salto de línea al final
-
-    printf("Ingresa el usuario: ");
-    fgets(usuario, sizeof(usuario), stdin);
-    usuario[strcspn(usuario, "\n")] = '\0';  // Eliminar el salto de línea al final
-
-    printf("Ingresa el sexo: ");
-    fgets(sexo, sizeof(sexo), stdin);
-    sexo[strcspn(sexo, "\n")] = '\0';  // Eliminar el salto de línea al final
-
-    printf("Ingresa la edad: ");
-    scanf("%d", &edad);
-    getchar();  // Consumir el salto de línea pendiente
-
-    printf("Ingresa el correo: ");
-    fgets(correo, sizeof(correo), stdin);
-    correo[strcspn(correo, "\n")] = '\0';  // Eliminar el salto de línea al final
-
-    printf("Ingresa la contraseña: ");
-    fgets(contra, sizeof(contra), stdin);
-    contra[strcspn(contra, "\n")] = '\0';  // Eliminar el salto de línea al final
-
-    insertarRegistro(nombre, usuario, sexo, edad, correo, contra);
 
     cout << "Usuario: ";
     cin.getline(input, MAX_NOMBRE_USU);
