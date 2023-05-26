@@ -606,7 +606,7 @@ static int callbackClient(void *socket_fd, int argc, char **argv, char **azColNa
 }
 
 
-static int callback(void *NotUsed, int argc, char **argv, char azColName) {
+static int callback(void *NotUsed, int argc, char **argv, char** azColName) {
   int i;
   printf("\e[37m\e[1m");
   for (i = 0; i < argc; i++) {
