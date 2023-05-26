@@ -37,7 +37,7 @@ int tipoEntradas;
 const char* entradaCat;
 int longitud;
 double precios;
-char* entradaCatFin;
+
 
 char mostrarDatosCompra(){
     cout << "\nDatos necesarios:\n\t1. Comprar \n\t0. Atras\n\nElige una opcion: ";
@@ -241,6 +241,7 @@ void confirmarCompra(){
                 cout << "\nEL PAGO HA SIDO CONFIRMADO\n"; // bd
                 fecha_ent = enviar_datos_char("buscarFechaConCodidoFecha", 1, codigoFecha_ent);
                 nomDiscoteca = enviar_datos_char("buscarDiscotecaConCodigoFecha", 1, codigoFecha_ent);
+                char* entradaCatFin;
                 if (tipoEntradas == 1) {
                     entradaCat = "Una consumicion";
                 } else if (tipoEntradas == 2) {
@@ -254,25 +255,13 @@ void confirmarCompra(){
                 entradaCatFin = new char[longitud];
                 strcpy(entradaCatFin, entradaCat);
 
-                struct Entrada {
-                    int codigoFecha;
-                    char* fechaEntrada;
-                    char* nombreDiscoteca;
-                    int numeroEntradas;
-                    char* cuentaGmail;
-                    char* numeroTarjetaCredito;
-                    char* cvvTarjeta;
-                    char* caducidadTarjeta;
-                    char* tipoEntrada;
-                    double precio;
-                    char* usuario;
-    
-                    Entrada(int codigoFecha, char* fechaEntrada, char* nombreDiscoteca, int numeroEntradas, char* cuentaGmail,
-                        char* numeroTarjetaCredito, char* cvvTarjeta, char* caducidadTarjeta, char* tipoEntrada, double precio,
-                        char* usuario);
-
-                    Entrada* e = new Entrada(codigoFecha_ent, fecha_ent, nomDiscoteca, numEntradas, gmail, numTarjeta, cvvTar, caducidadTar, entradaCatFin, precios, nombreCompleto);
-                };
+                Entrada* e = new Entrada(codigoFecha_ent, fecha_ent, nomDiscoteca, numEntradas, gmail, numTarjeta, cvvTar, caducidadTar, entradaCatFin, precios, nombreCompleto);
+                const char* codFechaAux = (std::to_string(codigoFecha_ent)).c_str();
+                const char* numEntradasAux = (std::to_string(numEntradas)).c_str();
+                const char* preciosAux = (std::to_string(precios)).c_str();
+                enviar_datos_int("insertarRegistro", 11, codFechaAux, strlen(codFechaAux)+1, fecha_ent, strlen(fecha_ent)+1, nomDiscoteca, strlen(nomDiscoteca)+1,
+                numEntradasAux, strlen(numEntradasAux)+1, gmail, strlen(gmail)+1, numTarjeta, strlen(numTarjeta)+1, cvvTar, strlen(cvvTar)+1, caducidadTar, strlen(caducidadTar)+1,
+                entradaCatFin, strlen(entradaCatFin)+1, preciosAux, strlen(preciosAux)+1, nombreCompleto, strlen(nombreCompleto)+1);
 
                 opcionDatosCompra = '0';
                 opcionPagoEntrada = '0';
