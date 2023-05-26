@@ -110,6 +110,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     size_t size = strlen(ret) + 1;
     memcpy(sendBuff + pos, ret, size);
     pos += size;
+    printf("Sending PENE%s through socket\n", ret);
   } else if (strcmp(nombre_funcion, "clearIfNeeded") == 0) {
     // Dividir los argumentos en str y max_line
     char * ret = strtok(args, ",");
@@ -186,7 +187,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
   } else if (strcmp(nombre_funcion, "mostrarFiestas") == 0) {
     mostrarFiestas();
   }
-    
+  printf("Sending %.*s through socket\n", pos, sendBuff);
   // Enviar el valor devuelto por la función llamada a través del socket
   send(comm_socket, sendBuff, pos, 0);
 }
