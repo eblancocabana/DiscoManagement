@@ -18,6 +18,7 @@ void confirmarPago();
 char mostrarConfirmarPago();
 
 int introducirCodigoRRPP();
+int verificarFecha(char* fecha);
 
 void confirmarCompra();
 char confirmarPagoCompra();

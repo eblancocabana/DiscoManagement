@@ -1061,10 +1061,10 @@ void mostrarlistadoeventos(SOCKET socket_fd) {
 
   char* error = 0;
   int aper;
-  printf("ANTES");
+
   const char* sentencia = "SELECT * FROM eventos";
   aper = sqlite3_exec(database, sentencia, callbackClient, 0, &error);
-  printf("DESPUES");
+  
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
       sqlite3_free(error);
