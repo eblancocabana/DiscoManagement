@@ -5,9 +5,8 @@
 //#include "basedatos/sqlite/sqlite3.h"
 //#include "basedatos/baseDatos.h"
 #include "inicio.h"
+#include <cstring>
 #include "enviar_datos.h"
-#include "recibir_datos.h"
-
 #define MAX_SELECCION 5
 #define MAX_REGISTRO 20
 #define MAX_CODIGO 5
@@ -127,8 +126,8 @@ void menuListadoDiasDisponibles() {
                     sscanf(inputCod, "%d", &codigo);
                     //BD
                     //cod = limpiarInput(inputCod);
-                    enviar_datos("limpiarInput", 1, &inputCod, sizeof(inputCod));
-                    cod = recibir_datos<char*>();
+                    cod = enviar_datos_char("limpiarInput", 1, &inputCod, sizeof(inputCod));
+                    
 
                     errno = 0;
                     long int num = strtol(cod, &type, 10); //CodigoFecha
@@ -145,8 +144,7 @@ void menuListadoDiasDisponibles() {
                     char strCodigo[4] = {'0', '\0'};
                     strcat(strCodigo, strNum);
                     //BD
-                    enviar_datos("comprobarCodigoEntrada", 1, strCodigo, strlen(strCodigo));
-                    int resultado = recibir_datos<int>();
+                    int resultado =enviar_datos_int("comprobarCodigoEntrada", 1, strCodigo, strlen(strCodigo));
                     if ( resultado== 0) {
                         cout << "Entrada con codigo: '" << strCodigo << "' seleccionada correctamente\n";
                         tipoEntradaSeleccionada();
@@ -161,8 +159,7 @@ void menuListadoDiasDisponibles() {
                 } else {
                     sprintf(auxCodigo, "%d", codigo);
                     //BD
-                    enviar_datos("comprobarCodigoEntrada", 1, auxCodigo, strlen(auxCodigo));
-                    int resultado = recibir_datos<int>();
+                    int resultado= enviar_datos_int("comprobarCodigoEntrada", 1, auxCodigo, strlen(auxCodigo));
                     if (resultado== 0) {
                         cout << "Entrada con codigo: '" << auxCodigo << "' seleccionada correctamente\n";
                         tipoEntradaSeleccionada();
