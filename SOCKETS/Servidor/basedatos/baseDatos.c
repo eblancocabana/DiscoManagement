@@ -1290,7 +1290,7 @@ int buscarUltimoCodigo() {
   return lastId;
 }
 
-char* buscarFechaConCodidoFecha(int codigoFecha) {
+char* buscarFechaConCodigoFecha(int codigoFecha) {
   abrirConexion();
 
   sqlite3_stmt* statement;
