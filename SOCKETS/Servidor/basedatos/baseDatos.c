@@ -961,6 +961,11 @@ int comprobarFecha(char* fecha, int evento) {
 }    
 
 int comprobarEntrada(char* codigo) {
+  int longitud = strlen(codigo);
+  if (longitud > 0 && codigo[longitud - 1] == ',') {
+      codigo[longitud - 1] = '\0';
+  }
+
   sqlite3_stmt * statement;
   char * mensajeError = 0;
   int apertura = 0;

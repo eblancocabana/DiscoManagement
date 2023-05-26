@@ -122,12 +122,11 @@ void menuListadoDiasDisponibles() {
                 do {
                     cout << "Codigo de la entrada: ";
                     cin.getline(inputCod, MAX_CODIGO);
-
                     sscanf(inputCod, "%d", &codigo);
-                    //BD
-                    //cod = limpiarInput(inputCod);
-                    cod = enviar_datos_char("limpiarInput", 1, &inputCod, sizeof(inputCod));
                     
+                    //BD
+                    cod = enviar_datos_char("limpiarInput", 1, &inputCod, sizeof(inputCod));
+                    printf("%s\n", cod);
 
                     errno = 0;
                     long int num = strtol(cod, &type, 10); //CodigoFecha
@@ -144,7 +143,7 @@ void menuListadoDiasDisponibles() {
                     char strCodigo[4] = {'0', '\0'};
                     strcat(strCodigo, strNum);
                     //BD
-                    int resultado =enviar_datos_int("comprobarCodigoEntrada", 1, strCodigo, strlen(strCodigo));
+                    int resultado = enviar_datos_int("comprobarCodigoEntrada", 1, strCodigo, strlen(strCodigo));
                     if ( resultado== 0) {
                         cout << "Entrada con codigo: '" << strCodigo << "' seleccionada correctamente\n";
                         tipoEntradaSeleccionada();
