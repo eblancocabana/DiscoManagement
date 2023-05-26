@@ -43,6 +43,10 @@ char mostrarListado() {
         printf("%s", r);
         Sleep(300);
     }
+    printf("ANTES");
+    enviar_datos_char("controlF", 0);
+    printf("DESPUES");
+    
 
 
     cout << "\nOpcion reserva:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ";
