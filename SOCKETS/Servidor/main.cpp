@@ -171,6 +171,8 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     char * correo = strtok(NULL, ",");
     char * contra = strtok(NULL, ",");
     int ret = insertarRegistro(nombre, usuario, sexo, edad, correo, contra);
+    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    pos += sizeof(ret);
   } else if (strcmp(nombre_funcion, "insertarEvento") == 0) {
     //Dividir los argumentos en fecha,nombreDisco y descripcionEvento
     char * fecha = strtok(args, ",");
@@ -179,6 +181,10 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     int ret = insertarEvento(fecha, nombreDisco, descripcionEvento);
     memcpy(sendBuff + pos, & ret, sizeof(ret));
     pos += sizeof(ret);
+  } else if (strcmp(nombre_funcion, "mostrarlistadoeventos") == 0) {
+    mostrarlistadoeventos();
+  } else if (strcmp(nombre_funcion, "mostrarFiestas") == 0) {
+    mostrarFiestas();
   }
 
   // Enviar el valor devuelto por la función llamada a través del socket
