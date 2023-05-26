@@ -592,7 +592,6 @@ static int callbackClient(void* socket_fd, int argc, char **argv, char **azColNa
   char buffer[1024];
   int n = 0;
   n += sprintf(buffer + n, "\e[37m\e[1m");
-  printf("ANTEES DEL FOR\n");
   for (i = 0; i < argc; i++) {
     if (i > 0) {
       n += sprintf(buffer + n, " - ");
@@ -602,7 +601,6 @@ static int callbackClient(void* socket_fd, int argc, char **argv, char **azColNa
   printf("DESPUES DEL FOR\n");
   n += sprintf(buffer + n, "\n");
   n += sprintf(buffer + n, "\e[0m");
-  printf("ESTE ES COÑO\n %s", buffer);
   send(*(SOCKET*)socket_fd, buffer, n, 0);
   
   return 0;
