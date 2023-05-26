@@ -1345,6 +1345,14 @@ int insertarReservaLocal(char* codigo, char* fecha, char* nombreDiscoteca, char*
   abrirConexion();
   int aforoFinal = atoi(aforo);
 
+  printf("codigo: %s\n", codigo);
+  printf("fecha: %s\n", fecha);
+  printf("nombreDiscoteca: %s\n", nombreDiscoteca);
+  printf("aforo: %d\n", aforoFinal);
+  printf("numeroTarjeta: %s\n", numeroTarjeta);
+  printf("cvvTarjeta: %s\n", cvvTarjeta);
+  printf("caducidadTarjeta: %s\n", caducidadTarjeta);
+
   char sql_insertReservarLocal[1024];
 
   sprintf(sql_insertReservarLocal, "INSERT INTO reservalocal (codigo, fecha, nombrediscoteca, aforo, numerotarjeta, cvvtarjeta, caducidadtarjeta) VALUES ('%s', '%s', '%s', %d, '%s', '%s', '%s');",
