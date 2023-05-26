@@ -605,6 +605,19 @@ static int callbackClient(void *socket_fd, int argc, char **argv, char **azColNa
   return 0;
 }
 
+static int callback(void *NotUsed, int argc, char **argv, char azColName) {
+  int i;
+  printf("\e[37m\e[1m");
+  for (i = 0; i < argc; i++) {
+    if (i > 0) {
+      printf(" - ");
+    }
+    printf("%s", argv[i] ? argv[i] : "NULL");
+  }
+  printf("\n");
+  printf("\e[0m");
+  return 0;
+}
 
     // COMPROBACION DE EXISTENCIA DE DIFERENTES ELEMENTOS EN LA BASE DE DATOS 
 
@@ -1077,6 +1090,95 @@ void mostrarRRPP(SOCKET socket_fd) {
 
   const char* sentencia = "SELECT * FROM rrpp";
   aper = sqlite3_exec(database, sentencia, callbackClient, 0, &error);
+  
+  if (aper != SQLITE_OK) {
+      fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+      sqlite3_free(error);
+  }
+
+	cerrarConexion(database);
+}
+
+
+
+//ADMIN
+void mostrarLocalesAdmin() {
+  abrirConexion();
+
+  char* error = 0;
+  int aper;
+
+  const char* sentencia = "SELECT * FROM dias_de_fiesta WHERE entradas = 400";
+  aper = sqlite3_exec(database, sentencia, callback, 0, &error);
+
+  if (aper != SQLITE_OK) {
+      fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+      sqlite3_free(error);
+  }
+    
+  cerrarConexion(database);
+}
+
+void mostrarFiestasAdmin() {
+  abrirConexion();
+
+  char* error = 0;
+  int aper;
+
+  const char* sentencia = "SELECT * FROM dias_de_fiesta WHERE entradas > 0";
+  aper = sqlite3_exec(database, sentencia, callback, 0, &error);
+
+  if (aper != SQLITE_OK) {
+      fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+      sqlite3_free(error);
+  }
+  
+  printf("");
+  cerrarConexion(database);
+}
+
+void mostrarlistadoeventosAdmin() {
+	abrirConexion();
+
+  char* error = 0;
+  int aper;
+
+  const char* sentencia = "SELECT * FROM eventos";
+  aper = sqlite3_exec(database, sentencia, callback, 0, &error);
+  
+  if (aper != SQLITE_OK) {
+      fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+      sqlite3_free(error);
+  }
+
+	cerrarConexion(database);
+}
+
+void mostrarDJAdmin() {
+  abrirConexion();
+
+  char* error = 0;
+  int aper;
+
+  const char* sentencia = "SELECT * FROM dj";
+  aper = sqlite3_exec(database, sentencia, callbackClient, 0, &error);
+  
+  if (aper != SQLITE_OK) {
+      fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+      sqlite3_free(error);
+  }
+
+	cerrarConexion(database);
+}
+
+void mostrarRRPPAdmin() {
+  abrirConexion();
+
+  char* error = 0;
+  int aper;
+
+  const char* sentencia = "SELECT * FROM rrpp";
+  aper = sqlite3_exec(database, sentencia, callback, 0, &error);
   
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
