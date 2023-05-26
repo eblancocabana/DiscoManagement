@@ -20,6 +20,10 @@
 
 using namespace std;
 
+int codigoFecha = 0;
+int tipoEntrada = 0;
+double precio = 0;
+
 char introducirTipoEntrada() {
     cout << "\n---------------------------------------------------\n";
     cout << "Tipos de entrada:\n";
@@ -45,26 +49,30 @@ void tipoEntradaSeleccionada() {
         switch (opcionTipoEntrada) {
             case '1':
                 cout << "Ha seleccionado entradas con " << opcionTipoEntrada << " consumicion, con un precio de: " << PRECIO_CONS_1 << " euro\n";
-                //BD
-                enviar_datos("datosCompra", 0);
+                tipoEntrada = 1;
+                precio = 10;
+                datosCompra(codigoFecha, tipoEntrada, precio);
                 break;
 
             case '2':
                 cout << "Ha seleccionado entradas con " << opcionTipoEntrada << " consumiciones, con un precio de: " << PRECIO_CONS_2 << " euro\n";
-                //BD
-                enviar_datos("datosCompra", 0);
+                tipoEntrada = 2;
+                precio = 15;
+                datosCompra(codigoFecha, tipoEntrada, precio);
                 break;
 
             case '3':
                 cout << "Ha seleccionado entradas con " << opcionTipoEntrada << " consumiciones, con un precio de: " << PRECIO_CONS_3 << " euro\n";
-                //BD
-                enviar_datos("datosCompra", 0);
+                tipoEntrada = 3;
+                precio = 20;
+                datosCompra(codigoFecha, tipoEntrada, precio);
                 break;
 
             case '4':
                 cout << "Ha seleccionado entradas para reservado, con un precio de: " << PRECIO_RES << " euro\n";
-                //BD
-                enviar_datos("datosCompra", 0);
+                tipoEntrada = 4;
+                precio = 25;
+                datosCompra(codigoFecha, tipoEntrada, precio);
                 break;
         }
     } while (opcionTipoEntrada != '0');
@@ -119,10 +127,12 @@ void menuListadoDiasDisponibles() {
                     sscanf(inputCod, "%d", &codigo);
                     //BD
                     //cod = limpiarInput(inputCod);
+                    enviar_datos("limpiarInput", 1, &inputCod, sizeof(inputCod));
+                    cod = recibir_datos<char*>();
 
                     errno = 0;
-                    long int num = strtol(cod, &type, 10);
-
+                    long int num = strtol(cod, &type, 10); //CodigoFecha
+                    codigoFecha = num;
                     if (errno != 0 || *type != '\0') {
                         cout << "'" << cod << "' no es una entrada valida\n";
                     }
@@ -140,7 +150,6 @@ void menuListadoDiasDisponibles() {
                     if ( resultado== 0) {
                         cout << "Entrada con codigo: '" << strCodigo << "' seleccionada correctamente\n";
                         tipoEntradaSeleccionada();
-                        //BD
                     } else if ( resultado== -1) {
                         cout << "El codigo de entrada seleccionado no existe\nOperacion cancelada\n";
 
@@ -153,13 +162,10 @@ void menuListadoDiasDisponibles() {
                     sprintf(auxCodigo, "%d", codigo);
                     //BD
                     enviar_datos("comprobarCodigoEntrada", 1, auxCodigo, strlen(auxCodigo));
-                    
                     int resultado = recibir_datos<int>();
                     if (resultado== 0) {
                         cout << "Entrada con codigo: '" << auxCodigo << "' seleccionada correctamente\n";
                         tipoEntradaSeleccionada();
-                        //BD
-                    
                     } else if ( resultado== -1) {
                         cout << "El codigo de entrada seleccionado no existe\nOperacion cancelada\n";
 
