@@ -117,8 +117,9 @@ int menuServidor() {
     opcionMenu = mostrarMenuServidor();
     switch (opcionMenu) {
     case '1':
-      cout << "\nLa Base De Datos se ha reiniciado con los valores de fabrica correctamente\n";
       reiniciarBD();
+      cout << "\nLa Base De Datos se ha reiniciado con los valores de fabrica correctamente\n";
+      
       break;
 
     case '2':
@@ -150,9 +151,11 @@ int menuServidor() {
                 strcpy(eventoFinal, evento);
                 insertarDiaFiesta(fecha, nomDiscoteca, eventoFinal);
           cout << "Fiesta introducida correctamente en La Base De Datos\n";
+
         } else {
           cout << "Formato de fecha incorrecto\nOperacion cancelada\n";
         }
+        
       } else if (existeFecha == 0) {
         cout << "\nLa fecha introducida ya esta ocupada\nOperacion cancelada\n";
       } else {

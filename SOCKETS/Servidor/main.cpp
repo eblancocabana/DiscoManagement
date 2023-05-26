@@ -34,6 +34,15 @@ extern "C" {
 
 using namespace std;
 
+//Para ejecutar el "servidor.exe"
+
+//gcc -c basedatos/baseDatos.c -o bd.o         CREAR .O DE LOS C
+//gcc -c basedatos/sqlite/sqlite3.c -o sqlite.o         CREAR .O DE LOS C
+//g++ -c administrador/inicio_servidor.cpp -o inicio.o         CREAR .O DE LOS C++
+//g++ -c main.cpp -o main.o         CREAR .O DE LOS C++
+
+//g++ main.o inicio.o sqlite.o bd.o -o servidor.exe -lWs2_32        EJECUTAR EL ARCHIVO
+
 void iniciarSesion() {
     int existe = 1;
     char input[MAX_REGISTRO];
