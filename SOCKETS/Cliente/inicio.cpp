@@ -18,7 +18,7 @@
 #include "seleccion_entradas.h"
 
 #include "enviar_datos.h"
-
+#include <string>
 
 using namespace std;
 
