@@ -1,11 +1,14 @@
 #ifndef _BASEDATOS_
 #define _BASEDATOS_
+
 #include "sqlite/sqlite3.h"
 #include "../estructuras/reservarlocal_est.h"
 #include "../estructuras/entrada_est.h"
 #include <winsock2.h>
+
 #pragma comment(lib, "Ws2_32.lib")
 extern SOCKET comm_socket;
+
 int dbExiste(const char* fichero);
 int reiniciarBD();
 int verificarFecha(char* fecha);
