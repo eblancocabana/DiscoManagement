@@ -5,6 +5,7 @@
 //#include "basedatos/baseDatos.h"
 #include "inicio.h"
 #include "enviar_datos.h"
+#include "clases/entrada.h"
 
 
 #define MAX_SELECCION 5
@@ -33,6 +34,8 @@ char* numTarjeta;
 char* cvvTar;
 char* caducidadTar;
 int tipoEntradas;
+const char* entradaCat;
+int longitud;
 double precios;
 
 char mostrarDatosCompra(){
@@ -59,7 +62,7 @@ int introducirNumEntradas(){
 }
 
 char* introducirNombreCompleto(){
-    cout << "\tIntroduce tu nombre completo: ";
+    cout << "\tIntroduce tu nombre de usuario: ";
 
     char* inputNombreCompleto = new char[MAX_NOMBRE];
     cin.getline(inputNombreCompleto, MAX_NOMBRE);
@@ -232,6 +235,24 @@ void confirmarCompra(){
         switch (opcionConfirmarCompra) {
             case '1':
                 cout << "\nEL PAGO HA SIDO CONFIRMADO\n"; // bd
+                fecha_ent = enviar_datos_char("buscarFechaConCodidoFecha", 1, codigoFecha_ent);
+                nomDiscoteca = enviar_datos_char("buscarDiscotecaConCodigoFecha", 1, codigoFecha_ent);
+                char* entradaCatFin;
+                if (tipoEntradas == 1) {
+                    entradaCat = "Una consumicion";
+                } else if (tipoEntradas == 2) {
+                    entradaCat = "Dos consumicion";
+                } else if (tipoEntradas == 3) {
+                    entradaCat = "Tres consumicion";
+                } else {
+                    entradaCat = "Reservado";
+                }
+                longitud = strlen(entradaCat)+1;
+                entradaCatFin = new char[longitud];
+                strcpy(entradaCatFin, entradaCat);
+                
+                Entrada* e = new Entrada(codigoFecha_ent, fecha_ent, nomDiscoteca, numEntradas, gmail, numTarjeta, cvvTar, caducidadTar, entradaCatFin, precios, nombreCompleto);
+                
                 opcionDatosCompra = '0';
                 opcionPagoEntrada = '0';
                 opcionConfirmarPago = '0';

@@ -5,6 +5,7 @@
 #include <istream>
 #include "enviar_datos.h"
 #include <cstring>
+#include "clases/reservalocal.h"
 
 
 #define MAX_SELECCION 5
@@ -25,7 +26,7 @@ char opcionConfirmarReserva;
 int codLocal;
 char* fecha_loc;
 char* nombreDiscoteca;
-const char* aforo = "400";
+int aforo = 400;
 char numeroTarjeta[MAX_NUMERO_TARJETA];
 char cvvTarjeta[MAX_CVV];
 char caducidadTarjeta[MAX_CADUCIDAD];
@@ -153,6 +154,10 @@ void confirmarReserva() {
         switch (opcionConfirmarReserva) {
         case '1':
             cout << "\nEL PAGO HA SIDO CONFIRMADO"; //bd
+            fecha_loc = enviar_datos_char("buscarFechaConCodidoFecha", 1, codLocal);
+            nombreDiscoteca = enviar_datos_char("buscarDiscotecaConCodigoFecha", 1, codLocal);
+            ReservaLocal* rl = new ReservaLocal(codLocal, fecha_loc, nombreDiscoteca, aforo, numeroTarjeta, cvvTarjeta, caducidadTarjeta);
+
             menu();
             opcionConfirmarReserva = '0';
             opcionPagoReserva = '0';
