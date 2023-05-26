@@ -586,25 +586,26 @@ void clearIfNeeded(char * str, int max_line) {
 }
 
     // FUNCION PARA IMPRIMIR POR CONSOLA LOS ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS
-typedef struct {
-    SOCKET socket_fd;
-    char buffer[1024];
-    int n;
-} CallbackData;
 
-static int callbackClient(void* data, int argc, char **argv, char **azColName) {
-    CallbackData* callbackData = (CallbackData*)data;
-    int i;
-    callbackData->n += sprintf(callbackData->buffer + callbackData->n, "\e[37m\e[1m");
-    for (i = 0; i < argc; i++) {
-        if (i > 0) {
-            callbackData->n += sprintf(callbackData->buffer + callbackData->n, " - ");
-        }
-        callbackData->n += sprintf(callbackData->buffer + callbackData->n, "%s", argv[i] ? argv[i] : "NULL");
+static int callbackClient(void* socket_fd, int argc, char **argv, char **azColName) {
+  int i;
+  char buffer[1024];
+  int n = 0;
+  n += sprintf(buffer + n, "\e[37m\e[1m");
+  printf("ANTEES DEL FOR\n");
+  for (i = 0; i < argc; i++) {
+    if (i > 0) {
+      n += sprintf(buffer + n, " - ");
     }
-    callbackData->n += sprintf(callbackData->buffer + callbackData->n, "\n");
-    callbackData->n += sprintf(callbackData->buffer + callbackData->n, "\e[0m");
-    return 0;
+    n += sprintf(buffer + n, "%s", argv[i] ? argv[i] : "NULL");
+  }
+  printf("DESPUES DEL FOR\n");
+  n += sprintf(buffer + n, "\n");
+  n += sprintf(buffer + n, "\e[0m");
+  printf("ESTE ES COÑO\n %s", buffer);
+  send(*(SOCKET*)socket_fd, buffer, n, 0);
+  
+  return 0;
 }
 
 
@@ -1033,24 +1034,25 @@ int comprobarEntrada(char* codigo) {
     // CARGAR/MOSTRAR ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS CLIENTE
  
 void mostrarLocales(SOCKET socket_fd) {
-    abrirConexion();
-    CallbackData data = {socket_fd};
-    char* error = 0;
-    int aper;
-    const char* sentencia = "SELECT * FROM dias_de_fiesta WHERE entradas = 400";
-    aper = sqlite3_exec(database, sentencia, callbackClient, &data, &error);
-    if (aper != SQLITE_OK) {
-        fprintf(stderr, "Error en la consulta SQL: %s\n", error);
-        sqlite3_free(error);
-    } else {
-        send(data.socket_fd, data.buffer, data.n, 0);
-    }
-    cerrarConexion(database);
+  abrirConexion();
+
+  char* error = 0;
+  int aper;
+
+  const char* sentencia = "SELECT * FROM dias_de_fiesta WHERE entradas = 400";
+  aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&socket_fd, &error);
+
+  if (aper != SQLITE_OK) {
+      fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+      sqlite3_free(error);
+  }
+    
+  cerrarConexion(database);
 }
 
 void mostrarFiestas(SOCKET socket_fd) {
   abrirConexion();
-  printf("HOLA");
+
   char* error = 0;
   int aper;
 
@@ -1315,19 +1317,22 @@ int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento) {
 
     // INSERTAR DATOS DE COMPRA A LA BASE DE DATOS
 
-int insertarEntrada(int codigoFecha, char* fechaEntrada, char* nombreDiscoteca, int numeroEntradas, char* cuentaGmail, char* numeroTarjetaCredito, char* cvvTarjeta, char* caducidadTarjeta, char* tipoEntrada, double precio, char* usuario) {
+int insertarEntrada(char* codigoFecha, char* fechaEntrada, char* nombreDiscoteca, char* numeroEntradas, char* cuentaGmail, char* numeroTarjetaCredito, char* cvvTarjeta, char* caducidadTarjeta, char* tipoEntrada, char* precio, char* usuario) {
 
   abrirConexion();
   char lineEntrada[1024];
+  int codigoFechaFinal = atoi(codigoFecha);
+  int numeroEntradasFianl = atoi(numeroEntradas);
+  float precioFinal = stof(precio);
 
   sscanf(lineEntrada, "%d, '%[^','], '%[^','], %d, '%[^','], '%[^','], '%[^','], '%[^','], '%[^','], %lf, '%[^',']",
-        &codigoFecha, fechaEntrada, nombreDiscoteca, &numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta,
-        caducidadTarjeta, tipoEntrada, &precio, usuario);
+        &codigoFechaFinal, fechaEntrada, nombreDiscoteca, &numeroEntradasFianl, cuentaGmail, numeroTarjetaCredito, cvvTarjeta,
+        caducidadTarjeta, tipoEntrada, &precioFinal, usuario);
 
   char sql_insertEntrada[1024];
 
   sprintf(sql_insertEntrada, "INSERT INTO entradas (codigoFecha, fechaEntrada, nombreDiscoteca, numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta, caducidadTarjeta, tipoEntrada, precio, nombreUsuario) VALUES (%d, '%s', '%s', %d, '%s', '%s', '%s', '%s', '%s', %f, '%s');",
-        codigoFecha, fechaEntrada, nombreDiscoteca, numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta,
+        codigoFechaFinal, fechaEntrada, nombreDiscoteca, numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta,
         caducidadTarjeta, tipoEntrada, &precio, usuario);
 
   aperturaInsert = sqlite3_exec(database, sql_insertEntrada, 0, 0, &mensajeError);
@@ -1350,14 +1355,15 @@ int insertarReservaLocal(char* codigo, char* fecha, char* nombreDiscoteca, char*
 
   abrirConexion();
   char lineReservarLocal[500];
+  int aforoFinal = atoi(aforo);
 
-  sscanf(lineReservarLocal, "%[^','], %[^','], %[^','], %[^','], %[^','], %[^','], %[^',']",
-    &codigo, fecha, nombreDiscoteca, &aforo, numeroTarjeta, cvvTarjeta,caducidadTarjeta);
+  sscanf(lineReservarLocal, "%[^','], %[^','], %[^','], %d, %[^','], %[^','], %[^',']",
+    &codigo, fecha, nombreDiscoteca, &aforoFinal, numeroTarjeta, cvvTarjeta,caducidadTarjeta);
 
   char sql_insertReservarLocal[1024];
 
-  sprintf(sql_insertReservarLocal, "INSERT INTO reservalocal (codigo, fecha, nombrediscoteca, aforo, numerotarjeta, cvvtarjeta, caducidadtarjeta) VALUES ('%s', '%s', '%s', %s, '%s', '%s', '%s');",
-    codigo, fecha, nombreDiscoteca, aforo, numeroTarjeta, cvvTarjeta,caducidadTarjeta);
+  sprintf(sql_insertReservarLocal, "INSERT INTO reservalocal (codigo, fecha, nombrediscoteca, aforo, numerotarjeta, cvvtarjeta, caducidadtarjeta) VALUES ('%s', '%s', '%s', %d, '%s', '%s', '%s');",
+    codigo, fecha, nombreDiscoteca, aforoFinal, numeroTarjeta, cvvTarjeta,caducidadTarjeta);
 
   aperturaInsert = sqlite3_exec(database, sql_insertReservarLocal, 0, 0, &mensajeError);
 

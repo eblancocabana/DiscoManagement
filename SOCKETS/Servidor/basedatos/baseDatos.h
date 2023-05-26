@@ -59,9 +59,8 @@ void mostrarLocalesAdmin();
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp);
 int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* correo, char* contra);
 int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento);
-int insertarEntrada(int codigoFecha, char* fechaEntrada, char* nombreDiscoteca, int numeroEntradas, char* cuentaGmail, char* numeroTarjetaCredito, char* cvvTarjeta, char* caducidadTarjeta, char* tipoEntrada, double precio, char* usuario);
+int insertarEntrada(char* codigoFecha, char* fechaEntrada, char* nombreDiscoteca, char* numeroEntradas, char* cuentaGmail, char* numeroTarjetaCredito, char* cvvTarjeta, char* caducidadTarjeta, char* tipoEntrada, char* precio, char* usuario);
 int insertarReservaLocal(char* codigo, char* fecha, char* nombreDiscoteca, char* aforo, char* numeroTarjeta, char* cvvTarjeta, char* caducidadTarjeta);
-
 int buscarUltimoCodigo();
 char* buscarFechaConCodigoFecha(int codigoFecha);
 char* buscarDiscotecaConCodigoFecha(int codigoFecha);
