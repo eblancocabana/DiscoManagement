@@ -7,6 +7,6 @@ typedef struct {
     char* nombre_discoteca;
     int aforo;
 
-} Evento;
+} EventoEst;
 
 #endif

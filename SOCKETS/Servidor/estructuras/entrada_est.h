@@ -14,6 +14,6 @@ typedef struct {
     double precio;
     char* usuario;
 
-} Entrada;
+} EntradaEst;
 
 #endif

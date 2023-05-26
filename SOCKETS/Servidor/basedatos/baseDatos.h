@@ -1,8 +1,8 @@
 #ifndef _BASEDATOS_
 #define _BASEDATOS_
 #include "sqlite/sqlite3.h"
-#include "../clases/entrada.h"
-#include "../clases/reservalocal.h"
+#include "../estructuras/reservarlocal_est.h"
+#include "../estructuras/entrada_est.h"
 
 int dbExiste(const char* fichero);
 int reiniciarBD();
@@ -44,8 +44,8 @@ void mostrarLocales();
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp);
 int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* correo, char* contra);
 int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento);
-int insertarEntrada(Entrada entradaInsertar);
-int insertarReservaLocal(ReservaLocal reservarLocalInsertar);
+int insertarEntrada(EntradaEst entradaInsertar);
+int insertarReservaLocal(ReservaLocalEst reservarLocalInsertar);
 
 int buscarUltimoCodigo(int evento);
 

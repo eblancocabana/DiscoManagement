@@ -10,6 +10,6 @@ typedef struct {
     char* cvvTarjeta;
     char* caducidadTarjeta;
 
-} ReservaLocal;
+} ReservaLocalEst;
 
 #endif

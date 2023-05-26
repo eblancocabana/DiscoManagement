@@ -7,9 +7,9 @@
 extern "C" {
     #include "../basedatos/sqlite/sqlite3.h"
     #include "../basedatos/baseDatos.h"
+    #include "../estructuras/entrada_est.h"
     }
 
-#include "../clases/entrada.h"
 #include "inicio_servidor.h"
 
 #define MAX_SELECCION 5

@@ -3,8 +3,8 @@
 #include <string.h>
 #include "sqlite/sqlite3.h"
 #include "baseDatos.h"
-#include "../clases/entrada.h"
-#include "../clases/reservalocal.h"
+#include "../estructuras/reservarlocal_est.h"
+#include "../estructuras/entrada_est.h"
 
 #define MAX_REGISTRO 20
 #define MAX_LOGIN 15
@@ -1253,12 +1253,12 @@ int buscarUltimoCodigo(int eventoBool) {
 }
       //  METODOS DE C++
 
-  int insertarEntrada(Entrada entradaInsertar) {
+  int insertarEntrada(EntradaEst entradaInsertar) {
 
     // Construir la sentencia INSERT
     char sentenciaEntradaInsert[500];
     sprintf(sentenciaEntradaInsert, "INSERT INTO entradas (codigoFecha, fechaEntrada, nombreDiscoteca, numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta, caducidadTarjeta, tipoEntrada, precio, nombreUsuario) VALUES (%d, '%s', '%s', %d, '%s', '%s', '%s', '%s', '%s', %f, '%s');",
-            entradaInsertar.getCodigoFecha(), entradaInsertar.getFechaEntrada(), entradaInsertar.getNombreDiscoteca(), entradaInsertar.getNumeroEntradas(), entradaInsertar.getCuentaGmail(), entradaInsertar.getNumeroTarjetaCredito(), entradaInsertar.getCvvTarjeta(), entradaInsertar.getCaducidadTarjeta(), entradaInsertar.getTipoEntrada(), entradaInsertar.getPrecio(), entradaInsertar.getUsuario());
+            entradaInsertar.codigoFecha, entradaInsertar.fechaEntrada, entradaInsertar.nombreDiscoteca, entradaInsertar.numeroEntradas, entradaInsertar.cuentaGmail, entradaInsertar.numeroTarjetaCredito, entradaInsertar.cvvTarjeta, entradaInsertar.caducidadTarjeta, entradaInsertar.tipoEntrada, entradaInsertar.precio, entradaInsertar.usuario);
 
     // Ejecutar la sentencia INSERT
     aperturaInsert = sqlite3_exec(database, sentenciaEntradaInsert, 0, 0, &mensajeError);
@@ -1273,11 +1273,11 @@ int buscarUltimoCodigo(int eventoBool) {
     return 0;
   }
 
-  int insertarReservaLocal(ReservaLocal reservarLocalInsertar) {
+  int insertarReservaLocal(ReservaLocalEst reservarLocalInsertar) {
     // Construir la sentencia INSERT
     char sentenciaReservarLocalInsert[500];
     sprintf(sentenciaReservarLocalInsert, "INSERT INTO reservalocal (codigo, fecha, nombrediscoteca, aforo, numerotarjeta, cvvtarjeta, caducidadtarjeta) VALUES ('%s', '%s', '%s', %d, '%s', '%s', '%s');",
-            reservarLocalInsertar.getCodigo(), reservarLocalInsertar.getFecha(), reservarLocalInsertar.getNombreDiscoteca(), reservarLocalInsertar.getAforo(), reservarLocalInsertar.getNumeroTarjeta(), reservarLocalInsertar.getCvvTarjeta(), reservarLocalInsertar.getCaducidadTarjeta());
+            reservarLocalInsertar.codigo, reservarLocalInsertar.fecha, reservarLocalInsertar.nombreDiscoteca, reservarLocalInsertar.aforo, reservarLocalInsertar.numeroTarjeta, reservarLocalInsertar.cvvTarjeta, reservarLocalInsertar.caducidadTarjeta);
 
     // Ejecutar la sentencia INSERT
     aperturaInsert = sqlite3_exec(database, sentenciaReservarLocalInsert, 0, 0, &mensajeError);
