@@ -6,7 +6,9 @@
 #include "enviar_datos.h"
 #include <cstring>
 #include "clases/reservalocal.h"
+#include <string>
 #include <windows.h>
+#include <cstring>
 
 #define MAX_SELECCION 5
 #define MAX_NOMBRE_DISCOTECA 20
@@ -16,7 +18,6 @@
 #define MAX_NUMERO_TARJETA 25
 #define MAX_CVV 5
 #define MAX_CADUCIDAD 10
-#include <cstring>
 
 using namespace std;
 
@@ -36,7 +37,7 @@ char* r;
 char mostrarListado() {
     cout << "\nListado de dias disponible: (codigo - fecha - nombre discoteca - aforo - evento?)\n\n";
     //BD
-    r=enviar_datos_char("mostrarLocales", 0);
+   r=enviar_datos_char("mostrarLocales", 0);
     while (strcmp(r, "control") != 0) {
         r = enviar_datos_char("print", 0);
         printf("%s", r);
@@ -46,6 +47,8 @@ char mostrarListado() {
     enviar_datos_char("controlF", 0);
     printf("DESPUES");
     
+
+
     cout << "\nOpcion reserva:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ";
 
     char inputReservaLocal[MAX_SELECCION];
@@ -102,7 +105,7 @@ void reservarLocal() {
             //BD
             existe = enviar_datos_int("comprobarCodigoLocal", 1, auxCodigo, strlen(auxCodigo));
             
-            if (existe == 0) {
+            if (existe == 1) {
                 cout << "Local con codigo: '" << auxCodigo << "' seleccionada correctamente\n";
                 pagarReserva();
             } else if ( existe == -1) {
@@ -167,9 +170,9 @@ char* introducirCaduTarjeta() {
 
 
 void pagarReserva() {
-    char numeroTarjeta[MAX_NUMERO_TARJETA];
-    char cvvTarjeta[MAX_CVV];
-    char caducidadTarjeta[MAX_CADUCIDAD];
+    //char numeroTarjeta[MAX_NUMERO_TARJETA];
+    //char cvvTarjeta[MAX_CVV];
+    //char caducidadTarjeta[MAX_CADUCIDAD];
 
     do {
         opcionPagoReserva = mostrarPagarReserva();
@@ -178,9 +181,9 @@ void pagarReserva() {
             cout << "\n---------------------------------------------------\n";
             cout << "Introducir datos de la tarjeta";
 
-            strcpy(numeroTarjeta,introducirNumeroTarjeta());
-            strcpy(cvvTarjeta,introducirCVVTarjeta());
-            strcpy(caducidadTarjeta,introducirCaduTarjeta());
+            strcpy(numeroTarjeta, introducirNumeroTarjeta());
+            strcpy(cvvTarjeta, introducirCVVTarjeta());
+            strcpy(caducidadTarjeta, introducirCaduTarjeta());
 
             confirmarReserva();
             break;
@@ -195,30 +198,28 @@ void confirmarReserva() {
         opcionConfirmarReserva = confirmarPagoReserva();
         switch (opcionConfirmarReserva) {
         case '1':
-            cout << "\nEL PAGO HA SIDO CONFIRMADO"; //bd
-            fecha_loc = enviar_datos_char("buscarFechaConCodidoFecha", 1, codLocal);
-            nombreDiscoteca = enviar_datos_char("buscarDiscotecaConCodigoFecha", 1, codLocal);
-            struct ReservaLocal {
-                    int codigo;
-                    char* fecha;
-                    char* nomDiscoteca;
-                    int numPersonas;
-                    char* numTarjeta;
-                    char* cvvTar;
-                    char* caducidadTar;
-    
-                    ReservaLocal(int codigo, char* fecha, char* nomDiscoteca, int numPersonas,
-                        char* numTarjeta, char* cvvTar, char* caducidadTar);
+            cout << "\nEL PAGO HA SIDO CONFIRMADO\n"; //bd
+            const char* codigo_aux = (std::to_string(codLocal)).c_str();
+            fecha_loc = enviar_datos_char("buscarFechaConCodidoFecha", 1, codigo_aux, strlen(codigo_aux)+1);
+            nombreDiscoteca = enviar_datos_char("buscarDiscotecaConCodigoFecha", 1, codigo_aux, strlen(codigo_aux)+1);
+            const char* aforo_aux = (std::to_string(aforo)).c_str();
 
-                    ReservaLocal* rl = new ReservaLocal(codLocal, fecha_loc, nombreDiscoteca, aforo, numeroTarjeta, cvvTarjeta, caducidadTarjeta);
-                };
-            
+            printf("%s\n", codigo_aux);
+            printf("%s\n", fecha_loc);
+            printf("%s\n", nombreDiscoteca);
+            printf("%s\n", aforo_aux);
+            printf("%s\n", numeroTarjeta);
+            printf("%s\n", cvvTarjeta);
+            printf("%s\n", caducidadTarjeta);
+
+            int resultado = enviar_datos_int("insertarReservaLocal", 7, codigo_aux, strlen(codigo_aux)+1, fecha_loc, strlen(fecha_loc)+1, nombreDiscoteca, strlen(nombreDiscoteca)+1, aforo_aux, strlen(aforo_aux)+1, numeroTarjeta, strlen(numeroTarjeta)+1, cvvTarjeta, strlen(cvvTarjeta)+1, caducidadTarjeta, strlen(caducidadTarjeta)+1);
 
             menu();
             opcionConfirmarReserva = '0';
             opcionPagoReserva = '0';
             opcionReserva = '0';
             break;
+
         }
     } while (opcionConfirmarReserva != '0');
 }

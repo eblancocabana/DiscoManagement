@@ -145,8 +145,11 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, ret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "comprobarCodigoLocal") == 0) {
-    int ret = comprobarCodigoLocal(args);
-    const char * rret = (std::to_string(ret)).c_str();
+    char* cod = strtok(args, ",");
+    printf("%s\n", cod);
+    int ret = comprobarCodigoLocal(cod);
+    printf("%i\n", ret);
+    const char* rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
@@ -232,15 +235,22 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     pos += size;
   } else if (strcmp(nombre_funcion, "insertarReservaLocal") == 0) {
     //Dividir los argumentos en codigo_aux, fecha_loc, aforo, numeroTarjeta, cvvTarjeta, caducidadTarjeta
-    char * codigo_aux = strtok(args, ",");
-    char * fecha_loc = strtok(NULL, ",");
-    char * nombreDiscotec = strtok(NULL, ",");
-    char * aforo = strtok(NULL, ",");
-    char * numeroTarjeta = strtok(args, ",");
-    char * cvvTarjeta = strtok(NULL, ",");
-    char * caducidadTarjeta = strtok(NULL, ",");
-    int ret = insertarReservaLocal(codigo_aux, fecha_loc, nombreDiscotec, aforo, numeroTarjeta, cvvTarjeta, caducidadTarjeta);
-    const char * rret = (std::to_string(ret)).c_str();
+    char* codigo_aux = strtok(args, ",");
+    printf("%s\n", codigo_aux);
+    char* fecha_loc = strtok(NULL, ",");
+    printf("%s\n", fecha_loc);
+    char* nombreDiscoteca = strtok(NULL, ",");
+    printf("%s\n", nombreDiscoteca);
+    char* aforo = strtok(NULL, ",");
+    printf("%s\n", aforo);
+    char* numeroTarjeta = strtok(args, ",");
+    printf("%s\n", numeroTarjeta);
+    char* cvvTarjeta = strtok(NULL, ",");
+    printf("%s\n", cvvTarjeta);
+    char* caducidadTarjeta = strtok(NULL, ",");
+    printf("%s\n", caducidadTarjeta);
+    int ret = insertarReservaLocal(codigo_aux, fecha_loc, nombreDiscoteca, aforo, numeroTarjeta, cvvTarjeta, caducidadTarjeta);
+    const char* rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
@@ -270,10 +280,18 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, "control", sizeof("control"));
     size_t size = sizeof("control") + 1;
     pos += sizeof("control");
-  } else {
-    printf("CULOPENE");
-    send(comm_socket, sendBuff, 0, 0);
-    return;
+  } else if (strcmp(nombre_funcion, "buscarFechaConCodidoFecha") == 0) {
+    char* ret = buscarFechaConCodigoFecha(args);
+    printf("Sending %s through socket\n", ret);
+    size_t size = sizeof(ret) + 1;
+    memcpy(sendBuff + pos, ret, size);
+    pos += size;
+  } else if (strcmp(nombre_funcion, "buscarDiscotecaConCodigoFecha") == 0) {
+    char* ret = buscarDiscotecaConCodigoFecha(args);
+    printf("Sending %s through socket\n", ret);
+    size_t size = sizeof(ret) + 1;
+    memcpy(sendBuff + pos, ret, size);
+    pos += size;
   }
   printf("ESTEEE:%s,|%d", sendBuff, sendBuff);
   printf("Sending %.*s through socket\n", pos, sendBuff);

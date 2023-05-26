@@ -792,61 +792,54 @@ int comprobarUsuario(char* usuario) {
 int comprobarCodigoLocal(char* cod) {
   int longitud = strlen(cod);
   if (longitud > 0 && cod[longitud - 1] == ',') {
-      cod[longitud - 1] = '\0';
+    cod[longitud - 1] = '\0';
   }
 
+  abrirConexion();
   sqlite3_stmt * statement;
   int busqueda = 0;
-  abrirConexion();
 
   const char* sentencia = "SELECT codigo FROM dias_de_fiesta WHERE codigo = ? AND entradas = 400";
 
   if (gestionarError(database) != SQLITE_OK) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
+    cerrarConexion(database);
+    return 0;
+  }
+
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, &statement, NULL);
+
+  if (busqueda != SQLITE_OK) {
+    printf("Error al preparar la consulta: %s\n", gestionarError(database));
+    gestionarFree(mensajeError);
+    cerrarConexion(database);
+    return 0;
   }
 
   sqlite3_bind_text(statement, 1, cod, strlen(cod), SQLITE_STATIC);
-  //sqlite3_bind_int(statement, 1, cod);
-  
-  if (busqueda != SQLITE_OK) {
-    printf("Error al ejecutar la sentencia: %s\n", gestionarError(database));
-    gestionarFree(mensajeError);
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-    return 0;
-  }
-
   busqueda = sqlite3_step(statement);
-
-  if (mensajeError != NULL) {
-    gestionarFree(mensajeError);
-    fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
-    cerrarConexion(database);
-    return 0;
-  }
 
   if (busqueda == SQLITE_ROW) {
     printf("\nCODIGO ENCONTRADO\n");
     sqlite3_finalize(statement);
     cerrarConexion(database);
-    return 1;
 
-  } else if (busqueda != SQLITE_OK) {
+    return 1;
+  } else if (busqueda != SQLITE_DONE) {
     fprintf(stderr, "Error en la consulta: %s\n", gestionarError(database));
+
     gestionarFree(mensajeError);
     sqlite3_finalize(statement);
     cerrarConexion(database);
-    return 0;
 
+    return 0;
   } else {
     printf("No se ha encontrado el codigo\n");
     sqlite3_finalize(statement);
     cerrarConexion(database);
+
     return 0;
   }
-
-  cerrarConexion(database);
-  return 0;
 }
 
 int comprobarCodigoRRPP(char* cod) {
@@ -855,9 +848,9 @@ int comprobarCodigoRRPP(char* cod) {
       cod[longitud - 1] = '\0';
   }
 
+  abrirConexion();
   sqlite3_stmt * statement;
   int busqueda = 0;
-  abrirConexion();
 
   const char* sentencia = "SELECT codigo FROM rrpp WHERE codigo = ?";
 
@@ -865,9 +858,7 @@ int comprobarCodigoRRPP(char* cod) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
 
-  busqueda = sqlite3_prepare_v2(database, sentencia, -1, &statement, 0);
-  sqlite3_bind_text(statement, 1, cod, strlen(cod), SQLITE_STATIC);
-  //sqlite3_bind_int(statement, 1, cod);
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, &statement, NULL);
   
   if (busqueda != SQLITE_OK) {
     printf("Error al ejecutar la sentencia: %s\n", gestionarError(database));
@@ -877,6 +868,7 @@ int comprobarCodigoRRPP(char* cod) {
     return 0;
   }
 
+  sqlite3_bind_text(statement, 1, cod, strlen(cod), SQLITE_STATIC);
   busqueda = sqlite3_step(statement);
 
   if (mensajeError != NULL) {
@@ -928,9 +920,7 @@ int comprobarFecha(char* fecha, int evento) {
     sentencia = "SELECT fecha FROM dias_de_fiesta WHERE fecha = ?;";
   }
 
-  busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
-
-  sqlite3_bind_text(statement, 1, fecha, strlen(fecha), SQLITE_STATIC);
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, NULL);
 
   if (busqueda != SQLITE_OK) {
     printf("Error en la consulta: %s\n", gestionarError(database));
@@ -940,6 +930,7 @@ int comprobarFecha(char* fecha, int evento) {
     return 1;
   }
 
+  sqlite3_bind_text(statement, 1, fecha, strlen(fecha), SQLITE_STATIC);
   busqueda = sqlite3_step(statement);
 
   if (mensajeError != NULL) {
@@ -971,25 +962,24 @@ int comprobarFecha(char* fecha, int evento) {
 }    
 
 int comprobarEntrada(char* codigo) {
+
   int longitud = strlen(codigo);
   if (longitud > 0 && codigo[longitud - 1] == ',') {
       codigo[longitud - 1] = '\0';
   }
 
+  abrirConexion();
   sqlite3_stmt * statement;
   char * mensajeError = 0;
   int apertura = 0;
   int busqueda = 0;
 
-  abrirConexion();
+  const char* sentencia = "SELECT entradas FROM dias_de_fiesta WHERE codigo = ?";
+
   if (gestionarError(database) != SQLITE_OK) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
-
-  const char* sentencia = "SELECT entradas FROM dias_de_fiesta WHERE codigo = ?";
   busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
-
-  sqlite3_bind_text(statement, 1, codigo, strlen(codigo), SQLITE_STATIC);
 
   if (busqueda != SQLITE_OK) {
     printf("Error en la consulta: %s\n", gestionarError(database));
@@ -999,6 +989,7 @@ int comprobarEntrada(char* codigo) {
     return 1;
   }
 
+  sqlite3_bind_text(statement, 1, codigo, strlen(codigo), SQLITE_STATIC);
   busqueda = sqlite3_step(statement);
 
   if (mensajeError != NULL) {
@@ -1352,16 +1343,12 @@ int insertarEntrada(char* codigoFecha, char* fechaEntrada, char* nombreDiscoteca
 int insertarReservaLocal(char* codigo, char* fecha, char* nombreDiscoteca, char* aforo, char* numeroTarjeta, char* cvvTarjeta, char* caducidadTarjeta) {
 
   abrirConexion();
-  char lineReservarLocal[500];
   int aforoFinal = atoi(aforo);
-
-  sscanf(lineReservarLocal, "%[^','], %[^','], %[^','], %d, %[^','], %[^','], %[^',']",
-    &codigo, fecha, nombreDiscoteca, &aforoFinal, numeroTarjeta, cvvTarjeta,caducidadTarjeta);
 
   char sql_insertReservarLocal[1024];
 
   sprintf(sql_insertReservarLocal, "INSERT INTO reservalocal (codigo, fecha, nombrediscoteca, aforo, numerotarjeta, cvvtarjeta, caducidadtarjeta) VALUES ('%s', '%s', '%s', %d, '%s', '%s', '%s');",
-    codigo, fecha, nombreDiscoteca, aforoFinal, numeroTarjeta, cvvTarjeta,caducidadTarjeta);
+    codigo, fecha, nombreDiscoteca, aforoFinal, numeroTarjeta, cvvTarjeta, caducidadTarjeta);
 
   aperturaInsert = sqlite3_exec(database, sql_insertReservarLocal, 0, 0, &mensajeError);
 
@@ -1369,12 +1356,12 @@ int insertarReservaLocal(char* codigo, char* fecha, char* nombreDiscoteca, char*
     gestionarFree(mensajeError);
     //gestionarError(database);
     gestionarFree(errorMessage);
- 
+
     cerrarConexion(database);
     return 1;
   }
 
-//printf("\nInsertado\n");
+  //printf("\nInsertado\n");
   cerrarConexion(database);
   return 0;
 }

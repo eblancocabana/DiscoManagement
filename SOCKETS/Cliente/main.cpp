@@ -47,7 +47,7 @@ char * enviar_datos_char(const char * nombre_funcion, int num_args, ...) {
     char * resultado = new char[bytes_recibidos + 1];
     memcpy(resultado, buffer, bytes_recibidos);
     resultado[bytes_recibidos] = '\0';
-    printf("RESULTADO%s", resultado);
+    printf("%s\n", resultado);
     return resultado;
   } else {
     std::cerr << "Error al recibir datos del servidor" << std::endl;
