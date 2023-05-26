@@ -3,6 +3,8 @@
 #include <string.h>
 #include "sqlite/sqlite3.h"
 #include "baseDatos.h"
+#include "../clases/entrada.h"
+#include "../clases/reservalocal.h"
 
 #define MAX_REGISTRO 20
 #define MAX_LOGIN 15
@@ -1251,7 +1253,7 @@ int buscarUltimoCodigo(int eventoBool) {
 }
       //  METODOS DE C++
 
-  /* int insertarEntrada(Entrada entradaInsertar) {
+  int insertarEntrada(Entrada entradaInsertar) {
 
     // Construir la sentencia INSERT
     char sentenciaEntradaInsert[500];
@@ -1288,4 +1290,4 @@ int buscarUltimoCodigo(int eventoBool) {
     cerrarConexion(database);
 
     return 0; 
-  } */
+  }
