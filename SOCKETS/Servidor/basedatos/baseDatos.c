@@ -842,16 +842,15 @@ int comprobarCodigoLocal(char* cod) {
   }
 }
 
-
 int comprobarCodigoRRPP(char* cod) {
   int longitud = strlen(cod);
   if (longitud > 0 && cod[longitud - 1] == ',') {
       cod[longitud - 1] = '\0';
   }
 
+  abrirConexion();
   sqlite3_stmt * statement;
   int busqueda = 0;
-  abrirConexion();
 
   const char* sentencia = "SELECT codigo FROM rrpp WHERE codigo = ?";
 
@@ -859,9 +858,7 @@ int comprobarCodigoRRPP(char* cod) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
 
-  busqueda = sqlite3_prepare_v2(database, sentencia, -1, &statement, 0);
-  sqlite3_bind_text(statement, 1, cod, strlen(cod), SQLITE_STATIC);
-  //sqlite3_bind_int(statement, 1, cod);
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, &statement, NULL);
   
   if (busqueda != SQLITE_OK) {
     printf("Error al ejecutar la sentencia: %s\n", gestionarError(database));
@@ -871,6 +868,7 @@ int comprobarCodigoRRPP(char* cod) {
     return 0;
   }
 
+  sqlite3_bind_text(statement, 1, cod, strlen(cod), SQLITE_STATIC);
   busqueda = sqlite3_step(statement);
 
   if (mensajeError != NULL) {
@@ -922,9 +920,7 @@ int comprobarFecha(char* fecha, int evento) {
     sentencia = "SELECT fecha FROM dias_de_fiesta WHERE fecha = ?;";
   }
 
-  busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
-
-  sqlite3_bind_text(statement, 1, fecha, strlen(fecha), SQLITE_STATIC);
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, NULL);
 
   if (busqueda != SQLITE_OK) {
     printf("Error en la consulta: %s\n", gestionarError(database));
@@ -934,6 +930,7 @@ int comprobarFecha(char* fecha, int evento) {
     return 1;
   }
 
+  sqlite3_bind_text(statement, 1, fecha, strlen(fecha), SQLITE_STATIC);
   busqueda = sqlite3_step(statement);
 
   if (mensajeError != NULL) {
@@ -970,20 +967,19 @@ int comprobarEntrada(char* codigo) {
       codigo[longitud - 1] = '\0';
   }
 
+  abrirConexion();
   sqlite3_stmt * statement;
   char * mensajeError = 0;
   int apertura = 0;
   int busqueda = 0;
 
-  abrirConexion();
+  const char* sentencia = "SELECT entradas FROM dias_de_fiesta WHERE codigo = ?";
+
   if (gestionarError(database) != SQLITE_OK) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
 
-  const char* sentencia = "SELECT entradas FROM dias_de_fiesta WHERE codigo = ?";
   busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
-
-  sqlite3_bind_text(statement, 1, codigo, strlen(codigo), SQLITE_STATIC);
 
   if (busqueda != SQLITE_OK) {
     printf("Error en la consulta: %s\n", gestionarError(database));
@@ -993,6 +989,7 @@ int comprobarEntrada(char* codigo) {
     return 1;
   }
 
+  sqlite3_bind_text(statement, 1, codigo, strlen(codigo), SQLITE_STATIC);
   busqueda = sqlite3_step(statement);
 
   if (mensajeError != NULL) {
