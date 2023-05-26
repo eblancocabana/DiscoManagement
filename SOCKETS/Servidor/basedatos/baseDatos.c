@@ -792,62 +792,56 @@ int comprobarUsuario(char* usuario) {
 int comprobarCodigoLocal(char* cod) {
   int longitud = strlen(cod);
   if (longitud > 0 && cod[longitud - 1] == ',') {
-      cod[longitud - 1] = '\0';
+    cod[longitud - 1] = '\0';
   }
 
+  abrirConexion();
   sqlite3_stmt * statement;
   int busqueda = 0;
-  abrirConexion();
 
   const char* sentencia = "SELECT codigo FROM dias_de_fiesta WHERE codigo = ? AND entradas = 400";
 
   if (gestionarError(database) != SQLITE_OK) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
+    cerrarConexion(database);
+    return 0;
+  }
+
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, &statement, NULL);
+
+  if (busqueda != SQLITE_OK) {
+    printf("Error al preparar la consulta: %s\n", gestionarError(database));
+    gestionarFree(mensajeError);
+    cerrarConexion(database);
+    return 0;
   }
 
   sqlite3_bind_text(statement, 1, cod, strlen(cod), SQLITE_STATIC);
-  //sqlite3_bind_int(statement, 1, cod);
-  
-  if (busqueda != SQLITE_OK) {
-    printf("Error al ejecutar la sentencia: %s\n", gestionarError(database));
-    gestionarFree(mensajeError);
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-    return 0;
-  }
-
   busqueda = sqlite3_step(statement);
-
-  if (mensajeError != NULL) {
-    gestionarFree(mensajeError);
-    fprintf(stderr, "Error en la consulta: %s\n", mensajeError);
-    cerrarConexion(database);
-    return 0;
-  }
 
   if (busqueda == SQLITE_ROW) {
     printf("\nCODIGO ENCONTRADO\n");
     sqlite3_finalize(statement);
     cerrarConexion(database);
-    return 1;
 
-  } else if (busqueda != SQLITE_OK) {
+    return 1;
+  } else if (busqueda != SQLITE_DONE) {
     fprintf(stderr, "Error en la consulta: %s\n", gestionarError(database));
+
     gestionarFree(mensajeError);
     sqlite3_finalize(statement);
     cerrarConexion(database);
-    return 0;
 
+    return 0;
   } else {
     printf("No se ha encontrado el codigo\n");
     sqlite3_finalize(statement);
     cerrarConexion(database);
+
     return 0;
   }
-
-  cerrarConexion(database);
-  return 0;
 }
+
 
 int comprobarCodigoRRPP(char* cod) {
   int longitud = strlen(cod);
