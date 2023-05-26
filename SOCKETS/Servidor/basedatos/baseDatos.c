@@ -587,7 +587,7 @@ void clearIfNeeded(char * str, int max_line) {
 
     // FUNCION PARA IMPRIMIR POR CONSOLA LOS ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS
 
-static int callbackClient(SOCKET socket_fd, int argc, char **argv, char **azColName) {
+static int callbackClient(void* socket_fd, int argc, char **argv, char **azColName) {
   int i;
   char buffer[1024];
   int n = 0;
@@ -602,7 +602,7 @@ static int callbackClient(SOCKET socket_fd, int argc, char **argv, char **azColN
   n += sprintf(buffer + n, "\n");
   n += sprintf(buffer + n, "\e[0m");
   printf("\n %s", buffer);
-  send(socket_fd, buffer, n, 0);
+  send(*(SOCKET*)socket_fd, buffer, n, 0);
   
   return 0;
 }
@@ -1236,10 +1236,18 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
 }
 
 int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* correo, char* contra) {
+  printf("DENTRO1");
   abrirConexion();
+  printf("DENTRO2");
   const char* admin = "No";
   char lineRe[1024];
-
+  printf("DENTRO");
+  printf(nombre);
+  printf(usuario);
+  printf(sexo);
+  printf("%d", edad);
+  printf(correo);
+  printf(contra);
   sprintf(lineRe, "%s,%s,%s,%d,%s,%s,%s", nombre, usuario, sexo, edad, correo, contra, admin);
 
   char sql_insertRe[1024];

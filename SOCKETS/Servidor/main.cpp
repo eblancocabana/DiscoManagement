@@ -207,7 +207,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     printf("%d", edad);
     printf(correo);
     printf(contra);
-    
+    printf("FUERA");
     int ret = insertarRegistro(nombre, usuario, sexo, edad, correo, contra);
     const char* rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;

@@ -30,7 +30,7 @@ int inicializarReservaLocal();
 
 char* limpiarInput(char* input);
 void clearIfNeeded(char *str, int max_line);
-static int callbackClient(void *socket_fd, int argc, char **argv, char **azColName);
+static int callbackClient(void* socket_fd, int argc, char **argv, char **azColName);
 static int callback(void *NotUsed, int argc, char **argv, char** azColName);
 
 int comprobarCodigoLocal(int cod);
