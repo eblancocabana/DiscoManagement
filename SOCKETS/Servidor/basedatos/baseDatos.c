@@ -600,10 +600,11 @@ static int callbackClient(void *socket_fd, int argc, char **argv, char **azColNa
   n += sprintf(buffer + n, "\n");
   n += sprintf(buffer + n, "\e[0m");
 
-  write(*(int *)socket_fd, buffer, n);
+  send(*(SOCKET *)socket_fd, buffer, n, 0);
 
   return 0;
 }
+
 
 static int callback(void *NotUsed, int argc, char **argv, char azColName) {
   int i;
