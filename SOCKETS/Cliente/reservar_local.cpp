@@ -34,7 +34,7 @@ char caducidadTarjeta[MAX_CADUCIDAD];
 char mostrarListado() {
     cout << "\nListado de dias disponible: (codigo - fecha - nombre discoteca - aforo - evento?)\n\n";
     //BD
-    enviar_datos_char("mostrarLocales", 0);
+    //enviar_datos_char("mostrarLocales", 0);
     cout << "\nOpcion reserva:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ";
 
     char inputReservaLocal[MAX_SELECCION];
