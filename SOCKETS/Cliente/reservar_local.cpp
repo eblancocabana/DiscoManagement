@@ -22,6 +22,14 @@ char opcionReserva;
 char opcionPagoReserva;
 char opcionConfirmarReserva;
 
+int codLocal;
+char* fecha;
+char* nombreDiscoteca;
+char* aforo = "400";
+char* numTa
+char numeroTarjeta[MAX_NUMERO_TARJETA];
+char cvvTarjeta[MAX_CVV];
+char caducidadTarjeta[MAX_CADUCIDAD];
 
 char mostrarListado() {
     cout << "\nListado de dias disponible: (codigo - fecha - nombre discoteca - aforo - evento?)\n\n";
@@ -145,7 +153,7 @@ void confirmarReserva() {
         opcionConfirmarReserva = confirmarPagoReserva();
         switch (opcionConfirmarReserva) {
         case '1':
-            cout << "\nEL PAGO HA SIDO CONFIRMADO";
+            cout << "\nEL PAGO HA SIDO CONFIRMADO"; //bd
             menu();
             opcionConfirmarReserva = '0';
             opcionPagoReserva = '0';
