@@ -1130,7 +1130,7 @@ int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* co
     nombre,
     usuario,
     sexo,
-    edad,
+    &edad,  // Corrección: Pasar un puntero a edad usando &
     correo,
     contra,
     admin);
@@ -1157,7 +1157,7 @@ int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* co
     return 1;
   }
 
-//printf("\nInsertado\n");
+  //printf("\nInsertado\n");
   cerrarConexion(database);
   return 0;
 }
@@ -1224,7 +1224,7 @@ int insertarEntrada(EntradaEst entradaInsertar) {
   cerrarConexion(database);
   return 0;
 }
-
+ 
 int insertarReservaLocal(ReservaLocalEst reservarLocalInsertar) {
 
   abrirConexion();

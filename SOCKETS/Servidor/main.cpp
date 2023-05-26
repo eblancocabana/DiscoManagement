@@ -47,6 +47,39 @@ void iniciarSesion() {
     int existe = 1;
     char input[MAX_REGISTRO];
 
+    char nombre[50];
+    char usuario[50];
+    char sexo[10];
+    int edad;
+    char correo[50];
+    char contra[50];
+
+    printf("Ingresa el nombre: ");
+    fgets(nombre, sizeof(nombre), stdin);
+    nombre[strcspn(nombre, "\n")] = '\0';  // Eliminar el salto de línea al final
+
+    printf("Ingresa el usuario: ");
+    fgets(usuario, sizeof(usuario), stdin);
+    usuario[strcspn(usuario, "\n")] = '\0';  // Eliminar el salto de línea al final
+
+    printf("Ingresa el sexo: ");
+    fgets(sexo, sizeof(sexo), stdin);
+    sexo[strcspn(sexo, "\n")] = '\0';  // Eliminar el salto de línea al final
+
+    printf("Ingresa la edad: ");
+    scanf("%d", &edad);
+    getchar();  // Consumir el salto de línea pendiente
+
+    printf("Ingresa el correo: ");
+    fgets(correo, sizeof(correo), stdin);
+    correo[strcspn(correo, "\n")] = '\0';  // Eliminar el salto de línea al final
+
+    printf("Ingresa la contraseña: ");
+    fgets(contra, sizeof(contra), stdin);
+    contra[strcspn(contra, "\n")] = '\0';  // Eliminar el salto de línea al final
+
+    insertarRegistro(nombre, usuario, sexo, edad, correo, contra);
+
     cout << "Usuario: ";
     cin.getline(input, MAX_NOMBRE_USU);
     char* us = limpiarInput(input);
