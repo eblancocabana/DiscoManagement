@@ -58,39 +58,38 @@ char * enviar_datos_char(const char * nombre_funcion, int num_args, ...) {
   }
 }
 
-int enviar_datos_int(const char * nombre_funcion, int num_args, ...) {
-  char sendBuff[512];
-  int pos = sprintf(sendBuff, "%s:", nombre_funcion);
+int enviar_datos_int(const char* nombre_funcion, int num_args, ...) {
+    char sendBuff[512];
+    sprintf(sendBuff, "%s:", nombre_funcion);
 
-  va_list args;
-  va_start(args, num_args);
-  for (int i = 0; i < num_args; i++) {
-    // Obtener el argumento actual y su tamaño
-    const void * arg = va_arg(args,
-      const void * );
-    size_t size = va_arg(args, size_t);
-    // Serializar el argumento
-    memcpy(sendBuff + pos, arg, size);
-    pos += size;
-    
-    sendBuff[pos++] = ',';
-  }
-  va_end(args);
+    va_list args;
+    va_start(args, num_args);
+    for (int i = 0; i < num_args; i++) {
+        // Obtener el argumento actual
+        const char* arg = va_arg(args, const char*);
+        size_t size = va_arg(args, size_t); // Obtener el tamaño del argumento
+        printf("arg: %s, size: %zu\n", arg, size);
+        // Serializar el argumento
+        strncat(sendBuff, arg, size);
+        strncat(sendBuff, ",", 1);
+    }
+    va_end(args);
 
-  printf("DATOS INT MANDADOS CLIENTES: %s\n", sendBuff);
-  send(s, sendBuff, sizeof(sendBuff), 0);
+    printf("DATOS CHAR MANDADOS CLIENTES: %s\n", sendBuff);
+    send(s, sendBuff, strlen(sendBuff), 0); // Enviar solo la porción utilizada del búfer
 
-  char buffer[512];
-  int bytes_recibidos = recv(s, buffer, sizeof(buffer), 0);
-  if (bytes_recibidos > 0) {
-    printf("BUFFER: %s\n", buffer);
-    int resultado = atoi(buffer);
-    printf("DATOS INT RECIBIDO CLIENTES: %i\n", resultado);
-    return resultado;
-  } else {
-    std::cerr << "Error al recibir datos del servidor" << std::endl;
-    return 0;
-  }
+
+    char buffer[512];
+    int bytes_recibidos = recv(s, buffer, sizeof(buffer), 0);
+    if (bytes_recibidos > 0) {
+        printf("BUFFER: %s\n", buffer);
+        int resultado = atoi(buffer);
+        printf("DATOS INT RECIBIDO CLIENTES: %i\n", resultado);
+        return resultado;
+    } else {
+        std::cerr << "Error al recibir datos del servidor" << std::endl;
+        return 0;
+    }
 }
 
 int main(int argc, char * argv[]) {

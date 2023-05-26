@@ -113,7 +113,9 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "inicializacion") == 0) {
+    printf("Llamando a inicializacion\n");
     int ret = inicializacion();
+    printf("Retorno de inicializacion: %d\n", ret);
     const char* rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
@@ -199,6 +201,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     int edad = atoi(strtok(NULL, ","));
     char * correo = strtok(NULL, ",");
     char * contra = strtok(NULL, ",");
+    printf("Llamando a insertarRegistro\n", nombre, usuario, sexo, edad, correo, contra);
     int ret = insertarRegistro(nombre, usuario, sexo, edad, correo, contra);
     const char* rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
