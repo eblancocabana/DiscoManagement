@@ -128,7 +128,7 @@ void menuListadoDiasDisponibles() {
                     //BD
                     //cod = limpiarInput(inputCod);
                     enviar_datos("limpiarInput", 1, &inputCod, sizeof(inputCod));
-                    cod = recibir_datos<char*>();
+                    cod = recibir_datos_char();
 
                     errno = 0;
                     long int num = strtol(cod, &type, 10); //CodigoFecha
