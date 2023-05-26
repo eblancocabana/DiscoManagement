@@ -64,19 +64,17 @@ int enviar_datos_int(const char * nombre_funcion, int num_args, ...) {
 
   va_list args;
   va_start(args, num_args);
-
   for (int i = 0; i < num_args; i++) {
     // Obtener el argumento actual y su tamaño
     const void * arg = va_arg(args,
       const void * );
     size_t size = va_arg(args, size_t);
-
     // Serializar el argumento
     memcpy(sendBuff + pos, arg, size);
     pos += size;
+    
     sendBuff[pos++] = ',';
   }
-
   va_end(args);
 
   printf("DATOS INT MANDADOS CLIENTES: %s\n", sendBuff);

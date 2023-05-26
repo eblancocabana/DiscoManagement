@@ -185,7 +185,10 @@ int registrarse() {
     opcionRegistrarse = mostrarRegistrarse();
     switch (opcionRegistrarse) {
     case '1':
-      enviar_datos_int("insertarRegistro", 7, name, sizeof(name), username, sizeof(username), sex, sizeof(sex), edad, sizeof(edad), correoElec, sizeof(correoElec), password, sizeof(password));
+      printf("MAMAMAMAMAMAM\n");
+      const char* edad_c = (std::to_string(edad)).c_str();
+      enviar_datos_int("insertarRegistro", 6, name, strlen(name)+1, username, strlen(username)+1, sex, strlen(sex)+1, edad_c, strlen(edad_c)+1, correoElec, strlen(correoElec)+1, password, strlen(password)+1);
+      printf("SSIIUUUUUUU\n");
       login();
       break;
     }
