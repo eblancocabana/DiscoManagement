@@ -5,6 +5,7 @@
 #include "baseDatos.h"
 #include "../estructuras/reservarlocal_est.h"
 #include "../estructuras/entrada_est.h"
+#include <winsock2.h>
 
 #define MAX_REGISTRO 20
 #define MAX_LOGIN 15
@@ -584,21 +585,26 @@ void clearIfNeeded(char * str, int max_line) {
 
     // FUNCION PARA IMPRIMIR POR CONSOLA LOS ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS
 
-static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
+static int callback(void *socket_fd, int argc, char **argv, char **azColName) {
   int i;
-  printf("\e[37m\e[1m");
+  char buffer[1024];
+  int n = 0;
+  n += sprintf(buffer + n, "\e[37m\e[1m");
 
   for (i = 0; i < argc; i++) {
     if (i > 0) {
-      printf(" - ");
+      n += sprintf(buffer + n, " - ");
     }
-    printf("%s", argv[i] ? argv[i] : "NULL");
+    n += sprintf(buffer + n, "%s", argv[i] ? argv[i] : "NULL");
   }
-  printf("\n");
-  printf("\e[0m");
+  n += sprintf(buffer + n, "\n");
+  n += sprintf(buffer + n, "\e[0m");
+
+  write(*(int *)socket_fd, buffer, n);
 
   return 0;
 }
+
 
     // COMPROBACION DE EXISTENCIA DE DIFERENTES ELEMENTOS EN LA BASE DE DATOS 
 
@@ -994,7 +1000,7 @@ int comprobarEntrada(char* codigo) {
     
     // CARGAR/MOSTRAR ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS
 
-void mostrarLocales() {
+void mostrarLocales(SOCKET socket_fd) {
   abrirConexion();
 
   char* error = 0;
@@ -1011,7 +1017,7 @@ void mostrarLocales() {
   cerrarConexion(database);
 }
 
-void mostrarFiestas() {
+void mostrarFiestas(SOCKET socket_fd) {
   abrirConexion();
 
   char* error = 0;
@@ -1029,7 +1035,7 @@ void mostrarFiestas() {
   cerrarConexion(database);
 }
 
-void mostrarlistadoeventos() {
+void mostrarlistadoeventos(SOCKET socket_fd) {
 	abrirConexion();
 
   char* error = 0;
@@ -1046,7 +1052,7 @@ void mostrarlistadoeventos() {
 	cerrarConexion(database);
 }
 
-void mostrarDJ() {
+void mostrarDJ(SOCKET socket_fd) {
   abrirConexion();
 
   char* error = 0;
@@ -1063,7 +1069,7 @@ void mostrarDJ() {
 	cerrarConexion(database);
 }
 
-void mostrarRRPP() {
+void mostrarRRPP(SOCKET socket_fd) {
   abrirConexion();
 
   char* error = 0;
