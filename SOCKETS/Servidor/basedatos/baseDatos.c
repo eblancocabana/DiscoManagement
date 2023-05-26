@@ -599,9 +599,9 @@ static int callbackClient(void *socket_fd, int argc, char **argv, char **azColNa
   }
   n += sprintf(buffer + n, "\n");
   n += sprintf(buffer + n, "\e[0m");
-
+  printf("\n %s", buffer);
   send(*(SOCKET *)socket_fd, buffer, n, 0);
-
+  
   return 0;
 }
 
