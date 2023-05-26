@@ -257,6 +257,10 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+  } else if(strcmp(nombre_funcion,"print:")){
+    memcpy(sendBuff + pos, "control", sizeof("control"));
+    size_t size = sizeof("control") + 1;
+    pos += sizeof("control");
   }
   printf("ESTEEE:%s,|%d", sendBuff,sendBuff);
   printf("Sending %.*s through socket\n", pos, sendBuff);

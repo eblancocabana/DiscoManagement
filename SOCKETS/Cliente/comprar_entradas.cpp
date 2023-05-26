@@ -6,8 +6,8 @@
 #include "inicio.h"
 #include "enviar_datos.h"
 #include "clases/entrada.h"
-
-
+#include <windows.h>
+#include <string>
 #define MAX_SELECCION 5
 #define MAX_ENTRADAS 10
 #define MAX_NOMBRE 40
@@ -82,7 +82,7 @@ void datosCompra(int codFecha, int tipoEntrada, double precio){
     //int numEntradas;
     //char* nombreCompleto;
     //char* gmail;
-
+    char* pr;
     codigoFecha_ent = codFecha;
     tipoEntradas = tipoEntrada;
     precios = precio;
@@ -152,8 +152,9 @@ void pagarEntrada(){
     //char* numTarjeta;
     //char* cvvTarjeta;
     //char* caducidadTarjeta;
-
+    char* pr;
     do{
+
         opcionPagoEntrada = mostrarPagarEntrada();
         switch(opcionPagoEntrada){
             case '1':
@@ -213,7 +214,7 @@ int introducirCodigoRRPP() {
 
 void confirmarPago(){
     int codigoRRPP;
-
+    char* pr;
     do{
         opcionConfirmarPago = mostrarConfirmarPago();
         switch(opcionConfirmarPago){
@@ -234,8 +235,14 @@ void confirmarPago(){
 }
 
 void confirmarCompra(){
+    char* pr;
     do {
         opcionConfirmarCompra = confirmarPagoCompra();
+        while (strcmp(pr, "control") != 0) {
+            pr = enviar_datos_char("print", 0);
+            printf("%s", pr);
+            Sleep(300);
+        }
         switch (opcionConfirmarCompra) {
             case '1':
                 cout << "\nEL PAGO HA SIDO CONFIRMADO\n"; // bd
