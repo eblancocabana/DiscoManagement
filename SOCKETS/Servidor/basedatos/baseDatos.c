@@ -1181,7 +1181,7 @@ void mostrarDJAdmin() {
   int aper;
 
   const char* sentencia = "SELECT * FROM dj";
-  aper = sqlite3_exec(database, sentencia, callbackClient, 0, &error);
+  aper = sqlite3_exec(database, sentencia, callback, 0, &error);
   
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
@@ -1323,7 +1323,7 @@ int insertarEntrada(char* codigoFecha, char* fechaEntrada, char* nombreDiscoteca
   char lineEntrada[1024];
   int codigoFechaFinal = atoi(codigoFecha);
   int numeroEntradasFianl = atoi(numeroEntradas);
-  float precioFinal = stof(precio);
+  float precioFinal = atof(precio);
 
   sscanf(lineEntrada, "%d, '%[^','], '%[^','], %d, '%[^','], '%[^','], '%[^','], '%[^','], '%[^','], %lf, '%[^',']",
         &codigoFechaFinal, fechaEntrada, nombreDiscoteca, &numeroEntradasFianl, cuentaGmail, numeroTarjetaCredito, cvvTarjeta,
@@ -1417,7 +1417,7 @@ int buscarUltimoCodigo() {
   return lastId;
 }
 
-char* buscarFechaConCodigoFecha(int codigoFecha) {
+char* buscarFechaConCodigoFecha(char* codigoFecha) {
   abrirConexion();
 
   sqlite3_stmt* statement;
@@ -1435,19 +1435,17 @@ char* buscarFechaConCodigoFecha(int codigoFecha) {
 
   if (busqueda != SQLITE_OK) {
     printf("No se pudo preparar la consulta SQL: %s\n", gestionarError(database));
-    exit(EXIT_FAILURE);
     sqlite3_finalize(statement);
     cerrarConexion(database);
-
     return NULL;
   }
 
-  sqlite3_bind_int(statement, 1, codigoFecha);
+  sqlite3_bind_text(statement, 1, codigoFecha, -1, SQLITE_STATIC);
   busqueda = sqlite3_step(statement);
 
   if (busqueda == SQLITE_ROW) {
-    const char* fecha = (const char*)sqlite3_column_text(statement, 0);
-    char* fechaEncontrada = strdup(fecha); // Copia la fecha encontrada a una nueva cadena
+    const unsigned char* fecha = sqlite3_column_text(statement, 0);
+    char* fechaEncontrada = strdup((const char*)fecha); // Copia la fecha encontrada a una nueva cadena
 
     sqlite3_finalize(statement);
     cerrarConexion(database);
@@ -1460,9 +1458,6 @@ char* buscarFechaConCodigoFecha(int codigoFecha) {
 
     return NULL;
   }
-
-  cerrarConexion(database);
-  return NULL;
 }
 
 char* buscarDiscotecaConCodigoFecha(int codigoFecha) {
