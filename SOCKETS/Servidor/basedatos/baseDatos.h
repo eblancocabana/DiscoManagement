@@ -3,6 +3,10 @@
 #include "sqlite/sqlite3.h"
 #include "../estructuras/reservarlocal_est.h"
 #include "../estructuras/entrada_est.h"
+#include <winsock2.h>
+#pragma comment(lib, "Ws2_32.lib")
+
+SOCKET socket_fd;
 
 int dbExiste(const char* fichero);
 int reiniciarBD();
@@ -25,7 +29,7 @@ int inicializarReservaLocal();
 
 char* limpiarInput(char* input);
 void clearIfNeeded(char *str, int max_line);
-static int callback(void *NotUsed, int argc, char **argv, char **azColName);
+static int callbackClient(void *socket_fd, int argc, char **argv, char **azColName);
 
 int comprobarCodigoLocal(int cod);
 int comprobarCodigoRRPP(int cod);
@@ -35,11 +39,18 @@ int comprobarAdmin(char* user);
 int comprobarExistencia(char* username, char* password);
 int comprobarEntrada(char* codigo);
 
-void mostrarlistadoeventos();
-void mostrarFiestas();
-void mostrarDJ();
-void mostrarRRPP();
-void mostrarLocales();
+void mostrarlistadoeventos(SOCKET socket_fd);
+void mostrarFiestas(SOCKET socket_fd);
+void mostrarDJ(SOCKET socket_fd);
+void mostrarRRPP(SOCKET socket_fd);
+void mostrarLocales(SOCKET socket_fd);
+
+void mostrarlistadoeventosAdmin();
+void mostrarFiestasAdmin();
+void mostrarDJAdmin();
+void mostrarRRPPAdmin();
+void mostrarLocalesAdmin();
+
 
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp);
 int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* correo, char* contra);

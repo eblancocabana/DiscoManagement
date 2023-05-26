@@ -47,7 +47,9 @@
         "xlocnum": "cpp",
         "xmemory": "cpp",
         "xstddef": "cpp",
-        "xtr1common": "cpp"
+        "xtr1common": "cpp",
+        "entrada_est.h": "c",
+        "reservarlocal_est.h": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }
