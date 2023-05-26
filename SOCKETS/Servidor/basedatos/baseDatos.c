@@ -653,9 +653,6 @@ int comprobarAdmin(char* user) {
     sqlite3_finalize(statement);
     cerrarConexion(database);
   }
-
-  cerrarConexion(database);
-  return 0;
 }
 
 int comprobarExistencia(char* username, char* password) {
@@ -1296,7 +1293,7 @@ int buscarUltimoCodigo(int eventoBool) {
   busqueda = sqlite3_step(statement);
 
   if (busqueda == SQLITE_ROW) {
-    lastId = sqlite3_column_int(statement, 0);
+    lastId = sqlite3_column_int64(statement, 0);
   }
 
   sqlite3_finalize(statement);
