@@ -41,7 +41,7 @@ using namespace std;
 //g++ -c administrador/inicio_servidor.cpp -o inicio.o         CREAR .O DE LOS C++
 //g++ -c main.cpp -o main.o         CREAR .O DE LOS C++
 
-//g++ main.o inicio.o sqlite.o bd.o -o admin.exe -lWs2_32        EJECUTAR EL ARCHIVO
+//g++ main.o inicio.o sqlite.o bd.o -o servidor.exe -lWs2_32        EJECUTAR EL ARCHIVO
 
 void iniciarSesion() {
     int existe = 1;
@@ -136,15 +136,13 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, ret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "comprobarCodigoLocal") == 0) {
-    int cod = atoi(args);
-    int ret = comprobarCodigoLocal(cod);
+    int ret = comprobarCodigoLocal(args);
     const char* rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "comprobarCodigoRRPP") == 0) {
-    int cod = atoi(args);
-    int ret = comprobarCodigoRRPP(cod);
+    int ret = comprobarCodigoRRPP(args);
     const char* rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);

@@ -791,7 +791,12 @@ int comprobarUsuario(char* usuario) {
   return 0;
 }
 
-int comprobarCodigoLocal(int cod) {
+int comprobarCodigoLocal(char* cod) {
+  int longitud = strlen(cod);
+  if (longitud > 0 && cod[longitud - 1] == ',') {
+      cod[longitud - 1] = '\0';
+  }
+
   sqlite3_stmt * statement;
   int busqueda = 0;
   abrirConexion();
@@ -802,8 +807,8 @@ int comprobarCodigoLocal(int cod) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
 
-  busqueda = sqlite3_prepare_v2(database, sentencia, -1, &statement, 0);
-  sqlite3_bind_int(statement, 1, cod);
+  sqlite3_bind_text(statement, 1, cod, strlen(cod), SQLITE_STATIC);
+  //sqlite3_bind_int(statement, 1, cod);
   
   if (busqueda != SQLITE_OK) {
     printf("Error al ejecutar la sentencia: %s\n", gestionarError(database));
@@ -846,7 +851,12 @@ int comprobarCodigoLocal(int cod) {
   return 0;
 }
 
-int comprobarCodigoRRPP(int cod) {
+int comprobarCodigoRRPP(char* cod) {
+  int longitud = strlen(cod);
+  if (longitud > 0 && cod[longitud - 1] == ',') {
+      cod[longitud - 1] = '\0';
+  }
+
   sqlite3_stmt * statement;
   int busqueda = 0;
   abrirConexion();
@@ -858,7 +868,8 @@ int comprobarCodigoRRPP(int cod) {
   }
 
   busqueda = sqlite3_prepare_v2(database, sentencia, -1, &statement, 0);
-  sqlite3_bind_int(statement, 1, cod);
+  sqlite3_bind_text(statement, 1, cod, strlen(cod), SQLITE_STATIC);
+  //sqlite3_bind_int(statement, 1, cod);
   
   if (busqueda != SQLITE_OK) {
     printf("Error al ejecutar la sentencia: %s\n", gestionarError(database));
