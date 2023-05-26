@@ -592,16 +592,17 @@ static int callbackClient(void* socket_fd, int argc, char **argv, char **azColNa
   char buffer[1024];
   int n = 0;
   n += sprintf(buffer + n, "\e[37m\e[1m");
-
+  printf("ANTEES DEL FOR\n");
   for (i = 0; i < argc; i++) {
     if (i > 0) {
       n += sprintf(buffer + n, " - ");
     }
     n += sprintf(buffer + n, "%s", argv[i] ? argv[i] : "NULL");
   }
+  printf("DESPUES DEL FOR\n");
   n += sprintf(buffer + n, "\n");
   n += sprintf(buffer + n, "\e[0m");
-  printf("\n %s", buffer);
+  printf("ESTE ES COÑO\n %s", buffer);
   send(*(SOCKET*)socket_fd, buffer, n, 0);
   
   return 0;
@@ -1028,7 +1029,7 @@ void mostrarLocales(SOCKET socket_fd) {
   int aper;
 
   const char* sentencia = "SELECT * FROM dias_de_fiesta WHERE entradas = 400";
-  aper = sqlite3_exec(database, sentencia, callbackClient, 0, &error);
+  aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&socket_fd, &error);
 
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
@@ -1045,7 +1046,7 @@ void mostrarFiestas(SOCKET socket_fd) {
   int aper;
 
   const char* sentencia = "SELECT * FROM dias_de_fiesta WHERE entradas > 0";
-  aper = sqlite3_exec(database, sentencia, callbackClient, 0, &error);
+  aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&socket_fd, &error);
 
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
@@ -1058,13 +1059,14 @@ void mostrarFiestas(SOCKET socket_fd) {
 
 void mostrarlistadoeventos(SOCKET socket_fd) {
 	abrirConexion();
-
+  
   char* error = 0;
   int aper;
 
   const char* sentencia = "SELECT * FROM eventos";
-  aper = sqlite3_exec(database, sentencia, callbackClient, 0, &error);
-  
+  printf("ANTES");
+  aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&socket_fd, &error);
+  printf("DESPUES");
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
       sqlite3_free(error);
@@ -1080,7 +1082,7 @@ void mostrarDJ(SOCKET socket_fd) {
   int aper;
 
   const char* sentencia = "SELECT * FROM dj";
-  aper = sqlite3_exec(database, sentencia, callbackClient, 0, &error);
+  aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&socket_fd, &error);
   
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
@@ -1097,7 +1099,7 @@ void mostrarRRPP(SOCKET socket_fd) {
   int aper;
 
   const char* sentencia = "SELECT * FROM rrpp";
-  aper = sqlite3_exec(database, sentencia, callbackClient, 0, &error);
+  aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&socket_fd, &error);
   
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);

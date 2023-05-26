@@ -215,7 +215,7 @@ int login() {
 
 int menu() {
   char opcionMenu;
-
+  char* result = NULL;
   do {
     opcionMenu = mostrarMenu();
     switch (opcionMenu) {
@@ -225,7 +225,8 @@ int menu() {
       cout << "Listado de eventos (fecha - descripcion - nombre discoteca - aforo)\n\n";
       cout << "\e[0m";
       //mostrarlistadoeventos(); BD
-      enviar_datos_char("mostrarlistadoeventos", 0);
+      result=enviar_datos_char("mostrarlistadoeventos", 0);
+      printf("%s",result);
       break;
 
     case '2':
@@ -234,7 +235,8 @@ int menu() {
       cout << "Menu compra de entrada (codigo - fecha - nombre discoteca - aforo - evento?)\n\n";
       cout << "\e[0m";
       //mostrarFiestas(); BD
-      enviar_datos_char("mostrarFiestas", 0);
+      result=enviar_datos_char("mostrarFiestas", 0);
+      printf("%s",result);
       menuListadoDiasDisponibles();
       break;
 
