@@ -164,11 +164,9 @@ void iniciarSesion() {
   cin.getline(input, MAX_CONTRASENYA);
   char * pa = enviar_datos_char("limpiarInput", 1, & input, sizeof(input));
 
-  existe = enviar_datos_int("comprobarExistencia", 2, us, sizeof(us), pa, sizeof(pa));
-  int admin = enviar_datos_int("comprobarAdmin", 1, us, sizeof(us));
-  if ((existe == 0) && (admin == 0)) {
-    cout << "\nADMIN ENCONTRADO, accediendo al menu\n";
-  } else if ((existe == 0)) {
+  existe = enviar_datos_int("comprobarExistencia", 2, us, strlen(us)+1, pa, strlen(pa)+1);
+
+  if (existe == 0) {
     cout << "\nUSUARIO ENCONTRADO, accediendo al menu\n";
     menu();
   } else {
