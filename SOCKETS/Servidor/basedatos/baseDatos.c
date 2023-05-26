@@ -587,7 +587,7 @@ void clearIfNeeded(char * str, int max_line) {
 
     // FUNCION PARA IMPRIMIR POR CONSOLA LOS ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS
 
-static int callbackClient(void *socket_fd, int argc, char **argv, char **azColName) {
+static int callbackClient(SOCKET socket_fd, int argc, char **argv, char **azColName) {
   int i;
   char buffer[1024];
   int n = 0;
@@ -602,7 +602,7 @@ static int callbackClient(void *socket_fd, int argc, char **argv, char **azColNa
   n += sprintf(buffer + n, "\n");
   n += sprintf(buffer + n, "\e[0m");
   printf("\n %s", buffer);
-  send(*(SOCKET *)socket_fd, buffer, n, 0);
+  send(socket_fd, buffer, n, 0);
   
   return 0;
 }
@@ -1056,10 +1056,10 @@ void mostrarlistadoeventos(SOCKET socket_fd) {
 
   char* error = 0;
   int aper;
-
+  printf("ANTES");
   const char* sentencia = "SELECT * FROM eventos";
   aper = sqlite3_exec(database, sentencia, callbackClient, 0, &error);
-  
+  printf("DESPUES");
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
       sqlite3_free(error);
