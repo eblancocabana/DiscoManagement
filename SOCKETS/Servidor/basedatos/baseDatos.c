@@ -6,7 +6,7 @@
 #include "../estructuras/reservarlocal_est.h"
 #include "../estructuras/entrada_est.h"
 #include <winsock2.h>
-SOCKET socket_fd;
+extern SOCKET comm_socket;
 #define MAX_REGISTRO 20
 #define MAX_LOGIN 15
 #define MAX_NOMBRE_USU 20

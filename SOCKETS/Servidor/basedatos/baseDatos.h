@@ -5,9 +5,7 @@
 #include "../estructuras/entrada_est.h"
 #include <winsock2.h>
 #pragma comment(lib, "Ws2_32.lib")
-
-SOCKET socket_fd;
-
+extern SOCKET comm_socket;
 int dbExiste(const char* fichero);
 int reiniciarBD();
 int verificarFecha(char* fecha);
