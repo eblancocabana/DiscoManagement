@@ -1087,14 +1087,13 @@ void mostrarRRPP() {
 
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
   int entradas = 400;
-  char lineFi[1024];
   int ultimo;
 
-  const char* codigo = (char*) malloc(MAX_INPUT * sizeof(char));
+  const char* codigo = "";
   int longitudCodigo = strlen(codigo) + 1;
   char* codigoFinal = (char*) malloc(longitudCodigo * sizeof(char));
 
-  if (eventoEsp == "No") {
+  if (strcmp(eventoEsp, "No") == 0) {
     ultimo = buscarUltimoCodigo(1) + 1;
   } else {
     ultimo = buscarUltimoCodigo(0) + 1;
@@ -1102,21 +1101,13 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
 
   abrirConexion();
 
-  strcpy(codigoFinal, codigo);
   sprintf(codigoFinal, "%d", ultimo);
-  //printf("%s", codigo);
-
-  sscanf(lineFi, "%[^','],%[^','],%[^','],%d,%s",
-    codigo,
-    fecha, 
-    nomDiscoteca,
-    entradas,
-    eventoEsp);
+  printf("%s\n", codigoFinal);
 
   char sql_insertFi[1024];
 
   sprintf(sql_insertFi, "INSERT INTO dias_de_fiesta VALUES('%s','%s','%s',%d,'%s');",
-    codigo,
+    codigoFinal,
     fecha,
     nomDiscoteca,
     entradas,
@@ -1133,7 +1124,6 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
     return 1;
   }
 
-//printf("\nInsertado\n");
   cerrarConexion(database);
   return 0;
 }
@@ -1183,14 +1173,10 @@ int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* co
 int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento) {
 
   abrirConexion();
-  char lineEven[1024];
   const char* aforo = "400";
 
-  sscanf(lineEven, "%[^','],%[^','],%[^','],%s", 
-    fecha,
-    descripcionEvento,
-    nombreDisco,
-    aforo);
+  char lineEven[1024];
+  sprintf(lineEven, "%s,%s,%s,%s", fecha, descripcionEvento, nombreDisco, aforo);
 
   char sql_insertEven[1024];
 
@@ -1211,7 +1197,6 @@ int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento) {
     return 1;
   }
 
-//printf("\nInsertado\n");
   cerrarConexion(database);
   return 0;
 }
@@ -1283,54 +1268,41 @@ int buscarUltimoCodigo(int eventoBool) {
   abrirConexion();
 
   sqlite3_stmt* statement;
-  char * mensajeError = 0;
   int busqueda = 0;
   const char* sentencia;
-  int lastId;
+  int lastId = 0;
 
-  abrirConexion();
   if (gestionarError(database) != SQLITE_OK) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
 
-  //Si es un evento, la sentencia cambia a la tabla eventos
   if (eventoBool == 0) {
     sentencia = "SELECT MAX(codigo) FROM dias_de_fiesta;";
   } else {
     sentencia = "SELECT MAX(codigo) FROM dias_de_fiesta WHERE codigo < 999;";
   }
 
-  busqueda = sqlite3_prepare_v2(database, sentencia, -1, &statement, NULL);
+  printf("%s\n", sentencia);
+
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, &statement, 0);
 
   if (busqueda != SQLITE_OK) {
     printf("No se pudo preparar la consulta SQL: %s\n", gestionarError(database));
-    exit(EXIT_FAILURE);
     sqlite3_finalize(statement);
     cerrarConexion(database);
-
     return -1;
   }
-  
-  sqlite3_bind_int(statement, 1, eventoBool);
+
   busqueda = sqlite3_step(statement);
 
   if (busqueda == SQLITE_ROW) {
     lastId = sqlite3_column_int(statement, 0);
-
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-
-    return lastId;
-
-  } else {
-    sqlite3_finalize(statement);
-    cerrarConexion(database);
-
-    return -1;
   }
 
+  sqlite3_finalize(statement);
   cerrarConexion(database);
-  return 0;
+
+  return lastId;
 }
 
 char* buscarFechaConCodidoFecha(int codigoFecha) {

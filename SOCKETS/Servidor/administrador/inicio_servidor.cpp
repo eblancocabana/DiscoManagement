@@ -150,7 +150,7 @@ int menuServidor() {
             if (verificacionFecha) {
                 char* eventoFinal = new char[longitudEvento];
                 strcpy(eventoFinal, evento);
-                printf(eventoFinal);
+
                 insertarDiaFiesta(fecha, nomDiscoteca, eventoFinal);
           cout << "Fiesta introducida correctamente en La Base De Datos\n";
 
