@@ -45,7 +45,7 @@ int inicioServidor() {
       cout << "Listado de eventos (fecha - descripcion - discoteca - aforo)\n\n";
       cout << "\e[0m";
 
-      mostrarlistadoeventos();
+      mostrarlistadoeventosAdmin();
       break;
 
     case '2':
@@ -55,7 +55,7 @@ int inicioServidor() {
       cout << "Listado de dias de fiesta (codigo - fecha - nombre discoteca - entradas disponibles - evento?)\n\n";
       cout << "\e[0m";
 
-      mostrarFiestas();
+      mostrarFiestasAdmin();
       break;
 
     case '3':
@@ -222,7 +222,7 @@ int menuServidor() {
 
       abrirConexion();
       inicializarRRPP();
-      mostrarRRPP();
+      mostrarRRPPAdmin();
 
       printf("\nEstos son los RRPPs importados\n");
 
@@ -234,7 +234,7 @@ int menuServidor() {
 
       abrirConexion();
       inicializarDJ();
-      mostrarDJ();
+      mostrarDJAdmin();
 
       printf("\nEstos son los DJs importados\n");
 
