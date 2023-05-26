@@ -221,6 +221,20 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+  } else if (strcmp(nombre_funcion, "insertarReservaLocal") == 0) {
+    //Dividir los argumentos en codigo_aux, fecha_loc, aforo, numeroTarjeta, cvvTarjeta, caducidadTarjeta
+    char * codigo_aux = strtok(args, ",");
+    char * fecha_loc = strtok(NULL, ",");
+    char * nombreDiscotec = strtok(NULL, ",");
+    char * aforo = strtok(NULL, ",");
+    char * numeroTarjeta = strtok(args, ",");
+    char * cvvTarjeta = strtok(NULL, ",");
+    char * caducidadTarjeta = strtok(NULL, ",");
+    int ret = insertarReservaLocal(codigo_aux, fecha_loc, nombreDiscotec, aforo, numeroTarjeta, cvvTarjeta, caducidadTarjeta);
+    const char* rret = (std::to_string(ret)).c_str();
+    size_t size = sizeof(rret) + 1;
+    memcpy(sendBuff + pos, rret, size);
+    pos += size; 
   } else if (strcmp(nombre_funcion, "mostrarlistadoeventos") == 0) {
     mostrarlistadoeventos(comm_socket);
   } else if (strcmp(nombre_funcion, "mostrarFiestas") == 0) {

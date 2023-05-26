@@ -3,7 +3,7 @@
 
 class ReservaLocal {
 private:
-    int codigo;
+    char* codigo;
     char* fecha;
     char* nombreDiscoteca;
     int aforo;
@@ -13,12 +13,12 @@ private:
 
 public:
     ReservaLocal();
-    ReservaLocal(int codigo, char* fecha, char* nombreDiscoteca, int aforo, char* numeroTarjeta, char* cvvTarjeta, char* caducidadTarjeta);
+    ReservaLocal(char* codigo, char* fecha, char* nombreDiscoteca, int aforo, char* numeroTarjeta, char* cvvTarjeta, char* caducidadTarjeta);
     ReservaLocal(const ReservaLocal &reservaLocal);
     ~ReservaLocal();
 
-    int getCodigo();
-    void setCodigo(int codigo);
+    char* getCodigo();
+    void setCodigo(char* codigo);
 
     char* getFecha();
     void setFecha(char* fecha);

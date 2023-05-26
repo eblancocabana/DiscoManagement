@@ -5,7 +5,7 @@
 using namespace std;
 
 ReservaLocal::ReservaLocal() {
-    this->codigo = 0;
+    this->codigo = NULL;
     this->fecha = NULL;
     this->nombreDiscoteca = NULL;
     this->aforo = 0;
@@ -14,8 +14,9 @@ ReservaLocal::ReservaLocal() {
     this->caducidadTarjeta = NULL;
 }
 
-ReservaLocal::ReservaLocal(int codigo, char* fecha, char* nombreDiscoteca, int aforo, char* numeroTarjeta, char* cvvTarjeta, char* caducidadTarjeta) {
-    this->codigo = codigo;
+ReservaLocal::ReservaLocal(char* codigo, char* fecha, char* nombreDiscoteca, int aforo, char* numeroTarjeta, char* cvvTarjeta, char* caducidadTarjeta) {
+    this->codigo = new char[strlen(codigo)+1];
+    strcpy(this->codigo, codigo);
     this->fecha = new char[strlen(fecha) + 1];
     strcpy(this->fecha, fecha);
     this->nombreDiscoteca = new char[strlen(nombreDiscoteca) + 1];
@@ -30,7 +31,8 @@ ReservaLocal::ReservaLocal(int codigo, char* fecha, char* nombreDiscoteca, int a
 }
 
 ReservaLocal::ReservaLocal(const ReservaLocal &reservaLocal) {
-    this->codigo = reservaLocal.codigo;
+    this->codigo = new char[strlen(reservaLocal.codigo)+1];
+    strcpy(this->codigo, reservaLocal.codigo);
     this->fecha = new char[strlen(reservaLocal.fecha) + 1];
     strcpy(this->fecha, reservaLocal.fecha);
     this->nombreDiscoteca = new char[strlen(reservaLocal.nombreDiscoteca) + 1];
@@ -52,12 +54,13 @@ ReservaLocal::~ReservaLocal() {
     delete[] this->caducidadTarjeta;
 }
 
-int ReservaLocal::getCodigo() {
+char* ReservaLocal::getCodigo() {
     return this->codigo;
 }
 
-void ReservaLocal::setCodigo(int codigo){
-    this->codigo = codigo;
+void ReservaLocal::setCodigo(char* codigo){
+    this->codigo = new char[strlen(codigo)+1];
+    strcpy(this->codigo, codigo);
 }
 
 char* ReservaLocal::getFecha() {
@@ -65,7 +68,8 @@ char* ReservaLocal::getFecha() {
 }
 
 void ReservaLocal::setFecha(char* fecha) {
-    this->fecha = fecha;
+    this->fecha = new char[strlen(fecha)+1];
+    strcpy(this->fecha, fecha);
 }
 
 char* ReservaLocal::getNombreDiscoteca() {
@@ -73,7 +77,8 @@ char* ReservaLocal::getNombreDiscoteca() {
 }
 
 void ReservaLocal::setNombreDiscoteca(char* nombreDiscoteca) {
-    this->nombreDiscoteca = nombreDiscoteca;
+    this->nombreDiscoteca = new char[strlen(nombreDiscoteca)+1];
+    strcpy(this->nombreDiscoteca, nombreDiscoteca);
 }
 
 int ReservaLocal::getAforo() {
@@ -89,7 +94,8 @@ char* ReservaLocal::getNumeroTarjeta() {
 }
 
 void ReservaLocal::setNumeroTarjeta(char* numeroTarjeta) {
-    this->numeroTarjeta = numeroTarjeta;
+    this->numeroTarjeta = new char[strlen(numeroTarjeta)+1];
+    strcpy(this->numeroTarjeta, numeroTarjeta);
 }
 
 char* ReservaLocal::getCvvTarjeta() {
@@ -97,7 +103,8 @@ char* ReservaLocal::getCvvTarjeta() {
 }
 
 void ReservaLocal::setCvvTarjeta(char* cvvTarjeta) {
-    this->cvvTarjeta = cvvTarjeta;
+    this->cvvTarjeta = new char[strlen(cvvTarjeta)+1];
+    strcpy(this->cvvTarjeta, cvvTarjeta);
 }
 
 char* ReservaLocal::getCaducidadTarjeta() {
@@ -105,7 +112,8 @@ char* ReservaLocal::getCaducidadTarjeta() {
 }
 
 void ReservaLocal::setCaducidadTarjeta(char* caducidadTarjeta) {
-    this->caducidadTarjeta = caducidadTarjeta;
+    this->caducidadTarjeta = new char[strlen(caducidadTarjeta)+1];
+    strcpy(this->caducidadTarjeta, caducidadTarjeta);
 }
 
 void ReservaLocal::printReservaLocal() {

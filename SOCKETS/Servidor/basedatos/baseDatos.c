@@ -1315,19 +1315,20 @@ int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento) {
 
     // INSERTAR DATOS DE COMPRA A LA BASE DE DATOS
 
-int insertarEntrada(EntradaEst entradaInsertar) {
+int insertarEntrada(int codigoFecha, char* fechaEntrada, char* nombreDiscoteca, int numeroEntradas, char* cuentaGmail, char* numeroTarjetaCredito, char* cvvTarjeta, char* caducidadTarjeta, char* tipoEntrada, double precio, char* usuario) {
 
   abrirConexion();
   char lineEntrada[1024];
 
   sscanf(lineEntrada, "%d, '%[^','], '%[^','], %d, '%[^','], '%[^','], '%[^','], '%[^','], '%[^','], %lf, '%[^',']",
-        &entradaInsertar.codigoFecha, entradaInsertar.fechaEntrada, entradaInsertar.nombreDiscoteca, &entradaInsertar.numeroEntradas, entradaInsertar.cuentaGmail, entradaInsertar.numeroTarjetaCredito, entradaInsertar.cvvTarjeta,
-        entradaInsertar.caducidadTarjeta, entradaInsertar.tipoEntrada, &entradaInsertar.precio, entradaInsertar.usuario);
+        &codigoFecha, fechaEntrada, nombreDiscoteca, &numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta,
+        caducidadTarjeta, tipoEntrada, &precio, usuario);
 
   char sql_insertEntrada[1024];
 
   sprintf(sql_insertEntrada, "INSERT INTO entradas (codigoFecha, fechaEntrada, nombreDiscoteca, numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta, caducidadTarjeta, tipoEntrada, precio, nombreUsuario) VALUES (%d, '%s', '%s', %d, '%s', '%s', '%s', '%s', '%s', %f, '%s');",
-          entradaInsertar.codigoFecha, entradaInsertar.fechaEntrada, entradaInsertar.nombreDiscoteca, entradaInsertar.numeroEntradas, entradaInsertar.cuentaGmail, entradaInsertar.numeroTarjetaCredito, entradaInsertar.cvvTarjeta, entradaInsertar.caducidadTarjeta, entradaInsertar.tipoEntrada, entradaInsertar.precio, entradaInsertar.usuario);
+        codigoFecha, fechaEntrada, nombreDiscoteca, numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta,
+        caducidadTarjeta, tipoEntrada, &precio, usuario);
 
   aperturaInsert = sqlite3_exec(database, sql_insertEntrada, 0, 0, &mensajeError);
 
@@ -1345,18 +1346,18 @@ int insertarEntrada(EntradaEst entradaInsertar) {
   return 0;
 }
  
-int insertarReservaLocal(ReservaLocalEst reservarLocalInsertar) {
+int insertarReservaLocal(char* codigo, char* fecha, char* nombreDiscoteca, char* aforo, char* numeroTarjeta, char* cvvTarjeta, char* caducidadTarjeta) {
 
   abrirConexion();
   char lineReservarLocal[500];
 
-  sscanf(lineReservarLocal, "%d, %[^','], %[^','], %d, %[^','], %[^','], %[^',']",
-    &reservarLocalInsertar.codigo, reservarLocalInsertar.fecha, reservarLocalInsertar.nombreDiscoteca, &reservarLocalInsertar.aforo, reservarLocalInsertar.numeroTarjeta, reservarLocalInsertar.cvvTarjeta, reservarLocalInsertar.caducidadTarjeta);
+  sscanf(lineReservarLocal, "%[^','], %[^','], %[^','], %[^','], %[^','], %[^','], %[^',']",
+    &codigo, fecha, nombreDiscoteca, &aforo, numeroTarjeta, cvvTarjeta,caducidadTarjeta);
 
   char sql_insertReservarLocal[1024];
 
-  sprintf(sql_insertReservarLocal, "INSERT INTO reservalocal (codigo, fecha, nombrediscoteca, aforo, numerotarjeta, cvvtarjeta, caducidadtarjeta) VALUES ('%s', '%s', '%s', %d, '%s', '%s', '%s');",
-    reservarLocalInsertar.codigo, reservarLocalInsertar.fecha, reservarLocalInsertar.nombreDiscoteca, reservarLocalInsertar.aforo, reservarLocalInsertar.numeroTarjeta, reservarLocalInsertar.cvvTarjeta, reservarLocalInsertar.caducidadTarjeta);
+  sprintf(sql_insertReservarLocal, "INSERT INTO reservalocal (codigo, fecha, nombrediscoteca, aforo, numerotarjeta, cvvtarjeta, caducidadtarjeta) VALUES ('%s', '%s', '%s', %s, '%s', '%s', '%s');",
+    codigo, fecha, nombreDiscoteca, aforo, numeroTarjeta, cvvTarjeta,caducidadTarjeta);
 
   aperturaInsert = sqlite3_exec(database, sql_insertReservarLocal, 0, 0, &mensajeError);
 
