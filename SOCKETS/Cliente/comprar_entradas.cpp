@@ -212,13 +212,13 @@ void confirmarPago(){
         switch(opcionConfirmarPago){
             case '1':
                 cout << "\n---------------------------------------------------\n";
-                enviar_datos("mostrarRRPP", 0);
+                enviar_datos_char("mostrarRRPP", 0);
                 //mostrarRRPP(); BD
                 cout << "\n---------------------------------------------------\n";
                 cout << "Introducir Codigo de RRPP";
                 codigoRRPP = introducirCodigoRRPP();
                 //BD
-                enviar_datos("comprobarCodigoRRPP", 1, &codigoRRPP, sizeof(codigoRRPP));
+                enviar_datos_int("comprobarCodigoRRPP", 1, &codigoRRPP, sizeof(codigoRRPP));
 
                 confirmarCompra();
             break;

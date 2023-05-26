@@ -3,8 +3,8 @@
 //#include "basedatos/baseDatos.h"
 #include "inicio.h"
 #include <istream>
-#include "recibir_datos.h"
 #include "enviar_datos.h"
+#include <cstring>
 
 
 #define MAX_SELECCION 5
@@ -33,7 +33,7 @@ char caducidadTarjeta[MAX_CADUCIDAD];
 char mostrarListado() {
     cout << "\nListado de dias disponible: (codigo - fecha - nombre discoteca - aforo - evento?)\n\n";
     //BD
-    enviar_datos("mostrarLocales", 0);
+    enviar_datos_char("mostrarLocales", 0);
     cout << "\nOpcion reserva:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ";
 
     char inputReservaLocal[MAX_SELECCION];
@@ -65,8 +65,8 @@ void reservarLocal() {
 
             codLocal = elegirCodigo();
             //BD
-            enviar_datos("comprobarCodigoLocal", 1, codLocal);
-            existe = recibir_datos_int();
+            existe = enviar_datos_int("comprobarCodigoLocal", 1, codLocal);
+            
 
             pagarReserva();
             break;

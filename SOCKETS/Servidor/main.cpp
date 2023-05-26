@@ -187,6 +187,14 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     mostrarlistadoeventos();
   } else if (strcmp(nombre_funcion, "mostrarFiestas") == 0) {
     mostrarFiestas();
+  }else if (strcmp(nombre_funcion, "inicicializacionSOCKET") == 0) {
+    int ret = 1;
+    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    pos += sizeof(ret);
+  }else if (strcmp(nombre_funcion, "mostrarRRPP") == 0) {
+    mostrarRRPP();
+  }else if (strcmp(nombre_funcion, "mostrarLocales") == 0) {
+    mostrarLocales();
   }
   printf("Sending %.*s through socket\n", pos, sendBuff);
   // Enviar el valor devuelto por la función llamada a través del socket
