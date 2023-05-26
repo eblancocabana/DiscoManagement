@@ -48,5 +48,6 @@ int insertarEntrada(EntradaEst entradaInsertar);
 int insertarReservaLocal(ReservaLocalEst reservarLocalInsertar);
 
 int buscarUltimoCodigo(int evento);
+char* buscarFechaConCodidoFecha(int codigoFecha);
 
 #endif

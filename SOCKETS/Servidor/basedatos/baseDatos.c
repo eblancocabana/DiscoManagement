@@ -823,6 +823,7 @@ int comprobarCodigoLocal(int cod) {
   }
 
   cerrarConexion(database);
+  return 0;
 }
 
 int comprobarCodigoRRPP(int cod) {
@@ -1218,41 +1219,61 @@ int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento) {
 
 int insertarEntrada(EntradaEst entradaInsertar) {
 
-  // Construir la sentencia INSERT
-  char sentenciaEntradaInsert[500];
-  sprintf(sentenciaEntradaInsert, "INSERT INTO entradas (codigoFecha, fechaEntrada, nombreDiscoteca, numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta, caducidadTarjeta, tipoEntrada, precio, nombreUsuario) VALUES (%d, '%s', '%s', %d, '%s', '%s', '%s', '%s', '%s', %f, '%s');",
+  abrirConexion();
+  char lineEntrada[1024];
+
+  sscanf(lineEntrada, "%d, '%[^','], '%[^','], %d, '%[^','], '%[^','], '%[^','], '%[^','], '%[^','], %lf, '%[^',']",
+        &entradaInsertar.codigoFecha, entradaInsertar.fechaEntrada, entradaInsertar.nombreDiscoteca, &entradaInsertar.numeroEntradas, entradaInsertar.cuentaGmail, entradaInsertar.numeroTarjetaCredito, entradaInsertar.cvvTarjeta,
+        entradaInsertar.caducidadTarjeta, entradaInsertar.tipoEntrada, &entradaInsertar.precio, entradaInsertar.usuario);
+
+  char sql_insertEntrada[1024];
+
+  sprintf(sql_insertEntrada, "INSERT INTO entradas (codigoFecha, fechaEntrada, nombreDiscoteca, numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta, caducidadTarjeta, tipoEntrada, precio, nombreUsuario) VALUES (%d, '%s', '%s', %d, '%s', '%s', '%s', '%s', '%s', %f, '%s');",
           entradaInsertar.codigoFecha, entradaInsertar.fechaEntrada, entradaInsertar.nombreDiscoteca, entradaInsertar.numeroEntradas, entradaInsertar.cuentaGmail, entradaInsertar.numeroTarjetaCredito, entradaInsertar.cvvTarjeta, entradaInsertar.caducidadTarjeta, entradaInsertar.tipoEntrada, entradaInsertar.precio, entradaInsertar.usuario);
 
-  // Ejecutar la sentencia INSERT
-  aperturaInsert = sqlite3_exec(database, sentenciaEntradaInsert, 0, 0, &mensajeError);
+  aperturaInsert = sqlite3_exec(database, sql_insertEntrada, 0, 0, &mensajeError);
+
   if (aperturaInsert != SQLITE_OK) {
-      printf("Error al ejecutar la sentencia INSERT: %s\n", gestionarError(database));
-      return 1;
+    gestionarFree(mensajeError);
+    //gestionarError(database);
+    gestionarFree(errorMessage);
+ 
+    cerrarConexion(database);
+    return 1;
   }
 
-  // Cerrar la conexión a la base de datos
+//printf("\nInsertado\n");
   cerrarConexion(database);
-
   return 0;
 }
 
 int insertarReservaLocal(ReservaLocalEst reservarLocalInsertar) {
-  // Construir la sentencia INSERT
-  char sentenciaReservarLocalInsert[500];
-  sprintf(sentenciaReservarLocalInsert, "INSERT INTO reservalocal (codigo, fecha, nombrediscoteca, aforo, numerotarjeta, cvvtarjeta, caducidadtarjeta) VALUES ('%s', '%s', '%s', %d, '%s', '%s', '%s');",
-          reservarLocalInsertar.codigo, reservarLocalInsertar.fecha, reservarLocalInsertar.nombreDiscoteca, reservarLocalInsertar.aforo, reservarLocalInsertar.numeroTarjeta, reservarLocalInsertar.cvvTarjeta, reservarLocalInsertar.caducidadTarjeta);
 
-  // Ejecutar la sentencia INSERT
-  aperturaInsert = sqlite3_exec(database, sentenciaReservarLocalInsert, 0, 0, &mensajeError);
+  abrirConexion();
+  char lineReservarLocal[500];
+
+  sscanf(lineReservarLocal, "%d, %[^','], %[^','], %d, %[^','], %[^','], %[^',']",
+    &reservarLocalInsertar.codigo, reservarLocalInsertar.fecha, reservarLocalInsertar.nombreDiscoteca, &reservarLocalInsertar.aforo, reservarLocalInsertar.numeroTarjeta, reservarLocalInsertar.cvvTarjeta, reservarLocalInsertar.caducidadTarjeta);
+
+  char sql_insertReservarLocal[1024];
+
+  sprintf(sql_insertReservarLocal, "INSERT INTO reservalocal (codigo, fecha, nombrediscoteca, aforo, numerotarjeta, cvvtarjeta, caducidadtarjeta) VALUES ('%s', '%s', '%s', %d, '%s', '%s', '%s');",
+    reservarLocalInsertar.codigo, reservarLocalInsertar.fecha, reservarLocalInsertar.nombreDiscoteca, reservarLocalInsertar.aforo, reservarLocalInsertar.numeroTarjeta, reservarLocalInsertar.cvvTarjeta, reservarLocalInsertar.caducidadTarjeta);
+
+  aperturaInsert = sqlite3_exec(database, sql_insertReservarLocal, 0, 0, &mensajeError);
+
   if (aperturaInsert != SQLITE_OK) {
-      printf("Error al ejecutar la sentencia INSERT: %s\n", gestionarError(database));
-      return 1;
+    gestionarFree(mensajeError);
+    //gestionarError(database);
+    gestionarFree(errorMessage);
+ 
+    cerrarConexion(database);
+    return 1;
   }
 
-  // Cerrar la conexión a la base de datos
+//printf("\nInsertado\n");
   cerrarConexion(database);
-
-  return 0; 
+  return 0;
 }
 
     // BUSCAR DATOS EN LA BASE DE DATOS
@@ -1266,6 +1287,11 @@ int buscarUltimoCodigo(int eventoBool) {
   const char* sentencia;
   int lastId;
 
+  abrirConexion();
+  if (gestionarError(database) != SQLITE_OK) {
+    printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
+  }
+
   //Si es un evento, la sentencia cambia a la tabla eventos
   if (eventoBool == 0) {
     sentencia = "SELECT MAX(codigo) FROM dias_de_fiesta;";
@@ -1278,8 +1304,13 @@ int buscarUltimoCodigo(int eventoBool) {
   if (busqueda != SQLITE_OK) {
     printf("No se pudo preparar la consulta SQL: %s\n", gestionarError(database));
     exit(EXIT_FAILURE);
-  }
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
 
+    return -1;
+  }
+  
+  sqlite3_bind_int(statement, 1, eventoBool);
   busqueda = sqlite3_step(statement);
 
   if (busqueda == SQLITE_ROW) {
@@ -1287,11 +1318,64 @@ int buscarUltimoCodigo(int eventoBool) {
 
     sqlite3_finalize(statement);
     cerrarConexion(database);
+
     return lastId;
 
   } else {
     sqlite3_finalize(statement);
     cerrarConexion(database);
+
     return -1;
   }
+
+  cerrarConexion(database);
+  return 0;
+}
+
+char* buscarFechaConCodidoFecha(int codigoFecha) {
+  abrirConexion();
+
+  sqlite3_stmt* statement;
+  char* mensajeError = 0;
+  int busqueda = 0;
+  char* codigoEntrada = NULL;
+
+  abrirConexion();
+  if (gestionarError(database) != SQLITE_OK) {
+    printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
+  }
+
+  const char* sentencia = "SELECT fecha FROM dias_de_fiesta WHERE codigo = ?";
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, &statement, NULL);
+
+  if (busqueda != SQLITE_OK) {
+    printf("No se pudo preparar la consulta SQL: %s\n", gestionarError(database));
+    exit(EXIT_FAILURE);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+
+    return -1;
+  }
+
+  sqlite3_bind_int(statement, 1, codigoFecha);
+  busqueda = sqlite3_step(statement);
+
+  if (busqueda == SQLITE_ROW) {
+    const char* fecha = (const char*)sqlite3_column_text(statement, 0);
+    char* fechaEncontrada = strdup(fecha); // Copia la fecha encontrada a una nueva cadena
+
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+
+    return fechaEncontrada;
+
+  } else {
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+
+    return NULL;
+  }
+
+  cerrarConexion(database);
+  return NULL;
 }

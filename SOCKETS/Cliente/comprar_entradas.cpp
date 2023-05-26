@@ -23,6 +23,18 @@ char opcionPagoEntrada;
 char opcionConfirmarPago;
 char opcionConfirmarCompra;
 
+int codigoFecha;
+char* fecha;
+char* nomDiscoteca;
+int numEntradas;
+char* nombreCompleto;
+char* gmail;
+char* numTarjeta;
+char* cvvTarjeta;
+char* caducidadTarjeta;
+int tipoEntradas;
+double precios;
+
 char mostrarDatosCompra(){
     cout << "\nDatos necesarios:\n\t1. Comprar \n\t0. Atras\n\nElige una opcion: ";
 
@@ -62,10 +74,14 @@ char* introducirGmail(){
     return inputGmail;
 }
 
-void datosCompra(){
-    int numEntradas;
-    char* nombreCompleto;
-    char* gmail;
+void datosCompra(int codFecha, int tipoEntrada, double precio){
+    //int numEntradas;
+    //char* nombreCompleto;
+    //char* gmail;
+
+    codigoFecha = codFecha;
+    tipoEntradas = tipoEntrada;
+    precios = precio;
 
     do{
         opcionDatosCompra = mostrarDatosCompra();
@@ -73,7 +89,7 @@ void datosCompra(){
             case '1':
                 cout << "\n---------------------------------------------------\n";
                 cout << "Introducir datos de la compra";
-                numEntradas = introducirNumEntradas();
+                numEntradas = introducirNumEntradas(); //ENTRADAS
                 nombreCompleto = introducirNombreCompleto();
                 gmail = introducirGmail();
 
@@ -126,9 +142,9 @@ char* introducirCVVTar() {
 }
 
 void pagarEntrada(){
-    char* numTarjeta;
-    char* cvvTarjeta;
-    char* caducidadTarjeta;
+    //char* numTarjeta;
+    //char* cvvTarjeta;
+    //char* caducidadTarjeta;
 
     do{
         opcionPagoEntrada = mostrarPagarEntrada();
@@ -136,7 +152,7 @@ void pagarEntrada(){
             case '1':
                 cout << "\n---------------------------------------------------\n";
                 cout << "Introducir datos de la tarjeta";
-                numTarjeta = introducirNumTarjeta();
+                numTarjeta = introducirNumTarjeta(); //TARJETA
                 cvvTarjeta = introducirCVVTar();
                 caducidadTarjeta = introducirCaducidadTarjeta();
 
@@ -197,7 +213,7 @@ void confirmarPago(){
             case '1':
                 cout << "\n---------------------------------------------------\n";
                 enviar_datos("mostrarRRPP", 0);
-                //mostrarRRPP();
+                //mostrarRRPP(); BD
                 cout << "\n---------------------------------------------------\n";
                 cout << "Introducir Codigo de RRPP";
                 codigoRRPP = introducirCodigoRRPP();
@@ -215,7 +231,7 @@ void confirmarCompra(){
         opcionConfirmarCompra = confirmarPagoCompra();
         switch (opcionConfirmarCompra) {
             case '1':
-                cout << "\nEL PAGO HA SIDO CONFIRMADO\n";
+                cout << "\nEL PAGO HA SIDO CONFIRMADO\n"; // bd
                 opcionDatosCompra = '0';
                 opcionPagoEntrada = '0';
                 opcionConfirmarPago = '0';

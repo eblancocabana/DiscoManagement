@@ -186,7 +186,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
   } else if (strcmp(nombre_funcion, "mostrarFiestas") == 0) {
     mostrarFiestas();
   }
-
+    
   // Enviar el valor devuelto por la función llamada a través del socket
   send(comm_socket, sendBuff, pos, 0);
 }

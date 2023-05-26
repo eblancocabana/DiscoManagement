@@ -1,7 +1,7 @@
 #ifndef COMPRAR_ENTRADAS_H
 #define COMPRAR_ENTRADAS_H
 
-void datosCompra();
+void datosCompra(int codFecha, int tipoEntrada, double precio);
 
 int introducirNumEntradas();
 char* introducirNombreCompleto();
