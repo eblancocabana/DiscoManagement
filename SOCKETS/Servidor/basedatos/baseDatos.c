@@ -1084,18 +1084,13 @@ void mostrarRRPP() {
 
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
   int entradas = 400;
-  int ultimo;
+  int ultimo = 0;
 
   const char* codigo = "";
   int longitudCodigo = strlen(codigo) + 1;
   char* codigoFinal = (char*) malloc(longitudCodigo * sizeof(char));
 
-  if (strcmp(eventoEsp, "No") == 0) {
-    ultimo = buscarUltimoCodigo(1) + 1;
-  } else {
-    ultimo = buscarUltimoCodigo(0) + 1;
-  }
-
+  ultimo = buscarUltimoCodigo() + 1;
   abrirConexion();
 
   sprintf(codigoFinal, "%d", ultimo);
@@ -1261,7 +1256,7 @@ int insertarReservaLocal(ReservaLocalEst reservarLocalInsertar) {
 
     // BUSCAR DATOS EN LA BASE DE DATOS
 
-int buscarUltimoCodigo(int eventoBool) {
+int buscarUltimoCodigo() {
   abrirConexion();
 
   sqlite3_stmt* statement;
@@ -1273,14 +1268,7 @@ int buscarUltimoCodigo(int eventoBool) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
 
-  if (eventoBool == 0) {
-    sentencia = "SELECT MAX(codigo) FROM dias_de_fiesta;";
-  } else {
-    sentencia = "SELECT MAX(codigo) FROM dias_de_fiesta WHERE codigo < 999;";
-  }
-
-  printf("%s\n", sentencia);
-
+  sentencia = "SELECT MAX(codigo) FROM dias_de_fiesta;";
   busqueda = sqlite3_prepare_v2(database, sentencia, -1, &statement, 0);
 
   if (busqueda != SQLITE_OK) {
