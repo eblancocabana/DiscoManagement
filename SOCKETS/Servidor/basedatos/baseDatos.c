@@ -962,6 +962,7 @@ int comprobarFecha(char* fecha, int evento) {
 }    
 
 int comprobarEntrada(char* codigo) {
+
   int longitud = strlen(codigo);
   if (longitud > 0 && codigo[longitud - 1] == ',') {
       codigo[longitud - 1] = '\0';
@@ -978,7 +979,6 @@ int comprobarEntrada(char* codigo) {
   if (gestionarError(database) != SQLITE_OK) {
     printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
   }
-
   busqueda = sqlite3_prepare_v2(database, sentencia, -1, & statement, 0);
 
   if (busqueda != SQLITE_OK) {
@@ -1343,16 +1343,12 @@ int insertarEntrada(char* codigoFecha, char* fechaEntrada, char* nombreDiscoteca
 int insertarReservaLocal(char* codigo, char* fecha, char* nombreDiscoteca, char* aforo, char* numeroTarjeta, char* cvvTarjeta, char* caducidadTarjeta) {
 
   abrirConexion();
-  char lineReservarLocal[500];
   int aforoFinal = atoi(aforo);
-
-  sscanf(lineReservarLocal, "%[^','], %[^','], %[^','], %d, %[^','], %[^','], %[^',']",
-    &codigo, fecha, nombreDiscoteca, &aforoFinal, numeroTarjeta, cvvTarjeta,caducidadTarjeta);
 
   char sql_insertReservarLocal[1024];
 
   sprintf(sql_insertReservarLocal, "INSERT INTO reservalocal (codigo, fecha, nombrediscoteca, aforo, numerotarjeta, cvvtarjeta, caducidadtarjeta) VALUES ('%s', '%s', '%s', %d, '%s', '%s', '%s');",
-    codigo, fecha, nombreDiscoteca, aforoFinal, numeroTarjeta, cvvTarjeta,caducidadTarjeta);
+    codigo, fecha, nombreDiscoteca, aforoFinal, numeroTarjeta, cvvTarjeta, caducidadTarjeta);
 
   aperturaInsert = sqlite3_exec(database, sql_insertReservarLocal, 0, 0, &mensajeError);
 
@@ -1360,12 +1356,12 @@ int insertarReservaLocal(char* codigo, char* fecha, char* nombreDiscoteca, char*
     gestionarFree(mensajeError);
     //gestionarError(database);
     gestionarFree(errorMessage);
- 
+
     cerrarConexion(database);
     return 1;
   }
 
-//printf("\nInsertado\n");
+  //printf("\nInsertado\n");
   cerrarConexion(database);
   return 0;
 }
