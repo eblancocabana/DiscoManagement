@@ -218,9 +218,9 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "mostrarlistadoeventos") == 0) {
-    mostrarlistadoeventos();
+    mostrarlistadoeventos(comm_socket);
   } else if (strcmp(nombre_funcion, "mostrarFiestas") == 0) {
-    mostrarFiestas();
+    mostrarFiestas(comm_socket);
   }else if (strcmp(nombre_funcion, "inicicializacionSOCKET") == 0) {
     int ret = 1;
     const char* rret = (std::to_string(ret)).c_str();
@@ -228,9 +228,9 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   }else if (strcmp(nombre_funcion, "mostrarRRPP") == 0) {
-    mostrarRRPP();
+    mostrarRRPP(comm_socket);
   }else if (strcmp(nombre_funcion, "mostrarLocales") == 0) {
-    mostrarLocales();
+    mostrarLocales(comm_socket);
   }
   printf("ESTEEE:%s,|%d", sendBuff,sendBuff);
   printf("Sending %.*s through socket\n", pos, sendBuff);
