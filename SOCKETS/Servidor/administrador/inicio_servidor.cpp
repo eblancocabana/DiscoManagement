@@ -148,7 +148,6 @@ int menuServidor() {
             int verificacionFecha = 0;
             verificacionFecha = verificarFecha(fecha);
             if (verificacionFecha) {
-               
                 char* eventoFinal = new char[longitudEvento];
                 strcpy(eventoFinal, evento);
                 printf(eventoFinal);

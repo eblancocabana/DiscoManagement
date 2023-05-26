@@ -1086,25 +1086,26 @@ void mostrarRRPP() {
     // INSERTAR DATOS BASICOS A LA BASE DE DATOS
 
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
-  printf("0");
   int entradas = 400;
   char lineFi[1024];
   int ultimo;
+
   const char* codigo = (char*) malloc(MAX_INPUT * sizeof(char));
-  char* codigoFinal = NULL;
-  printf("-1");
+  int longitudCodigo = strlen(codigo) + 1;
+  char* codigoFinal = (char*) malloc(longitudCodigo * sizeof(char));
+
   if (eventoEsp == "No") {
     ultimo = buscarUltimoCodigo(1) + 1;
   } else {
     ultimo = buscarUltimoCodigo(0) + 1;
   }
-  printf("-2");
+
   abrirConexion();
 
   strcpy(codigoFinal, codigo);
   sprintf(codigoFinal, "%d", ultimo);
   //printf("%s", codigo);
-  printf("1");
+
   sscanf(lineFi, "%[^','],%[^','],%[^','],%d,%s",
     codigo,
     fecha, 
@@ -1113,16 +1114,16 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
     eventoEsp);
 
   char sql_insertFi[1024];
-  printf("2");
+
   sprintf(sql_insertFi, "INSERT INTO dias_de_fiesta VALUES('%s','%s','%s',%d,'%s');",
     codigo,
     fecha,
     nomDiscoteca,
     entradas,
     eventoEsp);
-  printf("3");
+
   aperturaInsert = sqlite3_exec(database, sql_insertFi, 0, 0, &mensajeError);
-  printf("4");
+
   if (aperturaInsert != SQLITE_OK) {
     gestionarFree(mensajeError);
     gestionarError(database);
