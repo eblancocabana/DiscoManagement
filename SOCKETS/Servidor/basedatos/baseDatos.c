@@ -961,6 +961,11 @@ int comprobarFecha(char* fecha, int evento) {
 }    
 
 int comprobarEntrada(char* codigo) {
+  int longitud = strlen(codigo);
+  if (longitud > 0 && codigo[longitud - 1] == ',') {
+      codigo[longitud - 1] = '\0';
+  }
+
   sqlite3_stmt * statement;
   char * mensajeError = 0;
   int apertura = 0;
@@ -1231,19 +1236,11 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
 }
 
 int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* correo, char* contra) {
-
   abrirConexion();
   const char* admin = "No";
   char lineRe[1024];
 
-  sscanf(lineRe, "%[^','],%[^','],%[^','],%d,%[^','],%[^','],%s", 
-    nombre,
-    usuario,
-    sexo,
-    &edad,  // Corrección: Pasar un puntero a edad usando &
-    correo,
-    contra,
-    admin);
+  sprintf(lineRe, "%s,%s,%s,%d,%s,%s,%s", nombre, usuario, sexo, edad, correo, contra, admin);
 
   char sql_insertRe[1024];
 
@@ -1271,6 +1268,7 @@ int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* co
   cerrarConexion(database);
   return 0;
 }
+
 
 int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento) {
 

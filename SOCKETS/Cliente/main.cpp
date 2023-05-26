@@ -52,7 +52,6 @@ char * enviar_datos_char(const char * nombre_funcion, int num_args, ...) {
     printf("DATOS CHAR RECIBIDO CLIENTES: %s\n", resultado);
     return resultado;
   } else {
-    printf("NIOOOIOI");
     std::cerr << "Error al recibir datos del servidor" << std::endl;
     return nullptr;
   }

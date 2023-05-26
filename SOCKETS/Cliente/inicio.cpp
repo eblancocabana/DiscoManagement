@@ -89,15 +89,11 @@ void rellenarCamposRegistro() {
   cin.getline(inputRegis, MAX_NOMBRE);
   sscanf(inputRegis, "%s", & nombre);
   name = enviar_datos_char("limpiarInput", 1, & inputRegis, sizeof(inputRegis));
-  printf("NOMBREEEEEEE");
-  printf(name);
 
   cout << "Nombre de Usuario: ";
   cin.getline(inputRegis, MAX_NOMBRE_USU);
   sscanf(inputRegis, "%s", & nombreUsu);
   username = enviar_datos_char("limpiarInput", 1, & inputRegis, sizeof(inputRegis));
-  printf("NOMBREEEEEEEUSERNAMEJMEJHEJFREJJHEAQUI");
-  printf(username);
 
   cout << "Sexo: ";
   cin.getline(inputRegis, MAX_SEXO);
@@ -134,8 +130,6 @@ void rellenarCamposRegistro() {
   char * repPass = enviar_datos_char("limpiarInput", 1, & inputRegis, sizeof(inputRegis));
 
   cout << "\nDatos introducidos: " << name << " - " << username << " - " << sex << " - " << age << " - " << correoElec << " - " << password << " - " << repPass << endl;
-  //existe = comprobarUsuario(username); BD
-  printf(username);
   existe = enviar_datos_int("comprobarUsuario", 1, username, sizeof(username));
 
   if ((existe == -1) && (strcmp(password, repPass) != 0)) {
@@ -183,11 +177,9 @@ int registrarse() {
     opcionRegistrarse = mostrarRegistrarse();
     switch (opcionRegistrarse) {
     case '1':
-      printf("MAMAMAMAMAMAM\n");
       std::string edad_str = std::to_string(edad);
         const char* edad_c = edad_str.c_str();
       enviar_datos_int("insertarRegistro", 6, name, strlen(name)+1, username, strlen(username)+1, sex, strlen(sex)+1, edad_c, strlen(edad_c)+1, correoElec, strlen(correoElec)+1, password, strlen(password)+1);
-      printf("SSIIUUUUUUU\n");
       login();
       break;
     }

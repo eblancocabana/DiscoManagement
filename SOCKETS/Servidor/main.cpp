@@ -237,6 +237,12 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     mostrarRRPP(comm_socket);
   }else if (strcmp(nombre_funcion, "mostrarLocales") == 0) {
     mostrarLocales(comm_socket);
+  }else if (strcmp(nombre_funcion, "comprobarCodigoEntrada") == 0) {
+    int ret = comprobarEntrada(args);
+    const char* rret = (std::to_string(ret)).c_str();
+    size_t size = sizeof(rret) + 1;
+    memcpy(sendBuff + pos, rret, size);
+    pos += size;
   }
   printf("ESTEEE:%s,|%d", sendBuff,sendBuff);
   printf("Sending %.*s through socket\n", pos, sendBuff);
