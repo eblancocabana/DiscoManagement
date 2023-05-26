@@ -62,102 +62,119 @@ void iniciarSesion() {
     }
 }
 
-void deserializar_y_llamar_funcion(SOCKET comm_socket,char *recvBuff) {
-    // Dividir el buffer recibido en el nombre de la función y los argumentos
-    char *nombre_funcion = strtok(recvBuff, ":");
-    char *args = strtok(NULL, ":");
+void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
+  // Dividir el buffer recibido en el nombre de la función y los argumentos
+  char * nombre_funcion = strtok(recvBuff, ":");
+  char * args = strtok(NULL, ":");
 
-    // Buffer para enviar el valor devuelto por la función llamada
-    std::stringstream sendBuff;
+  // Buffer para enviar el valor devuelto por la función llamada
+  char sendBuff[512];
+  int pos = 0;
 
-    // Llamar a la función correspondiente con sus argumentos y enviar el valor devuelto
-    if (strcmp(nombre_funcion, "inicializarUsuarios") == 0) {
-        int ret = inicializarUsuarios();
-        sendBuff << ret;
-    } else if (strcmp(nombre_funcion, "inicializarDiasDeFiesta") == 0) {
-        int ret = inicializarDiasDeFiesta();
-        sendBuff << ret;
-    } else if (strcmp(nombre_funcion, "inicializarDJ") == 0) {
-        int ret = inicializarDJ();
-        sendBuff << ret;
-    } else if (strcmp(nombre_funcion, "inicializarRRPP") == 0) {
-        int ret = inicializarRRPP();
-        sendBuff << ret;
-    } else if (strcmp(nombre_funcion, "inicializarListaEventos") == 0) {
-        int ret = inicializarListaEventos();
-        sendBuff << ret;
-    } else if (strcmp(nombre_funcion, "inicializacion") == 0) {
-        int ret = inicializacion();
-        sendBuff << ret;
-    } else if (strcmp(nombre_funcion, "limpiarInput") == 0) {
-        char *ret = limpiarInput(args);
-        sendBuff << ret;
-    } else if (strcmp(nombre_funcion, "clearIfNeeded") == 0) {
-        // Dividir los argumentos en str y max_line
-        char *ret = strtok(args, ",");
-        int max_line = atoi(strtok(NULL, ","));
-        clearIfNeeded(ret,max_line);
-        sendBuff << ret;
-    } else if (strcmp(nombre_funcion,"comprobarCodigoLocal")==0){
-        int cod=atoi(args);
-        int ret=comprobarCodigoLocal(cod);
-        sendBuff<<ret;
-    } else if (strcmp(nombre_funcion,"comprobarCodigoRRPP")==0){
-        int cod=atoi(args);
-        int ret=comprobarCodigoRRPP(cod);
-        sendBuff<<ret;
-    } else if (strcmp(nombre_funcion,"comprobarUsuario")==0){
-        int ret=comprobarUsuario(args);
-        sendBuff<<ret;
-    } else if (strcmp(nombre_funcion,"comprobarFecha")==0){
-      //Dividir los argumentos en fecha y evento
-      char *fecha=strtok(args,",");
-      int evento=atoi(strtok(NULL,","));
-      int ret=comprobarFecha(fecha,evento);
-      sendBuff<<ret;
-    } else if (strcmp(nombre_funcion,"comprobarAdmin")==0){
-      int ret=comprobarAdmin(args);
-      sendBuff<<ret;
-    } else if (strcmp(nombre_funcion,"comprobarExistencia")==0){
-      //Dividir los argumentos en username y password
-      char *username=strtok(args,",");
-      char *password=strtok(NULL,",");
-      int ret=comprobarExistencia(username,password);
-      sendBuff<<ret;
-    } else if (strcmp(nombre_funcion,"comprobarEntrada")==0){
-      int ret=comprobarEntrada(args);
-      sendBuff<<ret;
-    } else if (strcmp(nombre_funcion,"insertarDiaFiesta")==0){
-      //Dividir los argumentos en fecha,nomDiscoteca y eventoEsp
-      char *fecha=strtok(args,",");
-      char *nomDiscoteca=strtok(NULL,",");
-      char *eventoEsp=strtok(NULL,",");
-      int ret=insertarDiaFiesta(fecha,nomDiscoteca,eventoEsp);  
-      sendBuff<<ret;
-    } else if(strcmp(nombre_funcion,"insertarRegistro")==0){
-      //Dividir los argumentos en nombre usuario sexo edad correo contra
-      char *nombre=strtok(args,",");
-      char *usuario=strtok(NULL,",");
-      char *sexo=strtok(NULL,",");
-      int edad=atoi(strtok(NULL,","));
-      char *correo=strtok(NULL,",");
-      char *contra=strtok(NULL,",");
-      int ret=insertarRegistro(nombre,usuario,sexo,edad,correo,contra);
-	sendBuff<<ret;
-    } else if(strcmp(nombre_funcion,"insertarEvento")==0){
-      //Dividir los argumentos en fecha,nombreDisco y descripcionEvento
-      char *fecha=strtok(args,",");
-      char *nombreDisco=strtok(NULL,",");
-      char *descripcionEvento=strtok(NULL,",");
-      int ret=insertarEvento(fecha,nombreDisco,descripcionEvento);
-      sendBuff<<ret;
-    }
+  // Llamar a la función correspondiente con sus argumentos y enviar el valor devuelto
+  if (strcmp(nombre_funcion, "inicializarUsuarios") == 0) {
+    int ret = inicializarUsuarios();
+    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    pos += sizeof(ret);
+  } else if (strcmp(nombre_funcion, "inicializarDiasDeFiesta") == 0) {
+    int ret = inicializarDiasDeFiesta();
+    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    pos += sizeof(ret);
+  } else if (strcmp(nombre_funcion, "inicializarDJ") == 0) {
+    int ret = inicializarDJ();
+    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    pos += sizeof(ret);
+  } else if (strcmp(nombre_funcion, "inicializarRRPP") == 0) {
+    int ret = inicializarRRPP();
+    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    pos += sizeof(ret);
+  } else if (strcmp(nombre_funcion, "inicializarListaEventos") == 0) {
+    int ret = inicializarListaEventos();
+    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    pos += sizeof(ret);
+  } else if (strcmp(nombre_funcion, "inicializacion") == 0) {
+    int ret = inicializacion();
+    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    pos += sizeof(ret);
+  } else if (strcmp(nombre_funcion, "limpiarInput") == 0) {
+    char * ret = limpiarInput(args);
+    size_t size = strlen(ret) + 1;
+    memcpy(sendBuff + pos, ret, size);
+    pos += size;
+  } else if (strcmp(nombre_funcion, "clearIfNeeded") == 0) {
+    // Dividir los argumentos en str y max_line
+    char * ret = strtok(args, ",");
+    int max_line = atoi(strtok(NULL, ","));
+    clearIfNeeded(ret, max_line);
+    size_t size = strlen(ret) + 1;
+    memcpy(sendBuff + pos, ret, size);
+    pos += size;
+  } else if (strcmp(nombre_funcion, "comprobarCodigoLocal") == 0) {
+    int cod = atoi(args);
+    int ret = comprobarCodigoLocal(cod);
+    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    pos += sizeof(ret);
+  } else if (strcmp(nombre_funcion, "comprobarCodigoRRPP") == 0) {
+    int cod = atoi(args);
+    int ret = comprobarCodigoRRPP(cod);
+    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    pos += sizeof(ret);
+  } else if (strcmp(nombre_funcion, "comprobarUsuario") == 0) {
+    int ret = comprobarUsuario(args);
+    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    pos += sizeof(ret);
+  } else if (strcmp(nombre_funcion, "comprobarFecha") == 0) {
+    //Dividir los argumentos en fecha y evento
+    char * fecha = strtok(args, ",");
+    int evento = atoi(strtok(NULL, ","));
+    int ret = comprobarFecha(fecha, evento);
+    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    pos += sizeof(ret);
+  } else if (strcmp(nombre_funcion, "comprobarAdmin") == 0) {
+    int ret = comprobarAdmin(args);
+    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    pos += sizeof(ret);
+  } else if (strcmp(nombre_funcion, "comprobarExistencia") == 0) {
+    //Dividir los argumentos en username y password
+    char * username = strtok(args, ",");
+    char * password = strtok(NULL, ",");
+    int ret = comprobarExistencia(username, password);
+    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    pos += sizeof(ret);
+  } else if (strcmp(nombre_funcion, "comprobarEntrada") == 0) {
+    int ret = comprobarEntrada(args);
+    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    pos += sizeof(ret);
+  } else if (strcmp(nombre_funcion, "insertarDiaFiesta") == 0) {
+    //Dividir los argumentos en fecha,nomDiscoteca y eventoEsp
+    char * fecha = strtok(args, ",");
+    char * nomDiscoteca = strtok(NULL, ",");
+    char * eventoEsp = strtok(NULL, ",");
+    int ret = insertarDiaFiesta(fecha, nomDiscoteca, eventoEsp);
+    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    pos += sizeof(ret);
+  } else if (strcmp(nombre_funcion, "insertarRegistro") == 0) {
+    //Dividir los argumentos en nombre usuario sexo edad correo contra
+    char * nombre = strtok(args, ",");
+    char * usuario = strtok(NULL, ",");
+    char * sexo = strtok(NULL, ",");
+    int edad = atoi(strtok(NULL, ","));
+    char * correo = strtok(NULL, ",");
+    char * contra = strtok(NULL, ",");
+    int ret = insertarRegistro(nombre, usuario, sexo, edad, correo, contra);
+  } else if (strcmp(nombre_funcion, "insertarEvento") == 0) {
+    //Dividir los argumentos en fecha,nombreDisco y descripcionEvento
+    char * fecha = strtok(args, ",");
+    char * nombreDisco = strtok(NULL, ",");
+    char * descripcionEvento = strtok(NULL, ",");
+    int ret = insertarEvento(fecha, nombreDisco, descripcionEvento);
+    memcpy(sendBuff + pos, & ret, sizeof(ret));
+    pos += sizeof(ret);
+  }
 
-    // Enviar el valor devuelto por la función llamada a través del socket
-    std::string data = sendBuff.str();
-    send(comm_socket, data.c_str(), data.size(), 0);
+  // Enviar el valor devuelto por la función llamada a través del socket
+  send(comm_socket, sendBuff, pos, 0);
 }
-
 
 
 int main(int argc, char *argv[]) {
