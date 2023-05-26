@@ -1179,7 +1179,7 @@ void mostrarDJAdmin() {
   int aper;
 
   const char* sentencia = "SELECT * FROM dj";
-  aper = sqlite3_exec(database, sentencia, callbackClient, 0, &error);
+  aper = sqlite3_exec(database, sentencia, callback, 0, &error);
   
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
@@ -1321,8 +1321,7 @@ int insertarEntrada(char* codigoFecha, char* fechaEntrada, char* nombreDiscoteca
   char lineEntrada[1024];
   int codigoFechaFinal = atoi(codigoFecha);
   int numeroEntradasFianl = atoi(numeroEntradas);
-  float precioFinal = strtof(precio, NULL);
-
+  float precioFinal = atof(precio);
 
   sscanf(lineEntrada, "%d, '%[^','], '%[^','], %d, '%[^','], '%[^','], '%[^','], '%[^','], '%[^','], %lf, '%[^',']",
         &codigoFechaFinal, fechaEntrada, nombreDiscoteca, &numeroEntradasFianl, cuentaGmail, numeroTarjetaCredito, cvvTarjeta,
@@ -1416,7 +1415,7 @@ int buscarUltimoCodigo() {
   return lastId;
 }
 
-char* buscarFechaConCodigoFecha(int codigoFecha) {
+char* buscarFechaConCodigoFecha(char* codigoFecha) {
   abrirConexion();
 
   sqlite3_stmt* statement;
@@ -1434,19 +1433,17 @@ char* buscarFechaConCodigoFecha(int codigoFecha) {
 
   if (busqueda != SQLITE_OK) {
     printf("No se pudo preparar la consulta SQL: %s\n", gestionarError(database));
-    exit(EXIT_FAILURE);
     sqlite3_finalize(statement);
     cerrarConexion(database);
-
     return NULL;
   }
 
-  sqlite3_bind_int(statement, 1, codigoFecha);
+  sqlite3_bind_text(statement, 1, codigoFecha, -1, SQLITE_STATIC);
   busqueda = sqlite3_step(statement);
 
   if (busqueda == SQLITE_ROW) {
-    const char* fecha = (const char*)sqlite3_column_text(statement, 0);
-    char* fechaEncontrada = strdup(fecha); // Copia la fecha encontrada a una nueva cadena
+    const unsigned char* fecha = sqlite3_column_text(statement, 0);
+    char* fechaEncontrada = strdup((const char*)fecha); // Copia la fecha encontrada a una nueva cadena
 
     sqlite3_finalize(statement);
     cerrarConexion(database);
@@ -1459,18 +1456,15 @@ char* buscarFechaConCodigoFecha(int codigoFecha) {
 
     return NULL;
   }
-
-  cerrarConexion(database);
-  return NULL;
 }
 
-char* buscarDiscotecaConCodigoFecha(int codigoFecha) {
+char* buscarDiscotecaConCodigoFecha(char* codigoFecha) {
   abrirConexion();
 
   sqlite3_stmt* statement;
   char* mensajeError = 0;
   int busqueda = 0;
-  char* codigoEntrada = NULL;
+  char* nombreDiscotecaEncontrada = NULL;
 
   abrirConexion();
   if (gestionarError(database) != SQLITE_OK) {
@@ -1489,12 +1483,12 @@ char* buscarDiscotecaConCodigoFecha(int codigoFecha) {
     return NULL;
   }
 
-  sqlite3_bind_int(statement, 1, codigoFecha);
+  sqlite3_bind_text(statement, 1, codigoFecha, -1, SQLITE_STATIC);
   busqueda = sqlite3_step(statement);
 
   if (busqueda == SQLITE_ROW) {
-    const char* nombreDiscoteca = (const char*)sqlite3_column_text(statement, 0);
-    char* nombreDiscotecaEncontrada = strdup(nombreDiscoteca); // Copia el nombre de la discoteca encontrada a una nueva cadena
+    const unsigned char* nombreDiscoteca = sqlite3_column_text(statement, 0);
+    nombreDiscotecaEncontrada = strdup((const char*)nombreDiscoteca); // Copia el nombre de la discoteca encontrada a una nueva cadena
 
     sqlite3_finalize(statement);
     cerrarConexion(database);
@@ -1507,7 +1501,4 @@ char* buscarDiscotecaConCodigoFecha(int codigoFecha) {
 
     return NULL;
   }
-
-  cerrarConexion(database);
-  return NULL;
 }

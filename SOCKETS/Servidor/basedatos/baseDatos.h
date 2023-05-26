@@ -61,8 +61,9 @@ int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* co
 int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento);
 int insertarEntrada(char* codigoFecha, char* fechaEntrada, char* nombreDiscoteca, char* numeroEntradas, char* cuentaGmail, char* numeroTarjetaCredito, char* cvvTarjeta, char* caducidadTarjeta, char* tipoEntrada, char* precio, char* usuario);
 int insertarReservaLocal(char* codigo, char* fecha, char* nombreDiscoteca, char* aforo, char* numeroTarjeta, char* cvvTarjeta, char* caducidadTarjeta);
+
 int buscarUltimoCodigo();
-char* buscarFechaConCodigoFecha(int codigoFecha);
-char* buscarDiscotecaConCodigoFecha(int codigoFecha);
+char* buscarFechaConCodigoFecha(char* codigoFecha);
+char* buscarDiscotecaConCodigoFecha(char* codigoFecha);
 
 #endif

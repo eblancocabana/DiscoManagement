@@ -220,7 +220,6 @@ int menuServidor() {
       printf("\n---------------------------------------------------\n");
       printf("Importar RRPPs\n\n");
 
-      abrirConexion();
       inicializarRRPP();
       mostrarRRPPAdmin();
 
@@ -232,7 +231,6 @@ int menuServidor() {
       printf("\n---------------------------------------------------\n");
       printf("Importar DJs\n\n");
 
-      abrirConexion();
       inicializarDJ();
       mostrarDJAdmin();
 
