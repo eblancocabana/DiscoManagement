@@ -54,22 +54,50 @@ int elegirCodigo() {
 }
 
 void reservarLocal() {
-    int codLocal;
     int existe = 0;
+    int codigo;
+    char inputCod[MAX_CODIGO+5];
+    char* cod;
+    char* type;
+    char auxCodigo[16];
 
     do {
         opcionReserva = mostrarListado();
         switch (opcionReserva) {
         case '1':
             cout << "\n---------------------------------------------------\n";
-            cout << "Introducir fecha y nombre de discoteca";
+            do {
+                cout << "Introducir codigo del local: ";
+                cin.getline(inputCod, MAX_CODIGO);
+                sscanf(inputCod, "%d", &codigo);
+                        
+                //BD
+                cod = enviar_datos_char("limpiarInput", 1, &inputCod, sizeof(inputCod));
+                printf("%s\n", cod);
 
-            codLocal = elegirCodigo();
+                errno = 0;
+                long int num = strtol(cod, &type, 10); //CodigoFecha
+                codLocal = num;
+                if (errno != 0 || *type != '\0') {
+                    cout << "'" << cod << "' no es una entrada valida\n";
+                }
+
+            } while (errno != 0 || *type != '\0');
+
+            sprintf(auxCodigo, "%d", codigo);
             //BD
-            existe = enviar_datos_int("comprobarCodigoLocal", 1, codLocal);
+            existe = enviar_datos_int("comprobarCodigoLocal", 1, auxCodigo, strlen(auxCodigo));
             
+            if (existe == 0) {
+                cout << "Local con codigo: '" << auxCodigo << "' seleccionada correctamente\n";
+                pagarReserva();
+            } else if ( existe == -1) {
+                cout << "El codigo del local seleccionado no existe\nOperacion cancelada\n";
 
-            pagarReserva();
+            } else {
+                cout << "Codigo seleccionado incorrectamente\nOperacion cancelada\n";
+            }
+
             break;
         }
 
