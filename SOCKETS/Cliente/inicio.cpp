@@ -82,26 +82,28 @@ void rellenarCamposRegistro() {
     cin.getline(inputRegis, MAX_NOMBRE);
     sscanf(inputRegis, "%s", &nombre);
     enviar_datos("limpiarInput", 1, &inputRegis, sizeof(inputRegis));
-    name = recibir_datos<char*>();
+    name = recibir_datos_char();
+    printf("NOMBREEEEEEE");
+    printf(name);
 
     cout << "Nombre de Usuario: ";
     cin.getline(inputRegis, MAX_NOMBRE_USU);
     sscanf(inputRegis, "%s", &nombreUsu);
     enviar_datos("limpiarInput", 1, &inputRegis, sizeof(inputRegis));
-    username = recibir_datos<char*>();
+    username = recibir_datos_char();
 
     cout << "Sexo: ";
     cin.getline(inputRegis, MAX_SEXO);
     sscanf(inputRegis, "%s", &sexo);
     enviar_datos("limpiarInput", 1, &inputRegis, sizeof(inputRegis));
-    sex = recibir_datos<char*>();
+    sex = recibir_datos_char();
 
     do {
         cout << "Edad: ";
         cin.getline(inputRegis, MAX_EDAD);
         sscanf(inputRegis, "%i", &edad);
         enviar_datos("limpiarInput", 1, &inputRegis, sizeof(inputRegis));
-        age = recibir_datos<char*>();
+        age = recibir_datos_char();
 
         errno = 0;
         long int num = strtol(age, &type, 10);
@@ -115,25 +117,25 @@ void rellenarCamposRegistro() {
     cin.getline(inputRegis, MAX_CORREO);
     sscanf(inputRegis, "%s", &correo);
     enviar_datos("limpiarInput", 1, &inputRegis, sizeof(inputRegis));
-    correoElec = recibir_datos<char*>();
+    correoElec = recibir_datos_char();
 
     cout << "Contrasenya: ";
     cin.getline(inputRegis, MAX_CONTRASENYA);
     sscanf(inputRegis, "%s", &contrasenya);
     enviar_datos("limpiarInput", 1, &inputRegis, sizeof(inputRegis));
-    char* password = recibir_datos<char*>();
+    char* password = recibir_datos_char();
 
 
     cout << "Repetir Contrasenya: ";
     cin.getline(inputRegis, MAX_CONTRASENYA);
     sscanf(inputRegis, "%s", &repertirContrasenya);
     enviar_datos("limpiarInput", 1, &inputRegis, sizeof(inputRegis));
-    char* repPass = recibir_datos<char*>();
+    char* repPass = recibir_datos_char();
 
     cout << "\nDatos introducidos: " << name << " - " << username << " - " << sex << " - " << age << " - " << correoElec << " - " << password << " - " << repPass << endl;
     //existe = comprobarUsuario(username); BD
     enviar_datos("comprobarUsuario", 1, &username, sizeof(username));
-    existe = recibir_datos<int>();
+    existe = recibir_datos_int();
 
     if ((existe == -1) && (strcmp(password, repPass) != 0)) {
         cout << "Pero las contrasenyas NO coinciden" << endl;
@@ -156,17 +158,17 @@ void iniciarSesion() {
     cout << "Usuario: ";
     cin.getline(input, MAX_NOMBRE_USU);
     enviar_datos("limpiarInput", 1, &input, sizeof(input));
-    char* us = recibir_datos<char*>();
+    char* us = recibir_datos_char();
 
     cout << "Contrasenya: ";
     cin.getline(input, MAX_CONTRASENYA);
     enviar_datos("limpiarInput", 1, &input, sizeof(input));
-    char* pa = recibir_datos<char*>();
+    char* pa = recibir_datos_char();
 
     enviar_datos("comprobarExistencia", 2, us, sizeof(us), pa, sizeof(pa));
-    existe = recibir_datos<int>();
+    existe = recibir_datos_int();
     enviar_datos("comprobarAdmin", 1, us, sizeof(us));
-    int admin = recibir_datos<int>();
+    int admin = recibir_datos_int();
     if ((existe == 0) && ( admin== 0)) {
         cout << "\nADMIN ENCONTRADO, accediendo al menu\n";
     } else if ((existe == 0)) {

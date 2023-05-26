@@ -136,7 +136,7 @@ void menuListadoDiasDisponibles() {
                     strcat(strCodigo, strNum);
                     //BD
                     enviar_datos("comprobarCodigoEntrada", 1, strCodigo, strlen(strCodigo));
-                    int resultado = recibir_datos<int>();
+                    int resultado = recibir_datos_int();
                     if ( resultado== 0) {
                         cout << "Entrada con codigo: '" << strCodigo << "' seleccionada correctamente\n";
                         tipoEntradaSeleccionada();
@@ -154,7 +154,7 @@ void menuListadoDiasDisponibles() {
                     //BD
                     enviar_datos("comprobarCodigoEntrada", 1, auxCodigo, strlen(auxCodigo));
                     
-                    int resultado = recibir_datos<int>();
+                    int resultado = recibir_datos_int();
                     if (resultado== 0) {
                         cout << "Entrada con codigo: '" << auxCodigo << "' seleccionada correctamente\n";
                         tipoEntradaSeleccionada();

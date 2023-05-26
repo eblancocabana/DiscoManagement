@@ -59,7 +59,7 @@ void reservarLocal() {
             codLocal = elegirCodigo();
             //BD
             enviar_datos("comprobarCodigoLocal", 1, codLocal);
-            existe = recibir_datos<int>();
+            existe = recibir_datos_int();
 
             pagarReserva();
             break;
