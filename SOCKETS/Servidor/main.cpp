@@ -41,7 +41,7 @@ using namespace std;
 //g++ -c administrador/inicio_servidor.cpp -o inicio.o         CREAR .O DE LOS C++
 //g++ -c main.cpp -o main.o         CREAR .O DE LOS C++
 
-//g++ main.o inicio.o sqlite.o bd.o -o admin.exe -lWs2_32        EJECUTAR EL ARCHIVO
+//g++ main.o inicio.o sqlite.o bd.o -o servidor.exe -lWs2_32        EJECUTAR EL ARCHIVO
 
 void iniciarSesion() {
     int existe = 1;
