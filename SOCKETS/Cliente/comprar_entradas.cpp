@@ -255,7 +255,6 @@ void confirmarCompra(){
                 entradaCatFin = new char[longitud];
                 strcpy(entradaCatFin, entradaCat);
 
-                Entrada* e = new Entrada(codigoFecha_ent, fecha_ent, nomDiscoteca, numEntradas, gmail, numTarjeta, cvvTar, caducidadTar, entradaCatFin, precios, nombreCompleto);
                 const char* codFechaAux = (std::to_string(codigoFecha_ent)).c_str();
                 const char* numEntradasAux = (std::to_string(numEntradas)).c_str();
                 const char* preciosAux = (std::to_string(precios)).c_str();
