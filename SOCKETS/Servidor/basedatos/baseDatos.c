@@ -40,6 +40,8 @@ int reiniciarBD() {
   inicializarDJ();
   inicializarRRPP();
   inicializarListaEventos();
+  inicializarEntradas();
+  inicializarReservaLocal();
 
   cerrarConexion(database);
 }
@@ -113,6 +115,7 @@ void gestionarFree(char* str) {
 }
 
     // INICIALIZACION DE LOS VALORES DE LA BASE DE DATOS (VALORES POR DEFECTO)
+
 int inicializarReservaLocal() {
     abrirConexion();
 
@@ -1211,6 +1214,47 @@ int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento) {
   return 0;
 }
 
+    // INSERTAR DATOS DE COMPRA A LA BASE DE DATOS
+
+int insertarEntrada(EntradaEst entradaInsertar) {
+
+  // Construir la sentencia INSERT
+  char sentenciaEntradaInsert[500];
+  sprintf(sentenciaEntradaInsert, "INSERT INTO entradas (codigoFecha, fechaEntrada, nombreDiscoteca, numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta, caducidadTarjeta, tipoEntrada, precio, nombreUsuario) VALUES (%d, '%s', '%s', %d, '%s', '%s', '%s', '%s', '%s', %f, '%s');",
+          entradaInsertar.codigoFecha, entradaInsertar.fechaEntrada, entradaInsertar.nombreDiscoteca, entradaInsertar.numeroEntradas, entradaInsertar.cuentaGmail, entradaInsertar.numeroTarjetaCredito, entradaInsertar.cvvTarjeta, entradaInsertar.caducidadTarjeta, entradaInsertar.tipoEntrada, entradaInsertar.precio, entradaInsertar.usuario);
+
+  // Ejecutar la sentencia INSERT
+  aperturaInsert = sqlite3_exec(database, sentenciaEntradaInsert, 0, 0, &mensajeError);
+  if (aperturaInsert != SQLITE_OK) {
+      printf("Error al ejecutar la sentencia INSERT: %s\n", gestionarError(database));
+      return 1;
+  }
+
+  // Cerrar la conexión a la base de datos
+  cerrarConexion(database);
+
+  return 0;
+}
+
+int insertarReservaLocal(ReservaLocalEst reservarLocalInsertar) {
+  // Construir la sentencia INSERT
+  char sentenciaReservarLocalInsert[500];
+  sprintf(sentenciaReservarLocalInsert, "INSERT INTO reservalocal (codigo, fecha, nombrediscoteca, aforo, numerotarjeta, cvvtarjeta, caducidadtarjeta) VALUES ('%s', '%s', '%s', %d, '%s', '%s', '%s');",
+          reservarLocalInsertar.codigo, reservarLocalInsertar.fecha, reservarLocalInsertar.nombreDiscoteca, reservarLocalInsertar.aforo, reservarLocalInsertar.numeroTarjeta, reservarLocalInsertar.cvvTarjeta, reservarLocalInsertar.caducidadTarjeta);
+
+  // Ejecutar la sentencia INSERT
+  aperturaInsert = sqlite3_exec(database, sentenciaReservarLocalInsert, 0, 0, &mensajeError);
+  if (aperturaInsert != SQLITE_OK) {
+      printf("Error al ejecutar la sentencia INSERT: %s\n", gestionarError(database));
+      return 1;
+  }
+
+  // Cerrar la conexión a la base de datos
+  cerrarConexion(database);
+
+  return 0; 
+}
+
     // BUSCAR DATOS EN LA BASE DE DATOS
 
 int buscarUltimoCodigo(int eventoBool) {
@@ -1251,43 +1295,3 @@ int buscarUltimoCodigo(int eventoBool) {
     return -1;
   }
 }
-      //  METODOS DE C++
-
-  int insertarEntrada(EntradaEst entradaInsertar) {
-
-    // Construir la sentencia INSERT
-    char sentenciaEntradaInsert[500];
-    sprintf(sentenciaEntradaInsert, "INSERT INTO entradas (codigoFecha, fechaEntrada, nombreDiscoteca, numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta, caducidadTarjeta, tipoEntrada, precio, nombreUsuario) VALUES (%d, '%s', '%s', %d, '%s', '%s', '%s', '%s', '%s', %f, '%s');",
-            entradaInsertar.codigoFecha, entradaInsertar.fechaEntrada, entradaInsertar.nombreDiscoteca, entradaInsertar.numeroEntradas, entradaInsertar.cuentaGmail, entradaInsertar.numeroTarjetaCredito, entradaInsertar.cvvTarjeta, entradaInsertar.caducidadTarjeta, entradaInsertar.tipoEntrada, entradaInsertar.precio, entradaInsertar.usuario);
-
-    // Ejecutar la sentencia INSERT
-    aperturaInsert = sqlite3_exec(database, sentenciaEntradaInsert, 0, 0, &mensajeError);
-    if (aperturaInsert != SQLITE_OK) {
-        printf("Error al ejecutar la sentencia INSERT: %s\n", gestionarError(database));
-        return 1;
-    }
-
-    // Cerrar la conexión a la base de datos
-    cerrarConexion(database);
-
-    return 0;
-  }
-
-  int insertarReservaLocal(ReservaLocalEst reservarLocalInsertar) {
-    // Construir la sentencia INSERT
-    char sentenciaReservarLocalInsert[500];
-    sprintf(sentenciaReservarLocalInsert, "INSERT INTO reservalocal (codigo, fecha, nombrediscoteca, aforo, numerotarjeta, cvvtarjeta, caducidadtarjeta) VALUES ('%s', '%s', '%s', %d, '%s', '%s', '%s');",
-            reservarLocalInsertar.codigo, reservarLocalInsertar.fecha, reservarLocalInsertar.nombreDiscoteca, reservarLocalInsertar.aforo, reservarLocalInsertar.numeroTarjeta, reservarLocalInsertar.cvvTarjeta, reservarLocalInsertar.caducidadTarjeta);
-
-    // Ejecutar la sentencia INSERT
-    aperturaInsert = sqlite3_exec(database, sentenciaReservarLocalInsert, 0, 0, &mensajeError);
-    if (aperturaInsert != SQLITE_OK) {
-        printf("Error al ejecutar la sentencia INSERT: %s\n", gestionarError(database));
-        return 1;
-    }
-
-    // Cerrar la conexión a la base de datos
-    cerrarConexion(database);
-
-    return 0; 
-  }
