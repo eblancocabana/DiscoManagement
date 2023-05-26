@@ -6,6 +6,7 @@
 #include "enviar_datos.h"
 #include <cstring>
 #include "clases/reservalocal.h"
+#include <string>
 
 
 #define MAX_SELECCION 5
@@ -34,7 +35,8 @@ char caducidadTarjeta[MAX_CADUCIDAD];
 char mostrarListado() {
     cout << "\nListado de dias disponible: (codigo - fecha - nombre discoteca - aforo - evento?)\n\n";
     //BD
-    //enviar_datos_char("mostrarLocales", 0);
+    char* resultado = enviar_datos_char("mostrarLocales", 0);
+    printf("%s\n", resultado);
     cout << "\nOpcion reserva:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ";
 
     char inputReservaLocal[MAX_SELECCION];
@@ -184,22 +186,11 @@ void confirmarReserva() {
             cout << "\nEL PAGO HA SIDO CONFIRMADO"; //bd
             fecha_loc = enviar_datos_char("buscarFechaConCodidoFecha", 1, codLocal);
             nombreDiscoteca = enviar_datos_char("buscarDiscotecaConCodigoFecha", 1, codLocal);
-            struct ReservaLocal {
-                    int codigo;
-                    char* fecha;
-                    char* nomDiscoteca;
-                    int numPersonas;
-                    char* numTarjeta;
-                    char* cvvTar;
-                    char* caducidadTar;
-    
-                    ReservaLocal(int codigo, char* fecha, char* nomDiscoteca, int numPersonas,
-                        char* numTarjeta, char* cvvTar, char* caducidadTar);
-
-                    ReservaLocal* rl = new ReservaLocal(codLocal, fecha_loc, nombreDiscoteca, aforo, numeroTarjeta, cvvTarjeta, caducidadTarjeta);
-                };
             
-
+            const char* codigo_aux = (std::to_string(codLocal)).c_str();
+            const char* aforo_aux = (std::to_string(aforo)).c_str();
+            enviar_datos_int("insertarRegistro", 7, codigo_aux, strlen(codigo_aux)+1, fecha_loc, strlen(fecha_loc)+1, nombreDiscoteca, strlen(nombreDiscoteca)+1, aforo, strlen(aforo_aux)+1, numeroTarjeta, strlen(numeroTarjeta)+1, cvvTarjeta, strlen(cvvTarjeta)+1, caducidadTarjeta, strlen(caducidadTarjeta)+1);
+      
             menu();
             opcionConfirmarReserva = '0';
             opcionPagoReserva = '0';
