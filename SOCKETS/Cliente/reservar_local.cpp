@@ -156,7 +156,21 @@ void confirmarReserva() {
             cout << "\nEL PAGO HA SIDO CONFIRMADO"; //bd
             fecha_loc = enviar_datos_char("buscarFechaConCodidoFecha", 1, codLocal);
             nombreDiscoteca = enviar_datos_char("buscarDiscotecaConCodigoFecha", 1, codLocal);
-            ReservaLocal* rl = new ReservaLocal(codLocal, fecha_loc, nombreDiscoteca, aforo, numeroTarjeta, cvvTarjeta, caducidadTarjeta);
+            struct ReservaLocal {
+                    int codigo;
+                    char* fecha;
+                    char* nomDiscoteca;
+                    int numPersonas;
+                    char* numTarjeta;
+                    char* cvvTar;
+                    char* caducidadTar;
+    
+                    ReservaLocal(int codigo, char* fecha, char* nomDiscoteca, int numPersonas,
+                        char* numTarjeta, char* cvvTar, char* caducidadTar);
+
+                    ReservaLocal* rl = new ReservaLocal(codLocal, fecha_loc, nombreDiscoteca, aforo, numeroTarjeta, cvvTarjeta, caducidadTarjeta);
+                };
+            
 
             menu();
             opcionConfirmarReserva = '0';
