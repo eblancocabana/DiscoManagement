@@ -871,7 +871,7 @@ int comprobarCodigoRRPP(int cod) {
     return 0;
 
   } else {
-    printf("\nNo se ha encontrado el usuario\n");
+    printf("\nNo se ha encontrado el codigo\n");
     sqlite3_finalize(statement);
     cerrarConexion(database);
     return 0;
@@ -1086,25 +1086,25 @@ void mostrarRRPP() {
     // INSERTAR DATOS BASICOS A LA BASE DE DATOS
 
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
- 
+  printf("0");
   int entradas = 400;
   char lineFi[1024];
   int ultimo;
-  const char* codigo = (char*)malloc(MAX_INPUT * sizeof(char));
+  const char* codigo = (char*) malloc(MAX_INPUT * sizeof(char));
   char* codigoFinal = NULL;
-
+  printf("-1");
   if (eventoEsp == "No") {
     ultimo = buscarUltimoCodigo(1) + 1;
   } else {
     ultimo = buscarUltimoCodigo(0) + 1;
   }
-
+  printf("-2");
   abrirConexion();
 
   strcpy(codigoFinal, codigo);
   sprintf(codigoFinal, "%d", ultimo);
   //printf("%s", codigo);
-
+  printf("1");
   sscanf(lineFi, "%[^','],%[^','],%[^','],%d,%s",
     codigo,
     fecha, 
@@ -1113,16 +1113,16 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
     eventoEsp);
 
   char sql_insertFi[1024];
-
+  printf("2");
   sprintf(sql_insertFi, "INSERT INTO dias_de_fiesta VALUES('%s','%s','%s',%d,'%s');",
     codigo,
     fecha,
     nomDiscoteca,
     entradas,
     eventoEsp);
-
+  printf("3");
   aperturaInsert = sqlite3_exec(database, sql_insertFi, 0, 0, &mensajeError);
-
+  printf("4");
   if (aperturaInsert != SQLITE_OK) {
     gestionarFree(mensajeError);
     gestionarError(database);
@@ -1354,7 +1354,7 @@ char* buscarFechaConCodidoFecha(int codigoFecha) {
     sqlite3_finalize(statement);
     cerrarConexion(database);
 
-    return -1;
+    return NULL;
   }
 
   sqlite3_bind_int(statement, 1, codigoFecha);
@@ -1368,6 +1368,54 @@ char* buscarFechaConCodidoFecha(int codigoFecha) {
     cerrarConexion(database);
 
     return fechaEncontrada;
+
+  } else {
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+
+    return NULL;
+  }
+
+  cerrarConexion(database);
+  return NULL;
+}
+
+char* buscarDiscotecaConCodigoFecha(int codigoFecha) {
+  abrirConexion();
+
+  sqlite3_stmt* statement;
+  char* mensajeError = 0;
+  int busqueda = 0;
+  char* codigoEntrada = NULL;
+
+  abrirConexion();
+  if (gestionarError(database) != SQLITE_OK) {
+    printf("Error en la conexión a la base de datos: %s\n", gestionarError(database));
+  }
+
+  const char* sentencia = "SELECT nombre FROM dias_de_fiesta WHERE codigo = ?";
+  busqueda = sqlite3_prepare_v2(database, sentencia, -1, &statement, NULL);
+
+  if (busqueda != SQLITE_OK) {
+    printf("No se pudo preparar la consulta SQL: %s\n", gestionarError(database));
+    exit(EXIT_FAILURE);
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+
+    return NULL;
+  }
+
+  sqlite3_bind_int(statement, 1, codigoFecha);
+  busqueda = sqlite3_step(statement);
+
+  if (busqueda == SQLITE_ROW) {
+    const char* nombreDiscoteca = (const char*)sqlite3_column_text(statement, 0);
+    char* nombreDiscotecaEncontrada = strdup(nombreDiscoteca); // Copia el nombre de la discoteca encontrada a una nueva cadena
+
+    sqlite3_finalize(statement);
+    cerrarConexion(database);
+
+    return nombreDiscotecaEncontrada;
 
   } else {
     sqlite3_finalize(statement);

@@ -112,6 +112,7 @@ int menuServidor() {
   const char* evento;
   int len;
   int existeFecha;
+  int longitudEvento;
 
   do {
     opcionMenu = mostrarMenuServidor();
@@ -124,7 +125,7 @@ int menuServidor() {
 
     case '2':
       cout << "\n---------------------------------------------------\n";
-      cout << "Aniadir fiesta:\n";
+      cout << "Anyadir fiesta:\n";
 
       nomDiscoteca = introducirNombreDiscoteca();
       len = strcspn(nomDiscoteca, "\n");
@@ -135,6 +136,7 @@ int menuServidor() {
       fecha[len] = '\0';
 
       evento = "No";
+      longitudEvento = strlen(evento) + 1;
 
       nomDiscoteca[0] = toupper(nomDiscoteca[0]);
       for (int i = 1; nomDiscoteca[i] != '\0'; i++) {
@@ -146,9 +148,10 @@ int menuServidor() {
             int verificacionFecha = 0;
             verificacionFecha = verificarFecha(fecha);
             if (verificacionFecha) {
-                
-                char* eventoFinal = NULL;
+               
+                char* eventoFinal = new char[longitudEvento];
                 strcpy(eventoFinal, evento);
+                printf(eventoFinal);
                 insertarDiaFiesta(fecha, nomDiscoteca, eventoFinal);
           cout << "Fiesta introducida correctamente en La Base De Datos\n";
 
@@ -166,7 +169,7 @@ int menuServidor() {
 
     case '3':
       cout << "\n---------------------------------------------------\n";
-      cout << "Aniadir evento:\n";
+      cout << "Anyadir evento:\n";
 
       nomDiscoteca = introducirNombreDiscoteca();
       len = strcspn(nomDiscoteca, "\n");
@@ -181,6 +184,7 @@ int menuServidor() {
       descripcionEvento[len] = '\0';
 
       evento = "Si";
+      longitudEvento = strlen(evento) + 1;
 
       nomDiscoteca[0] = toupper(nomDiscoteca[0]);
       for (int i = 1; nomDiscoteca[i] != '\0'; i++) {
@@ -194,8 +198,9 @@ int menuServidor() {
         verificacionFecha = verificarFecha(fecha);
 
         if (verificacionFecha) {
-          char* eventoFinal = NULL;
+          char* eventoFinal = new char[longitudEvento];
           strcpy(eventoFinal, evento);
+
           insertarDiaFiesta(fecha, nomDiscoteca, eventoFinal);
           insertarEvento(fecha, nomDiscoteca, descripcionEvento);
           printf("Evento introducido correctamente en La Base De Datos\n");

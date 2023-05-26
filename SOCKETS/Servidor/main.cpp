@@ -63,7 +63,8 @@ void iniciarSesion() {
         inicioServidor();
 
     } else if ((existe == 0)) {
-        cout << "\nUSUARIO NO ADMIN\n";
+        cout << "\nUSUARIO NO ADMIN. Acceso denegado\n";
+        cout << "Ejecucion finalizada\n";
 
         return;
     } else {
@@ -232,10 +233,10 @@ int main(int argc, char *argv[]) {
             } else if (opcion == 2) {
                 cout << "Ejecutando el servidor para ponerse en escucha...\n";
             } else {
-                cout << "Opcion no válida. Por favor, intente nuevamente.\n";
+                cout << "Opcion no valida. Por favor, intente nuevamente.\n";
             }
         } catch (std::exception const& e) {
-            cout << "Entrada no válida. Por favor, ingrese un número entero.\n";
+            cout << "Entrada no valida. Por favor, ingrese un numero entero.\n";
         }
     }
 
