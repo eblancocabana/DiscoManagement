@@ -122,10 +122,36 @@ char mostrarPagarEntrada(){
 }
 
 char* introducirNumTarjeta() {
-    cout << "\n\tIntroduce el numero de tarjeta (sin espacios - 9 caracteres): ";
 
     char* inputNumTarjeta = new char[MAX_NUM_TARJETA];
-    cin.getline(inputNumTarjeta, MAX_NUM_TARJETA);
+    bool valido = false;
+
+    while (!valido) {
+        cout << "\n\tIntroduce el número de tarjeta (sin espacios - 9 caracteres): ";
+        cin.getline(inputNumTarjeta, MAX_NUM_TARJETA);
+
+        // Validar la longitud
+        if (strlen(inputNumTarjeta) != 9) {
+            cout << "\n\tEl número de tarjeta debe tener 9 caracteres. Vuelve a intentarlo." << std::endl;
+            continue;
+        }
+
+        // Validar si todos los caracteres son dígitos
+        bool esDigito = true;
+        for (int i = 0; i < 9; i++) {
+            if (!isdigit(inputNumTarjeta[i])) {
+                esDigito = false;
+                break;
+            }
+        }
+
+        if (!esDigito) {
+            cout << "\n\tEl número de tarjeta debe contener solo dígitos. Vuelve a intentarlo." << std::endl;
+        } else {
+            valido = true;
+        }
+    }
+
     return inputNumTarjeta;
 }
 
