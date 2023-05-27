@@ -1,14 +1,22 @@
 #include <iostream>
 #include <locale.h>
-#include "inicio.h"
- //#include "basedatos/baseDatos.h"
-#include "enviar_datos.h"
 #include <winsock2.h>
+#include <string>
+#include <cstdarg>
+
+#include "inicio.h"
+#include "enviar_datos.h"
+
 #define SERVER_IP "127.0.0.1"
 #define SERVER_PORT 6000
 SOCKET s;
-#include <string>
-#include <cstdarg>
+
+// Para ejecutar el cliente.exe
+
+// cd SOCKET
+// cd Cliente
+// g++ main.cpp comprar_entradas.cpp inicio.cpp reservar_local.cpp seleccion_entradas.cpp clases/entrada.cpp clases/reservalocal.cpp -o cliente.exe -lWs2_32
+
 
 char * enviar_datos_char(const char * nombre_funcion, int num_args, ...) {
     char sendBuff[512];
@@ -35,6 +43,7 @@ char * enviar_datos_char(const char * nombre_funcion, int num_args, ...) {
     char buffer[8192];
     int bytes_recibidos = recv(s, buffer, sizeof(buffer), 0);
     printf("BYTES:%d\n",bytes_recibidos);
+
     if (bytes_recibidos > 0) {
         char * resultado = new char[bytes_recibidos + 1];
         memcpy(resultado, buffer, bytes_recibidos);
