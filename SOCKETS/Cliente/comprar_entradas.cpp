@@ -223,19 +223,6 @@ void confirmarPago(){
         switch(opcionConfirmarPago){
             case '1':
                 cout << "\n---------------------------------------------------\n";
-            do {
-                
-                std::printf("%s\n", cod);
-
-                errno = 0;
-                long int num = strtol(cod, &type, 10); //CodigoFecha
-                codigoFecha_ent = num;
-                if (errno != 0 || *type != '\0') {
-                    cout << "'" << cod << "' no es una entrada valida\n";
-                }
-
-            } while (errno != 0 || *type != '\0');
-
             bool isNumber = true;
             do {
                 isNumber = true;
@@ -251,7 +238,6 @@ void confirmarPago(){
                         break;
                     }
                 }
-                // do something here
             } while (!isNumber);
 
             std::printf(cod);
