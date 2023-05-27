@@ -8,13 +8,9 @@
 
 extern "C" {
   #include "basedatos/sqlite/sqlite3.h"
-
   #include "basedatos/baseDatos.h"
-
   #include "estructuras/entrada_est.h"
-
   #include "estructuras/reservarlocal_est.h"
-
 }
 
 #include "clases/reservalocal.h"
@@ -86,7 +82,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
   printf("BUFF: %s\n", sendBuff);
 
   int pos = 0;
-  printf("RECIBIDO: %s - ARGUMENTO: %s", nombre_funcion, args);
+  printf("RECIBIDO: %s - ARGUMENTO: %s\n", nombre_funcion, args);
 
   // Llamar a la función correspondiente con sus argumentos y enviar el valor devuelto
   if (strcmp(nombre_funcion, "inicializarUsuarios") == 0) {
