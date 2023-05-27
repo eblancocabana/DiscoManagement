@@ -22,7 +22,7 @@ using namespace std;
 #define MAX_NOMBRE_USU 20
 #define MAX_SEXO 20
 #define MAX_EDAD 20
-#define MAX_CORREO 20
+#define MAX_CORREO 40
 #define MAX_CONTRASENYA 20
 char * us;
 char * name;
