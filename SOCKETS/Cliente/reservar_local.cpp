@@ -193,14 +193,6 @@ void confirmarReserva() {
             nombreDiscoteca = enviar_datos_char("buscarDiscotecaConCodigoFecha", 1, codigo_aux, strlen(codigo_aux)+1);
             const char* aforo_aux = (std::to_string(aforo)).c_str();
 
-            printf("%s\n", codigo_aux);
-            printf("%s\n", fecha_loc);
-            printf("%s\n", nombreDiscoteca);
-            printf("%s\n", aforo_aux);
-            printf("%s\n", numeroTarjeta);
-            printf("%s\n", cvvTarjeta);
-            printf("%s\n", caducidadTarjeta);
-
             int resultado = enviar_datos_int("insertarReservaLocal", 7, codigo_aux, strlen(codigo_aux)+1, fecha_loc, strlen(fecha_loc)+1, nombreDiscoteca, strlen(nombreDiscoteca)+1, aforo_aux, strlen(aforo_aux)+1, numeroTarjeta, strlen(numeroTarjeta)+1, cvvTarjeta, strlen(cvvTarjeta)+1, caducidadTarjeta, strlen(caducidadTarjeta)+1);
 
             menu();
