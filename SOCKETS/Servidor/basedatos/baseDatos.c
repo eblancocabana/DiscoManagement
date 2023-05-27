@@ -1350,33 +1350,32 @@ int insertarEvento(char* fecha, char* nombreDisco, char* descripcionEvento) {
     // INSERTAR DATOS DE COMPRA A LA BASE DE DATOS
 
 int insertarEntrada(char* codigoFecha, char* fechaEntrada, char* nombreDiscoteca, char* numeroEntradas, char* cuentaGmail, char* numeroTarjetaCredito, char* cvvTarjeta, char* caducidadTarjeta, char* tipoEntrada, char* precio, char* usuario) {
-
   abrirConexion();
+
   int codigoFechaFinal = atoi(codigoFecha);
   int numeroEntradasFinal = atoi(numeroEntradas);
   double precioFinal = atof(precio);
 
   char sql_insertEntrada[1024];
 
-  sprintf(sql_insertEntrada, "INSERT INTO entradas (codigoFecha, fechaEntrada, nombreDiscoteca, numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta, caducidadTarjeta, tipoEntrada, precio, nombreUsuario) VALUES (%d, '%s', '%s', %d, '%s', '%s', '%s', '%s', '%s', %lf, '%s');",
-        codigoFechaFinal, fechaEntrada, nombreDiscoteca, numeroEntradasFinal, cuentaGmail, numeroTarjetaCredito, cvvTarjeta,
-        caducidadTarjeta, tipoEntrada, precioFinal, usuario);
+  sprintf(sql_insertEntrada, "INSERT INTO entradas (codigoFecha, fechaEntrada, nombreDiscoteca, numeroEntradas, cuentaGmail, numeroTarjetaCredito, cvvTarjeta, caducidadTarjeta, tipoEntrada, precio, nombreUsuario) VALUES (%d, '%s', '%s', %d, '%s', '%s', '%s', '%s', '%s', %.2lf, '%s');",
+          codigoFechaFinal, fechaEntrada, nombreDiscoteca, numeroEntradasFinal, cuentaGmail, numeroTarjetaCredito, cvvTarjeta,
+          caducidadTarjeta, tipoEntrada, precioFinal, usuario);
 
   aperturaInsert = sqlite3_exec(database, sql_insertEntrada, 0, 0, &mensajeError);
 
   if (aperturaInsert != SQLITE_OK) {
     gestionarFree(mensajeError);
-    //gestionarError(database);
     gestionarFree(errorMessage);
 
     cerrarConexion(database);
     return 1;
   }
 
-  //printf("\nInsertado\n");
   cerrarConexion(database);
   return 0;
 }
+
 
  
 int insertarReservaLocal(char* codigo, char* fecha, char* nombreDiscoteca, char* aforo, char* numeroTarjeta, char* cvvTarjeta, char* caducidadTarjeta) {
