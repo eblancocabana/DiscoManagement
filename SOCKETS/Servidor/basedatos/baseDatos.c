@@ -503,7 +503,7 @@ int inicializarUsuarios() {
 
   char line5[1024];
 
-  fgets(line5, sizeof(line5), fp5); // Saltar la primera línea (encabezados)
+  fgets(line5, sizeof(line5), fp5);
 
   while (fgets(line5, sizeof(line5), fp5)) {
 
@@ -570,9 +570,9 @@ int inicializacion() {
 char* limpiarInput(char* input) {
 
   char* limpio = (char*) malloc(MAX_INPUT * sizeof(char));
-  sscanf(input, "%s", limpio); //le quita el 'n' (si lo hay)
+  sscanf(input, "%s", limpio);
 
-  clearIfNeeded(input, MAX_INPUT); //le quita el 'n' (si lo hay)
+  clearIfNeeded(input, MAX_INPUT);
   fflush(stdout);
   fflush(stdin);
 
@@ -592,11 +592,14 @@ typedef struct {
 } CallbackData;
 
 static int callbackClient(void* data, int argc, char **argv, char **azColName) {
-    int i;
+    
     CallbackData* callbackData = (CallbackData*)data;
+    int i;
     char buffer[1024];
     int n = 0;
+
     n += sprintf(buffer + n, "\e[37m\e[1m");
+
     for (i = 0; i < argc; i++) {
         if (i > 0) {
             n += sprintf(buffer + n, " - ");
@@ -606,10 +609,9 @@ static int callbackClient(void* data, int argc, char **argv, char **azColName) {
     n += sprintf(buffer + n, "\n");
     n += sprintf(buffer + n, "\e[0m");
 
-    // Agregar el resultado al char*
-    // Con estas líneas:
     int len = snprintf(NULL, 0, "%s%s", callbackData->result ? callbackData->result : "", buffer);
     char* newResult = malloc(len + 1);
+
     sprintf(newResult, "%s%s", callbackData->result ? callbackData->result : "", buffer);
     free(callbackData->result);
     callbackData->result = newResult;
@@ -1041,7 +1043,6 @@ char* mostrarLocales() {
 
     const char* sentencia = "SELECT * FROM dias_de_fiesta WHERE entradas = 400";
     
-    // Crear una estructura para pasar el puntero al resultado
     CallbackData data = {NULL};
     
     aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&data, &error);
@@ -1065,7 +1066,7 @@ char* mostrarFiestas() {
   int aper;
 
   const char* sentencia = "SELECT * FROM dias_de_fiesta WHERE entradas > 0";
-  // Crear una estructura para pasar el puntero al resultado
+
   CallbackData data = {NULL};
   
   aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&data, &error);
@@ -1089,7 +1090,7 @@ char* mostrarlistadoeventos() {
 
   const char* sentencia = "SELECT * FROM eventos";
   printf("ANTES");
-  // Crear una estructura para pasar el puntero al resultado
+
   CallbackData data = {NULL};
   
   aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&data, &error);
@@ -1112,7 +1113,7 @@ char* mostrarDJ() {
   int aper;
 
   const char* sentencia = "SELECT * FROM dj";
-  // Crear una estructura para pasar el puntero al resultado
+
   CallbackData data = {NULL};
   
   aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&data, &error);
@@ -1135,7 +1136,7 @@ char* mostrarRRPP() {
   int aper;
 
   const char* sentencia = "SELECT * FROM rrpp";
-  // Crear una estructura para pasar el puntero al resultado
+
   CallbackData data = {NULL};
   
   aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&data, &error);
@@ -1481,7 +1482,7 @@ char* buscarFechaConCodigoFecha(char* codigoFecha) {
 
   if (busqueda == SQLITE_ROW) {
     const unsigned char* fecha = sqlite3_column_text(statement, 0);
-    char* fechaEncontrada = strdup((const char*)fecha); // Copia la fecha encontrada a una nueva cadena
+    char* fechaEncontrada = strdup((const char*)fecha);
 
     sqlite3_finalize(statement);
     cerrarConexion(database);
@@ -1526,7 +1527,7 @@ char* buscarDiscotecaConCodigoFecha(char* codigoFecha) {
 
   if (busqueda == SQLITE_ROW) {
     const unsigned char* nombreDiscoteca = sqlite3_column_text(statement, 0);
-    nombreDiscotecaEncontrada = strdup((const char*)nombreDiscoteca); // Copia el nombre de la discoteca encontrada a una nueva cadena
+    nombreDiscotecaEncontrada = strdup((const char*)nombreDiscoteca);
 
     sqlite3_finalize(statement);
     cerrarConexion(database);
@@ -1569,7 +1570,6 @@ int actualizarEntradas(char* codigoFecha) {
 
   sqlite3_finalize(stmt);
 
-  // Actualizar el valor de "entradas" en la tabla "fiesta"
   char sql_updateFiesta[256];
   sprintf(sql_updateFiesta, "UPDATE dias_de_fiesta SET entradas = entradas - %d WHERE codigo = %s;", numeroEntradas, codigoFecha);
   busqueda = sqlite3_exec(database, sql_updateFiesta, 0, 0, NULL);
@@ -1594,7 +1594,6 @@ char* mostrarMisEntradas(char* nombreUsu) {
  
     const char* sentencia = "SELECT codigoFecha,fechaEntrada,numeroEntradas,tipoEntrada,precio FROM entradas";
 
-    // Crear una estructura para pasar el puntero al resultado
     CallbackData data = {NULL};
 
     aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&data, &error);
