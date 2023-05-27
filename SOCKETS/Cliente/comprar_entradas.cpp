@@ -124,7 +124,7 @@ char mostrarPagarEntrada(){
 }
 
 char* introducirNumTarjeta() {
-    cout << "\n\tIntroduce el número de tarjeta (sin espacios): ";
+    cout << "\n\tIntroduce el numero de tarjeta (sin espacios): ";
 
     char* inputNumTarjeta = new char[MAX_NUM_TARJETA];
     cin.getline(inputNumTarjeta, MAX_NUM_TARJETA);
@@ -248,7 +248,7 @@ void confirmarPago(){
             existe = enviar_datos_int("comprobarCodigoRRPP", 1, cod, strlen(cod));
             
             if (existe == 1) {
-                cout << "RRPP con codigo: '" << auxCodigo << "' seleccionada correctamente\n";
+                cout << "RRPP seleccionado correctamente\n";
                 confirmarCompra();
             } else if ( existe == -1) {
                 cout << "El codigo del RRPP seleccionado no existe\nOperacion cancelada\n";

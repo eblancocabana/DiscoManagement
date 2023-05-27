@@ -177,7 +177,6 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
   } else if (strcmp(nombre_funcion, "comprobarCodigoRRPP") == 0) {
     char* cod = strtok(args, ",");
     int ret = comprobarCodigoRRPP(cod);
-
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
