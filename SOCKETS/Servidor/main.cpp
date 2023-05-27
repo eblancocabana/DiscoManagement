@@ -1,16 +1,10 @@
 // IMPORTANT: Winsock Library ("ws2_32") should be linked
 
 #include <iostream>
-
 #include <winsock2.h>
-
 #include <string>
-
 #include <sstream>
-
 #include <limits>
-
-#include "clases/reservalocal.h"
 
 extern "C" {
   #include "basedatos/sqlite/sqlite3.h"
@@ -23,6 +17,7 @@ extern "C" {
 
 }
 
+#include "clases/reservalocal.h"
 #include "administrador/inicio_servidor.h"
 
 #pragma comment(lib, "ws2_32.lib")
@@ -88,188 +83,209 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
 
   // Buffer para enviar el valor devuelto por la función llamada
   char sendBuff[8193];
-  printf("ESTE ES EL PUTO BUFF %s", sendBuff);
+  printf("BUFF: %s\n", sendBuff);
+
   int pos = 0;
-  printf("ESTE ES EL PUTO RECIBIFDIOP %s -,ARGUYMEN%s", nombre_funcion,args);
+  printf("RECIBIDO: %s - ARGUMENTO: %s", nombre_funcion, args);
+
   // Llamar a la función correspondiente con sus argumentos y enviar el valor devuelto
   if (strcmp(nombre_funcion, "inicializarUsuarios") == 0) {
-    printf("1");
     int ret = inicializarUsuarios();
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
+
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if(strcmp(nombre_funcion,"mostrarentradas")==0){
-    printf("2");
-    printf("ESTE ES EL PUTO BUFF %s", sendBuff);
-    char* ret= mostrarMisEntradas(args);
-    printf("TAMAÑO%d",strlen(ret));
-    printf("SALTO LINEA %s",ret);
+    char* ret = mostrarMisEntradas(args);
+
     size_t size = strlen(ret) + 1;
     memcpy(sendBuff + pos, ret, size);
+    
     pos += size;
-    printf("SIII");
-  }else if (strcmp(nombre_funcion, "inicializarDiasDeFiesta") == 0) {
-    printf("4");
+  } else if (strcmp(nombre_funcion, "inicializarDiasDeFiesta") == 0) {
     int ret = inicializarDiasDeFiesta();
     const char * rret = (std::to_string(ret)).c_str();
+
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "inicializarDJ") == 0) {
-    printf("5");
     int ret = inicializarDJ();
     const char * rret = (std::to_string(ret)).c_str();
+
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "inicializarRRPP") == 0) {
-    printf("6");
     int ret = inicializarRRPP();
     const char * rret = (std::to_string(ret)).c_str();
+
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "inicializarListaEventos") == 0) {
-    printf("7");
     int ret = inicializarListaEventos();
     const char * rret = (std::to_string(ret)).c_str();
+
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "inicializacion") == 0) {
-    printf("8");
-    printf("Llamando a inicializacion\n");
+    printf("Llamando a inicializacion:\n");
     int ret = inicializacion();
     printf("Retorno de inicializacion: %d\n", ret);
+
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "limpiarInput") == 0) {
-    printf("9");
     char * ret = limpiarInput(args);
-    printf("Sending PENECULOS%s through socket\n", ret);
     size_t size = strlen(ret) + 1;
     memcpy(sendBuff + pos, ret, size);
     pos += size;
-    printf("Sending PENE%s through socket\n", ret);
+
+    printf("Sending: %s through socket:\n", ret);
   } else if (strcmp(nombre_funcion, "clearIfNeeded") == 0) {
-    printf("10");
     // Dividir los argumentos en str y max_line
+
     char * ret = strtok(args, ",");
     int max_line = atoi(strtok(NULL, ","));
     clearIfNeeded(ret, max_line);
+
     size_t size = strlen(ret) + 1;
     memcpy(sendBuff + pos, ret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "comprobarCodigoLocal") == 0) {
-    printf("11");
     char* cod = strtok(args, ",");
     printf("%s\n", cod);
+
     int ret = comprobarCodigoLocal(cod);
     printf("%i\n", ret);
+
     const char* rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "comprobarCodigoRRPP") == 0) {
     char* cod = strtok(args, ",");
     int ret = comprobarCodigoRRPP(cod);
+
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "comprobarUsuario") == 0) {
-    printf("13");
     char * rett = strtok(args, ",");
     int ret = comprobarUsuario(rett);
+
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "comprobarFecha") == 0) {
-    printf("14");
     //Dividir los argumentos en fecha y evento
+
     char * fecha = strtok(args, ",");
     int evento = atoi(strtok(NULL, ","));
+
     int ret = comprobarFecha(fecha, evento);
     memcpy(sendBuff + pos, & ret, sizeof(ret));
     pos += sizeof(ret);
+
   } else if (strcmp(nombre_funcion, "comprobarAdmin") == 0) {
-    printf("15");
     int ret = comprobarAdmin(args);
     const char * rret = (std::to_string(ret)).c_str();
+
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "comprobarExistencia") == 0) {
-    printf("16a");
     //Dividir los argumentos en username y password
+    
     char * username = strtok(args, ",");
     char * password = strtok(NULL, ",");
+
     int ret = comprobarExistencia(username, password);
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "comprobarCodigoEntrada") == 0) {
-    printf("17");
-    printf("ANTES:%s",sendBuff);
-    
     char * entrada = strtok(args, ",");
-    printf("DESPUES:%s",entrada);
     int ret = comprobarEntrada(entrada);
     const char * rret = (std::to_string(ret)).c_str();
+
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "insertarDiaFiesta") == 0) {
-    printf("18");
     //Dividir los argumentos en fecha,nomDiscoteca y eventoEsp
+
     char * fecha = strtok(args, ",");
     char * nomDiscoteca = strtok(NULL, ",");
     char * eventoEsp = strtok(NULL, ",");
     int ret = insertarDiaFiesta(fecha, nomDiscoteca, eventoEsp);
+
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "insertarRegistro") == 0) {
-    printf("19");
     //Dividir los argumentos en nombre usuario sexo edad correo contra
-    char * nombre = strtok(args, ",");
-    char * usuario = strtok(NULL, ",");
-    char * sexo = strtok(NULL, ",");
+
+    char* nombre = strtok(args, ",");
+    char* usuario = strtok(NULL, ",");
+    char* sexo = strtok(NULL, ",");
     int edad = atoi(strtok(NULL, ","));
-    char * correo = strtok(NULL, ",");
-    char * contra = strtok(NULL, ",");
+    char* correo = strtok(NULL, ",");
+    char* contra = strtok(NULL, ",");
+
     printf(nombre);
     printf(usuario);
     printf(sexo);
     printf("%d", edad);
     printf(correo);
     printf(contra);
-    printf("FUERA");
+
     int ret = insertarRegistro(nombre, usuario, sexo, edad, correo, contra);
     const char * rret = (std::to_string(ret)).c_str();
+
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "insertarEvento") == 0) {
-    printf("2");
     //Dividir los argumentos en fecha,nombreDisco y descripcionEvento
-    char * fecha = strtok(args, ",");
-    char * nombreDisco = strtok(NULL, ",");
-    char * descripcionEvento = strtok(NULL, ",");
+
+    char* fecha = strtok(args, ",");
+    char* nombreDisco = strtok(NULL, ",");
+    char* descripcionEvento = strtok(NULL, ",");
     int ret = insertarEvento(fecha, nombreDisco, descripcionEvento);
-    const char * rret = (std::to_string(ret)).c_str();
+    const char* rret = (std::to_string(ret)).c_str();
+
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "insertarReservaLocal") == 0) {
-    printf("21");
     //Dividir los argumentos en codigo_aux, fecha_loc, aforo, numeroTarjeta, cvvTarjeta, caducidadTarjeta
+
     char* codigo_aux = strtok(args, ",");
     char* fecha_loc = strtok(NULL, ",");
     char* nombreDiscoteca = strtok(NULL, ",");
@@ -277,36 +293,29 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     char* numeroTarjeta = strtok(NULL, ",");
     char* cvvTarjeta = strtok(NULL, ",");
     char* caducidadTarjeta = strtok(NULL, ",");
+
     int ret = insertarReservaLocal(codigo_aux, fecha_loc, nombreDiscoteca, aforo, numeroTarjeta, cvvTarjeta, caducidadTarjeta);
     const char* rret = (std::to_string(ret)).c_str();
+
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "insertarEntrada") == 0) {
     //Dividir los argumentos en codFechaAux, fecha_ent, nomDiscoteca, numEntradasAux, gmail, numTarjeta, cvvTar, caducidadTar, entradaCatFin, preciosAux, nombreCompleto
-    printf("1\n");
+    
     char* codFechaAux = strtok(args, ",");
-    printf("2\n");
     char* fecha_ent = strtok(NULL, ",");
-    printf("3\n");
     char* nomDiscoteca = strtok(NULL, ",");
-    printf("4\n");
     char* numEntradasAux = strtok(NULL, ",");
-    printf("5\n");
     char* gmail = strtok(NULL, ",");
-    printf("6\n");
     char* numTarjeta = strtok(NULL, ",");
-    printf("7\n");
     char* cvvTar = strtok(NULL, ",");
-    printf("8\n");
     char* caducidadTar = strtok(NULL, ",");
-    printf("9\n");
     char* entradaCatFin = strtok(NULL, ",");
-    printf("10\n");
     char* preciosAux = strtok(NULL, ",");
-    printf("11\n");
     char* nombreCompleto = strtok(NULL, ",");
-    printf("12\n");
+
     printf("%s\n", codFechaAux);
     printf("%s\n", fecha_ent);
     printf("%s\n", nomDiscoteca);
@@ -318,82 +327,72 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     printf("%s\n", entradaCatFin);
     printf("%s\n", preciosAux);
     printf("%s\n", nombreCompleto);
+
     int ret = insertarEntrada(codFechaAux, fecha_ent, nomDiscoteca, numEntradasAux, gmail, numTarjeta, cvvTar, caducidadTar, entradaCatFin, preciosAux, nombreCompleto);
     const char* rret = (std::to_string(ret)).c_str();
+
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "mostrarlistadoeventos") == 0) {
-    printf("22");
     char* ret= mostrarlistadoeventos();
-    printf("TAMAÑO%d",strlen(ret));
-    printf("SALTO LINEA %s",ret);
     size_t size = strlen(ret) + 1;
-    printf("HEEEEY");
     memcpy(sendBuff + pos, ret, size);
     pos += size;
-    printf("SIII");
+
   } else if (strcmp(nombre_funcion, "mostrarFiestas") == 0) {
-    printf("3");
     char* ret= mostrarFiestas();
-    printf("TAMAÑO%d\n",strlen(ret));
-    printf("SALTO LINEA %s\n",ret);
     size_t size = strlen(ret) + 1;
-    printf("HEEEEY");
     memcpy(sendBuff + pos, ret, size);
     pos += size;
-    printf("SIII");
+
   } else if (strcmp(nombre_funcion, "inicicializacionSOCKET") == 0) {
-    printf("24");
     int ret = 1;
     const char * rret = (std::to_string(ret)).c_str();
+
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "mostrarRRPP") == 0) {
-    printf("25");
     char* ret= mostrarRRPP();
-    printf("TAMAÑO%d",strlen(ret));
-    printf("SALTO LINEA %s",ret);
     size_t size = strlen(ret) + 1;
-    printf("HEEEEY");
     memcpy(sendBuff + pos, ret, size);
     pos += size;
-    printf("SIII");
+
   } else if (strcmp(nombre_funcion, "mostrarLocales") == 0) {
-    printf("26");
     char* ret= mostrarLocales();
-    printf("TAMAÑO%d",strlen(ret));
-    printf("SALTO LINEA %s",ret);
     size_t size = strlen(ret) + 1;
-    printf("HEEEEY");
     memcpy(sendBuff + pos, ret, size);
     pos += size;
-    printf("SIII");
+
   } else if (strcmp(nombre_funcion, "buscarFechaConCodidoFecha") == 0) {
-    printf("29");
     char* ret = buscarFechaConCodigoFecha(args);
-    printf("Sending %s through socket\n", ret);
+    printf("Sending: %s through socket\n", ret);
+
     size_t size = sizeof(ret) + 1;
     memcpy(sendBuff + pos, ret, size);
     pos += size;
+
   } else if (strcmp(nombre_funcion, "buscarDiscotecaConCodigoFecha") == 0) {
-    printf("30");
     char* ret = buscarDiscotecaConCodigoFecha(args);
-    printf("Sending %s through socket\n", ret);
+    printf("Sending: %s through socket\n", ret);
+
     size_t size = sizeof(ret) + 1;
     memcpy(sendBuff + pos, ret, size);
     pos += size;
+
   } 
-  printf("ESTE ES EL PUTO BUFF %s", sendBuff);
+  printf("BUFFER: %s", sendBuff);
+
   // Enviar el valor devuelto por la función llamada a través del socket
- int bytes_sent = send(comm_socket, sendBuff, pos, 0);
+  int bytes_sent = send(comm_socket, sendBuff, pos, 0);
+
   if (bytes_sent == -1) {
     int error_code = WSAGetLastError();
     printf("Error al enviar datos: %d\n", error_code);
   }
-
-
   return;
 }
 
@@ -517,7 +516,7 @@ int main(int argc, char * argv[]) {
 
       // Deserializar los datos recibidos y llamar a la función correspondiente con sus argumentos
       deserializar_y_llamar_funcion(comm_socket, recvBuff);
-      printf("HEY");
+
       if (strcmp(recvBuff, "Bye") == 0)
         break;
     } else{

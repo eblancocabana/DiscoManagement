@@ -1,15 +1,14 @@
 #include <iostream>
-#include "reservar_local.h"
-//#include "basedatos/baseDatos.h"
-#include "inicio.h"
 #include <istream>
-#include "enviar_datos.h"
-#include <cstring>
-#include "clases/reservalocal.h"
 #include <string>
 #include <windows.h>
 #include <cstring>
 #include <time.h>
+
+#include "reservar_local.h"
+#include "inicio.h"
+#include "enviar_datos.h"
+#include "clases/reservalocal.h"
 
 #define MAX_SELECCION 5
 #define MAX_NOMBRE_DISCOTECA 20
@@ -37,19 +36,10 @@ char* r;
 
 char mostrarListado() {
     cout << "\nListado de dias disponible: (codigo - fecha - nombre discoteca - aforo - evento?)\n\n";
+
     //BD
     r = enviar_datos_char("mostrarLocales", 0);
     printf(r);
-
-    /* printf("%s\n", r);
-    while (strcmp(r, "control") != 0) {
-        r = enviar_datos_char("control", 0);
-        printf("%s\n", r);
-        Sleep(300);
-    }
-    printf("FUERAAAA"); */
-
-
     cout << "\nOpcion reserva:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ";
 
     char inputReservaLocal[MAX_SELECCION];
@@ -79,8 +69,7 @@ void reservarLocal() {
 
     do {
         opcionReserva = mostrarListado();
-        //resultado = enviar_datos_char("limpiarInput", 0);
-        //printf("%s\n", resultado);
+
         switch (opcionReserva) {
         case '1':
             cout << "\n---------------------------------------------------\n";
@@ -103,6 +92,7 @@ void reservarLocal() {
             } while (errno != 0 || *type != '\0');
 
             sprintf(auxCodigo, "%d", codigo);
+
             //BD
             existe = enviar_datos_int("comprobarCodigoLocal", 1, auxCodigo, strlen(auxCodigo));
             
@@ -171,12 +161,9 @@ char* introducirCaduTarjeta() {
 
 
 void pagarReserva() {
-    //char numeroTarjeta[MAX_NUMERO_TARJETA];
-    //char cvvTarjeta[MAX_CVV];
-    //char caducidadTarjeta[MAX_CADUCIDAD];
-
     do {
         opcionPagoReserva = mostrarPagarReserva();
+
         switch (opcionPagoReserva) {
         case '1':
             cout << "\n---------------------------------------------------\n";
@@ -197,6 +184,7 @@ void pagarReserva() {
 void confirmarReserva() {
     do {
         opcionConfirmarReserva = confirmarPagoReserva();
+        
         switch (opcionConfirmarReserva) {
         case '1':
             cout << "\nEL PAGO HA SIDO CONFIRMADO\n"; //bd
