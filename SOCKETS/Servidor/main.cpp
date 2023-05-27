@@ -87,7 +87,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
   char * args = strtok(NULL, ":");
 
   // Buffer para enviar el valor devuelto por la función llamada
-  char sendBuff[1024];
+  char sendBuff[4096];
   printf("ESTE ES EL PUTO BUFF %s", sendBuff);
   int pos = 0;
   printf("ESTE ES EL PUTO RECIBIFDIOP %s -", nombre_funcion);
@@ -319,12 +319,24 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     pos += size;
   } else if (strcmp(nombre_funcion, "mostrarlistadoeventos") == 0) {
     printf("22");
-    mostrarlistadoeventos(comm_socket);
+    char* ret= mostrarlistadoeventos();
+    printf("TAMAÑO%d",strlen(ret));
+    printf("SALTO LINEA %s",ret);
+    size_t size = strlen(ret) + 1;
+    printf("HEEEEY");
+    memcpy(sendBuff + pos, ret, size);
+    pos += size;
+    printf("SIII");
   } else if (strcmp(nombre_funcion, "mostrarFiestas") == 0) {
     printf("3");
-    printf("ANTES DE ENTRAR FUNCION\n");
-    mostrarFiestas(comm_socket);
-    printf("DESPUES DE ENTRAR FUNCION\n");
+    char* ret= mostrarFiestas();
+    printf("TAMAÑO%d",strlen(ret));
+    printf("SALTO LINEA %s",ret);
+    size_t size = strlen(ret) + 1;
+    printf("HEEEEY");
+    memcpy(sendBuff + pos, ret, size);
+    pos += size;
+    printf("SIII");
   } else if (strcmp(nombre_funcion, "inicicializacionSOCKET") == 0) {
     printf("24");
     int ret = 1;
@@ -334,10 +346,18 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     pos += size;
   } else if (strcmp(nombre_funcion, "mostrarRRPP") == 0) {
     printf("25");
-    mostrarRRPP(comm_socket);
+    char* ret= mostrarRRPP();
+    printf("TAMAÑO%d",strlen(ret));
+    printf("SALTO LINEA %s",ret);
+    size_t size = strlen(ret) + 1;
+    printf("HEEEEY");
+    memcpy(sendBuff + pos, ret, size);
+    pos += size;
+    printf("SIII");
   } else if (strcmp(nombre_funcion, "mostrarLocales") == 0) {
     printf("26");
     char* ret= mostrarLocales();
+    printf("TAMAÑO%d",strlen(ret));
     printf("SALTO LINEA %s",ret);
     size_t size = strlen(ret) + 1;
     printf("HEEEEY");
@@ -369,8 +389,13 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
 
   printf("Sending %.*s through socket\n", pos, sendBuff);
   // Enviar el valor devuelto por la función llamada a través del socket
-  send(comm_socket, sendBuff, pos, 0);
-  printf("SHOLA");
+ int bytes_sent = send(comm_socket, sendBuff, pos, 0);
+  if (bytes_sent == -1) {
+    int error_code = WSAGetLastError();
+    printf("Error al enviar datos: %d\n", error_code);
+  }
+
+
   return;
 }
 

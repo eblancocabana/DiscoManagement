@@ -19,7 +19,7 @@ SOCKET s;
 #include <cstdarg>
 
 char * enviar_datos_char(const char * nombre_funcion, int num_args, ...) {
-    char sendBuff[512];
+    char sendBuff[4096];
     int pos = sprintf(sendBuff, "%s:", nombre_funcion);
 
     va_list args;
@@ -40,17 +40,10 @@ char * enviar_datos_char(const char * nombre_funcion, int num_args, ...) {
     va_end(args);
     printf("DATOS ENVIADOS:%s\n", sendBuff);
     send(s, sendBuff, sizeof(sendBuff), 0);
-    char *result = new char[strlen("control") + 1];
-    strcpy(result, "control");
-    char buffer[512];
+    char buffer[4096];
     int bytes_recibidos = recv(s, buffer, sizeof(buffer), 0);
-    printf("DATOS RECIBIDOS:%s\n", buffer);
+    printf("DATOS RECIBIDOS:%s\nBYTES:%d\n", buffer,bytes_recibidos);
     if (bytes_recibidos > 0) {
-
-        if (strcmp(buffer, "EndOfFunction") == 0) {
-            printf("DESPUES:%s",buffer);
-            return result;
-        }
         char * resultado = new char[bytes_recibidos + 1];
         memcpy(resultado, buffer, bytes_recibidos);
         resultado[bytes_recibidos] = '\0';

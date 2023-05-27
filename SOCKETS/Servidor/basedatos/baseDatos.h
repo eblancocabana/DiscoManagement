@@ -43,10 +43,10 @@ int comprobarAdmin(char* user);
 int comprobarExistencia(char* username, char* password);
 int comprobarEntrada(char* codigo);
 
-void mostrarlistadoeventos(SOCKET socket_fd);
-void mostrarFiestas(SOCKET socket_fd);
-void mostrarDJ(SOCKET socket_fd);
-void mostrarRRPP(SOCKET socket_fd);
+char* mostrarlistadoeventos();
+char* mostrarFiestas();
+char* mostrarDJ();
+char* mostrarRRPP();
 char* mostrarLocales();
 
 void mostrarlistadoeventosAdmin();

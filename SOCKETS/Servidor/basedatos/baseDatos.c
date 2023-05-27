@@ -1058,7 +1058,7 @@ char* mostrarLocales() {
 }
 
 
-void mostrarFiestas(SOCKET socket_fd) {
+char* mostrarFiestas(SOCKET socket_fd) {
   abrirConexion();
 
   char* error = 0;
@@ -1066,17 +1066,23 @@ void mostrarFiestas(SOCKET socket_fd) {
 
   const char* sentencia = "SELECT * FROM dias_de_fiesta WHERE entradas > 0";
   aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&socket_fd, &error);
+// Crear una estructura para pasar el puntero al resultado
+  CallbackData data = {NULL};
+  
+  aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&data, &error);
 
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
       sqlite3_free(error);
+      cerrarConexion(database);
+      return NULL;
+  } else {
+      cerrarConexion(database);
+      return data.result;
   }
-  
-  printf("");
-  cerrarConexion(database);
 }
 
-void mostrarlistadoeventos(SOCKET socket_fd) {
+char* mostrarlistadoeventos(SOCKET socket_fd) {
 	abrirConexion();
   
   char* error = 0;
@@ -1084,48 +1090,66 @@ void mostrarlistadoeventos(SOCKET socket_fd) {
 
   const char* sentencia = "SELECT * FROM eventos";
   printf("ANTES");
-  aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&socket_fd, &error);
-  printf("DESPUES");
+  // Crear una estructura para pasar el puntero al resultado
+  CallbackData data = {NULL};
+  
+  aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&data, &error);
+
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
       sqlite3_free(error);
+      cerrarConexion(database);
+      return NULL;
+  } else {
+      cerrarConexion(database);
+      return data.result;
   }
-
-	cerrarConexion(database);
 }
 
-void mostrarDJ(SOCKET socket_fd) {
+char* mostrarDJ(SOCKET socket_fd) {
   abrirConexion();
 
   char* error = 0;
   int aper;
 
   const char* sentencia = "SELECT * FROM dj";
-  aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&socket_fd, &error);
+  // Crear una estructura para pasar el puntero al resultado
+  CallbackData data = {NULL};
   
+  aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&data, &error);
+
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
       sqlite3_free(error);
+      cerrarConexion(database);
+      return NULL;
+  } else {
+      cerrarConexion(database);
+      return data.result;
   }
-
-	cerrarConexion(database);
 }
 
-void mostrarRRPP(SOCKET socket_fd) {
+char* mostrarRRPP(SOCKET socket_fd) {
   abrirConexion();
 
   char* error = 0;
   int aper;
 
   const char* sentencia = "SELECT * FROM rrpp";
-  aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&socket_fd, &error);
+  // Crear una estructura para pasar el puntero al resultado
+  CallbackData data = {NULL};
   
+  aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&data, &error);
+
   if (aper != SQLITE_OK) {
       fprintf(stderr, "Error en la consulta SQL: %s\n", error);
       sqlite3_free(error);
+      cerrarConexion(database);
+      return NULL;
+  } else {
+      cerrarConexion(database);
+      return data.result;
   }
-
-	cerrarConexion(database);
 }
 
 // CARGAR/MOSTRAR ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS ADMIN
