@@ -99,10 +99,8 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
 
   } else if(strcmp(nombre_funcion,"mostrarentradas")==0){
     char* ret = mostrarMisEntradas(args);
-
     size_t size = strlen(ret) + 1;
-    memcpy(sendBuff + pos, ret, size);
-    
+    memcpy(sendBuff + pos, ret, size); 
     pos += size;
   } else if (strcmp(nombre_funcion, "inicializarDiasDeFiesta") == 0) {
     int ret = inicializarDiasDeFiesta();
@@ -256,13 +254,6 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     char* correo = strtok(NULL, ",");
     char* contra = strtok(NULL, ",");
 
-    printf(nombre);
-    printf(usuario);
-    printf(sexo);
-    printf("%d", edad);
-    printf(correo);
-    printf(contra);
-
     int ret = insertarRegistro(nombre, usuario, sexo, edad, correo, contra);
     const char * rret = (std::to_string(ret)).c_str();
 
@@ -372,7 +363,9 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     pos += size;
 
   } 
-  printf("BUFFER: %s", sendBuff);
+  printf("BUFFER: %s\n", sendBuff);
+  std::cout << "\e[0m";
+  std::cout << "\n";
 
   // Enviar el valor devuelto por la función llamada a través del socket
   int bytes_sent = send(comm_socket, sendBuff, pos, 0);

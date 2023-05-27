@@ -218,6 +218,9 @@ void confirmarPago(){
     char* resultado;
     do{
         opcionConfirmarPago = mostrarConfirmarPago();
+        std::cout << "\n---------------------------------------------------\n";
+        std::cout << "Listado de RRPP (Codigo - Nombre - Localidad - Hora - Numero de contacto)\n\n";
+
         resultado= enviar_datos_char("mostrarRRPP",0);
         std::printf("%s",resultado);
         switch(opcionConfirmarPago){
@@ -267,7 +270,15 @@ void confirmarCompra(){
             case '1':
                 cout << "\nEL PAGO HA SIDO CONFIRMADO\n"; // bd
 
-                const char* codigo_aux = (std::to_string(codigoFecha_ent)).c_str();
+                const char* codi = (std::to_string(codigoFecha_ent)).c_str();
+                char* codigo_aux;
+
+                if (codigoFecha_ent < 10) {
+                    sprintf(codigo_aux, "00%s", codi);
+                } else if (codigoFecha_ent < 100) {
+                    sprintf(codigo_aux, "0%s", codi);
+                }
+
                 fecha_ent = enviar_datos_char("buscarFechaConCodidoFecha", 1, codigo_aux, strlen(codigo_aux)+1);
                 std::printf("%s\n", fecha_ent);
                 nomDiscoteca = enviar_datos_char("buscarDiscotecaConCodigoFecha", 1, codigo_aux, strlen(codigo_aux)+1);
@@ -289,18 +300,6 @@ void confirmarCompra(){
                 const char* codFechaAux = (std::to_string(codigoFecha_ent)).c_str();
                 const char* numEntradasAux = (std::to_string(numEntradas)).c_str();
                 const char* preciosAux = (std::to_string(precios)).c_str();
-
-                std::printf("%s\n", codFechaAux);
-                std::printf("%s\n", fecha_ent);
-                std::printf("%s\n", nomDiscoteca);
-                std::printf("%s\n", numEntradasAux);
-                std::printf("%s\n", gmail);
-                std::printf("%s\n", numTarjeta);
-                std::printf("%s\n", cvvTar);
-                std::printf("%s\n", caducidadTar);
-                std::printf("%s\n", entradaCatFin);
-                std::printf("%s\n", preciosAux);
-                std::printf("%s\n", nombreCompleto);
 
                 int resultado = enviar_datos_int("insertarEntrada", 11, codFechaAux, strlen(codFechaAux)+1, fecha_ent, strlen(fecha_ent)+1, nomDiscoteca, strlen(nomDiscoteca)+1, numEntradasAux, strlen(numEntradasAux)+1, gmail, strlen(gmail)+1, numTarjeta, strlen(numTarjeta)+1, cvvTar, strlen(cvvTar)+1, caducidadTar, strlen(caducidadTar)+1, entradaCatFin, strlen(entradaCatFin)+1, preciosAux, strlen(preciosAux)+1, nombreCompleto, strlen(nombreCompleto)+1);
 
