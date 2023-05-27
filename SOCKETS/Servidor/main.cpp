@@ -339,7 +339,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     printf("26");
     char* ret= mostrarLocales();
     printf("SALTO LINEA %s",ret);
-    size_t size = sizeof(ret) + 1;
+    size_t size = strlen(ret) + 1;
     printf("HEEEEY");
     memcpy(sendBuff + pos, ret, size);
     pos += size;
