@@ -30,9 +30,9 @@ char* nomDiscoteca;
 int numEntradas;
 char* nombreCompleto;
 char* gmail;
-char* numTarjeta;
-char* cvvTar;
-char* caducidadTar;
+char numTarjeta[MAX_NUM_TARJETA];
+char cvvTar[MAX_CVV];
+char caducidadTar[MAX_CADUCIDAD];
 int tipoEntradas;
 const char* entradaCat;
 int longitud;
@@ -160,18 +160,10 @@ void pagarEntrada(){
             case '1':
                 cout << "\n---------------------------------------------------\n";
                 cout << "Introducir datos de la tarjeta";
-                numTarjeta = introducirNumTarjeta(); //TARJETA
-                cvvTar = introducirCVVTar();
-                caducidadTar = introducirCaducidadTarjeta();
 
-                int len = strcspn(numTarjeta, "\n");
-                numTarjeta[len] = '\0';
-
-                len = strcspn(cvvTar, "\n");
-                cvvTar[len] = '\0';
-
-                len = strcspn(caducidadTar, "\n");
-                caducidadTar[len] = '\0';
+                strcpy(numTarjeta, introducirNumTarjeta());
+                strcpy(cvvTar, introducirCVVTar());
+                strcpy(caducidadTar, introducirCaducidadTarjeta());
 
                 confirmarPago();
             break;
@@ -215,20 +207,50 @@ int introducirCodigoRRPP() {
 void confirmarPago(){
     int codigoRRPP;
     char* pr;
+    int existe = 0;
+    int codigo;
+    char inputCod[MAX_ENTRADAS+5];
+    char* cod;
+    char* type;
+    char auxCodigo[16];
+    char* resultado;
     do{
         opcionConfirmarPago = mostrarConfirmarPago();
         switch(opcionConfirmarPago){
             case '1':
                 cout << "\n---------------------------------------------------\n";
-                enviar_datos_char("mostrarRRPP", 0);
-                //mostrarRRPP(); BD
-                cout << "\n---------------------------------------------------\n";
-                cout << "Introducir Codigo de RRPP";
-                codigoRRPP = introducirCodigoRRPP();
+            do {
+                cout << "Introducir Codigo de RRPP: ";
+                cin.getline(inputCod, MAX_ENTRADAS);
+                sscanf(inputCod, "%d", &codigo);
+                        
                 //BD
-                enviar_datos_int("comprobarCodigoRRPP", 1, &codigoRRPP, sizeof(codigoRRPP));
+                cod = enviar_datos_char("limpiarInput", 1, &inputCod, sizeof(inputCod));
+                printf("%s\n", cod);
 
+                errno = 0;
+                long int num = strtol(cod, &type, 10); //CodigoFecha
+                codigoFecha_ent = num;
+                if (errno != 0 || *type != '\0') {
+                    cout << "'" << cod << "' no es una entrada valida\n";
+                }
+
+            } while (errno != 0 || *type != '\0');
+
+            sprintf(auxCodigo, "%d", codigo);
+            //BD
+            existe = enviar_datos_int("comprobarCodigoRRPP", 1, auxCodigo, strlen(auxCodigo));
+            
+            if (existe == 1) {
+                cout << "RRPP con codigo: '" << auxCodigo << "' seleccionada correctamente\n";
                 confirmarCompra();
+            } else if ( existe == -1) {
+                cout << "El codigo del RRPP seleccionado no existe\nOperacion cancelada\n";
+
+            } else {
+                cout << "Codigo seleccionado incorrectamente\nOperacion cancelada\n";
+            }
+
             break;
         }
     } while(opcionConfirmarPago != '0');
@@ -246,8 +268,12 @@ void confirmarCompra(){
         switch (opcionConfirmarCompra) {
             case '1':
                 cout << "\nEL PAGO HA SIDO CONFIRMADO\n"; // bd
-                fecha_ent = enviar_datos_char("buscarFechaConCodidoFecha", 1, codigoFecha_ent);
-                nomDiscoteca = enviar_datos_char("buscarDiscotecaConCodigoFecha", 1, codigoFecha_ent);
+
+                const char* codigo_aux = (std::to_string(codigoFecha_ent)).c_str();
+                fecha_ent = enviar_datos_char("buscarFechaConCodidoFecha", 1, codigo_aux, strlen(codigo_aux)+1);
+                printf("%s\n", fecha_ent);
+                nomDiscoteca = enviar_datos_char("buscarDiscotecaConCodigoFecha", 1, codigo_aux, strlen(codigo_aux)+1);
+                
                 char* entradaCatFin;
                 if (tipoEntradas == 1) {
                     entradaCat = "Una consumicion";
@@ -265,9 +291,20 @@ void confirmarCompra(){
                 const char* codFechaAux = (std::to_string(codigoFecha_ent)).c_str();
                 const char* numEntradasAux = (std::to_string(numEntradas)).c_str();
                 const char* preciosAux = (std::to_string(precios)).c_str();
-                enviar_datos_int("insertarRegistro", 11, codFechaAux, strlen(codFechaAux)+1, fecha_ent, strlen(fecha_ent)+1, nomDiscoteca, strlen(nomDiscoteca)+1,
-                numEntradasAux, strlen(numEntradasAux)+1, gmail, strlen(gmail)+1, numTarjeta, strlen(numTarjeta)+1, cvvTar, strlen(cvvTar)+1, caducidadTar, strlen(caducidadTar)+1,
-                entradaCatFin, strlen(entradaCatFin)+1, preciosAux, strlen(preciosAux)+1, nombreCompleto, strlen(nombreCompleto)+1);
+
+                printf("%s\n", codFechaAux);
+                printf("%s\n", fecha_ent);
+                printf("%s\n", nomDiscoteca);
+                printf("%s\n", numEntradasAux);
+                printf("%s\n", gmail);
+                printf("%s\n", numTarjeta);
+                printf("%s\n", cvvTar);
+                printf("%s\n", caducidadTar);
+                printf("%s\n", entradaCatFin);
+                printf("%s\n", preciosAux);
+                printf("%s\n", nombreCompleto);
+
+                int resultado = enviar_datos_int("insertarEntrada", 11, codFechaAux, strlen(codFechaAux)+1, fecha_ent, strlen(fecha_ent)+1, nomDiscoteca, strlen(nomDiscoteca)+1, numEntradasAux, strlen(numEntradasAux)+1, gmail, strlen(gmail)+1, numTarjeta, strlen(numTarjeta)+1, cvvTar, strlen(cvvTar)+1, caducidadTar, strlen(caducidadTar)+1, entradaCatFin, strlen(entradaCatFin)+1, preciosAux, strlen(preciosAux)+1, nombreCompleto, strlen(nombreCompleto)+1);
 
                 opcionDatosCompra = '0';
                 opcionPagoEntrada = '0';

@@ -154,7 +154,8 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "comprobarCodigoRRPP") == 0) {
-    int ret = comprobarCodigoRRPP(args);
+    char* cod = strtok(args, ",");
+    int ret = comprobarCodigoRRPP(cod);
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
@@ -243,6 +244,47 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     char* cvvTarjeta = strtok(NULL, ",");
     char* caducidadTarjeta = strtok(NULL, ",");
     int ret = insertarReservaLocal(codigo_aux, fecha_loc, nombreDiscoteca, aforo, numeroTarjeta, cvvTarjeta, caducidadTarjeta);
+    const char* rret = (std::to_string(ret)).c_str();
+    size_t size = sizeof(rret) + 1;
+    memcpy(sendBuff + pos, rret, size);
+    pos += size;
+  } else if (strcmp(nombre_funcion, "insertarEntrada") == 0) {
+    //Dividir los argumentos en codFechaAux, fecha_ent, nomDiscoteca, numEntradasAux, gmail, numTarjeta, cvvTar, caducidadTar, entradaCatFin, preciosAux, nombreCompleto
+    printf("1\n");
+    char* codFechaAux = strtok(args, ",");
+    printf("2\n");
+    char* fecha_ent = strtok(NULL, ",");
+    printf("3\n");
+    char* nomDiscoteca = strtok(NULL, ",");
+    printf("4\n");
+    char* numEntradasAux = strtok(NULL, ",");
+    printf("5\n");
+    char* gmail = strtok(NULL, ",");
+    printf("6\n");
+    char* numTarjeta = strtok(NULL, ",");
+    printf("7\n");
+    char* cvvTar = strtok(NULL, ",");
+    printf("8\n");
+    char* caducidadTar = strtok(NULL, ",");
+    printf("9\n");
+    char* entradaCatFin = strtok(NULL, ",");
+    printf("10\n");
+    char* preciosAux = strtok(NULL, ",");
+    printf("11\n");
+    char* nombreCompleto = strtok(NULL, ",");
+    printf("12\n");
+    printf("%s\n", codFechaAux);
+    printf("%s\n", fecha_ent);
+    printf("%s\n", nomDiscoteca);
+    printf("%s\n", numEntradasAux);
+    printf("%s\n", gmail);
+    printf("%s\n", numTarjeta);
+    printf("%s\n", cvvTar);
+    printf("%s\n", caducidadTar);
+    printf("%s\n", entradaCatFin);
+    printf("%s\n", preciosAux);
+    printf("%s\n", nombreCompleto);
+    int ret = insertarEntrada(codFechaAux, fecha_ent, nomDiscoteca, numEntradasAux, gmail, numTarjeta, cvvTar, caducidadTar, entradaCatFin, preciosAux, nombreCompleto);
     const char* rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
