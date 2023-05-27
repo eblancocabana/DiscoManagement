@@ -124,7 +124,7 @@ char mostrarPagarEntrada(){
 }
 
 char* introducirNumTarjeta() {
-    cout << "\n\tIntroduce el número de tarjeta (sin espacios - 9 caracteres): ";
+    cout << "\n\tIntroduce el número de tarjeta (sin espacios): ";
 
     char* inputNumTarjeta = new char[MAX_NUM_TARJETA];
     cin.getline(inputNumTarjeta, MAX_NUM_TARJETA);
