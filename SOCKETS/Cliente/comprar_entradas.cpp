@@ -278,6 +278,9 @@ void confirmarCompra(){
                 } else if (codigoFecha_ent < 100) {
                     sprintf(codigo_aux, "0%s", codi);
                 }
+                else {
+                    sprintf(codigo_aux, "%s", codi);
+                }
 
                 fecha_ent = enviar_datos_char("buscarFechaConCodidoFecha", 1, codigo_aux, strlen(codigo_aux)+1);
                 std::printf("%s\n", fecha_ent);
