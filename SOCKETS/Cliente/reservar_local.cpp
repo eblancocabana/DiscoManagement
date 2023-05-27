@@ -39,14 +39,15 @@ char mostrarListado() {
     cout << "\nListado de dias disponible: (codigo - fecha - nombre discoteca - aforo - evento?)\n\n";
     //BD
     r = enviar_datos_char("mostrarLocales", 0);
+    printf(r);
 
-    printf("%s\n", r);
+    /* printf("%s\n", r);
     while (strcmp(r, "control") != 0) {
         r = enviar_datos_char("control", 0);
         printf("%s\n", r);
         Sleep(300);
     }
-    printf("FUERAAAA");
+    printf("FUERAAAA"); */
 
 
     cout << "\nOpcion reserva:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ";

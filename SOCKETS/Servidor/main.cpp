@@ -87,7 +87,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
   char * args = strtok(NULL, ":");
 
   // Buffer para enviar el valor devuelto por la función llamada
-  char sendBuff[512];
+  char sendBuff[1024];
   printf("ESTE ES EL PUTO BUFF %s", sendBuff);
   int pos = 0;
   printf("ESTE ES EL PUTO RECIBIFDIOP %s -", nombre_funcion);
@@ -337,7 +337,13 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     mostrarRRPP(comm_socket);
   } else if (strcmp(nombre_funcion, "mostrarLocales") == 0) {
     printf("26");
-    mostrarLocales(comm_socket);
+    char* ret= mostrarLocales();
+    printf("SALTO LINEA %s",ret);
+    size_t size = sizeof(ret) + 1;
+    printf("HEEEEY");
+    memcpy(sendBuff + pos, ret, size);
+    pos += size;
+    printf("SIII");
   } else if (strcmp(nombre_funcion, "comprobarCodigoEntrada") == 0) {
     printf("27");
     int ret = comprobarEntrada(args);
@@ -361,12 +367,6 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     pos += size;
   } 
 
-
-
-  if(strcmp(nombre_funcion, "control") == 0) {
-    printf("31");
-    send(comm_socket, "EndOfFunction", sizeof("EndOfFunction"), 0);
-  }
   printf("Sending %.*s through socket\n", pos, sendBuff);
   // Enviar el valor devuelto por la función llamada a través del socket
   send(comm_socket, sendBuff, pos, 0);

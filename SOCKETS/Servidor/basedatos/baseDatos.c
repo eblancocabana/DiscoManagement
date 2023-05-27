@@ -607,7 +607,12 @@ static int callbackClient(void* data, int argc, char **argv, char **azColName) {
     n += sprintf(buffer + n, "\e[0m");
 
     // Agregar el resultado al char*
-    asprintf(&callbackData->result, "%s%s", callbackData->result ? callbackData->result : "", buffer);
+    // Con estas líneas:
+    int len = snprintf(NULL, 0, "%s%s", callbackData->result ? callbackData->result : "", buffer);
+    char* newResult = malloc(len + 1);
+    sprintf(newResult, "%s%s", callbackData->result ? callbackData->result : "", buffer);
+    free(callbackData->result);
+    callbackData->result = newResult;
 
     return 0;
 }
