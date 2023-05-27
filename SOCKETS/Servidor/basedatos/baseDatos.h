@@ -9,8 +9,6 @@
 #pragma comment(lib, "Ws2_32.lib")
 extern SOCKET comm_socket;
 
-
-
 int dbExiste(const char* fichero);
 int reiniciarBD();
 int verificarFecha(char* fecha);
@@ -54,7 +52,7 @@ void mostrarFiestasAdmin();
 void mostrarDJAdmin();
 void mostrarRRPPAdmin();
 void mostrarLocalesAdmin();
-
+char* mostrarMisEntradas(char* nombreUsu);
 
 int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp);
 int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* correo, char* contra);
@@ -65,7 +63,8 @@ int insertarReservaLocal(char* codigo, char* fecha, char* nombreDiscoteca, char*
 int buscarUltimoCodigo();
 char* buscarFechaConCodigoFecha(char* codigoFecha);
 char* buscarDiscotecaConCodigoFecha(char* codigoFecha);
+
 int actualizarEntradas(char* codigoFecha);
-char* mostrarMisEntradas(char* nombreUsu);
 int actualizarLocal(char* codigo);
+
 #endif
