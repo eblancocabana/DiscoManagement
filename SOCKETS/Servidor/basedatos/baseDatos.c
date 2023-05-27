@@ -1089,7 +1089,6 @@ char* mostrarlistadoeventos() {
   int aper;
 
   const char* sentencia = "SELECT * FROM eventos";
-  printf("ANTES");
 
   CallbackData data = {NULL};
   
@@ -1185,7 +1184,6 @@ void mostrarFiestasAdmin() {
       sqlite3_free(error);
   }
   
-  printf("");
   cerrarConexion(database);
 }
 
@@ -1254,7 +1252,6 @@ int insertarDiaFiesta(char* fecha, char* nomDiscoteca, char* eventoEsp) {
   abrirConexion();
 
   sprintf(codigoFinal, "%d", ultimo);
-  printf("%s\n", codigoFinal);
 
   char sql_insertFi[1024];
 
@@ -1310,7 +1307,6 @@ int insertarRegistro(char* nombre, char* usuario, char* sexo, int edad, char* co
     return 1;
   }
 
-  //printf("\nInsertado\n");
   cerrarConexion(database);
   return 0;
 }
@@ -1355,6 +1351,18 @@ int insertarEntrada(char * codigoFecha, char * fechaEntrada, char * nombreDiscot
   int codigoFechaFinal = atoi(codigoFecha);
   int numeroEntradasFinal = atoi(numeroEntradas);
   double precioFinal = atof(precio);
+
+  printf("codigo: %s\n", codigoFecha);
+  printf("fecha: %s\n", fechaEntrada);
+  printf("nombreDiscoteca: %s\n", nombreDiscoteca);
+  printf("numeroEntradas: %s\n", numeroEntradas);
+  printf("cuentaGmail: %s\n", cuentaGmail);
+  printf("numeroTarjeta: %s\n", numeroTarjetaCredito);
+  printf("cvvTarjeta: %s\n", cvvTarjeta);
+  printf("caducidadTarjeta: %s\n", caducidadTarjeta);
+  printf("tipoEntrada: %s\n", tipoEntrada);
+  printf("precio: %s\n", precio);
+  printf("nombreUsuario: %s\n", usuario);
 
   char sql_insertEntrada[1024];
 
@@ -1414,7 +1422,6 @@ int insertarReservaLocal(char* codigo, char* fecha, char* nombreDiscoteca, char*
   if (actualizarLocal(codigo) == 1) {
     return 1;
   }
-  //printf("\nInsertado\n");
   cerrarConexion(database);
   return 0;
 }
@@ -1592,7 +1599,7 @@ char* mostrarMisEntradas(char* nombreUsu) {
     char* error = 0;
     int aper;
  
-    const char* sentencia = "SELECT codigoFecha,fechaEntrada,numeroEntradas,tipoEntrada,precio FROM entradas";
+    const char* sentencia = "SELECT codigoFecha,fechaEntrada,nombreDiscoteca,numeroEntradas,tipoEntrada,precio FROM entradas";
 
     CallbackData data = {NULL};
 
@@ -1611,7 +1618,6 @@ char* mostrarMisEntradas(char* nombreUsu) {
 
 int actualizarLocal(char* codigo) {
   abrirConexion();
-  printf(codigo);
 
   char sql_updateFiesta[256];
   sprintf(sql_updateFiesta, "UPDATE dias_de_fiesta SET entradas = 0 WHERE codigo = '%s';", codigo);

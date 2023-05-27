@@ -1,21 +1,13 @@
 #include <iostream>
-
 #include <locale.h>
-
 #include "inicio.h"
  //#include "basedatos/baseDatos.h"
 #include "enviar_datos.h"
-
-// IMPORTANT: Winsock Library ("ws2_32") should be linked
 #include <winsock2.h>
-
 #define SERVER_IP "127.0.0.1"
 #define SERVER_PORT 6000
-
 SOCKET s;
-
 #include <string>
-
 #include <cstdarg>
 
 char * enviar_datos_char(const char * nombre_funcion, int num_args, ...) {
@@ -53,7 +45,6 @@ char * enviar_datos_char(const char * nombre_funcion, int num_args, ...) {
         return nullptr;
     }
 }
-
 
 int enviar_datos_int(const char* nombre_funcion, int num_args, ...) {
     char sendBuff[512];
@@ -110,7 +101,6 @@ int main(int argc, char * argv[]) {
 
   std::cout << "Initialised.\n";
 
-  //SOCKET creation
   if ((s = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
     std::cout << "Could not create socket : " << WSAGetLastError();
     WSACleanup();
@@ -123,7 +113,6 @@ int main(int argc, char * argv[]) {
   server.sin_family = AF_INET;
   server.sin_port = htons(SERVER_PORT);
 
-  //CONNECT to remote server
   if (connect(s, (struct sockaddr * ) & server, sizeof(server)) == SOCKET_ERROR) {
     std::cout << "Connection error: " << WSAGetLastError();
     closesocket(s);
@@ -138,7 +127,6 @@ int main(int argc, char * argv[]) {
   int c = enviar_datos_int("inicializacion", 0);
   login();
 
-  // CLOSING the socket and cleaning Winsock...
   closesocket(s);
   WSACleanup();
 

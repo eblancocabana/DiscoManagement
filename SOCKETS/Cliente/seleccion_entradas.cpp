@@ -10,7 +10,6 @@
 #define MAX_SELECCION 5
 #define MAX_REGISTRO 20
 #define MAX_CODIGO 5
-
 #define SEGUNDOS 2
 #define PRECIO_CONS_1 10
 #define PRECIO_CONS_2 15
@@ -126,7 +125,6 @@ void menuListadoDiasDisponibles() {
                     
                     //BD
                     cod = enviar_datos_char("limpiarInput", 1, &inputCod, sizeof(inputCod));
-                    printf("%s\n", cod);
 
                     errno = 0;
                     long int num = strtol(cod, &type, 10); //CodigoFecha
