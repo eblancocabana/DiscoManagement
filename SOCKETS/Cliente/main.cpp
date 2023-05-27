@@ -9,13 +9,14 @@
 
 #define SERVER_IP "127.0.0.1"
 #define SERVER_PORT 6000
+
 SOCKET s;
 
 // Para ejecutar el cliente.exe
 
 // cd SOCKET
 // cd Cliente
-// g++ main.cpp comprar_entradas.cpp inicio.cpp reservar_local.cpp seleccion_entradas.cpp clases/entrada.cpp clases/reservalocal.cpp -o cliente.exe -lWs2_32
+// g++ main.cpp comprar_entradas.cpp inicio.cpp reservar_local.cpp seleccion_entradas.cpp clases/entrada.cpp clases/reservalocal.cpp -o cliente.exe -lWs2_32        EJECUTAR EL ARCHIVO
 
 
 char * enviar_datos_char(const char * nombre_funcion, int num_args, ...) {

@@ -36,12 +36,16 @@ using namespace std;
 
 //Para ejecutar el "servidor.exe"
 
+// cd SOCKET
+// cd Servidor
+
 //gcc -c basedatos/baseDatos.c -o bd.o         CREAR .O DE LOS C
 //gcc -c basedatos/sqlite/sqlite3.c -o sqlite.o         CREAR .O DE LOS C
 //g++ -c administrador/inicio_servidor.cpp -o inicio.o         CREAR .O DE LOS C++
 //g++ -c main.cpp -o main.o         CREAR .O DE LOS C++
 
 //g++ main.o inicio.o sqlite.o bd.o -o servidor.exe -lWs2_32        EJECUTAR EL ARCHIVO
+
 
 void iniciarSesion() {
   int existe = 1;
@@ -311,18 +315,6 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     char* entradaCatFin = strtok(NULL, ",");
     char* preciosAux = strtok(NULL, ",");
     char* nombreCompleto = strtok(NULL, ",");
-
-    printf("%s\n", codFechaAux);
-    printf("%s\n", fecha_ent);
-    printf("%s\n", nomDiscoteca);
-    printf("%s\n", numEntradasAux);
-    printf("%s\n", gmail);
-    printf("%s\n", numTarjeta);
-    printf("%s\n", cvvTar);
-    printf("%s\n", caducidadTar);
-    printf("%s\n", entradaCatFin);
-    printf("%s\n", preciosAux);
-    printf("%s\n", nombreCompleto);
 
     int ret = insertarEntrada(codFechaAux, fecha_ent, nomDiscoteca, numEntradasAux, gmail, numTarjeta, cvvTar, caducidadTar, entradaCatFin, preciosAux, nombreCompleto);
     const char* rret = (std::to_string(ret)).c_str();
