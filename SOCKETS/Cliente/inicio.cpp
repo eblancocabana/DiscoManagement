@@ -1,25 +1,16 @@
 #include <iostream>
-
 #include <cstring>
-
 #include <cstdlib>
-
 #include <cctype>
-
 #include <cerrno>
-
-#include "inicio.h"
-
-#include "reservar_local.h"
-
-#include "comprar_entradas.h"
- //#include "basedatos/sqlite/sqlite3.h"
-//#include "basedatos/baseDatos.h"
-#include "seleccion_entradas.h"
-
-#include "enviar_datos.h"
 #include <string>
 #include <windows.h>
+
+#include "inicio.h"
+#include "reservar_local.h"
+#include "comprar_entradas.h"
+#include "seleccion_entradas.h"
+#include "enviar_datos.h"
 
 using namespace std;
 
@@ -166,7 +157,7 @@ void iniciarSesion() {
     std::cout << "\nUSUARIO ENCONTRADO, accediendo al menu\n";
     menu();
   } else {
-    // Hacer algo si no se encuentra el usuario o la contraseña es incorrecta
+    // NO SE HACE NADA
   }
 }
 
@@ -228,7 +219,7 @@ int menu() {
       std::cout << "\e[37m\e[1m";
       std::cout << "Listado de eventos (fecha - descripcion - nombre discoteca - aforo)\n\n";
       std::cout << "\e[0m";
-      //mostrarlistadoeventos(); BD
+      
       result=enviar_datos_char("mostrarlistadoeventos", 0);
       printf("%s",result);
       break;
@@ -238,10 +229,8 @@ int menu() {
       std::cout << "\e[37m\e[1m";
       std::cout << "Menu compra de entrada (codigo - fecha - nombre discoteca - aforo - evento?)\n\n";
       std::cout << "\e[0m";
-      //mostrarFiestas(); BD
-      printf("TUMADRETIENEUNAPOLLA");
+      
       result=enviar_datos_char("mostrarFiestas", 0);
-      printf("TUMADRETIENEUNAPOLLA2");
       printf(result);
     
       menuListadoDiasDisponibles();
@@ -254,7 +243,7 @@ int menu() {
 
     case '4':
       std::cout << "\n---------------------------------------------------\n";
-      std::cout << "Listado de mis reservas ( codigo - fecha - nombre discoteca - Num entradas - mail - num tarjeta credito - cvv - caducidad tarjeta)\n\n";
+      std::cout << "Listado de mis reservas (Codigo - Fecha - Nombre discoteca - Num entradas - Consumiciones - Precio)\n\n";
       prueba=enviar_datos_char("mostrarentradas", 1, us, strlen(us)+1);
       printf(prueba);
       break;

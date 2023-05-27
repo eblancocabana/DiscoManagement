@@ -1,15 +1,15 @@
 #include <iostream>
 #include <string.h>
-#include "comprar_entradas.h"
-//#include "basedatos/sqlite/sqlite3.h"
-//#include "basedatos/baseDatos.h"
-#include "inicio.h"
-#include "enviar_datos.h"
-#include "clases/entrada.h"
 #include <windows.h>
 #include <string>
 #include <stdio.h>
 #include <cstring>
+
+#include "comprar_entradas.h"
+#include "inicio.h"
+#include "enviar_datos.h"
+#include "clases/entrada.h"
+
 #define MAX_SELECCION 5
 #define MAX_ENTRADAS 10
 #define MAX_NOMBRE 40
