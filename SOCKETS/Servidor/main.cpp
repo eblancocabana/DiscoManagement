@@ -97,7 +97,10 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
-  } else if (strcmp(nombre_funcion, "inicializarDiasDeFiesta") == 0) {
+  } else if (strcmp(nombre_funcion, "controlF") == 0){
+    printf("OPENE");
+    send(comm_socket, sendBuff, 0, 0);
+  }else if (strcmp(nombre_funcion, "inicializarDiasDeFiesta") == 0) {
     int ret = inicializarDiasDeFiesta();
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
@@ -285,7 +288,8 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     size_t size = sizeof(ret) + 1;
     memcpy(sendBuff + pos, ret, size);
     pos += size;
-  }
+  } 
+  
   printf("ESTEEE:%s,|%d", sendBuff, sendBuff);
   printf("Sending %.*s through socket\n", pos, sendBuff);
   // Enviar el valor devuelto por la función llamada a través del socket
