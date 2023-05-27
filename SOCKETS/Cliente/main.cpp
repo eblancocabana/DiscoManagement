@@ -40,7 +40,7 @@ char * enviar_datos_char(const char * nombre_funcion, int num_args, ...) {
     va_end(args);
     printf("DATOS ENVIADOS:%s\n", sendBuff);
     send(s, sendBuff, sizeof(sendBuff), 0);
-    char buffer[4096];
+    char buffer[8192];
     int bytes_recibidos = recv(s, buffer, sizeof(buffer), 0);
     printf("BYTES:%d\n",bytes_recibidos);
     if (bytes_recibidos > 0) {

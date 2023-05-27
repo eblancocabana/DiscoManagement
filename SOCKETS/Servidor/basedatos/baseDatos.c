@@ -1058,15 +1058,14 @@ char* mostrarLocales() {
 }
 
 
-char* mostrarFiestas(SOCKET socket_fd) {
+char* mostrarFiestas() {
   abrirConexion();
 
   char* error = 0;
   int aper;
 
   const char* sentencia = "SELECT * FROM dias_de_fiesta WHERE entradas > 0";
-  aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&socket_fd, &error);
-// Crear una estructura para pasar el puntero al resultado
+  // Crear una estructura para pasar el puntero al resultado
   CallbackData data = {NULL};
   
   aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&data, &error);
@@ -1082,7 +1081,7 @@ char* mostrarFiestas(SOCKET socket_fd) {
   }
 }
 
-char* mostrarlistadoeventos(SOCKET socket_fd) {
+char* mostrarlistadoeventos() {
 	abrirConexion();
   
   char* error = 0;
@@ -1106,7 +1105,7 @@ char* mostrarlistadoeventos(SOCKET socket_fd) {
   }
 }
 
-char* mostrarDJ(SOCKET socket_fd) {
+char* mostrarDJ() {
   abrirConexion();
 
   char* error = 0;
@@ -1129,7 +1128,7 @@ char* mostrarDJ(SOCKET socket_fd) {
   }
 }
 
-char* mostrarRRPP(SOCKET socket_fd) {
+char* mostrarRRPP() {
   abrirConexion();
 
   char* error = 0;

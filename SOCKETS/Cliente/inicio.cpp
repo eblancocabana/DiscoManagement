@@ -238,11 +238,7 @@ int menu() {
       std::cout << "\e[0m";
       //mostrarFiestas(); BD
       result=enviar_datos_char("mostrarFiestas", 0);
-      while (strcmp(pr, "control") != 0) {
-            pr = enviar_datos_char("print", 0);
-            printf("%s", pr);
-            Sleep(300);
-        }
+      printf(result);
     
       menuListadoDiasDisponibles();
       break;

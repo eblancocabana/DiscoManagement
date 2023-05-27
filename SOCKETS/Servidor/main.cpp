@@ -87,7 +87,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
   char * args = strtok(NULL, ":");
 
   // Buffer para enviar el valor devuelto por la función llamada
-  char sendBuff[4096];
+  char sendBuff[8193];
   printf("ESTE ES EL PUTO BUFF %s", sendBuff);
   int pos = 0;
   printf("ESTE ES EL PUTO RECIBIFDIOP %s -", nombre_funcion);
@@ -211,9 +211,13 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
-  } else if (strcmp(nombre_funcion, "comprobarEntrada") == 0) {
+  } else if (strcmp(nombre_funcion, "comprobarCodigoEntrada") == 0) {
     printf("17");
-    int ret = comprobarEntrada(args);
+    printf("ANTES:%s",sendBuff);
+    
+    char * entrada = strtok(args, ",");
+    printf("DESPUES:%s",entrada);
+    int ret = comprobarEntrada(entrada);
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
@@ -330,8 +334,8 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
   } else if (strcmp(nombre_funcion, "mostrarFiestas") == 0) {
     printf("3");
     char* ret= mostrarFiestas();
-    printf("TAMAÑO%d",strlen(ret));
-    printf("SALTO LINEA %s",ret);
+    printf("TAMAÑO%d\n",strlen(ret));
+    printf("SALTO LINEA %s\n",ret);
     size_t size = strlen(ret) + 1;
     printf("HEEEEY");
     memcpy(sendBuff + pos, ret, size);
@@ -364,13 +368,6 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, ret, size);
     pos += size;
     printf("SIII");
-  } else if (strcmp(nombre_funcion, "comprobarCodigoEntrada") == 0) {
-    printf("27");
-    int ret = comprobarEntrada(args);
-    const char * rret = (std::to_string(ret)).c_str();
-    size_t size = sizeof(rret) + 1;
-    memcpy(sendBuff + pos, rret, size);
-    pos += size;
   } else if (strcmp(nombre_funcion, "buscarFechaConCodidoFecha") == 0) {
     printf("29");
     char* ret = buscarFechaConCodigoFecha(args);
@@ -511,9 +508,7 @@ int main(int argc, char * argv[]) {
   //SEND and RECEIVE data
   std::cout << "Waiting for incoming messages from client... \n";
   do {
-    printf("HEY");
     int bytes = recv(comm_socket, recvBuff, sizeof(recvBuff), 0);
-    printf("HEY4");
     if (bytes > 0) {
       std::cout << "Receiving message... \n";
       std::cout << "Data received: " << recvBuff << std::endl;
@@ -524,7 +519,6 @@ int main(int argc, char * argv[]) {
       if (strcmp(recvBuff, "Bye") == 0)
         break;
     } else{
-      printf("HEY2");
     }
 
   } while (1);
