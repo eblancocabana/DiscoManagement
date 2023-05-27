@@ -4,7 +4,7 @@
 
 #include <winsock2.h>
 
-#include <string.h>
+#include <string>
 
 #include <sstream>
 
@@ -56,11 +56,11 @@ void iniciarSesion() {
   int existe = 1;
   char input[MAX_REGISTRO];
 
-  cout << "Usuario: ";
+  std::cout << "Usuario: ";
   cin.getline(input, MAX_NOMBRE_USU);
   char * us = limpiarInput(input);
 
-  cout << "Contrasenya: ";
+  std::cout << "Contrasenya: ";
   cin.getline(input, MAX_CONTRASENYA);
   char * pa = limpiarInput(input);
 
@@ -68,12 +68,12 @@ void iniciarSesion() {
   int admin = comprobarAdmin(us);
 
   if ((existe == 0) && (admin == 0)) {
-    cout << "\nADMIN ENCONTRADO, accediendo al menu\n";
+    std::cout << "\nADMIN ENCONTRADO, accediendo al menu\n";
     inicioServidor();
 
   } else if ((existe == 0)) {
-    cout << "\nUSUARIO NO ADMIN. Acceso denegado\n";
-    cout << "Ejecucion finalizada\n";
+    std::cout << "\nUSUARIO NO ADMIN. Acceso denegado\n";
+    std::cout << "Ejecucion finalizada\n";
 
     return;
   } else {
@@ -88,43 +88,56 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
 
   // Buffer para enviar el valor devuelto por la función llamada
   char sendBuff[512];
+  printf("ESTE ES EL PUTO BUFF %s", sendBuff);
   int pos = 0;
-  printf("ESTE ES EL PUTO RECIBIFDIOP %s", nombre_funcion);
+  printf("ESTE ES EL PUTO RECIBIFDIOP %s -", nombre_funcion);
   // Llamar a la función correspondiente con sus argumentos y enviar el valor devuelto
   if (strcmp(nombre_funcion, "inicializarUsuarios") == 0) {
+    printf("1");
     int ret = inicializarUsuarios();
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
+  } else if(strcmp(sendBuff, "control") == 0) {
+    printf("2");
+    printf("HOLI");
+    memcpy(sendBuff + pos, "control", sizeof("control"));
   } else if (strcmp(nombre_funcion, "controlF") == 0){
+    printf("3");
     printf("OPENE");
-    send(comm_socket, sendBuff, 0, 0);
+    pos=0;
+    memset(sendBuff, 0, sizeof(sendBuff));
   }else if (strcmp(nombre_funcion, "inicializarDiasDeFiesta") == 0) {
+    printf("4");
     int ret = inicializarDiasDeFiesta();
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "inicializarDJ") == 0) {
+    printf("5");
     int ret = inicializarDJ();
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "inicializarRRPP") == 0) {
+    printf("6");
     int ret = inicializarRRPP();
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "inicializarListaEventos") == 0) {
+    printf("7");
     int ret = inicializarListaEventos();
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "inicializacion") == 0) {
+    printf("8");
     printf("Llamando a inicializacion\n");
     int ret = inicializacion();
     printf("Retorno de inicializacion: %d\n", ret);
@@ -133,6 +146,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "limpiarInput") == 0) {
+    printf("9");
     char * ret = limpiarInput(args);
     printf("Sending PENECULOS%s through socket\n", ret);
     size_t size = strlen(ret) + 1;
@@ -140,6 +154,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     pos += size;
     printf("Sending PENE%s through socket\n", ret);
   } else if (strcmp(nombre_funcion, "clearIfNeeded") == 0) {
+    printf("10");
     // Dividir los argumentos en str y max_line
     char * ret = strtok(args, ",");
     int max_line = atoi(strtok(NULL, ","));
@@ -148,6 +163,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, ret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "comprobarCodigoLocal") == 0) {
+    printf("11");
     char* cod = strtok(args, ",");
     printf("%s\n", cod);
     int ret = comprobarCodigoLocal(cod);
@@ -157,18 +173,21 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "comprobarCodigoRRPP") == 0) {
+    printf("12");
     int ret = comprobarCodigoRRPP(args);
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "comprobarUsuario") == 0) {
+    printf("13");
     int ret = comprobarUsuario(args);
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "comprobarFecha") == 0) {
+    printf("14");
     //Dividir los argumentos en fecha y evento
     char * fecha = strtok(args, ",");
     int evento = atoi(strtok(NULL, ","));
@@ -176,12 +195,14 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, & ret, sizeof(ret));
     pos += sizeof(ret);
   } else if (strcmp(nombre_funcion, "comprobarAdmin") == 0) {
+    printf("15");
     int ret = comprobarAdmin(args);
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "comprobarExistencia") == 0) {
+    printf("16");
     //Dividir los argumentos en username y password
     char * username = strtok(args, ",");
     char * password = strtok(NULL, ",");
@@ -191,12 +212,14 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "comprobarEntrada") == 0) {
+    printf("17");
     int ret = comprobarEntrada(args);
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "insertarDiaFiesta") == 0) {
+    printf("18");
     //Dividir los argumentos en fecha,nomDiscoteca y eventoEsp
     char * fecha = strtok(args, ",");
     char * nomDiscoteca = strtok(NULL, ",");
@@ -207,6 +230,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "insertarRegistro") == 0) {
+    printf("19");
     //Dividir los argumentos en nombre usuario sexo edad correo contra
     char * nombre = strtok(args, ",");
     char * usuario = strtok(NULL, ",");
@@ -227,6 +251,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "insertarEvento") == 0) {
+    printf("2");
     //Dividir los argumentos en fecha,nombreDisco y descripcionEvento
     char * fecha = strtok(args, ",");
     char * nombreDisco = strtok(NULL, ",");
@@ -237,6 +262,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "insertarReservaLocal") == 0) {
+    printf("21");
     //Dividir los argumentos en codigo_aux, fecha_loc, aforo, numeroTarjeta, cvvTarjeta, caducidadTarjeta
     char* codigo_aux = strtok(args, ",");
     char* fecha_loc = strtok(NULL, ",");
@@ -251,61 +277,72 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "mostrarlistadoeventos") == 0) {
+    printf("22");
     mostrarlistadoeventos(comm_socket);
   } else if (strcmp(nombre_funcion, "mostrarFiestas") == 0) {
+    printf("3");
     printf("ANTES DE ENTRAR FUNCION\n");
     mostrarFiestas(comm_socket);
     printf("DESPUES DE ENTRAR FUNCION\n");
   } else if (strcmp(nombre_funcion, "inicicializacionSOCKET") == 0) {
+    printf("24");
     int ret = 1;
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "mostrarRRPP") == 0) {
+    printf("25");
     mostrarRRPP(comm_socket);
   } else if (strcmp(nombre_funcion, "mostrarLocales") == 0) {
+    printf("26");
     mostrarLocales(comm_socket);
   } else if (strcmp(nombre_funcion, "comprobarCodigoEntrada") == 0) {
+    printf("27");
     int ret = comprobarEntrada(args);
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
-  } else if (strcmp(nombre_funcion, "print:")) {
-    memcpy(sendBuff + pos, "control", sizeof("control"));
-    size_t size = sizeof("control") + 1;
-    pos += sizeof("control");
   } else if (strcmp(nombre_funcion, "buscarFechaConCodidoFecha") == 0) {
+    printf("29");
     char* ret = buscarFechaConCodigoFecha(args);
     printf("Sending %s through socket\n", ret);
     size_t size = sizeof(ret) + 1;
     memcpy(sendBuff + pos, ret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "buscarDiscotecaConCodigoFecha") == 0) {
+    printf("30");
     char* ret = buscarDiscotecaConCodigoFecha(args);
     printf("Sending %s through socket\n", ret);
     size_t size = sizeof(ret) + 1;
     memcpy(sendBuff + pos, ret, size);
     pos += size;
   } 
-  
-  printf("ESTEEE:%s,|%d", sendBuff, sendBuff);
+
+
+
+  if(strcmp(nombre_funcion, "control") == 0) {
+    printf("31");
+    send(comm_socket, "EndOfFunction", sizeof("EndOfFunction"), 0);
+  }
   printf("Sending %.*s through socket\n", pos, sendBuff);
   // Enviar el valor devuelto por la función llamada a través del socket
   send(comm_socket, sendBuff, pos, 0);
+  printf("SHOLA");
+  return;
 }
 
 int main(int argc, char * argv[]) {
-  cout << "\n\n\n\n";
-  cout << "\e[34m\e[1m";
-  cout << "********************************\n";
-  cout << "*                              *\n";
-  cout << "*   SOUND STRATEGY PARTNERS    *\n";
-  cout << "*                              *\n";
-  cout << "********************************\n";
-  cout << "\e[0m";
-  cout << "\n";
+  std::cout << "\n\n\n\n";
+  std::cout << "\e[34m\e[1m";
+  std::cout << "********************************\n";
+  std::cout << "*                              *\n";
+  std::cout << "*   SOUND STRATEGY PARTNERS    *\n";
+  std::cout << "*                              *\n";
+  std::cout << "********************************\n";
+  std::cout << "\e[0m";
+  std::cout << "\n";
 
   WSADATA wsaData;
   SOCKET conn_socket;
@@ -318,9 +355,9 @@ int main(int argc, char * argv[]) {
   std::string entrada;
 
   while (opcion != 1 && opcion != 2) {
-    cout << "Ingrese una opcion\n";
-    cout << "\t1. Acceder como admin modo local\n";
-    cout << "\t2. Ejecutar el servidor\n";
+    std::cout << "Ingrese una opcion\n";
+    std::cout << "\t1. Acceder como admin modo local\n";
+    std::cout << "\t2. Ejecutar el servidor\n";
 
     getline(cin, entrada);
 
@@ -328,40 +365,40 @@ int main(int argc, char * argv[]) {
       opcion = std::stoi(entrada);
 
       if (opcion == 1) {
-        cout << "Accediendo como admin modo local...\n";
+        std::cout << "Accediendo como admin modo local...\n";
         inicializacion();
         iniciarSesion();
 
         return 0;
       } else if (opcion == 2) {
-        cout << "Ejecutando el servidor para ponerse en escucha...\n";
+        std::cout << "Ejecutando el servidor para ponerse en escucha...\n";
       } else {
-        cout << "Opcion no valida. Por favor, intente nuevamente.\n";
+        std::cout << "Opcion no valida. Por favor, intente nuevamente.\n";
       }
     } catch (std::exception
       const & e) {
-      cout << "Entrada no valida. Por favor, ingrese un numero entero.\n";
+      std::cout << "Entrada no valida. Por favor, ingrese un numero entero.\n";
     }
   }
 
-  cout << "\nInitialising Winsock...\n";
+  std::cout << "\nInitialising Winsock...\n";
   if (WSAStartup(MAKEWORD(2, 2), & wsaData) != 0) {
-    cout << "Failed. Error Code : " << WSAGetLastError();
+    std::cout << "Failed. Error Code : " << WSAGetLastError();
 
     return -1;
   }
 
-  cout << "Initialised.\n";
+  std::cout << "Initialised.\n";
 
   //SOCKET creation
   if ((conn_socket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
-    cout << "Could not create socket : " << WSAGetLastError();
+    std::cout << "Could not create socket : " << WSAGetLastError();
     WSACleanup();
 
     return -1;
   }
 
-  cout << "Socket created.\n";
+  std::cout << "Socket created.\n";
 
   server.sin_addr.s_addr = inet_addr(SERVER_IP);
   server.sin_family = AF_INET;
@@ -370,18 +407,18 @@ int main(int argc, char * argv[]) {
   //BIND (the IP/port with socket)
   if (bind(conn_socket, (struct sockaddr * ) & server,
       sizeof(server)) == SOCKET_ERROR) {
-    cout << "Bind failed with error code: " << WSAGetLastError();
+    std::cout << "Bind failed with error code: " << WSAGetLastError();
     closesocket(conn_socket);
     WSACleanup();
 
     return -1;
   }
 
-  cout << "Bind done.\n";
+  std::cout << "Bind done.\n";
 
   //LISTEN to incoming connections (socket server moves to listening mode)
   if (listen(conn_socket, 1) == SOCKET_ERROR) {
-    cout << "Listen failed with error code: " << WSAGetLastError();
+    std::cout << "Listen failed with error code: " << WSAGetLastError();
     closesocket(conn_socket);
     WSACleanup();
 
@@ -389,36 +426,40 @@ int main(int argc, char * argv[]) {
   }
 
   //ACCEPT incoming connections (server keeps waiting for them)
-  cout << "Waiting for incoming connections...\n";
+  std::cout << "Waiting for incoming connections...\n";
   int stsize = sizeof(struct sockaddr);
   comm_socket = accept(conn_socket, (struct sockaddr * ) & client, & stsize);
   // Using comm_socket is able to send/receive data to/from connected client
   if (comm_socket == INVALID_SOCKET) {
-    cout << "accept failed with error code : " << WSAGetLastError();
+    std::cout << "accept failed with error code : " << WSAGetLastError();
     closesocket(conn_socket);
     WSACleanup();
 
     return -1;
   }
-  cout << "Incomming connection from: " << inet_ntoa(client.sin_addr) <<
+  std::cout << "Incomming connection from: " << inet_ntoa(client.sin_addr) <<
     "(" << ntohs(client.sin_port) << ")" << std::endl;
 
   // Closing the listening sockets (is not going to be used anymore)
   closesocket(conn_socket);
 
   //SEND and RECEIVE data
-  cout << "Waiting for incoming messages from client... \n";
+  std::cout << "Waiting for incoming messages from client... \n";
   do {
+    printf("HEY");
     int bytes = recv(comm_socket, recvBuff, sizeof(recvBuff), 0);
+    printf("HEY4");
     if (bytes > 0) {
-      cout << "Receiving message... \n";
-      cout << "Data received: " << recvBuff << std::endl;
+      std::cout << "Receiving message... \n";
+      std::cout << "Data received: " << recvBuff << std::endl;
 
       // Deserializar los datos recibidos y llamar a la función correspondiente con sus argumentos
       deserializar_y_llamar_funcion(comm_socket, recvBuff);
-
+      printf("HEY");
       if (strcmp(recvBuff, "Bye") == 0)
         break;
+    } else{
+      printf("HEY2");
     }
 
   } while (1);

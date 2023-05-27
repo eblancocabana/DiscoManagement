@@ -587,23 +587,29 @@ void clearIfNeeded(char * str, int max_line) {
 
     // FUNCION PARA IMPRIMIR POR CONSOLA LOS ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS
 
-static int callbackClient(void* socket_fd, int argc, char **argv, char **azColName) {
-  int i;
-  char buffer[1024];
-  int n = 0;
-  n += sprintf(buffer + n, "\e[37m\e[1m");
-  for (i = 0; i < argc; i++) {
-    if (i > 0) {
-      n += sprintf(buffer + n, " - ");
+typedef struct {
+    char* result;
+} CallbackData;
+
+static int callbackClient(void* data, int argc, char **argv, char **azColName) {
+    int i;
+    CallbackData* callbackData = (CallbackData*)data;
+    char buffer[1024];
+    int n = 0;
+    n += sprintf(buffer + n, "\e[37m\e[1m");
+    for (i = 0; i < argc; i++) {
+        if (i > 0) {
+            n += sprintf(buffer + n, " - ");
+        }
+        n += sprintf(buffer + n, "%s", argv[i] ? argv[i] : "NULL");
     }
-    n += sprintf(buffer + n, "%s", argv[i] ? argv[i] : "NULL");
-  }
-  printf("DESPUES DEL FOR\n");
-  n += sprintf(buffer + n, "\n");
-  n += sprintf(buffer + n, "\e[0m");
-  send(*(SOCKET*)socket_fd, buffer, n, 0);
-  
-  return 0;
+    n += sprintf(buffer + n, "\n");
+    n += sprintf(buffer + n, "\e[0m");
+
+    // Agregar el resultado al char*
+    asprintf(&callbackData->result, "%s%s", callbackData->result ? callbackData->result : "", buffer);
+
+    return 0;
 }
 
 
@@ -1022,22 +1028,30 @@ int comprobarEntrada(char* codigo) {
     
     // CARGAR/MOSTRAR ELEMENTOS DE LA BASE DE DATOS SELECCIONADOS CLIENTE
  
-void mostrarLocales(SOCKET socket_fd) {
-  abrirConexion();
+char* mostrarLocales() {
+    abrirConexion();
 
-  char* error = 0;
-  int aper;
+    char* error = 0;
+    int aper;
 
-  const char* sentencia = "SELECT * FROM dias_de_fiesta WHERE entradas = 400";
-  aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&socket_fd, &error);
-
-  if (aper != SQLITE_OK) {
-      fprintf(stderr, "Error en la consulta SQL: %s\n", error);
-      sqlite3_free(error);
-  }
+    const char* sentencia = "SELECT * FROM dias_de_fiesta WHERE entradas = 400";
     
-  cerrarConexion(database);
+    // Crear una estructura para pasar el puntero al resultado
+    CallbackData data = {NULL};
+    
+    aper = sqlite3_exec(database, sentencia, callbackClient, (void*)&data, &error);
+
+    if (aper != SQLITE_OK) {
+        fprintf(stderr, "Error en la consulta SQL: %s\n", error);
+        sqlite3_free(error);
+        cerrarConexion(database);
+        return NULL;
+    } else {
+        cerrarConexion(database);
+        return data.result;
+    }
 }
+
 
 void mostrarFiestas(SOCKET socket_fd) {
   abrirConexion();

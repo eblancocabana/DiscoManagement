@@ -9,6 +9,7 @@
 #include <string>
 #include <windows.h>
 #include <cstring>
+#include <time.h>
 
 #define MAX_SELECCION 5
 #define MAX_NOMBRE_DISCOTECA 20
@@ -37,16 +38,15 @@ char* r;
 char mostrarListado() {
     cout << "\nListado de dias disponible: (codigo - fecha - nombre discoteca - aforo - evento?)\n\n";
     //BD
-   r=enviar_datos_char("mostrarLocales", 0);
+    r = enviar_datos_char("mostrarLocales", 0);
+
+    printf("%s\n", r);
     while (strcmp(r, "control") != 0) {
-        r = enviar_datos_char("print", 0);
-        printf("%s", r);
+        r = enviar_datos_char("control", 0);
+        printf("%s\n", r);
         Sleep(300);
     }
-    printf("ANTES");
-    enviar_datos_char("controlF", 0);
-    printf("DESPUES");
-    
+    printf("FUERAAAA");
 
 
     cout << "\nOpcion reserva:\n\t1. Realizar reserva \n\t0. Atras\n\nElige una opcion: ";

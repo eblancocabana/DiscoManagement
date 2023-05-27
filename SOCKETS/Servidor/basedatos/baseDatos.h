@@ -32,7 +32,7 @@ int inicializarReservaLocal();
 
 char* limpiarInput(char* input);
 void clearIfNeeded(char *str, int max_line);
-static int callbackClient(void* socket_fd, int argc, char **argv, char **azColName);
+static int callbackClient(void* data, int argc, char **argv, char **azColName);
 static int callback(void *NotUsed, int argc, char **argv, char** azColName);
 
 int comprobarCodigoLocal(char* cod);
@@ -47,7 +47,7 @@ void mostrarlistadoeventos(SOCKET socket_fd);
 void mostrarFiestas(SOCKET socket_fd);
 void mostrarDJ(SOCKET socket_fd);
 void mostrarRRPP(SOCKET socket_fd);
-void mostrarLocales(SOCKET socket_fd);
+char* mostrarLocales();
 
 void mostrarlistadoeventosAdmin();
 void mostrarFiestasAdmin();

@@ -19,41 +19,49 @@ SOCKET s;
 #include <cstdarg>
 
 char * enviar_datos_char(const char * nombre_funcion, int num_args, ...) {
-  char sendBuff[512];
-  int pos = sprintf(sendBuff, "%s:", nombre_funcion);
+    char sendBuff[512];
+    int pos = sprintf(sendBuff, "%s:", nombre_funcion);
 
-  va_list args;
-  va_start(args, num_args);
+    va_list args;
+    va_start(args, num_args);
 
-  for (int i = 0; i < num_args; i++) {
-    // Obtener el argumento actual y su tamaño
-    const void * arg = va_arg(args,
-      const void * );
-    size_t size = va_arg(args, size_t);
+    for (int i = 0; i < num_args; i++) {
+        // Obtener el argumento actual y su tamaño
+        const void * arg = va_arg(args,
+            const void * );
+        size_t size = va_arg(args, size_t);
 
-    // Serializar el argumento
-    memcpy(sendBuff + pos, arg, size);
-    pos += size;
-    sendBuff[pos++] = ',';
-  }
+        // Serializar el argumento
+        memcpy(sendBuff + pos, arg, size);
+        pos += size;
+        sendBuff[pos++] = ',';
+    }
 
-  va_end(args);
+    va_end(args);
+    printf("DATOS ENVIADOS:%s\n", sendBuff);
+    send(s, sendBuff, sizeof(sendBuff), 0);
+    char *result = new char[strlen("control") + 1];
+    strcpy(result, "control");
+    char buffer[512];
+    int bytes_recibidos = recv(s, buffer, sizeof(buffer), 0);
+    printf("DATOS RECIBIDOS:%s\n", buffer);
+    if (bytes_recibidos > 0) {
 
-  send(s, sendBuff, sizeof(sendBuff), 0);
-
-  char buffer[512];
-  int bytes_recibidos = recv(s, buffer, sizeof(buffer), 0);
-  if (bytes_recibidos > 0) {
-    char * resultado = new char[bytes_recibidos + 1];
-    memcpy(resultado, buffer, bytes_recibidos);
-    resultado[bytes_recibidos] = '\0';
-    printf("%s\n", resultado);
-    return resultado;
-  } else {
-    std::cerr << "Error al recibir datos del servidor" << std::endl;
-    return nullptr;
-  }
+        if (strcmp(buffer, "EndOfFunction") == 0) {
+            printf("DESPUES:%s",buffer);
+            return result;
+        }
+        char * resultado = new char[bytes_recibidos + 1];
+        memcpy(resultado, buffer, bytes_recibidos);
+        resultado[bytes_recibidos] = '\0';
+        printf("%s\n", resultado);
+        return resultado;
+    } else {
+        std::cerr << "Error al recibir datos del servidor" << std::endl;
+        return nullptr;
+    }
 }
+
 
 int enviar_datos_int(const char* nombre_funcion, int num_args, ...) {
     char sendBuff[512];
