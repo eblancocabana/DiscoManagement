@@ -91,9 +91,9 @@ int main(int argc, char * argv[]) {
   std::cout << "\n\n\n\n";
   std::cout << "\e[34m\e[1m";
   std::cout << "********************************\n";
-  std::cout << "* *\n";
-  std::cout << "* SOUND STRATEGY PARTNERS *\n";
-  std::cout << "* *\n";
+  std::cout << "*                              *\n";
+  std::cout << "*   SOUND STRATEGY PARTNERS    *\n";
+  std::cout << "*                              *\n";
   std::cout << "********************************\n";
   std::cout << "\e[0m";
   std::cout << "\n";
