@@ -90,7 +90,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
   char sendBuff[8193];
   printf("ESTE ES EL PUTO BUFF %s", sendBuff);
   int pos = 0;
-  printf("ESTE ES EL PUTO RECIBIFDIOP %s -", nombre_funcion);
+  printf("ESTE ES EL PUTO RECIBIFDIOP %s -,ARGUYMEN%s", nombre_funcion,args);
   // Llamar a la función correspondiente con sus argumentos y enviar el valor devuelto
   if (strcmp(nombre_funcion, "inicializarUsuarios") == 0) {
     printf("1");
@@ -99,15 +99,16 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
     pos += size;
-  } else if(strcmp(sendBuff, "control") == 0) {
+  } else if(strcmp(nombre_funcion,"mostrarentradas")==0){
     printf("2");
-    printf("HOLI");
-    memcpy(sendBuff + pos, "control", sizeof("control"));
-  } else if (strcmp(nombre_funcion, "controlF") == 0){
-    printf("3");
-    printf("OPENE");
-    pos=0;
-    memset(sendBuff, 0, sizeof(sendBuff));
+    printf("ESTE ES EL PUTO BUFF %s", sendBuff);
+    char* ret= mostrarMisEntradas(args);
+    printf("TAMAÑO%d",strlen(ret));
+    printf("SALTO LINEA %s",ret);
+    size_t size = strlen(ret) + 1;
+    memcpy(sendBuff + pos, ret, size);
+    pos += size;
+    printf("SIII");
   }else if (strcmp(nombre_funcion, "inicializarDiasDeFiesta") == 0) {
     printf("4");
     int ret = inicializarDiasDeFiesta();
@@ -181,7 +182,8 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     pos += size;
   } else if (strcmp(nombre_funcion, "comprobarUsuario") == 0) {
     printf("13");
-    int ret = comprobarUsuario(args);
+    char * rett = strtok(args, ",");
+    int ret = comprobarUsuario(rett);
     const char * rret = (std::to_string(ret)).c_str();
     size_t size = sizeof(rret) + 1;
     memcpy(sendBuff + pos, rret, size);
@@ -202,7 +204,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, rret, size);
     pos += size;
   } else if (strcmp(nombre_funcion, "comprobarExistencia") == 0) {
-    printf("16");
+    printf("16a");
     //Dividir los argumentos en username y password
     char * username = strtok(args, ",");
     char * password = strtok(NULL, ",");
@@ -383,7 +385,7 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     memcpy(sendBuff + pos, ret, size);
     pos += size;
   } 
-
+  printf("ESTE ES EL PUTO BUFF %s", sendBuff);
   // Enviar el valor devuelto por la función llamada a través del socket
  int bytes_sent = send(comm_socket, sendBuff, pos, 0);
   if (bytes_sent == -1) {

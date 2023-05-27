@@ -65,5 +65,7 @@ int insertarReservaLocal(char* codigo, char* fecha, char* nombreDiscoteca, char*
 int buscarUltimoCodigo();
 char* buscarFechaConCodigoFecha(char* codigoFecha);
 char* buscarDiscotecaConCodigoFecha(char* codigoFecha);
-
+int actualizarEntradas(char* codigoFecha);
+char* mostrarMisEntradas(char* nombreUsu);
+int actualizarLocal(char* codigo);
 #endif

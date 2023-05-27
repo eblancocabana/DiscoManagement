@@ -33,7 +33,7 @@ using namespace std;
 #define MAX_EDAD 20
 #define MAX_CORREO 20
 #define MAX_CONTRASENYA 20
-
+char * us;
 char * name;
 char * username;
 char * sex;
@@ -84,6 +84,7 @@ void rellenarCamposRegistro() {
   char * repertirContrasenya;
   int existe = 1;
   char * type;
+  char*resultado;
 
   std::cout << "Menu Registro:\n\n";
   std::cout << "Nombre: ";
@@ -131,8 +132,8 @@ void rellenarCamposRegistro() {
   char * repPass = enviar_datos_char("limpiarInput", 1, & inputRegis, sizeof(inputRegis));
 
   std::cout << "\nDatos introducidos: " << name << " - " << username << " - " << sex << " - " << age << " - " << correoElec << " - " << password << " - " << repPass << endl;
-  existe = enviar_datos_int("comprobarUsuario", 1, username, sizeof(username));
-
+  resultado= enviar_datos_char("comprobarUsuario", 1, username, sizeof(username));
+  existe=atoi(resultado);
   if ((existe == -1) && (strcmp(password, repPass) != 0)) {
     std::cout << "Pero las contrasenyas NO coinciden" << endl;
     login();
@@ -153,7 +154,7 @@ void iniciarSesion() {
 
   std::cout << "Usuario: ";
   cin.getline(input, MAX_NOMBRE_USU);
-  char * us = enviar_datos_char("limpiarInput", 1, & input, sizeof(input));
+  us = enviar_datos_char("limpiarInput", 1, & input, sizeof(input));
 
   std::cout << "Contrasenya: ";
   cin.getline(input, MAX_CONTRASENYA);
@@ -218,6 +219,7 @@ int menu() {
   char opcionMenu;
   char* result = NULL;
   char*pr;
+  char	*prueba;
   do {
     opcionMenu = mostrarMenu();
     switch (opcionMenu) {
@@ -237,7 +239,9 @@ int menu() {
       std::cout << "Menu compra de entrada (codigo - fecha - nombre discoteca - aforo - evento?)\n\n";
       std::cout << "\e[0m";
       //mostrarFiestas(); BD
+      printf("TUMADRETIENEUNAPOLLA");
       result=enviar_datos_char("mostrarFiestas", 0);
+      printf("TUMADRETIENEUNAPOLLA2");
       printf(result);
     
       menuListadoDiasDisponibles();
@@ -250,7 +254,9 @@ int menu() {
 
     case '4':
       std::cout << "\n---------------------------------------------------\n";
-      std::cout << "Listado de mis reservas\n\n";
+      std::cout << "Listado de mis reservas ( codigo - fecha - nombre discoteca - Num entradas - mail - num tarjeta credito - cvv - caducidad tarjeta)\n\n";
+      prueba=enviar_datos_char("mostrarentradas", 1, us, strlen(us)+1);
+      printf(prueba);
       break;
     }
   } while (opcionMenu != '0');
