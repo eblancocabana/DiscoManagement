@@ -387,7 +387,6 @@ void deserializar_y_llamar_funcion(SOCKET comm_socket, char * recvBuff) {
     pos += size;
   } 
 
-  printf("Sending %.*s through socket\n", pos, sendBuff);
   // Enviar el valor devuelto por la función llamada a través del socket
  int bytes_sent = send(comm_socket, sendBuff, pos, 0);
   if (bytes_sent == -1) {
